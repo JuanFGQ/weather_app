@@ -36,7 +36,7 @@ class WeatherInfoProvider with ChangeNotifier {
 
     final resp = await http.get(uri);
 
-    final weatherResp = weatherResponseFromMap(resp.body);
+    final weatherResp = weatherResponseFromJson(resp.body);
 
     // print(weatherResp.weather.map((e) => {e.description}));
     print(weatherResp);
