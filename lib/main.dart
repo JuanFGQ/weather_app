@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/pages/home_page.dart';
+import 'package:weather/pages/loading_page.dart';
 import 'package:weather/pages/testpage.dart';
 import 'package:weather/services/mapBox_Info_Provider.dart';
 import 'package:weather/services/weather_api_service.dart';
@@ -34,7 +35,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: 'home',
-      routes: {'home': (_) => HomePage(), 'test': (_) => TestPage()},
+      routes: {
+        'home': (_) => HomePage(),
+        'test': (_) => TestPage(),
+        'loading': (_) => LoadingPage()
+      },
     );
   }
 }
