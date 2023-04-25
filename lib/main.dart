@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/models/state_management.dart';
+import 'package:weather/pages/gps_access_page.dart';
 import 'package:weather/pages/home_page.dart';
 import 'package:weather/pages/loading_page.dart';
 import 'package:weather/pages/testpage.dart';
@@ -20,7 +22,8 @@ class AppState extends StatelessWidget {
           lazy: false,
         ),
         ChangeNotifierProvider(
-            create: (_) => WeatherApiService(query: 'manizales'), lazy: false)
+            create: (_) => WeatherApiService(query: 'manizales'), lazy: false),
+        ChangeNotifierProvider(create: (_) => StateManagment())
       ],
       child: MyApp(),
     );
@@ -34,11 +37,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'home',
+      initialRoute: 'gps',
       routes: {
         'home': (_) => HomePage(),
         'test': (_) => TestPage(),
-        'loading': (_) => LoadingPage()
+        'loading': (_) => LoadingPage(),
+        'gps': (_) => GpsAccessScreen(),
       },
     );
   }

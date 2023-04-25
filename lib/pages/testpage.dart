@@ -24,3 +24,30 @@ class TestPage extends StatelessWidget {
     );
   }
 }
+
+// return StreamBuilder(
+//       stream: mapBoxSearch.suggestedCity,
+//       builder: (_, AsyncSnapshot<List<Feature>> snapshot) {
+//         if (!snapshot.hasData) return _emptyContainer();
+
+//         final featureMethod = snapshot.data!;
+//         print('FEATURE METHOD SIDE MENU $featureMethod');
+
+//         return ListView.builder(
+//           itemCount: featureMethod.length,
+//           itemBuilder: (_, int index) => _CityItem(featureMethod[index]),
+//         );
+//       },
+//     );
+
+
+
+
+
+
+
+
+
+
+
+

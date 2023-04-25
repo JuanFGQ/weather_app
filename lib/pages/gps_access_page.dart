@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:provider/provider.dart';
+import 'package:weather/models/state_management.dart';
 
 class GpsAccessScreen extends StatelessWidget {
   const GpsAccessScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final gpsManagement = Provider.of<StateManagment>(context);
+
     return Scaffold(
       body: Center(
-        child: _AccessButton(),
-      ),
+          child: !gpsManagement.gpsEnabled
+              ? _EnableGpsMessage()
+              : _AccessButton()),
     );
   }
 }
