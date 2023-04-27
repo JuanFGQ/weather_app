@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/state_management.dart';
 import 'package:weather/pages/gps_access_page.dart';
@@ -8,7 +11,15 @@ import 'package:weather/pages/testpage.dart';
 import 'package:weather/services/mapBox_Info_Provider.dart';
 import 'package:weather/services/weather_api_service.dart';
 
-void main() => runApp(const AppState());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  ByteData data =
+      await PlatformAssetBundle().load('assets/lets-encrypt-r3.pem');
+  SecurityContext.defaultContext
+      .setTrustedCertificatesBytes(data.buffer.asUint8List());
+
+  runApp(AppState());
+}
 
 class AppState extends StatelessWidget {
   const AppState({super.key});
@@ -18,9 +29,7 @@ class AppState extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => MapBoxInfoProvider(),
-          lazy: false,
-        ),
+            create: (_) => MapBoxInfoProvider(), lazy: false),
         ChangeNotifierProvider(
             create: (_) => WeatherApiService(query: 'manizales'), lazy: false),
         ChangeNotifierProvider(create: (_) => StateManagment())
