@@ -3,20 +3,24 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/state_management.dart';
+import 'package:weather/services/geolocator_service.dart';
 
 class GpsAccessScreen extends StatelessWidget {
   const GpsAccessScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final gpsManagement = Provider.of<StateManagment>(context);
+    final gpsManagement = Provider.of<GeolocatorService>(context);
 
-    return Scaffold(
-      body: Center(
-          child: !gpsManagement.gpsEnabled
-              ? _EnableGpsMessage()
-              : _AccessButton()),
-    );
+    return Scaffold(body: StreamBuilder(builder: (_, AsyncSnapshot snapshot) {
+      if (!snapshot.hasData) return 
+    })
+
+        // Center(
+        //     child: !gpsManagement.gpsEnabled
+        //         ? _EnableGpsMessage()
+        //         : _AccessButton()),
+        );
   }
 }
 
