@@ -28,8 +28,8 @@ class AppState extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // ChangeNotifierProvider(
-        //     create: (_) => MapBoxInfoProvider(), lazy: false),
+        ChangeNotifierProvider(
+            create: (_) => MapBoxInfoProvider(), lazy: false),
         // ChangeNotifierProvider(
         //     create: (_) => WeatherApiService(query: 'manizales'), lazy: false),
         ChangeNotifierProvider(create: (_) => GeolocatorService(), lazy: false),

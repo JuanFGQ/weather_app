@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class GeolocatorService extends ChangeNotifier {
   GeolocatorService() {
@@ -24,9 +25,9 @@ class GeolocatorService extends ChangeNotifier {
   }
 
   final StreamController<bool> _refreshLocation =
-      new StreamController.broadcast();
+      new StreamController<bool>.broadcast();
 
-  Stream<bool> get refreshLocation => this._refreshLocation.stream;
+  Stream get refreshLocation => this._refreshLocation.stream;
 
   // void _init() async {
   //   // final gpsEnabled = Provider.of<StateManagment>(context);
@@ -35,17 +36,42 @@ class GeolocatorService extends ChangeNotifier {
   //   print('isEnabled FROM GEOLOCATOR SERVICE: $isEnabled');
   // }
 
-  void _checkGpsStatus() async {
+  _checkGpsStatus() async {
     //to enable service
-    final isEnable = await Geolocator.isLocationServiceEnabled();
-    this._refreshLocation.add(isEnable);
+    final isEnabled = await Geolocator.isLocationServiceEnabled();
+    print('FROM GEOLOCATOR SERVICE $isEnabled');
+    // this._refreshLocation.sink.add(isEnabled);
+    final locationServiceEnabled = (isEnabled) ? true : false;
+    gpsEnabled = locationServiceEnabled;
+    this._refreshLocation.sink.add(locationServiceEnabled);
 
 //to get the actual status of the locator
-    Geolocator.getServiceStatusStream().listen((event) {
-      print('service status FROM GEOLOCATOR SERVICE $event');
-      //todo:trigger events
-    });
+    Geolocator.getServiceStatusStream().listen(
+      (event) {
+        final statusStream = (event.index == 1) ? true : false;
 
-    // return (isEnable) ? gpsEnabled = true : gpsEnabled = false;
+        print('Geolocator SERVICE !!!!! $gpsEnabled');
+
+        this._refreshLocation.sink.add(statusStream);
+      },
+    );
+    // return (!isEnabled) ? gpsEnabled = false : gpsEnabled = true;
   }
+
+  // Future<void> askGpsAccess() async {
+
+  //   final status = await Permission.location.request();
+
+  //   switch (status) {
+  //     case PermissionStatus.granted:
+  //       break;
+  //     case PermissionStatus.denied:
+  //     case PermissionStatus.restricted:
+  //     case PermissionStatus.limited:
+  //     case PermissionStatus.permanentlyDenied:
+  //       openAppSettings();
+
+  //     default:
+  //   }
+  // }
 }
