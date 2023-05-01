@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'Feature.dart';
+import 'mapbox/Feature.dart';
 
 MapBoxResponse mapBoxResponseFromMap(String str) =>
     MapBoxResponse.fromMap(json.decode(str));

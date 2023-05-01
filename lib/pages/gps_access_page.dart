@@ -1,11 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/models/state_management.dart';
 import 'package:weather/services/geolocator_service.dart';
 
 class GpsAccessScreen extends StatefulWidget {
@@ -51,7 +45,11 @@ class _AccessButton extends StatelessWidget {
         children: [
           Text('Es necesario el acceso a gps'),
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              final gpsAccess =
+                  Provider.of<GeolocatorService>(context, listen: false);
+              gpsAccess.askGpsAccess();
+            },
             child: Text('Solicitar acceso'),
             elevation: 5,
             color: Colors.amber[100],

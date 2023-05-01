@@ -5,7 +5,7 @@ import 'package:weather/models/mapBox_response.dart';
 import 'package:weather/services/mapBox_Info_Provider.dart';
 import 'package:weather/widgets/input_widget.dart';
 
-import '../models/Feature.dart';
+import '../models/mapbox/Feature.dart';
 
 class SideMenu extends StatefulWidget {
   @override

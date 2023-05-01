@@ -1,16 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:provider/provider.dart';
+import 'package:weather/pages/gps_access_page.dart';
+import 'package:weather/pages/home_page.dart';
+import 'package:weather/services/geolocator_service.dart';
 
-class LoadingPage extends StatelessWidget {
+class LoadingPage extends StatefulWidget {
   const LoadingPage({super.key});
 
   @override
+  State<LoadingPage> createState() => _LoadingPageState();
+}
+
+class _LoadingPageState extends State<LoadingPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final geolocatorService = Provider.of<GeolocatorService>(context);
+
     return Scaffold(
-      body: Center(
-        child: Text('loading'),
+      body: StreamBuilder(
+        stream: geolocatorService.loadingData,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.data!) {
+            return HomePage();
+          } else {
+            return GpsAccessScreen();
+          }
+        },
       ),
     );
   }
 }
+
+
+
+
+// (!geolocatiorService.isAllGranted)
+//             ? GpsAccessScreen()
+//             : HomePage());
+
+
+
+// // 
+// StreamBuilder(
+//         stream: geolocatorService.loadingData,
+//         builder: (BuildContext context, AsyncSnapshot snapshot) {
+//           if (snapshot.connectionState == ConnectionState.waiting) {
+//             return Center(child: CircularProgressIndicator());
+//           } else if (snapshot.data!) {
+//             return HomePage();
+//           } else {
+//             return GpsAccessScreen();
+//           }
+//         },
+//       ),

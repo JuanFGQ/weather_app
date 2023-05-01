@@ -1,33 +1,4 @@
-// To parse this JSON data, do
-//
-//     final weatherApi = weatherApiFromJson(jsonString);
-
-import 'dart:convert';
-
-WeatherApi weatherApiFromJson(String str) =>
-    WeatherApi.fromJson(json.decode(str));
-
-String weatherApiToJson(WeatherApi data) => json.encode(data.toJson());
-
-class WeatherApi {
-  WeatherApi({
-    this.location,
-    this.current,
-  });
-
-  Location? location;
-  Current? current;
-
-  factory WeatherApi.fromJson(Map<String, dynamic> json) => WeatherApi(
-        location: Location.fromJson(json["location"]),
-        current: Current.fromJson(json["current"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "location": location?.toJson(),
-        "current": current?.toJson(),
-      };
-}
+import 'package:weather/models/weather/weather_api_response.dart';
 
 class Current {
   Current({
@@ -130,73 +101,5 @@ class Current {
         "uv": uv,
         "gust_mph": gustMph,
         "gust_kph": gustKph,
-      };
-}
-
-class Condition {
-  Condition({
-    required this.text,
-    required this.icon,
-    required this.code,
-  });
-
-  String text;
-  String icon;
-  int code;
-
-  factory Condition.fromJson(Map<String, dynamic> json) => Condition(
-        text: json["text"],
-        icon: json["icon"],
-        code: json["code"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "text": text,
-        "icon": icon,
-        "code": code,
-      };
-}
-
-class Location {
-  Location({
-    required this.name,
-    required this.region,
-    required this.country,
-    required this.lat,
-    required this.lon,
-    required this.tzId,
-    required this.localtimeEpoch,
-    required this.localtime,
-  });
-
-  String name;
-  String region;
-  String country;
-  double lat;
-  double lon;
-  String tzId;
-  int localtimeEpoch;
-  String localtime;
-
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
-        name: json["name"],
-        region: json["region"],
-        country: json["country"],
-        lat: json["lat"]?.toDouble(),
-        lon: json["lon"]?.toDouble(),
-        tzId: json["tz_id"],
-        localtimeEpoch: json["localtime_epoch"],
-        localtime: json["localtime"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "region": region,
-        "country": country,
-        "lat": lat,
-        "lon": lon,
-        "tz_id": tzId,
-        "localtime_epoch": localtimeEpoch,
-        "localtime": localtime,
       };
 }

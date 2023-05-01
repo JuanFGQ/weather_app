@@ -1,19 +1,45 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/models/mapBox_response.dart';
 import 'package:weather/search/search_delegate.dart';
-import 'package:weather/services/mapBox_Info_Provider.dart';
+import 'package:weather/services/geolocator_service.dart';
+import 'package:weather/services/weather_api_service.dart';
 import 'package:weather/widgets/info_table.dart';
 import 'package:weather/widgets/letras.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:weather/widgets/weekly_table.dart';
 
-import '../models/Feature.dart';
+import '../models/mapbox/Feature.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  WeatherApiService? weatherApi;
+  GeolocatorService? geolocatorService;
+
+  @override
+  void initState() {
+    super.initState();
+    weatherApi = Provider.of<WeatherApiService>(context, listen: false);
+    geolocatorService = Provider.of<GeolocatorService>(context, listen: false);
+
+    _loadWeatherData();
+  }
+
+  void _loadWeatherData() async {
+    String coords = await geolocatorService!.getCurrentLocation();
+
+    weatherApi!.getInfoWeatherLocation(coords);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final weatherAPI = Provider.of<WeatherApiService>(context);
+    final apiResp = weatherAPI;
+
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -29,24 +55,25 @@ class HomePage extends StatelessWidget {
           backgroundColor: Colors.blue,
           elevation: 0,
           centerTitle: true,
-          title: Text('Home GeoLocator', style: TextStyle(color: Colors.black))
+          title: Text(apiResp.location?.name ?? '?',
+              style: TextStyle(color: Colors.black))
           //
           ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const SizedBox(height: 10),
-          const Words(
+          Words(
             isVisible: true,
-            date: 'Friday 20, January',
+            date: apiResp.location?.country ?? '?',
             wordColor: Colors.blue,
             wordSize: 20,
           ),
           const SizedBox(height: 10),
           FadeInUp(
             from: 50,
-            child: const Text(
-              'Sunny',
+            child: Text(
+              apiResp.current?.condition.text ?? '?',
               style: TextStyle(fontSize: 20),
             ),
           ),
@@ -57,9 +84,9 @@ class HomePage extends StatelessWidget {
                 Center(
                   child: ElasticIn(
                     delay: const Duration(milliseconds: 600),
-                    child: const Text(
-                      '28',
-                      style: TextStyle(fontSize: 200),
+                    child: Expanded(
+                      child:
+                          Text(apiResp.current?.feelslikeC.toString() ?? '?'),
                     ),
                   ),
                 ),

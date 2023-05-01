@@ -28,11 +28,9 @@ class AppState extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-            create: (_) => MapBoxInfoProvider(), lazy: false),
-        // ChangeNotifierProvider(
-        //     create: (_) => WeatherApiService(query: 'manizales'), lazy: false),
+        ChangeNotifierProvider(create: (_) => MapBoxInfoProvider()),
         ChangeNotifierProvider(create: (_) => GeolocatorService(), lazy: false),
+        ChangeNotifierProvider(create: (_) => WeatherApiService()),
       ],
       child: MyApp(),
     );
@@ -46,7 +44,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'gps',
+      initialRoute: 'loading',
       routes: {
         'home': (_) => HomePage(),
         'test': (_) => TestPage(),

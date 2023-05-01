@@ -1,12 +1,16 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:weather/services/weather_api_service.dart';
 
 class InfoTable extends StatelessWidget {
   const InfoTable({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final weatherResp = Provider.of<WeatherApiService>(context);
+    final apiResp = weatherResp;
     final size = MediaQuery.of(context).size;
     return FadeIn(
       delay: Duration(milliseconds: 800),
@@ -23,8 +27,8 @@ class InfoTable extends StatelessWidget {
             _InfoIcon(
                 delay: Duration(milliseconds: 200),
                 image: 'wind.gif',
-                infoNum: '2km/h',
-                infoWeather: 'wind',
+                infoNum: '${apiResp.current?.windKph ?? '?'} km/h',
+                infoWeather: 'Wind',
                 icon: FontAwesomeIcons.wind,
                 iconColor: Colors.blue,
                 numColor: Colors.blue,
@@ -32,7 +36,7 @@ class InfoTable extends StatelessWidget {
             _InfoIcon(
                 delay: Duration(milliseconds: 800),
                 image: 'drop.gif',
-                infoNum: '62%',
+                infoNum: '${apiResp.current?.humidity ?? '?'}%',
                 infoWeather: 'Humidity',
                 icon: FontAwesomeIcons.wind,
                 iconColor: Colors.blue,
@@ -41,7 +45,7 @@ class InfoTable extends StatelessWidget {
             _InfoIcon(
                 delay: Duration(milliseconds: 1300),
                 image: 'view.gif',
-                infoNum: '1km',
+                infoNum: '${apiResp.current?.visKm ?? '?'}km',
                 infoWeather: 'visibility',
                 icon: FontAwesomeIcons.wind,
                 iconColor: Colors.blue,
@@ -77,34 +81,40 @@ class _InfoIcon extends StatelessWidget {
       required this.delay});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      // color: Colors.white,
-      width: 100,
-      child: Column(
-        children: [
-          Container(
-              child: Column(
-            children: [
-              FadeInUp(
-                  delay: delay,
-                  child: Image(image: AssetImage('assets/$image'))),
-              ListTile(
-                title: Center(
+    final size = MediaQuery.of(context).size;
+
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.all(10),
+        // color: Colors.white,
+        width: size.width,
+        child: Column(
+          children: [
+            Column(
+              children: [
+                FadeInUp(
+                    delay: delay,
+                    child: Image(image: AssetImage('assets/$image'))),
+                ListTile(
+                  title: Center(
+                      child: FittedBox(
+                    fit: BoxFit.none,
                     child: Text(
-                  infoNum,
-                  style: TextStyle(color: numColor),
-                )),
-                subtitle: Center(
-                    child: FittedBox(
-                  fit: BoxFit.contain,
-                  child:
-                      Text(infoWeather, style: TextStyle(color: weatherColor)),
-                )),
-              ),
-            ],
-          )),
-        ],
+                      infoNum,
+                      style: TextStyle(color: numColor),
+                    ),
+                  )),
+                  subtitle: Center(
+                      child: FittedBox(
+                    fit: BoxFit.none,
+                    child: Text(infoWeather,
+                        style: TextStyle(color: weatherColor)),
+                  )),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

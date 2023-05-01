@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../models/Feature.dart';
+import '../models/mapbox/Feature.dart';
 import '../models/mapBox_response.dart';
 import '../services/mapBox_Info_Provider.dart';
 

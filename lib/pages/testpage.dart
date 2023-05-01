@@ -4,14 +4,14 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/services/weather_api_service.dart';
 
-import '../models/Feature.dart';
+import '../models/mapbox/Feature.dart';
 
 class TestPage extends StatelessWidget {
   const TestPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final weatherProvider = Provider.of<WeatherApiService>(context);
+    // final weatherProvider = Provider.of<WeatherApiService>(context);
 
     final Feature feature =
         ModalRoute.of(context)!.settings.arguments as Feature;

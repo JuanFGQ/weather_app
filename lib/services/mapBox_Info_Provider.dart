@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:weather/helpers/debouncer.dart';
 import 'package:weather/models/mapBox_response.dart';
 
-import '../models/Feature.dart';
+import '../models/mapbox/Feature.dart';
 
 class MapBoxInfoProvider extends ChangeNotifier {
   String _apiKey =
