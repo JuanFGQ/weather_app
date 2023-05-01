@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +19,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final stream = StreamController<dynamic>();
+
   WeatherApiService? weatherApi;
   GeolocatorService? geolocatorService;
 
@@ -32,16 +36,61 @@ class _HomePageState extends State<HomePage> {
   void _loadWeatherData() async {
     String coords = await geolocatorService!.getCurrentLocation();
 
-    weatherApi!.getInfoWeatherLocation(coords);
+    // await weatherApi!.getInfoWeatherCurrent(coords);
+    final hasData = await weatherApi!.getInfoWeatherLocation(coords);
+
+    (hasData) ? true : false;
+
+    stream.sink.add(hasData);
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: stream.stream,
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return _CircularIndicator();
+        } else {
+          return _HomeWidget();
+        }
+      },
+    );
+  }
+}
+
+class _CircularIndicator extends StatelessWidget {
+  const _CircularIndicator({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 10),
+            Text(
+              'Loading Data, Please wait...',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _HomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final weatherAPI = Provider.of<WeatherApiService>(context);
     final apiResp = weatherAPI;
 
     final size = MediaQuery.of(context).size;
-
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       backgroundColor: Colors.blue,

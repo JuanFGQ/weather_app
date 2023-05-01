@@ -31,25 +31,6 @@ class WeatherApiService extends ChangeNotifier {
       final weatherResp = weatherApiFromJson(resp.body);
 
       location = weatherResp.location;
-
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  getInfoWeatherCurrent(String coords) async {
-    _apiParams() {
-      return {'key': _key, 'q': coords, 'aqi': _aqi};
-    }
-
-    final uri = Uri.https(_baseUrl, '/v1/current.json', _apiParams());
-
-    final resp = await http.get(uri);
-
-    if (resp.statusCode == 200) {
-      final weatherResp = weatherApiFromJson(resp.body);
-
       current = weatherResp.current;
 
       return true;
@@ -57,4 +38,24 @@ class WeatherApiService extends ChangeNotifier {
       return false;
     }
   }
+
+  // getInfoWeatherCurrent(String coords) async {
+  //   _apiParams() {
+  //     return {'key': _key, 'q': coords, 'aqi': _aqi};
+  //   }
+
+  //   final uri = Uri.https(_baseUrl, '/v1/current.json', _apiParams());
+
+  //   final resp = await http.get(uri);
+
+  //   if (resp.statusCode == 200) {
+  //     final weatherResp = weatherApiFromJson(resp.body);
+
+  //     current = weatherResp.current;
+
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 }
