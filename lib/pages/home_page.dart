@@ -113,9 +113,12 @@ class _HomeWidget extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // ListTile(
-          //     title: Text('   Last Update'),
-          //     subtitle: Text(apiResp.current?.lastUpdated ?? '?')),
+          Text(
+            'LastUpdate',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(apiResp.current?.lastUpdated.substring(0, 10) ?? '?'),
+          Text(apiResp.current?.lastUpdated.substring(10, 16) ?? '?'),
 
           const SizedBox(height: 10),
           Words(
