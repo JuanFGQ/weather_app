@@ -107,12 +107,16 @@ class _HomeWidget extends StatelessWidget {
           elevation: 0,
           centerTitle: true,
           title: Text(apiResp.location?.name ?? '?',
-              style: TextStyle(color: Colors.black))
+              style: TextStyle(color: Colors.black, fontSize: 40))
           //
           ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // ListTile(
+          //     title: Text('   Last Update'),
+          //     subtitle: Text(apiResp.current?.lastUpdated ?? '?')),
+
           const SizedBox(height: 10),
           Words(
             isVisible: true,
