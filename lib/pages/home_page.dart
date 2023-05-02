@@ -115,7 +115,7 @@ class _HomeWidget extends StatelessWidget {
         children: [
           Text(
             'LastUpdate',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           Text(apiResp.current?.lastUpdated.substring(0, 10) ?? '?'),
           Text(apiResp.current?.lastUpdated.substring(10, 16) ?? '?'),
