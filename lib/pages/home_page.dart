@@ -87,6 +87,8 @@ class _CircularIndicator extends StatelessWidget {
 class _HomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double heighval = MediaQuery.of(context).size.height * 0.01;
+    double valMult = 10;
     final weatherAPI = Provider.of<WeatherApiService>(context);
     final apiResp = weatherAPI;
 
@@ -118,12 +120,12 @@ class _HomeWidget extends StatelessWidget {
             wordColor: Colors.blue,
             wordSize: 20,
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           FadeInUp(
             from: 50,
             child: Text(
               apiResp.current?.condition.text ?? '?',
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
           SizedBox(
@@ -134,95 +136,49 @@ class _HomeWidget extends StatelessWidget {
                   child: ElasticIn(
                     delay: const Duration(milliseconds: 600),
                     child: Expanded(
-                      child:
-                          Text(apiResp.current?.feelslikeC.toString() ?? '?'),
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        child: Text(
+                          '${apiResp.current?.feelslikeC.toString()}º' ?? '?',
+                          style: TextStyle(fontSize: valMult * heighval),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                Positioned(
-                  right: 60,
-                  top: 40,
-                  child: FadeInLeft(
-                      from: 50, child: FaIcon(FontAwesomeIcons.circle)),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 50, right: 50),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: FadeInUp(
-                    child: const Text(
-                      'Daily Summary',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                FadeInUp(
-                  delay: Duration(milliseconds: 800),
-                  child: Text(
-                      ' quis duis mollit excepteur dolore consectetur sint anim ex pariatur. Eiusmod laboris irure ullamco id excepteur. Ad irure ipsum consequat duis aliquip sit elit duis.'),
-                )
-                // SizedBox(height: 10),
               ],
             ),
           ),
           const SizedBox(height: 10),
-          const InfoTable(),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-            FadeIn(
-              delay: Duration(milliseconds: 500),
-              child: const Text(
-                'Weekly forecast',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
-            FadeInLeft(
-              from: 200,
-              child: IconButton(
-                  onPressed: () {
-                    // todo: ir al pronostico semanal del tiempo
-                  },
-                  icon: const FaIcon(FontAwesomeIcons.arrowRight)),
-            ),
-          ]),
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(left: 25, right: 25),
-              child: ListView(scrollDirection: Axis.horizontal, children: [
-                WeeklyBox(
-                    size: size,
-                    grades: '11º',
-                    icon: FontAwesomeIcons.droplet,
-                    date: '17 abr'),
-                WeeklyBox(
-                    size: size,
-                    grades: '18º',
-                    icon: FontAwesomeIcons.sun,
-                    date: '17 abr'),
-                WeeklyBox(
-                    size: size,
-                    grades: '20º',
-                    icon: FontAwesomeIcons.cloud,
-                    date: '17 abr'),
-                WeeklyBox(
-                    size: size,
-                    grades: '5º',
-                    icon: FontAwesomeIcons.snowflake,
-                    date: '17 abr'),
-                WeeklyBox(
-                    size: size,
-                    grades: '30º',
-                    icon: FontAwesomeIcons.sun,
-                    date: '17 abr'),
-              ]),
-            ),
-          )
+          // const InfoTable(),
+          InfoIcon(
+              image: 'wind.gif',
+              title: 'Wind',
+              percentage: '${apiResp.current?.windKph ?? '?'} km/h'),
+          InfoIcon(
+              image: 'drop.gif',
+              title: 'Humidity',
+              percentage: '${apiResp.current?.humidity ?? '?'}%'),
+          InfoIcon(
+              image: 'view.gif',
+              title: 'Visibility',
+              percentage: '${apiResp.current?.visKm ?? '?'} km/h'),
+          InfoIcon(
+              image: 'windy.gif',
+              title: 'Wind direction',
+              percentage: '${apiResp.current?.windDir ?? '?'}'),
+          InfoIcon(
+              image: 'temperature.gif',
+              title: 'Temperature',
+              percentage: '${apiResp.current?.tempC ?? '?'} º'),
+          InfoIcon(
+              image: 'hot.gif',
+              title: 'Feels like',
+              percentage: '${apiResp.current?.feelslikeC ?? '?'} º'),
+
+          const SizedBox(height: 10),
+
+          // const SizedBox(height: 10),
         ],
       ),
     );
