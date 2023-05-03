@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/pages/home_page.dart';
 import 'package:weather/services/geolocator_service.dart';
 
 class GpsAccessScreen extends StatefulWidget {
@@ -15,20 +16,11 @@ class _GpsAccessScreenState extends State<GpsAccessScreen> {
     final locationService = Provider.of<GeolocatorService>(context);
 
     return Scaffold(
-      body: StreamBuilder(
-        stream: locationService.refreshLocation,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (!snapshot.hasData) {
-            return _DisableGpsMessage();
-          } else if (snapshot.data!) {
-            // `!` is used to mark `data` as non-null
-            return _AccessButton(); // Show this widget when the data is `true`
-          } else {
-            return _EnableGpsMessage(); // Show this widget when the data is `false`
-          }
-        },
-      ),
-    );
+        body: (!locationService.gpsEnabled)
+            ? _EnableGpsMessage()
+            : (!locationService.isPermissionGranted)
+                ? _AccessButton()
+                : HomePage());
   }
 }
 
@@ -82,3 +74,30 @@ class _DisableGpsMessage extends StatelessWidget {
     );
   }
 }
+
+
+
+// if (!snapshot.hasData) {
+//             return _DisableGpsMessage();
+//           } else if (snapshot.data!) {
+//             // `!` is used to mark `data` as non-null
+//             return _AccessButton(); // Show this widget when the data is `true`
+//           } else {
+//             return _EnableGpsMessage(); // Show this widget when the data is `false`
+//           }
+
+
+
+// StreamBuilder(
+//         stream: locationService.loadingData,
+//         builder: (BuildContext context, AsyncSnapshot snapshot) {
+//           if (!snapshot.hasData) {
+//             return Text('no hay data');
+//           } else if (snapshot.data!) {
+//             // `!` is used to mark `data` as non-null
+//             return _AccessButton(); // Show this widget when the data is `true`
+//           } else {
+//             return _EnableGpsMessage(); // Show this widget when the data is `false`
+//           }
+//         },
+//       ),

@@ -29,7 +29,7 @@ class _LoadingPageState extends State<LoadingPage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
-          } else if (snapshot.data!) {
+          } else if (snapshot.data! && geolocatorService.isAllGranted) {
             return HomePage();
           } else {
             return GpsAccessScreen();

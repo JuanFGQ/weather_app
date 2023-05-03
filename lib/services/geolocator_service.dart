@@ -57,7 +57,7 @@ class GeolocatorService extends ChangeNotifier {
     //to enable service
     final isEnabled = await Geolocator.isLocationServiceEnabled();
     final locationServiceEnabled = (isEnabled) ? true : false;
-    gpsEnabled = locationServiceEnabled;
+    _gpsEnabled = locationServiceEnabled;
     _loadingData.sink.add(locationServiceEnabled);
 
 //to get the actual status of the locator
@@ -96,7 +96,7 @@ class GeolocatorService extends ChangeNotifier {
     final isGranted = await Permission.location.isGranted;
     _isPermissionGranted = isGranted;
 
-    this._loadingData.sink.add(isGranted);
+    // this._loadingData.sink.add(isGranted);
     return isGranted;
   }
 
@@ -105,7 +105,6 @@ class GeolocatorService extends ChangeNotifier {
       [
         _checkGpsStatus(),
         _isPermissionGrant(),
-        getCurrentLocation(),
       ],
     );
 
