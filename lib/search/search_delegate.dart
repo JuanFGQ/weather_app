@@ -81,7 +81,7 @@ class _CityItem extends StatelessWidget {
       ),
       title: Text(city.placeName),
       onTap: () {
-        Navigator.pushNamed(context, 'test', arguments: city);
+        Navigator.pushNamed(context, 'founded', arguments: city);
       },
     );
   }

@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/pages/founded_location.dart';
 import 'package:weather/pages/gps_access_page.dart';
 import 'package:weather/pages/home_page.dart';
 import 'package:weather/pages/loading_page.dart';
-import 'package:weather/pages/testpage.dart';
 import 'package:weather/services/geolocator_service.dart';
 import 'package:weather/services/mapBox_Info_Provider.dart';
 import 'package:weather/services/weather_api_service.dart';
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
       initialRoute: 'loading',
       routes: {
         'home': (_) => HomePage(),
-        'test': (_) => TestPage(),
+        'founded': (_) => FoundedLocation(),
         'loading': (_) => LoadingPage(),
         'gps': (_) => GpsAccessScreen(),
       },

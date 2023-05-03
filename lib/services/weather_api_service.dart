@@ -9,6 +9,8 @@ import 'package:weather/models/weather/weather_api_response.dart';
 class WeatherApiService extends ChangeNotifier {
   Location? location;
   Current? current;
+  Location? foundLocation;
+  Current? foundCurrent;
 
   final String _baseUrl = 'api.weatherapi.com';
   final String _key = 'a1f73a2fb6cc40c29eb175425232204';
