@@ -30,7 +30,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
         ModalRoute.of(context)!.settings.arguments as Feature;
     weatherAPI = Provider.of<WeatherApiService>(context, listen: false);
     geolocSERV = Provider.of<GeolocatorService>(context, listen: false);
-    _loadWeatherFounded();
+    // _loadWeatherFounded();
   }
 
   void _loadWeatherFounded() async {
@@ -49,6 +49,13 @@ class _FoundedLocationState extends State<FoundedLocation> {
   @override
   Widget build(BuildContext context) {
     final weatherData = Provider.of<WeatherApiService>(context);
+    final Feature feature =
+        ModalRoute.of(context)!.settings.arguments as Feature;
+
+    final newCoords =
+        feature.center.toString().replaceAll('[', '').replaceAll(']', '');
+
+    weatherData.getInfoWeatherLocation(newCoords);
     final wData = weatherData;
 
     return Scaffold(body: StreamBuilder(
