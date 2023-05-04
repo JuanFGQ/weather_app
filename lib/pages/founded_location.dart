@@ -26,25 +26,27 @@ class _FoundedLocationState extends State<FoundedLocation> {
   @override
   void initState() {
     super.initState();
-    final Feature feature =
-        ModalRoute.of(context)!.settings.arguments as Feature;
     weatherAPI = Provider.of<WeatherApiService>(context, listen: false);
     geolocSERV = Provider.of<GeolocatorService>(context, listen: false);
-    // _loadWeatherFounded();
+    // final Feature feature =
+    // //     ModalRoute.of(context)!.settings.arguments as Feature;
+    // Future.delayed(Duration.zero, () {
+    //   _loadWeatherFounded();
+    // });
   }
 
-  void _loadWeatherFounded() async {
-    final Feature feature =
-        ModalRoute.of(context)!.settings.arguments as Feature;
+  // void _loadWeatherFounded() async {
+  //   final Feature feature =
+  //       ModalRoute.of(context)!.settings.arguments as Feature;
 
-    final newCoords =
-        feature.center.toString().replaceAll('[', '').replaceAll(']', '');
+  //   final newCoords =
+  //       feature.center.toString().replaceAll('[', '').replaceAll(']', '');
 
-    final hasData = await weatherAPI!.getInfoWeatherLocation(newCoords);
-    (hasData) ? true : false;
+  //   final hasData = await weatherAPI!.getInfoWeatherLocation(newCoords);
+  //   (hasData) ? true : false;
 
-    stream.sink.add(hasData);
-  }
+  //   stream.sink.add(hasData);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +54,17 @@ class _FoundedLocationState extends State<FoundedLocation> {
     final Feature feature =
         ModalRoute.of(context)!.settings.arguments as Feature;
 
-    final newCoords =
-        feature.center.toString().replaceAll('[', '').replaceAll(']', '');
+    final newCoords = feature.center;
 
-    weatherData.getInfoWeatherLocation(newCoords);
+    final cord1 = newCoords[1].toString();
+    final cord0 = newCoords[0].toString();
+
+    final defCoord = cord1 + ',' + cord0;
+
+    // toString().replaceAll('[', '').replaceAll(']', '')
+    print('COOORDSSSSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!$defCoord');
+
+    weatherData.getFoundLocation(defCoord);
     final wData = weatherData;
 
     return Scaffold(body: StreamBuilder(

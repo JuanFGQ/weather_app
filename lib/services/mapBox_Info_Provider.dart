@@ -50,9 +50,9 @@ class MapBoxInfoProvider extends ChangeNotifier {
       final results = await this.getPlaces(value);
       this._suggestedCityStreamController.add(results);
     };
-    final timer = Timer.periodic(Duration(milliseconds: 300), (_) {
+    final timer = Timer.periodic(Duration(milliseconds: 200), (_) {
       debouncer.value = searchTerm;
     });
-    Future.delayed(Duration(milliseconds: 301)).then((_) => timer.cancel());
+    Future.delayed(Duration(milliseconds: 201)).then((_) => timer.cancel());
   }
 }

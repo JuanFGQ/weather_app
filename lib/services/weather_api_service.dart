@@ -16,9 +16,24 @@ class WeatherApiService extends ChangeNotifier {
   final String _key = 'a1f73a2fb6cc40c29eb175425232204';
   final String _aqi = 'no';
 
-  // apiParams() {
-  //   return {'key': _key, 'q': '40.6280013,-3.184031', 'aqi': _aqi};
-  // }
+  getFoundLocation(String coords) async {
+    _apiParams() {
+      return {'key': _key, 'q': coords, 'aqi': _aqi};
+    }
+
+    final uri = Uri.https(_baseUrl, '/v1/current.json', _apiParams());
+    final resp = await http.get(uri);
+
+    if (resp.statusCode == 200) {
+      final weatherResp = weatherApiFromJson(resp.body);
+
+      foundCurrent = weatherResp.current;
+      foundLocation = weatherResp.location;
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   getInfoWeatherLocation(String coords) async {
     _apiParams() {
