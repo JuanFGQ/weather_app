@@ -58,7 +58,7 @@ class WeatherSearchDelegate extends SearchDelegate {
         if (!snapshot.hasData) return _emptyContainer();
 
         final featureMethod = snapshot.data!;
-        print('FEATURE METHOD SIDE MENU $featureMethod');
+        print('FEATURE METHOD SIDE MENU $featureMethod[index]');
 
         return ListView.builder(
           itemCount: featureMethod.length,
@@ -83,6 +83,7 @@ class _CityItem extends StatelessWidget {
       title: Text(city.placeName),
       onTap: () {
         Navigator.pushNamed(context, 'founded', arguments: city);
+        print('SELECTED CITY $city');
       },
     );
   }

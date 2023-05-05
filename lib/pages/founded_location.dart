@@ -28,13 +28,13 @@ class _FoundedLocationState extends State<FoundedLocation> with PostFrameMixin {
     super.initState();
     weatherAPI = Provider.of<WeatherApiService>(context, listen: false);
     geolocSERV = Provider.of<GeolocatorService>(context, listen: false);
-    // _loadWeatherFounded();
+    _loadWeatherFounded();
   }
 
   @override
   void didChangeDependencies() {
-    _loadWeatherFounded();
     super.didChangeDependencies();
+    // _loadWeatherFounded();
   }
 
   void _loadWeatherFounded() async {
@@ -48,7 +48,7 @@ class _FoundedLocationState extends State<FoundedLocation> with PostFrameMixin {
 
     final defCoord = cord1 + ',' + cord0;
 
-    weatherAPI!.getInfoWeatherLocation(defCoord);
+    weatherAPI!.getFoundPlacesInfo(defCoord);
   }
 
   @override
@@ -75,19 +75,22 @@ class _FoundedLocationState extends State<FoundedLocation> with PostFrameMixin {
         return HomeWidget(
           appBarColors: Colors.yellow,
           scaffoldColor: Colors.yellow,
-          title: apiResp.location?.name ?? '?',
-          lastUpdateDate: apiResp.current?.lastUpdated.substring(0, 10) ?? '?',
-          lastUpdateTime: apiResp.current?.lastUpdated.substring(10, 16) ?? '?',
-          locationCountry: apiResp.location?.country ?? '?',
-          currentCOndition: apiResp.current?.condition.text ?? '?',
-          currentFeelsLikeNumber: '${apiResp.current?.feelslikeC.toString()}º',
-          windData: '${apiResp.current?.windKph ?? '?'} km/h',
-          dropData: '${apiResp.current?.humidity ?? '?'}%',
-          visibilityData: '${apiResp.current?.visKm ?? '?'} km/h ',
-          windDirectionData: '${apiResp.current?.windDir ?? '?'}',
-          temperatureData: '${apiResp.current?.tempC ?? '?'} º',
-          feelsLikeData: '${apiResp.current?.feelslikeC ?? '?'} º',
-          humidityData: '${apiResp.current?.humidity ?? '?'}',
+          title: apiResp.foundLocation?.name ?? '?',
+          lastUpdateDate:
+              apiResp.foundCurrent?.lastUpdated.substring(0, 10) ?? '?',
+          lastUpdateTime:
+              apiResp.foundCurrent?.lastUpdated.substring(10, 16) ?? '?',
+          locationCountry: apiResp.foundLocation?.country ?? '?',
+          currentCOndition: apiResp.foundCurrent?.condition.text ?? '?',
+          currentFeelsLikeNumber:
+              '${apiResp.foundCurrent?.feelslikeC.toString()}º',
+          windData: '${apiResp.foundCurrent?.windKph ?? '?'} km/h',
+          dropData: '${apiResp.foundCurrent?.humidity ?? '?'}%',
+          visibilityData: '${apiResp.foundCurrent?.visKm ?? '?'} km/h ',
+          windDirectionData: apiResp.foundCurrent?.windDir ?? '?',
+          temperatureData: '${apiResp.foundCurrent?.tempC ?? '?'} º',
+          feelsLikeData: '${apiResp.foundCurrent?.feelslikeC ?? '?'} º',
+          humidityData: '${apiResp.foundCurrent?.humidity ?? '?'}',
         );
       }
     }));
