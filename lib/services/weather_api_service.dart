@@ -16,7 +16,15 @@ class WeatherApiService extends ChangeNotifier {
   final String _key = 'a1f73a2fb6cc40c29eb175425232204';
   final String _aqi = 'no';
 
-  getFoundLocation(String coords) async {
+  String _cityData = 'city';
+
+  String get cityData => _cityData;
+  set cityData(String value) {
+    _cityData = value;
+    notifyListeners();
+  }
+
+  getFoundPlacesInfo(String coords) async {
     _apiParams() {
       return {'key': _key, 'q': coords, 'aqi': _aqi};
     }

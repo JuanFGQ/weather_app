@@ -17,7 +17,7 @@ class FoundedLocation extends StatefulWidget {
   State<FoundedLocation> createState() => _FoundedLocationState();
 }
 
-class _FoundedLocationState extends State<FoundedLocation> {
+class _FoundedLocationState extends State<FoundedLocation> with PostFrameMixin {
   final stream = StreamController<dynamic>();
 
   WeatherApiService? weatherAPI;
@@ -28,29 +28,16 @@ class _FoundedLocationState extends State<FoundedLocation> {
     super.initState();
     weatherAPI = Provider.of<WeatherApiService>(context, listen: false);
     geolocSERV = Provider.of<GeolocatorService>(context, listen: false);
-    // final Feature feature =
-    // //     ModalRoute.of(context)!.settings.arguments as Feature;
-    // Future.delayed(Duration.zero, () {
-    //   _loadWeatherFounded();
-    // });
+    // _loadWeatherFounded();
   }
 
-  // void _loadWeatherFounded() async {
-  //   final Feature feature =
-  //       ModalRoute.of(context)!.settings.arguments as Feature;
-
-  //   final newCoords =
-  //       feature.center.toString().replaceAll('[', '').replaceAll(']', '');
-
-  //   final hasData = await weatherAPI!.getInfoWeatherLocation(newCoords);
-  //   (hasData) ? true : false;
-
-  //   stream.sink.add(hasData);
-  // }
-
   @override
-  Widget build(BuildContext context) {
-    final weatherData = Provider.of<WeatherApiService>(context);
+  void didChangeDependencies() {
+    _loadWeatherFounded();
+    super.didChangeDependencies();
+  }
+
+  void _loadWeatherFounded() async {
     final Feature feature =
         ModalRoute.of(context)!.settings.arguments as Feature;
 
@@ -61,11 +48,24 @@ class _FoundedLocationState extends State<FoundedLocation> {
 
     final defCoord = cord1 + ',' + cord0;
 
-    // toString().replaceAll('[', '').replaceAll(']', '')
-    print('COOORDSSSSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!$defCoord');
+    weatherAPI!.getInfoWeatherLocation(defCoord);
+  }
 
-    weatherData.getFoundLocation(defCoord);
-    final wData = weatherData;
+  @override
+  Widget build(BuildContext context) {
+    final weatherData = Provider.of<WeatherApiService>(context);
+    // final Feature feature =
+    //     ModalRoute.of(context)!.settings.arguments as Feature;
+
+    // final newCoords = feature.center;
+
+    // final cord1 = newCoords[1].toString();
+    // final cord0 = newCoords[0].toString();
+
+    // final defCoord = cord1 + ',' + cord0;
+
+    // weatherData.getFoundPlacesInfo(defCoord);
+    final apiResp = weatherData;
 
     return Scaffold(body: StreamBuilder(
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -73,26 +73,37 @@ class _FoundedLocationState extends State<FoundedLocation> {
         return CircularProgressIndicator();
       } else {
         return HomeWidget(
-            title: '${wData.foundLocation?.name ?? '?'}',
-            lastUpdateDate:
-                wData.foundCurrent?.lastUpdated.substring(0, 10) ?? '?',
-            lastUpdateTime:
-                wData.foundCurrent?.lastUpdated.substring(10, 16) ?? '?',
-            locationCountry: wData.foundLocation?.country ?? '?',
-            currentCOndition: wData.foundCurrent?.condition.text ?? '?',
-            currentFeelsLikeNumber:
-                '${wData.foundCurrent?.feelslikeC.toString()}º',
-            windData: '${wData.foundCurrent?.windKph ?? '?'} km/h',
-            humidityData: '${wData.foundCurrent?.humidity ?? '?'}',
-            dropData: '${wData.foundCurrent?.humidity ?? '?'}%',
-            visibilityData: '${wData.foundCurrent?.visKm ?? '?'} km/h ',
-            windDirectionData: '${wData.foundCurrent?.windDir ?? '?'}',
-            temperatureData: '${wData.foundCurrent?.tempC ?? '?'} º',
-            feelsLikeData: '${wData.foundCurrent?.feelslikeC ?? '?'} º');
+          appBarColors: Colors.yellow,
+          scaffoldColor: Colors.yellow,
+          title: apiResp.location?.name ?? '?',
+          lastUpdateDate: apiResp.current?.lastUpdated.substring(0, 10) ?? '?',
+          lastUpdateTime: apiResp.current?.lastUpdated.substring(10, 16) ?? '?',
+          locationCountry: apiResp.location?.country ?? '?',
+          currentCOndition: apiResp.current?.condition.text ?? '?',
+          currentFeelsLikeNumber: '${apiResp.current?.feelslikeC.toString()}º',
+          windData: '${apiResp.current?.windKph ?? '?'} km/h',
+          dropData: '${apiResp.current?.humidity ?? '?'}%',
+          visibilityData: '${apiResp.current?.visKm ?? '?'} km/h ',
+          windDirectionData: '${apiResp.current?.windDir ?? '?'}',
+          temperatureData: '${apiResp.current?.tempC ?? '?'} º',
+          feelsLikeData: '${apiResp.current?.feelslikeC ?? '?'} º',
+          humidityData: '${apiResp.current?.humidity ?? '?'}',
+        );
       }
     }));
   }
 }
+
+mixin PostFrameMixin<T extends StatefulWidget> on State<T> {
+  void postFrame(void Function() callback) =>
+      WidgetsBinding.instance?.addPostFrameCallback(
+        (_) {
+          // Execute callback if page is mounted
+          if (mounted) callback();
+        },
+      );
+}
+
 
 
 //  final Feature feature =

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/services/weather_api_service.dart';
 
 import '../models/mapbox/Feature.dart';
 import '../models/mapBox_response.dart';

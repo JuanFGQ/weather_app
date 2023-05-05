@@ -23,6 +23,8 @@ class HomeWidget extends StatelessWidget {
   final String windDirectionData;
   final String temperatureData;
   final String feelsLikeData;
+  final Color scaffoldColor;
+  final Color appBarColors;
 
   const HomeWidget(
       {super.key,
@@ -38,7 +40,9 @@ class HomeWidget extends StatelessWidget {
       required this.visibilityData,
       required this.windDirectionData,
       required this.temperatureData,
-      required this.feelsLikeData});
+      required this.feelsLikeData,
+      required this.scaffoldColor,
+      required this.appBarColors});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +54,7 @@ class HomeWidget extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       // resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.blue,
+      backgroundColor: scaffoldColor,
       // drawer: SafeArea(child: SideMenu()),
       appBar: AppBar(
           leading: IconButton(
@@ -58,7 +62,7 @@ class HomeWidget extends StatelessWidget {
                   context: context, delegate: WeatherSearchDelegate()),
               icon: const FaIcon(FontAwesomeIcons.search)),
           iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor: Colors.blue,
+          backgroundColor: appBarColors,
           elevation: 0,
           centerTitle: true,
           title: Text(title,

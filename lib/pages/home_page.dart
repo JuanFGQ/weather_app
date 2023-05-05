@@ -54,6 +54,8 @@ class _HomePageState extends State<HomePage> {
           return CircularIndicator();
         } else {
           return HomeWidget(
+            appBarColors: Colors.blue,
+            scaffoldColor: Colors.blue,
             title: apiResp.location?.name ?? '?',
             lastUpdateDate:
                 apiResp.current?.lastUpdated.substring(0, 10) ?? '?',
