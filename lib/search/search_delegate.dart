@@ -58,6 +58,7 @@ class WeatherSearchDelegate extends SearchDelegate {
         if (!snapshot.hasData) return _emptyContainer();
 
         final featureMethod = snapshot.data!;
+
         print('FEATURE METHOD SIDE MENU $featureMethod[index]');
 
         return ListView.builder(
@@ -76,12 +77,26 @@ class _CityItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final weather = Provider.of<WeatherApiService>(context);
+
     return ListTile(
       leading: const CircleAvatar(
         child: FaIcon(FontAwesomeIcons.mountainCity),
       ),
       title: Text(city.placeName),
       onTap: () {
+        final newCoords = city.center;
+        print('NEW COORDS!!!!$newCoords');
+
+        final cord1 = newCoords[1].toString();
+        final cord0 = newCoords[0].toString();
+
+        final defCoord = cord1 + ',' + cord0;
+        weather.coords = defCoord;
+
+        // weather.getFoundPlacesInfo(defCoord);
+// weather.foundPlaces.sink.add()
+
         Navigator.pushNamed(context, 'founded', arguments: city);
         print('SELECTED CITY $city');
       },

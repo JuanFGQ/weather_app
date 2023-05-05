@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -16,13 +17,17 @@ class WeatherApiService extends ChangeNotifier {
   final String _key = 'a1f73a2fb6cc40c29eb175425232204';
   final String _aqi = 'no';
 
-  String _cityData = 'city';
-
-  String get cityData => _cityData;
-  set cityData(String value) {
-    _cityData = value;
+  String _coords = '';
+  String get coords => _coords;
+  set coords(String value) {
+    _coords = value;
     notifyListeners();
   }
+
+  final StreamController<dynamic> _foundPlaces =
+      StreamController<dynamic>.broadcast();
+
+  Stream get foundPlaces => _foundPlaces.stream;
 
   getFoundPlacesInfo(String coords) async {
     _apiParams() {
@@ -63,24 +68,4 @@ class WeatherApiService extends ChangeNotifier {
       return false;
     }
   }
-
-  // getInfoWeatherCurrent(String coords) async {
-  //   _apiParams() {
-  //     return {'key': _key, 'q': coords, 'aqi': _aqi};
-  //   }
-
-  //   final uri = Uri.https(_baseUrl, '/v1/current.json', _apiParams());
-
-  //   final resp = await http.get(uri);
-
-  //   if (resp.statusCode == 200) {
-  //     final weatherResp = weatherApiFromJson(resp.body);
-
-  //     current = weatherResp.current;
-
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
 }
