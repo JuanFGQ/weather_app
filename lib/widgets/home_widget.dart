@@ -65,19 +65,22 @@ class HomeWidget extends StatelessWidget {
           backgroundColor: appBarColors,
           elevation: 0,
           centerTitle: true,
-          title: Text(title,
-              style: const TextStyle(color: Colors.black, fontSize: 40))
+          title: FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(title,
+                style: const TextStyle(color: Colors.black, fontSize: 40)),
+          )
           //
           ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
-            'LastUpdate',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          ),
-          Text(lastUpdateDate),
-          Text(lastUpdateTime),
+          // const Text(
+          //   'LastUpdate',
+          //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          // ),
+          // Text(lastUpdateDate),
+          // Text(lastUpdateTime),
 
           const SizedBox(height: 10),
           Words(
@@ -115,6 +118,26 @@ class HomeWidget extends StatelessWidget {
               ],
             ),
           ),
+
+          FadeIn(
+            delay: Duration(milliseconds: 1000),
+            child: Bounce(
+              delay: Duration(milliseconds: 800),
+              from: 6,
+              infinite: true,
+              child: RawMaterialButton(
+                shape: CircleBorder(),
+                onPressed: () {},
+                fillColor: Colors.white,
+                child: FaIcon(FontAwesomeIcons.solidNewspaper),
+                elevation: 5,
+              ),
+            ),
+          ),
+          FadeIn(
+              delay: Duration(milliseconds: 1000),
+              child: Text('News in $title')),
+
           const SizedBox(height: 10),
           // const InfoTable(),
           InfoIcon(image: 'wind.gif', title: 'Wind', percentage: windData),

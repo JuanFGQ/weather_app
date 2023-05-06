@@ -116,27 +116,3 @@ class _FoundedLocationState extends State<FoundedLocation> {
         ),
       );
 }
-
-
-
-
-
-
-//  final Feature feature =
-//         ModalRoute.of(context)!.settings.arguments as Feature;
-// Text(
-//         feature.center.toString().replaceAll('[', '').replaceAll(']', ''),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
