@@ -18,13 +18,13 @@ class HomeWidget extends StatelessWidget {
   final String windData;
   final String humidityData;
 
-  final String dropData;
   final String visibilityData;
   final String windDirectionData;
   final String temperatureData;
   final String feelsLikeData;
   final Color scaffoldColor;
   final Color appBarColors;
+  final Color locCountryColor;
 
   const HomeWidget(
       {super.key,
@@ -36,13 +36,13 @@ class HomeWidget extends StatelessWidget {
       required this.currentFeelsLikeNumber,
       required this.windData,
       required this.humidityData,
-      required this.dropData,
       required this.visibilityData,
       required this.windDirectionData,
       required this.temperatureData,
       required this.feelsLikeData,
       required this.scaffoldColor,
-      required this.appBarColors});
+      required this.appBarColors,
+      required this.locCountryColor});
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +57,25 @@ class HomeWidget extends StatelessWidget {
       backgroundColor: scaffoldColor,
       // drawer: SafeArea(child: SideMenu()),
       appBar: AppBar(
+          // actions: [
+          //   FittedBox(
+          //     fit: BoxFit.values[5],
+          //     child: RawMaterialButton(
+          //       onPressed: () {},
+          //       shape: CircleBorder(),
+          //       fillColor: Colors.white,
+          //       child: Spin(
+          //         duration: Duration(milliseconds: 5000),
+          //         infinite: true,
+          //         child: const FaIcon(
+          //           FontAwesomeIcons.refresh,
+          //           size: 18,
+          //         ),
+          //       ),
+          //       // constraints: ,
+          //     ),
+          //   )
+          // ],
           leading: IconButton(
               onPressed: () => showSearch(
                   context: context, delegate: WeatherSearchDelegate()),
@@ -84,10 +103,9 @@ class HomeWidget extends StatelessWidget {
 
           const SizedBox(height: 10),
           Words(
-            isVisible: true,
             date: locationCountry,
-            wordColor: Colors.blue,
-            wordSize: 20,
+            wordColor: locCountryColor,
+            // wordSize: 20,
           ),
           const SizedBox(height: 5),
           FadeInUp(
@@ -119,21 +137,7 @@ class HomeWidget extends StatelessWidget {
             ),
           ),
 
-          FadeIn(
-            delay: Duration(milliseconds: 1000),
-            child: Bounce(
-              delay: Duration(milliseconds: 800),
-              from: 6,
-              infinite: true,
-              child: RawMaterialButton(
-                shape: CircleBorder(),
-                onPressed: () {},
-                fillColor: Colors.white,
-                child: FaIcon(FontAwesomeIcons.solidNewspaper),
-                elevation: 5,
-              ),
-            ),
-          ),
+          NewsPaperButton(),
           FadeIn(
               delay: Duration(milliseconds: 1000),
               child: Text('News in $title')),
@@ -165,6 +169,31 @@ class HomeWidget extends StatelessWidget {
 
           // const SizedBox(height: 10),
         ],
+      ),
+    );
+  }
+}
+
+class NewsPaperButton extends StatelessWidget {
+  const NewsPaperButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeIn(
+      delay: Duration(milliseconds: 1000),
+      child: Bounce(
+        delay: Duration(milliseconds: 800),
+        from: 6,
+        infinite: true,
+        child: RawMaterialButton(
+          shape: CircleBorder(),
+          onPressed: () {},
+          fillColor: Colors.white,
+          child: FaIcon(FontAwesomeIcons.solidNewspaper),
+          elevation: 5,
+        ),
       ),
     );
   }

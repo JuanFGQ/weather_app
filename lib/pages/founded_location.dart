@@ -75,6 +75,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
                     return pop ?? false;
                   },
                   child: HomeWidget(
+                    locCountryColor: Colors.yellow,
                     appBarColors: Colors.yellow,
                     scaffoldColor: Colors.yellow,
                     title: apiResp.foundLocation?.name ?? '?',
@@ -90,7 +91,6 @@ class _FoundedLocationState extends State<FoundedLocation> {
                     currentFeelsLikeNumber:
                         '${apiResp.foundCurrent?.feelslikeC.toString()}º',
                     windData: '${apiResp.foundCurrent?.windKph ?? '?'} km/h',
-                    dropData: '${apiResp.foundCurrent?.humidity ?? '?'}%',
                     visibilityData:
                         '${apiResp.foundCurrent?.visKm ?? '?'} km/h ',
                     windDirectionData: apiResp.foundCurrent?.windDir ?? '?',

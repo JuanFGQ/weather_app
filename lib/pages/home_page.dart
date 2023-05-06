@@ -54,6 +54,7 @@ class _HomePageState extends State<HomePage> {
           return CircularIndicator();
         } else {
           return HomeWidget(
+            locCountryColor: Colors.blue,
             appBarColors: Colors.blue,
             scaffoldColor: Colors.blue,
             title: apiResp.location?.name ?? '?',
@@ -66,12 +67,12 @@ class _HomePageState extends State<HomePage> {
             currentFeelsLikeNumber:
                 '${apiResp.current?.feelslikeC.toString()}º',
             windData: '${apiResp.current?.windKph ?? '?'} km/h',
-            dropData: '${apiResp.current?.humidity ?? '?'}%',
+            // dropData: '${apiResp.current?.humidity ?? '?'}%',
             visibilityData: '${apiResp.current?.visKm ?? '?'} km/h ',
-            windDirectionData: '${apiResp.current?.windDir ?? '?'}',
+            windDirectionData: apiResp.current?.windDir ?? '?',
             temperatureData: '${apiResp.current?.tempC ?? '?'} º',
             feelsLikeData: '${apiResp.current?.feelslikeC ?? '?'} º',
-            humidityData: '${apiResp.current?.humidity ?? '?'}',
+            humidityData: '${apiResp.current?.humidity ?? '?'}%',
           );
         }
       },
