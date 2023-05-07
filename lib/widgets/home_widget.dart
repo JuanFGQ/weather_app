@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/notifications/local_notifications.dart';
 
 import '../search/search_delegate.dart';
 import '../services/weather_api_service.dart';
@@ -57,25 +58,27 @@ class HomeWidget extends StatelessWidget {
       backgroundColor: scaffoldColor,
       // drawer: SafeArea(child: SideMenu()),
       appBar: AppBar(
-          // actions: [
-          //   FittedBox(
-          //     fit: BoxFit.values[5],
-          //     child: RawMaterialButton(
-          //       onPressed: () {},
-          //       shape: CircleBorder(),
-          //       fillColor: Colors.white,
-          //       child: Spin(
-          //         duration: Duration(milliseconds: 5000),
-          //         infinite: true,
-          //         child: const FaIcon(
-          //           FontAwesomeIcons.refresh,
-          //           size: 18,
-          //         ),
-          //       ),
-          //       // constraints: ,
-          //     ),
-          //   )
-          // ],
+          actions: [
+            FittedBox(
+              fit: BoxFit.values[5],
+              child: RawMaterialButton(
+                onPressed: () {
+                  showNotifications();
+                },
+                shape: CircleBorder(),
+                fillColor: Colors.white,
+                child: Spin(
+                  duration: Duration(milliseconds: 5000),
+                  infinite: true,
+                  child: const FaIcon(
+                    FontAwesomeIcons.refresh,
+                    size: 18,
+                  ),
+                ),
+                // constraints: ,
+              ),
+            )
+          ],
           leading: IconButton(
               onPressed: () => showSearch(
                   context: context, delegate: WeatherSearchDelegate()),
