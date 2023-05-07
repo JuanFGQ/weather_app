@@ -13,10 +13,14 @@ class NewsCard extends StatelessWidget {
         Container(
           margin: EdgeInsets.all(10),
           width: size.width * 1,
-          height: size.height * 0.28,
+          height: size.height * 0.35,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: const Image(
+                // colorBlendMode: BlendMode.colorBurn,
+
+                // opacity: 2.0,
+                // filterQuality: FilterQuality.medium,
                 fit: BoxFit.cover,
                 image: NetworkImage(
                     'https://www.triviantes.com/wp-content/uploads/2021/03/catedral-de-manizales.jpg')),
@@ -32,14 +36,38 @@ class NewsCard extends StatelessWidget {
               children: [
                 Container(
                     width: size.width * 1,
-                    color: Colors.red,
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    child: Text('News Source')),
+                    // color: Colors.red,
+                    margin: const EdgeInsets.only(left: 10, right: 10),
+                    child: Text(
+                      'News Source',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
                 Container(
-                  width: size.width * 1,
                   margin: EdgeInsets.only(left: 10, right: 10),
+                  width: size.width * 0.9,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      // color: Color.fromARGB(43, 0, 0, 0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black38,
+                          blurRadius: 2,
+                          offset: Offset(1, 1),
+                          spreadRadius: 1.0,
+                          blurStyle: BlurStyle.outer,
+                        )
+                      ]),
                   child: Text(
-                      'La alcaldía de Manizales, Colombia, informó que al menos 28 personas resultaron heridas en los disturbios ocurridos luego de que algunos asistentes al partido de fútbol entre Once Caldas y Alianza Petrolera ingresaron a la cancha'),
+                    'La alcaldía de Manizales, Colombia, informó que al menos 28 personas resultaron heridas en los disturbios ocurridos luego de que algunos asistentes al partido de fútbol entre Once Caldas y Alianza Petrolera ingresaron a la cancha ',
+                    style: TextStyle(
+                        // decoration: TextDecoration.overline,
+                        // backgroundColor: Color.fromARGB(122, 158, 158, 158),
+                        // overflow: TextOverflow.ellipsis,
+
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        color: Colors.white),
+                  ),
                 )
               ],
             ),
