@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -10,6 +11,7 @@ class NewsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -40,7 +42,19 @@ class NewsPage extends StatelessWidget {
                 ),
               ),
             ),
-            DescriptionNewsCard()
+
+            Expanded(
+              child: Container(
+                width: size.width * 1,
+                // color: Colors.red,
+                child: ListView.builder(
+                    itemCount: 10,
+                    itemBuilder: (_, i) => ElasticIn(
+                        delay: Duration(milliseconds: 500),
+                        duration: Duration(milliseconds: 500),
+                        child: DescriptionNewsCard())),
+              ),
+            )
           ],
         ),
       ),

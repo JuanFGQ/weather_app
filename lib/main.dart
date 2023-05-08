@@ -8,7 +8,8 @@ import 'package:weather/pages/founded_location.dart';
 import 'package:weather/pages/gps_access_page.dart';
 import 'package:weather/pages/home_page.dart';
 import 'package:weather/pages/loading_page.dart';
-import 'package:weather/pages/news_page.dart';
+import 'package:weather/pages/news_content.dart';
+import 'package:weather/pages/news_viewer_page.dart';
 import 'package:weather/services/geolocator_service.dart';
 import 'package:weather/services/mapBox_Info_Provider.dart';
 import 'package:weather/services/news_service.dart';
@@ -51,13 +52,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'news',
+      initialRoute: 'newsContent',
       routes: {
         'home': (_) => HomePage(),
         'founded': (_) => FoundedLocation(),
         'loading': (_) => LoadingPage(),
         'gps': (_) => GpsAccessScreen(),
-        'news': (_) => NewsPage()
+        'news': (_) => NewsPage(),
+        'newsContent': (_) => NewsContent(),
       },
     );
   }
