@@ -3,6 +3,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:weather/widgets/news_card.dart';
 
+import '../widgets/description_news_card.dart';
+
 class NewsPage extends StatelessWidget {
   const NewsPage({super.key});
 
@@ -12,16 +14,33 @@ class NewsPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Text(
-              'News in manizales',
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Breaking News',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
-            Divider(
-              thickness: 2,
-              indent: 10,
-              endIndent: 10,
-            ),
+            // Divider(
+            //   thickness: 2,
+            //   indent: 10,
+            //   endIndent: 10,
+            // ),
             NewsCard(),
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'All news',
+                  style: TextStyle(fontSize: 25),
+                ),
+              ),
+            ),
+            DescriptionNewsCard()
           ],
         ),
       ),

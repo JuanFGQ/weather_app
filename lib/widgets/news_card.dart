@@ -14,6 +14,7 @@ class NewsCard extends StatelessWidget {
           margin: EdgeInsets.all(10),
           width: size.width * 1,
           height: size.height * 0.35,
+          // decoration: BoxD,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: const Image(
@@ -24,6 +25,24 @@ class NewsCard extends StatelessWidget {
                 fit: BoxFit.cover,
                 image: NetworkImage(
                     'https://www.triviantes.com/wp-content/uploads/2021/03/catedral-de-manizales.jpg')),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.all(10),
+          height: size.height * 0.35,
+          width: size.width * 1,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                const Color(0xCC000000),
+                const Color(0x00000000),
+                const Color(0x00000000),
+                const Color(0xCC000000),
+              ],
+            ),
           ),
         ),
         Positioned(
@@ -40,7 +59,9 @@ class NewsCard extends StatelessWidget {
                     margin: const EdgeInsets.only(left: 10, right: 10),
                     child: Text(
                       'News Source',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          backgroundColor: Colors.white,
+                          fontWeight: FontWeight.bold),
                     )),
                 Container(
                   margin: EdgeInsets.only(left: 10, right: 10),
@@ -58,12 +79,8 @@ class NewsCard extends StatelessWidget {
                         )
                       ]),
                   child: Text(
-                    'La alcaldía de Manizales, Colombia, informó que al menos 28 personas resultaron heridas en los disturbios ocurridos luego de que algunos asistentes al partido de fútbol entre Once Caldas y Alianza Petrolera ingresaron a la cancha ',
+                    'La alcaldía de Manizales, Colombia, informó que al menos 28 personas resultaron heridas en los disturbios ocurridos luego de que algunos asistentes al partido de fútbol entre Once Caldas y Alianza Petrolera ingresaron a la cancha.',
                     style: TextStyle(
-                        // decoration: TextDecoration.overline,
-                        // backgroundColor: Color.fromARGB(122, 158, 158, 158),
-                        // overflow: TextOverflow.ellipsis,
-
                         fontWeight: FontWeight.w600,
                         fontSize: 15,
                         color: Colors.white),
