@@ -52,14 +52,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'newsContent',
+      initialRoute: 'home',
       routes: {
         'home': (_) => HomePage(),
         'founded': (_) => FoundedLocation(),
         'loading': (_) => LoadingPage(),
         'gps': (_) => GpsAccessScreen(),
         'news': (_) => NewsPage(),
-        'newsContent': (_) => NewsContent(),
+        'newsC': (_) => NewsContent(),
       },
     );
   }

@@ -192,7 +192,9 @@ class NewsPaperButton extends StatelessWidget {
         infinite: true,
         child: RawMaterialButton(
           shape: CircleBorder(),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, 'news');
+          },
           fillColor: Colors.white,
           child: FaIcon(FontAwesomeIcons.solidNewspaper),
           elevation: 5,

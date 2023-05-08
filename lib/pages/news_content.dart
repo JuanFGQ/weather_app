@@ -9,32 +9,38 @@ class NewsContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _HeaderInfoNews(size: size),
-              _Description(),
-              _ImageTitle(size: size),
-              SizedBox(height: 30),
-              Container(
-                width: size.width * 0.9,
-                child: Text(
-                  'Las autoridades colombianas detuvieron a siete personas que integraban el “Clan Familiar”, un grupo acusado de reclutar a mujeres jóvenes para explotarlas sexualmente en Chile, informó este domingo la Fiscalía' +
-                      'Las jóvenes, detalló la institución en un comunicado, eran reclutadas en “sectores marginales” de Manizales, la capital departamental de Caldas, y “con falsas expectativas laborales las convencían de viajar a Chile para someterlas a tratos inhumanos y explotarlas sexualmente”.' +
-                      '“Al parecer, les tramitaban los pasaportes, les proporcionaban los tiquetes aéreos para trasladarlas de Pereira a Bogotá, y, posteriormente, a Chile donde les retenían los documentos y las ubicaban en casas de lenocinio en las ciudades de Osorno, Puerto Montt y Temuco”, agregó la información.' +
-                      'Operación de la banda'
-                          'Según la investigación de las autoridades colombianas, a las víctimas “les fijaban una deuda que iniciaba en cinco millones de pesos (unos mil dólares)” para los gastos de los tiquetes aéreos.' +
-                      'Las autoridades colombianas detuvieron a siete personas que integraban el “Clan Familiar”, un grupo acusado de reclutar a mujeres jóvenes para explotarlas sexualmente en Chile, informó este domingo la Fiscalía' +
-                      'Las jóvenes, detalló la institución en un comunicado, eran reclutadas en “sectores marginales” de Manizales, la capital departamental de Caldas, y “con falsas expectativas laborales las convencían de viajar a Chile para someterlas a tratos inhumanos y explotarlas sexualmente”.' +
-                      '“Al parecer, les tramitaban los pasaportes, les proporcionaban los tiquetes aéreos para trasladarlas de Pereira a Bogotá, y, posteriormente, a Chile donde les retenían los documentos y las ubicaban en casas de lenocinio en las ciudades de Osorno, Puerto Montt y Temuco”, agregó la información.' +
-                      'Operación de la banda'
-                          'Según la investigación de las autoridades colombianas, a las víctimas “les fijaban una deuda que iniciaba en cinco millones de pesos (unos mil dólares)” para los gastos de los tiquetes aéreos.',
-                  style: TextStyle(fontSize: 18),
-                ),
-              )
-            ],
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context);
+        return true;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _HeaderInfoNews(size: size),
+                _Description(),
+                _ImageTitle(size: size),
+                SizedBox(height: 30),
+                Container(
+                  width: size.width * 0.9,
+                  child: Text(
+                    'Las autoridades colombianas detuvieron a siete personas que integraban el “Clan Familiar”, un grupo acusado de reclutar a mujeres jóvenes para explotarlas sexualmente en Chile, informó este domingo la Fiscalía' +
+                        'Las jóvenes, detalló la institución en un comunicado, eran reclutadas en “sectores marginales” de Manizales, la capital departamental de Caldas, y “con falsas expectativas laborales las convencían de viajar a Chile para someterlas a tratos inhumanos y explotarlas sexualmente”.' +
+                        '“Al parecer, les tramitaban los pasaportes, les proporcionaban los tiquetes aéreos para trasladarlas de Pereira a Bogotá, y, posteriormente, a Chile donde les retenían los documentos y las ubicaban en casas de lenocinio en las ciudades de Osorno, Puerto Montt y Temuco”, agregó la información.' +
+                        'Operación de la banda'
+                            'Según la investigación de las autoridades colombianas, a las víctimas “les fijaban una deuda que iniciaba en cinco millones de pesos (unos mil dólares)” para los gastos de los tiquetes aéreos.' +
+                        'Las autoridades colombianas detuvieron a siete personas que integraban el “Clan Familiar”, un grupo acusado de reclutar a mujeres jóvenes para explotarlas sexualmente en Chile, informó este domingo la Fiscalía' +
+                        'Las jóvenes, detalló la institución en un comunicado, eran reclutadas en “sectores marginales” de Manizales, la capital departamental de Caldas, y “con falsas expectativas laborales las convencían de viajar a Chile para someterlas a tratos inhumanos y explotarlas sexualmente”.' +
+                        '“Al parecer, les tramitaban los pasaportes, les proporcionaban los tiquetes aéreos para trasladarlas de Pereira a Bogotá, y, posteriormente, a Chile donde les retenían los documentos y las ubicaban en casas de lenocinio en las ciudades de Osorno, Puerto Montt y Temuco”, agregó la información.' +
+                        'Operación de la banda'
+                            'Según la investigación de las autoridades colombianas, a las víctimas “les fijaban una deuda que iniciaba en cinco millones de pesos (unos mil dólares)” para los gastos de los tiquetes aéreos.',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
