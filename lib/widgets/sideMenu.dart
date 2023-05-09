@@ -16,7 +16,7 @@ class _SideMenuState extends State<SideMenu> with TickerProviderStateMixin {
   final _textController = TextEditingController();
   bool _thereCity = false;
 
-  MapBoxInfoProvider? mapBoxInfo;
+  MapBoxService? mapBoxInfo;
 
   @override
   void initState() {

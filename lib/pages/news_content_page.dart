@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:weather/models/weather/weather_api_response.dart';
+import 'package:weather/services/news_service.dart';
+
+import '../models/news/articles_info.dart';
 
 class NewsContent extends StatelessWidget {
   const NewsContent({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final news = Provider.of<NewsService>(context).onlyArticles;
+
     final size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async {
@@ -19,25 +26,13 @@ class NewsContent extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                _HeaderInfoNews(size: size),
-                _Description(),
-                _ImageTitle(size: size),
+                _HeaderInfoNews(news: news, size: size),
+                _Description(news: news),
+                _ImageTitle(news: news, size: size),
                 SizedBox(height: 30),
                 Container(
                   width: size.width * 0.9,
-                  child: Text(
-                    'Las autoridades colombianas detuvieron a siete personas que integraban el “Clan Familiar”, un grupo acusado de reclutar a mujeres jóvenes para explotarlas sexualmente en Chile, informó este domingo la Fiscalía' +
-                        'Las jóvenes, detalló la institución en un comunicado, eran reclutadas en “sectores marginales” de Manizales, la capital departamental de Caldas, y “con falsas expectativas laborales las convencían de viajar a Chile para someterlas a tratos inhumanos y explotarlas sexualmente”.' +
-                        '“Al parecer, les tramitaban los pasaportes, les proporcionaban los tiquetes aéreos para trasladarlas de Pereira a Bogotá, y, posteriormente, a Chile donde les retenían los documentos y las ubicaban en casas de lenocinio en las ciudades de Osorno, Puerto Montt y Temuco”, agregó la información.' +
-                        'Operación de la banda'
-                            'Según la investigación de las autoridades colombianas, a las víctimas “les fijaban una deuda que iniciaba en cinco millones de pesos (unos mil dólares)” para los gastos de los tiquetes aéreos.' +
-                        'Las autoridades colombianas detuvieron a siete personas que integraban el “Clan Familiar”, un grupo acusado de reclutar a mujeres jóvenes para explotarlas sexualmente en Chile, informó este domingo la Fiscalía' +
-                        'Las jóvenes, detalló la institución en un comunicado, eran reclutadas en “sectores marginales” de Manizales, la capital departamental de Caldas, y “con falsas expectativas laborales las convencían de viajar a Chile para someterlas a tratos inhumanos y explotarlas sexualmente”.' +
-                        '“Al parecer, les tramitaban los pasaportes, les proporcionaban los tiquetes aéreos para trasladarlas de Pereira a Bogotá, y, posteriormente, a Chile donde les retenían los documentos y las ubicaban en casas de lenocinio en las ciudades de Osorno, Puerto Montt y Temuco”, agregó la información.' +
-                        'Operación de la banda'
-                            'Según la investigación de las autoridades colombianas, a las víctimas “les fijaban una deuda que iniciaba en cinco millones de pesos (unos mil dólares)” para los gastos de los tiquetes aéreos.',
-                    style: TextStyle(fontSize: 18),
-                  ),
+                  child: Text(news!.content!, style: TextStyle(fontSize: 18)),
                 )
               ],
             ),
@@ -49,9 +44,12 @@ class NewsContent extends StatelessWidget {
 }
 
 class _ImageTitle extends StatelessWidget {
+  final Article? news;
+
   const _ImageTitle({
     super.key,
     required this.size,
+    this.news,
   });
 
   final Size size;
@@ -80,7 +78,7 @@ class _ImageTitle extends StatelessWidget {
           width: size.width * 0.8,
           child: Center(
             child: Text(
-              'Desarticulan en Colombia banda que explotaba sexualmente a jóvenes en Chile',
+              news!.title,
               textAlign: TextAlign.center,
             ),
           ),
@@ -91,8 +89,11 @@ class _ImageTitle extends StatelessWidget {
 }
 
 class _Description extends StatelessWidget {
+  final Article? news;
+
   const _Description({
     super.key,
+    this.news,
   });
 
   @override
@@ -100,7 +101,7 @@ class _Description extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(10),
       child: Text(
-        'Las jóvenes, detalló la institución en un comunicado, eran reclutadas en \"sectores marginales\" de Manizales, la capital departamental de Caldas, y \"con falsas expectativas laborales las convencían de viajar a Chile para someterlas a tratos inhumanos y explota…',
+        news!.description,
         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
     );
@@ -108,15 +109,20 @@ class _Description extends StatelessWidget {
 }
 
 class _HeaderInfoNews extends StatelessWidget {
+  final Article? news;
+
   const _HeaderInfoNews({
     super.key,
     required this.size,
+    this.news,
   });
 
   final Size size;
 
   @override
   Widget build(BuildContext context) {
+    final cityName = Provider.of<WeatherApi>(context);
+
     return Container(
       margin: EdgeInsets.all(10),
       width: size.width * 1,
@@ -124,11 +130,11 @@ class _HeaderInfoNews extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           FaIcon(FontAwesomeIcons.solidNewspaper),
-          Text('Elcomercio.com'),
+          Text(news!.source.name),
           FaIcon(FontAwesomeIcons.dotCircle, size: 8),
-          Text('May 08.2023'),
+          Text(news!.publishedAt.toString()),
           FaIcon(FontAwesomeIcons.dotCircle, size: 8),
-          Text('Manizales'),
+          Text(cityName.location.name),
         ],
       ),
     );

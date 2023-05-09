@@ -1,11 +1,12 @@
+import 'dart:async';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/models/mapbox/Feature.dart';
-import 'package:weather/services/mapBox_Info_service.dart';
+import 'package:weather/models/news/articles_info.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
+import 'package:weather/widgets/circular_progress_indicator.dart';
 import 'package:weather/widgets/news_card.dart';
 
 import '../widgets/description_news_card.dart';
@@ -18,31 +19,59 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
+  final stream = StreamController<dynamic>();
+
   NewsService? newsService;
-  MapBoxInfoProvider? mapBoxService;
+  WeatherApiService? weatherServ;
 
   @override
   void initState() {
     newsService = Provider.of<NewsService>(context, listen: false);
-    mapBoxService = Provider.of<MapBoxInfoProvider>(context, listen: false);
+    weatherServ = Provider.of<WeatherApiService>(context, listen: false);
 
     _getNewsData();
   }
 
   _getNewsData() async {
-    final placeName = mapBoxService!.mapbox!.placeName;
+    final countryName = await weatherServ?.location?.region ?? '?';
+    final locationName = await weatherServ?.location?.name ?? '?';
 
-    final hasData = await newsService!.getNewsByQuery(placeName);
+    final wholeName = countryName + ' ' + locationName;
+    print(wholeName);
+
+    final hasData = await newsService!.getNewsByQuery(wholeName);
 
     (hasData) ? true : false;
+
+    stream.sink.add(hasData);
   }
 
   @override
   Widget build(BuildContext context) {
-    final news = Provider.of<NewsService>(context);
-    final newsResp = news;
+    final newsService = Provider.of<NewsService>(context).listArticles;
 
+    return StreamBuilder(
+      stream: stream.stream,
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularIndicator();
+        } else {
+          return _NewsViewer(newsService);
+        }
+      },
+    );
+  }
+}
+
+class _NewsViewer extends StatelessWidget {
+  final List<Article> news;
+
+  const _NewsViewer(this.news);
+
+  @override
+  Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -79,11 +108,14 @@ class _NewsPageState extends State<NewsPage> {
                 width: size.width * 1,
                 // color: Colors.red,
                 child: ListView.builder(
-                    itemCount: 10,
+                    itemCount: news.length,
                     itemBuilder: (_, i) => ElasticIn(
                         delay: Duration(milliseconds: 500),
                         duration: Duration(milliseconds: 500),
-                        child: DescriptionNewsCard())),
+                        child: DescriptionNewsCard(
+                          news: news[i],
+                          index: i,
+                        ))),
               ),
             )
           ],

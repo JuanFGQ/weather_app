@@ -47,8 +47,7 @@ class WeatherSearchDelegate extends SearchDelegate {
       return _emptyContainer();
     }
 
-    final mapBoxSearch =
-        Provider.of<MapBoxInfoProvider>(context, listen: false);
+    final mapBoxSearch = Provider.of<MapBoxService>(context, listen: false);
 
     mapBoxSearch.getSuggestionByQuery(query);
 

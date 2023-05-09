@@ -1,13 +1,10 @@
 import 'dart:async';
 
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/search/search_delegate.dart';
 import 'package:weather/services/geolocator_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 
-import '../models/mapbox/Feature.dart';
 import '../widgets/circular_progress_indicator.dart';
 import '../widgets/home_widget.dart';
 
@@ -53,8 +50,6 @@ class _HomePageState extends State<HomePage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularIndicator();
         } else {
-          print(
-              'FIRST VALUE ${apiResp.location?.name},SECOND VALUE ${apiResp.location?.country}');
           return HomeWidget(
             locCountryColor: Colors.blue,
             appBarColors: Colors.blue,
