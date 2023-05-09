@@ -90,6 +90,7 @@ class HomeWidget extends StatelessWidget {
           title: FittedBox(
             fit: BoxFit.fitWidth,
             child: Text(title,
+                textAlign: TextAlign.center,
                 style: const TextStyle(color: Colors.black, fontSize: 40)),
           )
           //

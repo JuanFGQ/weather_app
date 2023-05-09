@@ -47,7 +47,6 @@ class GeolocatorService extends ChangeNotifier {
           desiredAccuracy: LocationAccuracy.high);
 
       final coordinates = '${position.latitude},${position.longitude}';
-      print('COORDS FROM GEOLOCATOR SERVICE $coordinates');
 
       return coordinates;
     }

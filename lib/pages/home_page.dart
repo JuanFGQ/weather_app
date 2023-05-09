@@ -53,11 +53,14 @@ class _HomePageState extends State<HomePage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularIndicator();
         } else {
+          print(
+              'FIRST VALUE ${apiResp.location?.name},SECOND VALUE ${apiResp.location?.country}');
           return HomeWidget(
             locCountryColor: Colors.blue,
             appBarColors: Colors.blue,
             scaffoldColor: Colors.blue,
             title: apiResp.location?.name ?? '?',
+
             lastUpdateDate:
                 apiResp.current?.lastUpdated.substring(0, 10) ?? '?',
             lastUpdateTime:

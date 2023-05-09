@@ -6,6 +6,7 @@ import 'package:weather/models/news/news_response.dart';
 
 class NewsService with ChangeNotifier {
   Article? articles;
+  Article? foundedArticle;
   List<Article> listArticles = [];
 
   final String _baseUrl = 'https://newsapi.org';
@@ -41,7 +42,7 @@ class NewsService with ChangeNotifier {
 
 //       }
 
-  getNoticeByQuert(String city) async {
+  getNewsByQuery(String city) async {
     _apiParams() {
       return {'apiKey': _apiKey, 'q': city};
     }
@@ -53,8 +54,30 @@ class NewsService with ChangeNotifier {
     if (resp.statusCode == 200) {
       final newsResp = newsResponseFromJson(resp.body);
 
-      listArticles.addAll(newsResp.articles);
+      // listArticles.addAll(newsResp.articles);
 
+      newsResp.articles;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getNewsByFoundedPlace(String city) async {
+    _apiParams() {
+      return {'apiKey': _apiKey, 'q': city};
+    }
+
+    final uri = Uri.https(_baseUrl, '/v2/everything', _apiParams());
+
+    final resp = await http.get(uri);
+
+    if (resp.statusCode == 200) {
+      final newsResp = newsResponseFromJson(resp.body);
+
+      // listArticles.addAll(newsResp.articles);
+
+      newsResp.articles;
       return true;
     } else {
       return false;
