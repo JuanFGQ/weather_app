@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/news/articles_info.dart';
 import 'package:weather/services/news_service.dart';
@@ -19,6 +20,7 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
+  final controller = TextEditingController();
   final stream = StreamController<dynamic>();
 
   NewsService? newsService;
@@ -56,7 +58,7 @@ class _NewsPageState extends State<NewsPage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularIndicator();
         } else {
-          return _NewsViewer(newsService);
+          return _NewsViewer(newsService, controller);
         }
       },
     );
@@ -64,9 +66,13 @@ class _NewsPageState extends State<NewsPage> {
 }
 
 class _NewsViewer extends StatelessWidget {
+  final TextEditingController controller;
   final List<Article> news;
 
-  const _NewsViewer(this.news);
+  _NewsViewer(
+    this.news,
+    this.controller,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +97,20 @@ class _NewsViewer extends StatelessWidget {
             //   indent: 10,
             //   endIndent: 10,
             // ),
-            NewsCard(),
+            Container(
+              margin: EdgeInsets.all(10),
+              child: TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    hintText: 'Related news',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide(color: Colors.black))),
+                onChanged: _searchNew,
+              ),
+            ),
+            // NewsCard(),
             Container(
               margin: EdgeInsets.only(left: 10),
               child: const Align(
@@ -122,5 +141,15 @@ class _NewsViewer extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _searchNew(String query) {
+    print(query);
+    final suggestions = news.where((e) {
+      final newsResult = e.title.toLowerCase();
+      final input = query.toLowerCase();
+
+      return newsResult.contains(input);
+    }).toList();
   }
 }

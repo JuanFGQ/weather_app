@@ -49,7 +49,7 @@ class DescriptionNewsCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(news.author!),
+                Text(news.author ?? ''),
                 SizedBox(height: 5),
                 Flexible(
                   child: Text(
