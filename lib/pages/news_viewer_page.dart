@@ -77,8 +77,8 @@ class _NewsViewer extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(left: 10),
-              child: Align(
+              margin: const EdgeInsets.only(left: 10),
+              child: const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   'Breaking News',
@@ -94,7 +94,7 @@ class _NewsViewer extends StatelessWidget {
             NewsCard(),
             Container(
               margin: EdgeInsets.only(left: 10),
-              child: Align(
+              child: const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   'All news',
@@ -104,14 +104,14 @@ class _NewsViewer extends StatelessWidget {
             ),
 
             Expanded(
-              child: Container(
+              child: SizedBox(
                 width: size.width * 1,
                 // color: Colors.red,
                 child: ListView.builder(
                     itemCount: news.length,
                     itemBuilder: (_, i) => ElasticIn(
-                        delay: Duration(milliseconds: 500),
-                        duration: Duration(milliseconds: 500),
+                        delay: const Duration(milliseconds: 500),
+                        duration: const Duration(milliseconds: 500),
                         child: DescriptionNewsCard(
                           news: news[i],
                           index: i,

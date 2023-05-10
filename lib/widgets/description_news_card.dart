@@ -16,19 +16,28 @@ class DescriptionNewsCard extends StatelessWidget {
     return Row(
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(60),
           child: Container(
             margin: const EdgeInsets.all(10),
             width: size.width * 0.35,
             height: size.height * 0.18,
-            color: Colors.red,
-            // decoration: BoxD,
-            child:
-                (news.urlToImage != null && news.urlToImage!.startsWith('http'))
-                    ? FadeInImage(
-                        placeholder: AssetImage('assets/barra_colores.gif'),
-                        image: NetworkImage(news.urlToImage!))
-                    : const Image(image: AssetImage('assets/no-image.png')),
+            // decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(60), color: Colors.amber),
+            child: (news.urlToImage != null &&
+                    news.urlToImage!.startsWith('http'))
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(40),
+                    child: FittedBox(
+                      fit: BoxFit.fill,
+                      child: FadeInImage(
+                          placeholder: AssetImage('assets/barra_colores.gif'),
+                          image: NetworkImage(news.urlToImage!)),
+                    ),
+                  )
+                : FittedBox(
+                    fit: BoxFit.fill,
+                    child:
+                        const Image(image: AssetImage('assets/no-image.png'))),
           ),
         ),
         Expanded(
