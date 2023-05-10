@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/news/articles_info.dart';
+import 'package:weather/pages/news_content_page.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 import 'package:weather/widgets/circular_progress_indicator.dart';
@@ -97,19 +98,19 @@ class _NewsViewer extends StatelessWidget {
             //   indent: 10,
             //   endIndent: 10,
             // ),
-            Container(
-              margin: EdgeInsets.all(10),
-              child: TextField(
-                controller: controller,
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search),
-                    hintText: 'Related news',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide(color: Colors.black))),
-                onChanged: _searchNew,
-              ),
-            ),
+            // Container(
+            //   margin: EdgeInsets.all(10),
+            //   child: TextField(
+            //     controller: controller,
+            //     decoration: InputDecoration(
+            //         prefixIcon: Icon(Icons.search),
+            //         hintText: 'Related news',
+            //         border: OutlineInputBorder(
+            //             borderRadius: BorderRadius.circular(30),
+            //             borderSide: BorderSide(color: Colors.black))),
+            //     onChanged: _searchNew,
+            //   ),
+            // ),
             // NewsCard(),
             Container(
               margin: EdgeInsets.only(left: 10),
@@ -128,28 +129,31 @@ class _NewsViewer extends StatelessWidget {
                 // color: Colors.red,
                 child: ListView.builder(
                     itemCount: news.length,
-                    itemBuilder: (_, i) => ElasticIn(
+                    itemBuilder: (_, i) {
+                      final newC = news[i];
+                      return ElasticIn(
                         delay: const Duration(milliseconds: 500),
                         duration: const Duration(milliseconds: 500),
-                        child: DescriptionNewsCard(
-                          news: news[i],
-                          index: i,
-                        ))),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        NewsContent(news: newC)));
+                          },
+                          child: DescriptionNewsCard(
+                            news: news[i],
+                            index: i,
+                          ),
+                        ),
+                      );
+                    }),
               ),
             )
           ],
         ),
       ),
     );
-  }
-
-  _searchNew(String query) {
-    print(query);
-    final suggestions = news.where((e) {
-      final newsResult = e.title.toLowerCase();
-      final input = query.toLowerCase();
-
-      return newsResult.contains(input);
-    }).toList();
   }
 }

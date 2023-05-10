@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/models/weather/weather_api_response.dart';
-import 'package:weather/services/news_service.dart';
+
+import 'package:weather/services/weather_api_service.dart';
 
 import '../models/news/articles_info.dart';
 
 class NewsContent extends StatelessWidget {
-  const NewsContent({super.key});
+  final Article news;
+
+  const NewsContent({super.key, required this.news});
 
   @override
   Widget build(BuildContext context) {
-    final news = Provider.of<NewsService>(context).onlyArticles;
+    // final news = Provider.of<NewsService>(context).onlyArticles;
 
     final size = MediaQuery.of(context).size;
     return WillPopScope(
@@ -32,7 +33,7 @@ class NewsContent extends StatelessWidget {
                 SizedBox(height: 30),
                 Container(
                   width: size.width * 0.9,
-                  child: Text(news!.content!, style: TextStyle(fontSize: 18)),
+                  child: Text(news.content!, style: TextStyle(fontSize: 18)),
                 )
               ],
             ),
@@ -121,7 +122,7 @@ class _HeaderInfoNews extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cityName = Provider.of<WeatherApi>(context);
+    final cityName = Provider.of<WeatherApiService>(context);
 
     return Container(
       margin: EdgeInsets.all(10),
@@ -134,7 +135,7 @@ class _HeaderInfoNews extends StatelessWidget {
           FaIcon(FontAwesomeIcons.dotCircle, size: 8),
           Text(news!.publishedAt.toString()),
           FaIcon(FontAwesomeIcons.dotCircle, size: 8),
-          Text(cityName.location.name),
+          Text(cityName.location!.name),
         ],
       ),
     );

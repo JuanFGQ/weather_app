@@ -42,20 +42,6 @@ class _FoundedLocationState extends State<FoundedLocation> {
     streamFound.sink.add(hasData);
   }
 
-  // void _loadWeatherFounded() async {
-  //   final Feature feature =
-  //       ModalRoute.of(context)!.settings.arguments as Feature;
-
-  //   final newCoords = feature.center;
-
-  //   final cord1 = newCoords[1].toString();
-  //   final cord0 = newCoords[0].toString();
-
-  //   final defCoord = cord1 + ',' + cord0;
-
-  //   weatherAPI!.getFoundPlacesInfo(defCoord);
-  // }
-
   @override
   Widget build(BuildContext context) {
     final weatherData = Provider.of<WeatherApiService>(context);
