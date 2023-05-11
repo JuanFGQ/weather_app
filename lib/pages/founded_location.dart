@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/services/geolocator_service.dart';
+import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 import 'package:weather/widgets/circular_progress_indicator.dart';
 import 'package:weather/widgets/home_widget.dart';
@@ -23,13 +24,15 @@ class _FoundedLocationState extends State<FoundedLocation> {
 
   WeatherApiService? weatherAPI;
   GeolocatorService? geolocSERV;
+  NewsService? newSERV;
 
   @override
   void initState() {
     super.initState();
     weatherAPI = Provider.of<WeatherApiService>(context, listen: false);
     geolocSERV = Provider.of<GeolocatorService>(context, listen: false);
-    // _loadWeatherFounded();
+    newSERV = Provider.of<NewsService>(context, listen: false);
+
     _loadDataFounded();
   }
 
@@ -38,8 +41,21 @@ class _FoundedLocationState extends State<FoundedLocation> {
 
     final hasData = await weatherAPI!.getFoundPlacesInfo(coords);
 
-    (hasData) ? true : false;
+    await (hasData) ? true : false;
     streamFound.sink.add(hasData);
+  }
+
+  void _loadedNews() async {
+    final searchName =
+        '${weatherAPI!.foundLocation!.country} ${weatherAPI!.foundLocation!.country}';
+
+    final hasData = await newSERV!.getNewsByFoundedPlace(searchName);
+
+    setState(() {
+      newSERV!.activeSearch = true;
+
+      print(newSERV!.activeSearch);
+    });
   }
 
   @override
@@ -57,8 +73,10 @@ class _FoundedLocationState extends State<FoundedLocation> {
               } else {
                 return WillPopScope(
                   onWillPop: () async {
-                    final pop = await showPopDialog();
-                    return pop ?? false;
+                    Navigator.pop(context);
+                    return true;
+                    // final pop = await showPopDialog();
+                    // return pop ?? false;
                   },
                   child: HomeWidget(
                     locCountryColor: Colors.yellow,

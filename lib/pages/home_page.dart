@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/services/geolocator_service.dart';
+import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 
 import '../widgets/circular_progress_indicator.dart';
@@ -18,12 +19,14 @@ class _HomePageState extends State<HomePage> {
 
   WeatherApiService? weatherApi;
   GeolocatorService? geolocatorService;
+  NewsService? newsService;
 
   @override
   void initState() {
     super.initState();
     weatherApi = Provider.of<WeatherApiService>(context, listen: false);
     geolocatorService = Provider.of<GeolocatorService>(context, listen: false);
+    newsService = Provider.of<NewsService>(context, listen: false);
 
     _loadWeatherData();
   }
@@ -37,6 +40,10 @@ class _HomePageState extends State<HomePage> {
     (hasData) ? true : false;
 
     stream.sink.add(hasData);
+
+    setState(() {
+      newsService!.activeSearch = false;
+    });
   }
 
   @override

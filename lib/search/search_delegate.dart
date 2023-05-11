@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 
 import '../models/mapbox/Feature.dart';
@@ -85,7 +86,6 @@ class _CityItem extends StatelessWidget {
       title: Text(city.placeName),
       onTap: () {
         final newCoords = city.center;
-        print('NEW COORDS!!!!$newCoords');
 
         final cord1 = newCoords[1].toString();
         final cord0 = newCoords[0].toString();
@@ -93,13 +93,11 @@ class _CityItem extends StatelessWidget {
         final defCoord = cord1 + ',' + cord0;
         weather.coords = defCoord;
 
-        // weather.getFoundPlacesInfo(defCoord);
-// weather.foundPlaces.sink.add()
-
+        // final activeSearch = Provider.of<NewsService>(context, listen: false);
+        // activeSearch.activeSearch = true;
 //todo: crear codicion que cuando seleccione una ciudad ponga un valor en true
 
         Navigator.pushNamed(context, 'founded', arguments: city);
-        print('SELECTED CITY $city');
       },
     );
   }

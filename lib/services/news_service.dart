@@ -10,6 +10,13 @@ class NewsService with ChangeNotifier {
   Article? foundedArticle;
   List<Article> listArticles = [];
 
+  bool _activeSearch = false;
+  bool get activeSearch => _activeSearch;
+  set activeSearch(bool value) {
+    _activeSearch = value;
+    notifyListeners();
+  }
+
   final String _baseUrl = 'newsapi.org';
   final String _apiKey = '2a9b8b7fb27348e8a959c3d43b8fc3e1';
 
@@ -59,9 +66,9 @@ class NewsService with ChangeNotifier {
     if (resp.statusCode == 200) {
       final newsResp = newsResponseFromJson(resp.body);
 
-      // listArticles.addAll(newsResp.articles);
+      listArticles.addAll(newsResp.articles);
 
-      newsResp.articles;
+      // newsResp.articles;
       return true;
     } else {
       return false;

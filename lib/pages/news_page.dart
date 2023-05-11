@@ -31,17 +31,29 @@ class _NewsPageState extends State<NewsPage> {
     newsService = Provider.of<NewsService>(context, listen: false);
     weatherServ = Provider.of<WeatherApiService>(context, listen: false);
 
-    _getNewsData();
+    _init();
+  }
+
+  void _init() async {
+    (newsService!.activeSearch) ? _getNewDataFounded() : _getNewsData();
+  }
+
+  _getNewDataFounded() async {
+    final countryName = '${weatherServ?.foundLocation?.region}'
+        ' ${weatherServ?.foundLocation?.name}';
+
+    final hasData = await newsService!.getNewsByFoundedPlace(countryName);
+
+    (hasData) ? true : false;
+
+    stream.sink.add(hasData);
   }
 
   _getNewsData() async {
-    final countryName = await weatherServ?.location?.region ?? '?';
-    final locationName = await weatherServ?.location?.name ?? '?';
+    final countryName =
+        '${weatherServ?.location?.region}' ' ${weatherServ?.location?.name}';
 
-    final wholeName = countryName + ' ' + locationName;
-    print(wholeName);
-
-    final hasData = await newsService!.getNewsByQuery(wholeName);
+    final hasData = await newsService!.getNewsByQuery(countryName);
 
     (hasData) ? true : false;
 
