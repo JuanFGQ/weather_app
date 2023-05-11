@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather/models/news/articles_info.dart';
 import 'package:weather/models/news/news_response.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsService with ChangeNotifier {
   Article? onlyArticles;
@@ -11,6 +12,19 @@ class NewsService with ChangeNotifier {
 
   final String _baseUrl = 'newsapi.org';
   final String _apiKey = '2a9b8b7fb27348e8a959c3d43b8fc3e1';
+
+  Future<void> launcherUrl(BuildContext context, Article news) async {
+    final uri = Uri.parse(news.url!);
+
+    if (news.url!.startsWith('http')) {
+      if (await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      )) ;
+    } else {
+      debugPrint('news');
+    }
+  }
 
   getNewsByQuery(String city) async {
     _apiParams() {

@@ -96,6 +96,8 @@ class _CityItem extends StatelessWidget {
         // weather.getFoundPlacesInfo(defCoord);
 // weather.foundPlaces.sink.add()
 
+//todo: crear codicion que cuando seleccione una ciudad ponga un valor en true
+
         Navigator.pushNamed(context, 'founded', arguments: city);
         print('SELECTED CITY $city');
       },
