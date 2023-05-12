@@ -38,7 +38,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => MapBoxService()),
         ChangeNotifierProvider(create: (_) => GeolocatorService(), lazy: false),
         ChangeNotifierProvider(create: (_) => WeatherApiService()),
-        ChangeNotifierProvider(create: (_) => NewsService()),
+        ChangeNotifierProvider(create: (_) => NewsService(), lazy: false),
       ],
       child: MyApp(),
     );

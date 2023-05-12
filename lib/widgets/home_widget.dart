@@ -26,6 +26,7 @@ class HomeWidget extends StatelessWidget {
   final Color scaffoldColor;
   final Color appBarColors;
   final Color locCountryColor;
+  final void Function()? function;
 
   const HomeWidget(
       {super.key,
@@ -43,7 +44,8 @@ class HomeWidget extends StatelessWidget {
       required this.feelsLikeData,
       required this.scaffoldColor,
       required this.appBarColors,
-      required this.locCountryColor});
+      required this.locCountryColor,
+      this.function});
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +143,9 @@ class HomeWidget extends StatelessWidget {
             ),
           ),
 
-          NewsPaperButton(),
+          NewsPaperButton(
+            function: function,
+          ),
           FadeIn(
               delay: Duration(milliseconds: 1000),
               child: Text('News in $title')),
@@ -179,8 +183,11 @@ class HomeWidget extends StatelessWidget {
 }
 
 class NewsPaperButton extends StatelessWidget {
+  final void Function()? function;
+
   const NewsPaperButton({
     super.key,
+    this.function,
   });
 
   @override
@@ -193,9 +200,7 @@ class NewsPaperButton extends StatelessWidget {
         infinite: true,
         child: RawMaterialButton(
           shape: CircleBorder(),
-          onPressed: () {
-            Navigator.pushNamed(context, 'news');
-          },
+          onPressed: function,
           fillColor: Colors.white,
           child: FaIcon(FontAwesomeIcons.solidNewspaper),
           elevation: 5,

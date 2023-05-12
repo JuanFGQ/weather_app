@@ -34,6 +34,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
     newSERV = Provider.of<NewsService>(context, listen: false);
 
     _loadDataFounded();
+    // _loadedNews();
   }
 
   void _loadDataFounded() async {
@@ -51,11 +52,8 @@ class _FoundedLocationState extends State<FoundedLocation> {
 
     final hasData = await newSERV!.getNewsByFoundedPlace(searchName);
 
-    setState(() {
-      newSERV!.activeSearch = true;
-
-      print(newSERV!.activeSearch);
-    });
+    await (hasData) ? true : false;
+    streamFound.sink.add(hasData);
   }
 
   @override
@@ -79,6 +77,12 @@ class _FoundedLocationState extends State<FoundedLocation> {
                     // return pop ?? false;
                   },
                   child: HomeWidget(
+                    function: () {
+                      Navigator.pushNamed(context, 'news');
+                      setState(() {
+                        newSERV!.activeSearch = true;
+                      });
+                    },
                     locCountryColor: Colors.yellow,
                     appBarColors: Colors.yellow,
                     scaffoldColor: Colors.yellow,

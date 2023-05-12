@@ -68,7 +68,7 @@ class _NewsPageState extends State<NewsPage> {
       stream: stream.stream,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularIndicator();
+          return Center(child: CircularIndicator());
         } else {
           return _NewsViewer(newsService, controller);
         }

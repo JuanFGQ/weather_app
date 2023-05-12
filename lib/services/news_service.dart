@@ -45,9 +45,10 @@ class NewsService with ChangeNotifier {
     if (resp.statusCode == 200) {
       final newsResp = newsResponseFromJson(resp.body);
 
-      listArticles.addAll(newsResp.articles);
+      // listArticles.addAll(newsResp.articles);
 
-      // newsResp.;
+      newsResp.articles;
+
       return true;
     } else {
       return false;
@@ -68,7 +69,7 @@ class NewsService with ChangeNotifier {
 
       listArticles.addAll(newsResp.articles);
 
-      // newsResp.articles;
+      newsResp.articles;
       return true;
     } else {
       return false;

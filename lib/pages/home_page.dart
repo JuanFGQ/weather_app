@@ -31,6 +31,12 @@ class _HomePageState extends State<HomePage> {
     _loadWeatherData();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _loadWeatherData();
+  }
+
   void _loadWeatherData() async {
     String coords = await geolocatorService!.getCurrentLocation();
 
@@ -40,10 +46,6 @@ class _HomePageState extends State<HomePage> {
     (hasData) ? true : false;
 
     stream.sink.add(hasData);
-
-    setState(() {
-      newsService!.activeSearch = false;
-    });
   }
 
   @override
@@ -58,6 +60,13 @@ class _HomePageState extends State<HomePage> {
           return CircularIndicator();
         } else {
           return HomeWidget(
+            function: () {
+              Navigator.pushNamed(context, 'news');
+
+              setState(() {
+                newsService!.activeSearch = false;
+              });
+            },
             locCountryColor: Colors.blue,
             appBarColors: Colors.blue,
             scaffoldColor: Colors.blue,
