@@ -23,13 +23,13 @@ class Article {
 
   factory Article.fromJson(Map<String, dynamic> json) => Article(
         source: Source.fromJson(json["source"]),
-        author: json["author"],
-        title: json["title"],
-        description: json["description"],
-        url: json["url"],
-        urlToImage: json["urlToImage"],
+        author: (json["author"] != null) ? json["author"] : '',
+        title: (json["title"] != null) ? json["title"] : '',
+        description: (json["description"] != null) ? json["description"] : '',
+        url: (json["url"] != null) ? json["url"] : '',
+        urlToImage: (json["urlToImage"] != null) ? json["urlToImage"] : '',
         publishedAt: DateTime.parse(json["publishedAt"]),
-        content: json["content"],
+        content: (json["content"] != null) ? json["content"] : '',
       );
 
   Map<String, dynamic> toJson() => {

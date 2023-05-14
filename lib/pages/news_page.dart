@@ -19,7 +19,8 @@ class NewsPage extends StatefulWidget {
   State<NewsPage> createState() => _NewsPageState();
 }
 
-class _NewsPageState extends State<NewsPage> {
+class _NewsPageState extends State<NewsPage>
+    with AutomaticKeepAliveClientMixin {
   final controller = TextEditingController();
   final stream = StreamController<dynamic>();
 
@@ -32,6 +33,7 @@ class _NewsPageState extends State<NewsPage> {
     weatherServ = Provider.of<WeatherApiService>(context, listen: false);
 
     _init();
+    // _getNewsData();
   }
 
   void _init() async {
@@ -39,7 +41,7 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   _getNewDataFounded() async {
-    final countryName = '${weatherServ?.foundLocation?.region}'
+    final countryName = '${weatherServ?.foundLocation?.country}'
         ' ${weatherServ?.foundLocation?.name}';
 
     final hasData = await newsService!.getNewsByFoundedPlace(countryName);
@@ -51,7 +53,7 @@ class _NewsPageState extends State<NewsPage> {
 
   _getNewsData() async {
     final countryName =
-        '${weatherServ?.location?.region}' ' ${weatherServ?.location?.name}';
+        '${weatherServ?.location?.country}' ' ${weatherServ?.location?.name}';
 
     final hasData = await newsService!.getNewsByQuery(countryName);
 
@@ -62,18 +64,40 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final newsService = Provider.of<NewsService>(context).listArticles;
+    super.build(context);
+    final newsService = Provider.of<NewsService>(context);
 
     return StreamBuilder(
       stream: stream.stream,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularIndicator());
+          return CircularIndicator();
         } else {
-          return _NewsViewer(newsService, controller);
+          return WillPopScope(
+            onWillPop: () async {
+              Navigator.pop(context);
+
+              return true;
+            },
+            child: _NewsViewer(
+                //if active search is true return listarticles 2 , an instance of Articles otherwhise listArticle
+                (newsService.activeSearch)
+                    ? newsService.listArticles2
+                    : newsService.listArticles,
+                controller),
+          );
         }
       },
     );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void dispose() {
+    stream.close();
+    super.dispose();
   }
 }
 
@@ -81,10 +105,7 @@ class _NewsViewer extends StatelessWidget {
   final TextEditingController controller;
   final List<Article> news;
 
-  _NewsViewer(
-    this.news,
-    this.controller,
-  );
+  _NewsViewer(this.news, this.controller);
 
   @override
   Widget build(BuildContext context) {
@@ -95,35 +116,6 @@ class _NewsViewer extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              margin: const EdgeInsets.only(left: 10),
-              child: const Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Breaking News',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            // Divider(
-            //   thickness: 2,
-            //   indent: 10,
-            //   endIndent: 10,
-            // ),
-            Container(
-              margin: EdgeInsets.all(10),
-              child: TextField(
-                controller: controller,
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search),
-                    hintText: 'Related news',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide(color: Colors.black))),
-                onChanged: _searchNew,
-              ),
-            ),
-            // NewsCard(),
-            Container(
               margin: EdgeInsets.only(left: 10),
               child: const Align(
                 alignment: Alignment.topLeft,
@@ -133,12 +125,12 @@ class _NewsViewer extends StatelessWidget {
                 ),
               ),
             ),
-
             Expanded(
               child: SizedBox(
                 width: size.width * 1,
                 // color: Colors.red,
                 child: ListView.builder(
+                    shrinkWrap: false,
                     itemCount: news.length,
                     itemBuilder: (_, i) => ElasticIn(
                         delay: const Duration(milliseconds: 200),
@@ -153,15 +145,5 @@ class _NewsViewer extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  _searchNew(String query) {
-    print(query);
-    final suggestions = news.where((e) {
-      final newsResult = e.title.toLowerCase();
-      final input = query.toLowerCase();
-
-      return newsResult.contains(input);
-    }).toList();
   }
 }

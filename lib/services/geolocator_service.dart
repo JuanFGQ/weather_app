@@ -110,4 +110,23 @@ class GeolocatorService extends ChangeNotifier {
     // _gpsEnabled = generalLocatioState[0];
     // _isPermissionGranted = generalLocatioState[1];
   }
+
+  // Future getCurrentPositionStream() async {
+  //   final LocationSettings locationSettings = LocationSettings(
+  //     accuracy: LocationAccuracy.high,
+  //     distanceFilter: 100,
+  //   );
+
+  //   if (!gpsEnabled && isPermissionGranted) {
+  //     return;
+  //   } else {
+  //     StreamSubscription<Position> positionStream =
+  //         Geolocator.getPositionStream(locationSettings: locationSettings)
+  //             .listen((Position? position) {
+  //       print(position == null
+  //           ? 'Unknown'
+  //           : '${position.latitude.toString()}, ${position.longitude.toString()}');
+  //     });
+  //   }
+  // }
 }

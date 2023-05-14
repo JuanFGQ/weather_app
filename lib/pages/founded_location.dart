@@ -34,23 +34,12 @@ class _FoundedLocationState extends State<FoundedLocation> {
     newSERV = Provider.of<NewsService>(context, listen: false);
 
     _loadDataFounded();
-    // _loadedNews();
   }
 
   void _loadDataFounded() async {
     final coords = weatherAPI!.coords;
 
     final hasData = await weatherAPI!.getFoundPlacesInfo(coords);
-
-    await (hasData) ? true : false;
-    streamFound.sink.add(hasData);
-  }
-
-  void _loadedNews() async {
-    final searchName =
-        '${weatherAPI!.foundLocation!.country} ${weatherAPI!.foundLocation!.country}';
-
-    final hasData = await newSERV!.getNewsByFoundedPlace(searchName);
 
     await (hasData) ? true : false;
     streamFound.sink.add(hasData);
@@ -67,21 +56,26 @@ class _FoundedLocationState extends State<FoundedLocation> {
             stream: streamFound.stream,
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularIndicator();
+                return const CircularIndicator();
               } else {
                 return WillPopScope(
                   onWillPop: () async {
-                    Navigator.pop(context);
+                    Navigator.pushNamed(context, 'home');
+                    newSERV!.activeSearch = false;
+
                     return true;
-                    // final pop = await showPopDialog();
-                    // return pop ?? false;
                   },
                   child: HomeWidget(
+                    showRefreshButton: false,
                     function: () {
                       Navigator.pushNamed(context, 'news');
                       setState(() {
                         newSERV!.activeSearch = true;
                       });
+                      final searchName =
+                          '${weatherAPI!.foundLocation!.country} ${weatherAPI!.foundLocation!.name}';
+
+                      newSERV!.getNewsByFoundedPlace(searchName);
                     },
                     locCountryColor: Colors.yellow,
                     appBarColors: Colors.yellow,
@@ -112,15 +106,10 @@ class _FoundedLocationState extends State<FoundedLocation> {
             }));
   }
 
-  Future<bool?> showPopDialog() => showDialog<bool>(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Wanna go to Main page? '),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.pushNamed(context, 'home'),
-                child: Text('yes'))
-          ],
-        ),
-      );
+  @override
+  void dispose() {
+    _loadDataFounded();
+    newSERV!.listArticles2.clear();
+    super.dispose();
+  }
 }

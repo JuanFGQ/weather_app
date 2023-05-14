@@ -78,6 +78,7 @@ class _CityItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final weather = Provider.of<WeatherApiService>(context);
+    final newsService = Provider.of<NewsService>(context);
 
     return ListTile(
       leading: const CircleAvatar(
@@ -93,9 +94,7 @@ class _CityItem extends StatelessWidget {
         final defCoord = cord1 + ',' + cord0;
         weather.coords = defCoord;
 
-        // final activeSearch = Provider.of<NewsService>(context, listen: false);
-        // activeSearch.activeSearch = true;
-//todo: crear codicion que cuando seleccione una ciudad ponga un valor en true
+        newsService.listArticles2.clear();
 
         Navigator.pushNamed(context, 'founded', arguments: city);
       },

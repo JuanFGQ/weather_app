@@ -27,6 +27,8 @@ class HomeWidget extends StatelessWidget {
   final Color appBarColors;
   final Color locCountryColor;
   final void Function()? function;
+  final void Function()? refreshButton;
+  final bool showRefreshButton;
 
   const HomeWidget(
       {super.key,
@@ -45,7 +47,9 @@ class HomeWidget extends StatelessWidget {
       required this.scaffoldColor,
       required this.appBarColors,
       required this.locCountryColor,
-      this.function});
+      this.function,
+      this.refreshButton,
+      required this.showRefreshButton});
 
   @override
   Widget build(BuildContext context) {
@@ -61,23 +65,24 @@ class HomeWidget extends StatelessWidget {
       // drawer: SafeArea(child: SideMenu()),
       appBar: AppBar(
           actions: [
-            FittedBox(
-              fit: BoxFit.values[5],
-              child: RawMaterialButton(
-                onPressed: () {
-                  showNotifications();
-                },
-                shape: CircleBorder(),
-                fillColor: Colors.white,
-                child: Spin(
-                  duration: Duration(milliseconds: 5000),
-                  infinite: true,
-                  child: const FaIcon(
-                    FontAwesomeIcons.refresh,
-                    size: 18,
+            Visibility(
+              visible: showRefreshButton,
+              child: FittedBox(
+                fit: BoxFit.values[5],
+                child: RawMaterialButton(
+                  onPressed: refreshButton,
+                  shape: CircleBorder(),
+                  fillColor: Colors.white,
+                  child: Spin(
+                    duration: Duration(milliseconds: 5000),
+                    infinite: true,
+                    child: const FaIcon(
+                      FontAwesomeIcons.refresh,
+                      size: 18,
+                    ),
                   ),
+                  // constraints: ,
                 ),
-                // constraints: ,
               ),
             )
           ],

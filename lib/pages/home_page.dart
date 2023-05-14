@@ -31,21 +31,31 @@ class _HomePageState extends State<HomePage> {
     _loadWeatherData();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _loadWeatherData();
-  }
-
   void _loadWeatherData() async {
     String coords = await geolocatorService!.getCurrentLocation();
 
-    // await weatherApi!.getInfoWeatherCurrent(coords);
     final hasData = await weatherApi!.getInfoWeatherLocation(coords);
 
     (hasData) ? true : false;
 
     stream.sink.add(hasData);
+  }
+
+  _getNewsData() async {
+    final countryName =
+        '${weatherApi?.location?.country}' ' ${weatherApi?.location?.name}';
+
+    final hasData = await newsService!.getNewsByQuery(countryName);
+
+    (hasData) ? true : false;
+
+    // streamNewsService.sink.add(hasData);
+  }
+
+  void _refreshWeatherData() {
+    newsService!.listArticles.clear();
+    _loadWeatherData();
+    setState(() {});
   }
 
   @override
@@ -60,12 +70,19 @@ class _HomePageState extends State<HomePage> {
           return CircularIndicator();
         } else {
           return HomeWidget(
+            showRefreshButton: true,
+            refreshButton: _refreshWeatherData,
             function: () {
               Navigator.pushNamed(context, 'news');
 
               setState(() {
                 newsService!.activeSearch = false;
               });
+
+              final searchName =
+                  '${weatherAPI.location!.country} ${weatherAPI.location!.name}';
+
+              newsService!.getNewsByQuery(searchName);
             },
             locCountryColor: Colors.blue,
             appBarColors: Colors.blue,
@@ -92,21 +109,10 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
+
+  @override
+  void dispose() {
+    stream.close();
+    super.dispose();
+  }
 }
-
-
-
-// class _HeaderCityName extends StatelessWidget {
-//   final Feature feature;
-
-//   const _HeaderCityName(this.feature);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text(
-//       feature.placeName,
-//       style: TextStyle(
-//           color: Colors.black, fontSize: 40, fontWeight: FontWeight.bold),
-//     );
-//   }
-// }
