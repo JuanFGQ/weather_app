@@ -6,7 +6,7 @@ import 'package:weather/services/weather_api_service.dart';
 
 import '../models/mapbox/Feature.dart';
 import '../models/mapBox_response.dart';
-import '../services/mapBox_Info_service.dart';
+import '../services/mapBox_service.dart';
 
 class WeatherSearchDelegate extends SearchDelegate {
   @override

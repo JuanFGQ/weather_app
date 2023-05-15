@@ -11,7 +11,7 @@ import 'package:weather/pages/loading_page.dart';
 import 'package:weather/pages/news_content_page.dart';
 import 'package:weather/pages/news_page.dart';
 import 'package:weather/services/geolocator_service.dart';
-import 'package:weather/services/mapBox_Info_service.dart';
+import 'package:weather/services/mapBox_service.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 

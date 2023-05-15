@@ -8,6 +8,8 @@ import 'package:weather/models/mapBox_response.dart';
 import '../models/mapbox/Feature.dart';
 
 class MapBoxService extends ChangeNotifier {
+  Feature? placeName;
+
   String _apiKey =
       'pk.eyJ1IjoianVhbmZncSIsImEiOiJjbGVsMzN2cTUwcmR3M3JucHlzcXk2OXMyIn0.OQG_aEvEIl2zT9pQ50OEHg';
   String _baseUrl = 'api.mapbox.com';

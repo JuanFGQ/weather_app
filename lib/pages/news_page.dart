@@ -53,7 +53,7 @@ class _NewsPageState extends State<NewsPage>
 
   _getNewsData() async {
     final countryName =
-        '${weatherServ?.location?.country}' ' ${weatherServ?.location?.name}';
+        '${weatherServ?.location?.region}' '${weatherServ?.location?.name}';
 
     final hasData = await newsService!.getNewsByQuery(countryName);
 

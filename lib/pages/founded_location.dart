@@ -23,6 +23,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
   final streamFound = StreamController<dynamic>();
 
   WeatherApiService? weatherAPI;
+
   GeolocatorService? geolocSERV;
   NewsService? newSERV;
 
@@ -72,8 +73,9 @@ class _FoundedLocationState extends State<FoundedLocation> {
                       setState(() {
                         newSERV!.activeSearch = true;
                       });
-                      final searchName =
-                          '${weatherAPI!.foundLocation!.country} ${weatherAPI!.foundLocation!.name}';
+                      final searchName = '${weatherAPI!.foundLocation!.region}'
+                          ' '
+                          ' ${weatherAPI!.foundLocation!.name}';
 
                       newSERV!.getNewsByFoundedPlace(searchName);
                     },

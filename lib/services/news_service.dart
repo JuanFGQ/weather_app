@@ -37,7 +37,7 @@ class NewsService with ChangeNotifier {
 
   getNewsByQuery(String city) async {
     _apiParams() {
-      return {'apiKey': _apiKey, 'q': city, 'language': 'es'};
+      return {'apiKey': _apiKey, 'q': city};
     }
 
     final uri = Uri.https(_baseUrl, '/v2/everything', _apiParams());

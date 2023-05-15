@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/services/geolocator_service.dart';
+import 'package:weather/services/mapBox_service.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 
@@ -41,16 +42,17 @@ class _HomePageState extends State<HomePage> {
     stream.sink.add(hasData);
   }
 
-  _getNewsData() async {
-    final countryName =
-        '${weatherApi?.location?.country}' ' ${weatherApi?.location?.name}';
+  // _getNewsData() async {
+  //   final countryName = '${weatherApi?.location?.country}'
+  //       ' ${weatherApi?.location?.name}'
+  //       '${weatherApi?.location?.region}';
 
-    final hasData = await newsService!.getNewsByQuery(countryName);
+  //   final hasData = await newsService!.getNewsByQuery(countryName);
 
-    (hasData) ? true : false;
+  //   (hasData) ? true : false;
 
-    // streamNewsService.sink.add(hasData);
-  }
+  //   // streamNewsService.sink.add(hasData);
+  // }
 
   void _refreshWeatherData() {
     newsService!.listArticles.clear();
@@ -62,6 +64,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final weatherAPI = Provider.of<WeatherApiService>(context);
     final apiResp = weatherAPI;
+    final mapBoxAPI = Provider.of<MapBoxService>(context);
+    final mapResp = mapBoxAPI;
 
     return StreamBuilder(
       stream: stream.stream,
@@ -79,8 +83,11 @@ class _HomePageState extends State<HomePage> {
                 newsService!.activeSearch = false;
               });
 
-              final searchName =
-                  '${weatherAPI.location!.country} ${weatherAPI.location!.name}';
+              final searchName = '${weatherApi?.location?.region}'
+                  ' '
+                  '${weatherAPI.location!.name}';
+
+              print('SEARCH NAMEFROM HOMEPAGE ${searchName}');
 
               newsService!.getNewsByQuery(searchName);
             },
