@@ -32,35 +32,35 @@ class _NewsPageState extends State<NewsPage>
     newsService = Provider.of<NewsService>(context, listen: false);
     weatherServ = Provider.of<WeatherApiService>(context, listen: false);
 
-    _init();
+    // _init();
     // _getNewsData();
   }
 
-  void _init() async {
-    (newsService!.activeSearch) ? _getNewDataFounded() : _getNewsData();
-  }
+  // void _init() async {
+  //   (newsService!.activeSearch) ? _getNewDataFounded() : _getNewsData();
+  // }
 
-  _getNewDataFounded() async {
-    final countryName = '${weatherServ?.foundLocation?.country}'
-        ' ${weatherServ?.foundLocation?.name}';
+  // _getNewDataFounded() async {
+  //   final countryName = '${weatherServ?.foundLocation?.country}'
+  //       ' ${weatherServ?.foundLocation?.name}';
 
-    final hasData = await newsService!.getNewsByFoundedPlace(countryName);
+  //   final hasData = await newsService!.getNewsByFoundedPlace(countryName);
 
-    (hasData) ? true : false;
+  //   (hasData) ? true : false;
 
-    stream.sink.add(hasData);
-  }
+  //   stream.sink.add(hasData);
+  // }
 
-  _getNewsData() async {
-    final countryName =
-        '${weatherServ?.location?.region}' '${weatherServ?.location?.name}';
+  // _getNewsData() async {
+  //   final countryName =
+  //       '${weatherServ?.location?.region}' '${weatherServ?.location?.name}';
 
-    final hasData = await newsService!.getNewsByQuery(countryName);
+  //   final hasData = await newsService!.getNewsByQuery(countryName);
 
-    (hasData) ? true : false;
+  //   (hasData) ? true : false;
 
-    stream.sink.add(hasData);
-  }
+  //   stream.sink.add(hasData);
+  // }
 
   @override
   Widget build(BuildContext context) {
