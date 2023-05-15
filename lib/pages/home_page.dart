@@ -77,19 +77,17 @@ class _HomePageState extends State<HomePage> {
             showRefreshButton: true,
             refreshButton: _refreshWeatherData,
             function: () {
-              Navigator.pushNamed(context, 'news');
-
               setState(() {
                 newsService!.activeSearch = false;
+
+                final searchName = '${weatherApi?.location?.region}'
+                    ' '
+                    '${weatherAPI.location!.name}';
+
+                newsService!.getNewsByQuery(searchName);
+
+                Navigator.pushNamed(context, 'news');
               });
-
-              final searchName = '${weatherApi?.location?.region}'
-                  ' '
-                  '${weatherAPI.location!.name}';
-
-              print('SEARCH NAMEFROM HOMEPAGE ${searchName}');
-
-              newsService!.getNewsByQuery(searchName);
             },
             locCountryColor: Colors.blue,
             appBarColors: Colors.blue,

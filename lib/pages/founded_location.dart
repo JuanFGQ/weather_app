@@ -69,15 +69,18 @@ class _FoundedLocationState extends State<FoundedLocation> {
                   child: HomeWidget(
                     showRefreshButton: false,
                     function: () {
-                      Navigator.pushNamed(context, 'news');
                       setState(() {
                         newSERV!.activeSearch = true;
-                      });
-                      final searchName = '${weatherAPI!.foundLocation!.region}'
-                          ' '
-                          ' ${weatherAPI!.foundLocation!.name}';
 
-                      newSERV!.getNewsByFoundedPlace(searchName);
+                        final searchName =
+                            '${weatherAPI!.foundLocation!.region}'
+                            ' '
+                            ' ${weatherAPI!.foundLocation!.name}';
+
+                        newSERV!.getNewsByFoundedPlace(searchName);
+
+                        Navigator.pushNamed(context, 'news');
+                      });
                     },
                     locCountryColor: Colors.yellow,
                     appBarColors: Colors.yellow,

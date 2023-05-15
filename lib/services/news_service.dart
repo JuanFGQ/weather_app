@@ -49,8 +49,6 @@ class NewsService with ChangeNotifier {
 
       listArticles.addAll(newsResp.articles);
 
-      // newsResp.articles;
-
       return true;
     } else {
       return false;
@@ -71,7 +69,6 @@ class NewsService with ChangeNotifier {
 
       listArticles2.addAll(newsResp.articles);
 
-      // newsResp.articles;
       return true;
     } else {
       return false;
