@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/news/articles_info.dart';
 import 'package:weather/models/news/news_response.dart';
+import 'package:weather/pages/no_data_page.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 import 'package:weather/widgets/circular_progress_indicator.dart';
@@ -35,21 +36,17 @@ class _NewsPageState extends State<NewsPage> {
     argumentSelector();
   }
 
-  argumentSelector() {
+  String argumentSelector() {
 /*
 simplemente al iniciar verifica el estado de la variable si es verdadera me retorna el argumento 
 cargado en la pantalla de busqueda . otherwhise carga el argumento de la pantalla home 
 */
 
     if (!newsService!.activeSearch) {
-      final homeArg = '${weatherServ!.location!.region}'
-          ' '
-          ' ${weatherServ!.location!.name}';
+      final homeArg = '${weatherServ!.location!.name}';
       return homeArg;
     } else {
-      final foundArg = '${weatherServ!.foundLocation!.region}'
-          ' '
-          ' ${weatherServ!.foundLocation!.name}';
+      final foundArg = '${weatherServ!.foundLocation!.name}';
       return foundArg;
     }
   }
@@ -63,6 +60,8 @@ cargado en la pantalla de busqueda . otherwhise carga el argumento de la pantall
         builder: (BuildContext context, AsyncSnapshot<NewsResponse> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularIndicator();
+          } else if (snapshot.hasData && snapshot.data!.articles.isEmpty) {
+            return NoDataPage();
           } else {
             return _NewsViewer(snapshot.data!.articles);
           }

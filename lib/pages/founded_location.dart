@@ -72,11 +72,6 @@ class _FoundedLocationState extends State<FoundedLocation> {
                       setState(() {
                         newSERV!.activeSearch = true;
                       });
-                      final searchName = '${weatherAPI!.foundLocation!.region}'
-                          ' '
-                          ' ${weatherAPI!.foundLocation!.name}';
-
-                      newSERV!.getNewsByFoundedPlace(searchName);
 
                       Navigator.pushNamed(context, 'news');
                     },
@@ -112,7 +107,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
   @override
   void dispose() {
     _loadDataFounded();
-    newSERV!.listArticles2.clear();
+    streamFound.close();
     super.dispose();
   }
 }

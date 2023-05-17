@@ -42,21 +42,11 @@ class _HomePageState extends State<HomePage> {
     stream.sink.add(hasData);
   }
 
-  // _getNewsData() async {
-  //   final countryName = '${weatherApi?.location?.country}'
-  //       ' ${weatherApi?.location?.name}'
-  //       '${weatherApi?.location?.region}';
-
-  //   final hasData = await newsService!.getNewsByQuery(countryName);
-
-  //   (hasData) ? true : false;
-
-  //   // streamNewsService.sink.add(hasData);
-  // }
-
   void _refreshWeatherData() {
-    newsService!.listArticles.clear();
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => CircularIndicator()));
     _loadWeatherData();
+    Navigator.pushNamed(context, 'home');
     setState(() {});
   }
 

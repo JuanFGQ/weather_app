@@ -70,6 +70,7 @@ class HomeWidget extends StatelessWidget {
               child: FittedBox(
                 fit: BoxFit.values[5],
                 child: RawMaterialButton(
+                  elevation: 10,
                   onPressed: refreshButton,
                   shape: CircleBorder(),
                   fillColor: Colors.white,
