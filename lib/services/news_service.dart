@@ -35,7 +35,7 @@ class NewsService with ChangeNotifier {
     }
   }
 
-  getNewsByQuery(String city) async {
+  Future<dynamic>? getNewsByQuery(String city) async {
     _apiParams() {
       return {'apiKey': _apiKey, 'q': city};
     }
@@ -47,15 +47,13 @@ class NewsService with ChangeNotifier {
     if (resp.statusCode == 200) {
       final newsResp = newsResponseFromJson(resp.body);
 
-      listArticles.addAll(newsResp.articles);
-
-      return true;
+      listArticles = newsResp.articles;
     } else {
-      return false;
+      throw Exception('failed to load Data');
     }
   }
 
-  getNewsByFoundedPlace(String city) async {
+  Future<dynamic>? getNewsByFoundedPlace(String city) async {
     _apiParams() {
       return {'apiKey': _apiKey, 'q': city, 'language': 'es'};
     }
@@ -67,11 +65,9 @@ class NewsService with ChangeNotifier {
     if (resp.statusCode == 200) {
       final newsResp = newsResponseFromJson(resp.body);
 
-      listArticles2.addAll(newsResp.articles);
-
-      return true;
+      listArticles2 = newsResp.articles;
     } else {
-      return false;
+      throw Exception('Failed to load Data');
     }
   }
 }

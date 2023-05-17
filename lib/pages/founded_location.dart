@@ -71,16 +71,14 @@ class _FoundedLocationState extends State<FoundedLocation> {
                     function: () {
                       setState(() {
                         newSERV!.activeSearch = true;
-
-                        final searchName =
-                            '${weatherAPI!.foundLocation!.region}'
-                            ' '
-                            ' ${weatherAPI!.foundLocation!.name}';
-
-                        newSERV!.getNewsByFoundedPlace(searchName);
-
-                        Navigator.pushNamed(context, 'news');
                       });
+                      final searchName = '${weatherAPI!.foundLocation!.region}'
+                          ' '
+                          ' ${weatherAPI!.foundLocation!.name}';
+
+                      newSERV!.getNewsByFoundedPlace(searchName);
+
+                      Navigator.pushNamed(context, 'news');
                     },
                     locCountryColor: Colors.yellow,
                     appBarColors: Colors.yellow,
