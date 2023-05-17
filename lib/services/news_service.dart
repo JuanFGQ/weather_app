@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 class NewsService with ChangeNotifier {
   List<Article> listArticles = [];
   List<Article> listArticles2 = [];
+  bool isLoading = false;
 
   bool _activeSearch = false;
 
@@ -18,6 +19,22 @@ class NewsService with ChangeNotifier {
     _activeSearch = value;
     notifyListeners();
   }
+
+  bool _buttonPressed = false;
+
+  //*********************************************************** */
+
+  final StreamController<dynamic> _streamHomePage =
+      StreamController<dynamic>.broadcast();
+
+  Stream get streamHomePage => _streamHomePage.stream;
+  //*********************************************************** */
+
+  final StreamController<dynamic> _streamFoundPage =
+      StreamController<dynamic>.broadcast();
+
+  Stream get streamFoundPage => _streamFoundPage.stream;
+  //*********************************************************** */
 
   final String _baseUrl = 'newsapi.org';
   final String _apiKey = '2a9b8b7fb27348e8a959c3d43b8fc3e1';
@@ -35,25 +52,23 @@ class NewsService with ChangeNotifier {
     }
   }
 
-  Future<dynamic>? getNewsByQuery(String city) async {
-    _apiParams() {
-      return {'apiKey': _apiKey, 'q': city};
-    }
+  // Future<NewsResponse> getNewsByQuery(String city) async {
+  //   _apiParams() {
+  //     return {'apiKey': _apiKey, 'q': city};
+  //   }
 
-    final uri = Uri.https(_baseUrl, '/v2/everything', _apiParams());
+  //   final uri = Uri.https(_baseUrl, '/v2/everything', _apiParams());
 
-    final resp = await http.get(uri);
+  //   final resp = await http.get(uri);
 
-    if (resp.statusCode == 200) {
-      final newsResp = newsResponseFromJson(resp.body);
+  //   if (resp.statusCode == 200) {
+  //     final newsResp = newsResponseFromJson(resp.body);
 
-      listArticles = newsResp.articles;
-    } else {
-      throw Exception('failed to load Data');
-    }
-  }
+  //     listArticles.addAll(newsResp.articles);
+  //   } else {}
+  // }
 
-  Future<dynamic>? getNewsByFoundedPlace(String city) async {
+  Future<NewsResponse> getNewsByFoundedPlace(String city) async {
     _apiParams() {
       return {'apiKey': _apiKey, 'q': city, 'language': 'es'};
     }
@@ -62,12 +77,13 @@ class NewsService with ChangeNotifier {
 
     final resp = await http.get(uri);
 
-    if (resp.statusCode == 200) {
-      final newsResp = newsResponseFromJson(resp.body);
+    // if (resp.statusCode == 200) {
+    final newsResp = newsResponseFromJson(resp.body);
 
-      listArticles2 = newsResp.articles;
-    } else {
-      throw Exception('Failed to load Data');
-    }
+    // final list2 = listArticles2 = newsResp.articles;
+    return newsResp;
+    // } else {
+
+    // }
   }
 }

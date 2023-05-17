@@ -81,11 +81,6 @@ class _HomePageState extends State<HomePage> {
                 newsService!.activeSearch = false;
               });
 
-              final searchName = '${weatherApi?.location?.region}'
-                  ' '
-                  '${weatherAPI.location!.name}';
-
-              newsService!.getNewsByQuery(searchName);
               Navigator.pushNamed(context, 'news');
             },
             locCountryColor: Colors.blue,

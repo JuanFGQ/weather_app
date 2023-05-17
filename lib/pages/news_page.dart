@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/news/articles_info.dart';
+import 'package:weather/models/news/news_response.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 import 'package:weather/widgets/circular_progress_indicator.dart';
@@ -20,6 +21,7 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
+  final controller = TextEditingController();
   final stream = StreamController<dynamic>();
 
   NewsService? newsService;
@@ -29,25 +31,49 @@ class _NewsPageState extends State<NewsPage> {
   void initState() {
     newsService = Provider.of<NewsService>(context, listen: false);
     weatherServ = Provider.of<WeatherApiService>(context, listen: false);
+
+    argumentSelector();
+  }
+
+  argumentSelector() {
+/*
+simplemente al iniciar verifica el estado de la variable si es verdadera me retorna el argumento 
+cargado en la pantalla de busqueda . otherwhise carga el argumento de la pantalla home 
+*/
+
+    if (!newsService!.activeSearch) {
+      final homeArg = '${weatherServ!.location!.region}'
+          ' '
+          ' ${weatherServ!.location!.name}';
+      return homeArg;
+    } else {
+      final foundArg = '${weatherServ!.foundLocation!.region}'
+          ' '
+          ' ${weatherServ!.foundLocation!.name}';
+      return foundArg;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final newsService = Provider.of<NewsService>(context);
-    final list = (!newsService.activeSearch)
-        ? newsService.listArticles
-        : newsService.listArticles2;
 
-    return _NewsViewer(list);
+    return FutureBuilder(
+        future: newsService.getNewsByFoundedPlace(argumentSelector()),
+        builder: (BuildContext context, AsyncSnapshot<NewsResponse> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularIndicator();
+          } else {
+            return _NewsViewer(snapshot.data!.articles);
+          }
+        });
   }
 }
 
 class _NewsViewer extends StatelessWidget {
   final List<Article> news;
 
-  _NewsViewer(
-    this.news,
-  );
+  _NewsViewer(this.news);
 
   @override
   Widget build(BuildContext context) {
