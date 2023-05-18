@@ -39,8 +39,6 @@ class MapBoxService extends ChangeNotifier {
 
     final mapBoxResp = mapBoxResponseFromMap(resp.body);
 
-    print('FROM MAPBOX PROVIDER $mapBoxResp.features');
-
     return mapBoxResp.features;
   }
 
