@@ -32,8 +32,10 @@ class NoDataPage extends StatelessWidget {
                   fillColor: Colors.yellow,
                   shape: CircleBorder(),
                   child: FaIcon(FontAwesomeIcons.magnifyingGlassLocation),
-                  onPressed: () => showSearch(
-                      context: context, delegate: WeatherSearchDelegate())),
+                  onPressed: () {}
+                  // => showSearch(
+                  //     context: context, delegate: WeatherSearchDelegate())
+                  ),
             )
           ],
         ),
