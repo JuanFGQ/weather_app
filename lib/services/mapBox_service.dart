@@ -8,7 +8,7 @@ import 'package:weather/models/mapBox_response.dart';
 import '../models/mapbox/Feature.dart';
 
 class MapBoxService extends ChangeNotifier {
-  Feature? placeName;
+  Feature? feature;
 
   String _apiKey =
       'pk.eyJ1IjoianVhbmZncSIsImEiOiJjbGVsMzN2cTUwcmR3M3JucHlzcXk2OXMyIn0.OQG_aEvEIl2zT9pQ50OEHg';
@@ -34,7 +34,7 @@ class MapBoxService extends ChangeNotifier {
   Future<List<Feature>> getPlaces(String cityName) async {
     final uri = Uri.https(_baseUrl,
         '/geocoding/v5/mapbox.places/' + cityName + '.json', weatherHeader());
-
+//
     final resp = await http.get(uri);
 
     final mapBoxResp = mapBoxResponseFromMap(resp.body);

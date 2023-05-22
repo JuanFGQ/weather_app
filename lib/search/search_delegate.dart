@@ -10,6 +10,13 @@ import '../services/mapBox_service.dart';
 
 class WeatherSearchDelegate extends SearchDelegate {
   List<String> recentHistory = [];
+  String selectedItem = '';
+
+  // Feature? city;
+
+  WeatherSearchDelegate() {
+    loadRecentHistory();
+  }
 
   Future<void> loadRecentHistory() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -22,6 +29,11 @@ class WeatherSearchDelegate extends SearchDelegate {
   Future<void> saveRecentQuery() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('recentHistory', recentHistory);
+  }
+
+  Future<void> saveSelectedData(String data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selectedItem', data);
   }
 
   @override
@@ -60,7 +72,7 @@ class WeatherSearchDelegate extends SearchDelegate {
     }
 
     final mapBoxSearch = Provider.of<MapBoxService>(context, listen: false);
-    final Feature city;
+    final weather = Provider.of<WeatherApiService>(context);
 
     mapBoxSearch.getSuggestionByQuery(query);
 
@@ -73,50 +85,119 @@ class WeatherSearchDelegate extends SearchDelegate {
 
         return ListView.builder(
           itemCount: featureMethod.length,
-          itemBuilder: (_, int index) => _CityItem(
-            city: featureMethod[index],
-          ),
+          itemBuilder: (_, int index) {
+            final city = featureMethod[index];
+            return ListTile(
+              leading: const CircleAvatar(
+                child: FaIcon(FontAwesomeIcons.mountainCity),
+              ),
+              title: Text(city.placeName),
+              onTap: () {
+                final newCoords = city.center;
+
+                final cord1 = newCoords[1].toString();
+                final cord0 = newCoords[0].toString();
+
+                final defCoord = cord1 + ',' + cord0;
+                weather.coords = defCoord;
+
+                Navigator.pushNamed(context, 'founded', arguments: city);
+                getInfoSelectedCIty(city);
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void getInfoSelectedCIty(Feature item) {
+    selectedItem = item.placeName;
+    saveSelectedData(item.placeName);
+
+    print('ELEMENTO SELECCIONADO ${item.placeName}');
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> suggestions = selectedItem.isEmpty
+        ? recentHistory
+        : recentHistory
+            .where((element) =>
+                element.toLowerCase().startsWith(query.toLowerCase()))
+            .toList();
+
+    if (selectedItem != null && query.isNotEmpty) {
+      suggestions.insert(0, selectedItem);
+    }
+
+    return ListView.builder(
+      itemCount: suggestions.length,
+      itemBuilder: (_, int index) {
+        final suggestion = suggestions[index];
+        return ListTile(
+          leading: FaIcon(FontAwesomeIcons.clockRotateLeft),
+          title: Text(suggestion),
+          trailing: IconButton(
+              splashColor: Colors.red,
+              splashRadius: 5,
+              onPressed: () {
+                //todo: eliminar del historial
+              },
+              icon: Icon(Icons.clear)),
+          onTap: () {
+            selectedItem = suggestion;
+            showResults(context);
+          },
         );
       },
     );
   }
 
   @override
-  Widget buildSuggestions(BuildContext context) {}
-}
-
-class _CityItem extends StatelessWidget {
-  final Feature city;
-
-  const _CityItem({
-    required this.city,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final weather = Provider.of<WeatherApiService>(context);
-
-    return ListTile(
-      leading: const CircleAvatar(
-        child: FaIcon(FontAwesomeIcons.mountainCity),
-      ),
-      title: Text(city.placeName),
-      onTap: () {
-        final newCoords = city.center;
-
-        final cord1 = newCoords[1].toString();
-        final cord0 = newCoords[0].toString();
-
-        final defCoord = cord1 + ',' + cord0;
-        weather.coords = defCoord;
-
-        Navigator.pushNamed(context, 'founded', arguments: city);
-        getInfoSelectedCIty(city);
-      },
-    );
+  void showResults(BuildContext context) {
+    super.showResults(context);
+    if (!recentHistory.contains(selectedItem)) {
+      recentHistory.add(selectedItem);
+      saveRecentQuery();
+    }
   }
 
-  void getInfoSelectedCIty(Feature item) {
-    print('ELEMENTO SELECCIONADO ${item.placeName}');
-  }
+  void deleteData(String data) {}
 }
+
+// class CityItem extends StatelessWidget {
+//   final Feature? city;
+
+//   const CityItem({
+//     required this.city,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final weather = Provider.of<WeatherApiService>(context);
+
+//     return ListTile(
+//       leading: const CircleAvatar(
+//         child: FaIcon(FontAwesomeIcons.mountainCity),
+//       ),
+//       title: Text(city!.placeName),
+//       onTap: () {
+//         final newCoords = city!.center;
+
+//         final cord1 = newCoords[1].toString();
+//         final cord0 = newCoords[0].toString();
+
+//         final defCoord = cord1 + ',' + cord0;
+//         weather.coords = defCoord;
+
+//         Navigator.pushNamed(context, 'founded', arguments: city);
+//         getInfoSelectedCIty(city!);
+//       },
+//     );
+//   }
+
+//   void getInfoSelectedCIty(Feature item) {
+//     print('ELEMENTO SELECCIONADO ${item.placeName}');
+//   }
+// }
