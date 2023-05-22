@@ -1,10 +1,7 @@
-import 'dart:ffi';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather/notifications/local_notifications.dart';
 
 import '../search/search_delegate.dart';
@@ -12,7 +9,7 @@ import '../services/weather_api_service.dart';
 import 'info_table.dart';
 import 'letras.dart';
 
-class HomeWidget extends StatefulWidget {
+class HomeWidget extends StatelessWidget {
   final String title;
   final String lastUpdateDate;
   final String lastUpdateTime;
@@ -55,38 +52,6 @@ class HomeWidget extends StatefulWidget {
       required this.showRefreshButton});
 
   @override
-  State<HomeWidget> createState() => _HomeWidgetState();
-}
-
-class _HomeWidgetState extends State<HomeWidget> {
-  Future<void> _showSearch() async {
-    final searchText = await showSearch<String>(
-        context: context,
-        delegate: WeatherSearchDelegate(
-            onSearchChanged: _getRecentsSearchesLike,
-            searchFieldLabel: 'dasdas'));
-
-    await _saveToRecentSearches(searchText!);
-  }
-
-  Future<List<String>> _getRecentsSearchesLike(String query) async {
-    final pref = await SharedPreferences.getInstance();
-    final allSearches = pref.getStringList('recentSearches');
-    return allSearches!.where((element) => element.startsWith(query)).toList();
-  }
-
-  Future<void> _saveToRecentSearches(String searchText) async {
-    if (searchText == null) return;
-    final pref = await SharedPreferences.getInstance();
-
-    Set<String> allSearches =
-        pref.getStringList('recentSearches')?.toSet() ?? {};
-
-    allSearches = {searchText, ...allSearches};
-    pref.setStringList('recentSearches', allSearches.toList());
-  }
-
-  @override
   Widget build(BuildContext context) {
     double heighval = MediaQuery.of(context).size.height * 0.01;
     double valMult = 10;
@@ -96,17 +61,17 @@ class _HomeWidgetState extends State<HomeWidget> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       // resizeToAvoidBottomInset: false,
-      backgroundColor: widget.scaffoldColor,
+      backgroundColor: scaffoldColor,
       // drawer: SafeArea(child: SideMenu()),
       appBar: AppBar(
           actions: [
             Visibility(
-              visible: widget.showRefreshButton,
+              visible: showRefreshButton,
               child: FittedBox(
                 fit: BoxFit.values[5],
                 child: RawMaterialButton(
                   elevation: 10,
-                  onPressed: widget.refreshButton,
+                  onPressed: refreshButton,
                   shape: CircleBorder(),
                   fillColor: Colors.white,
                   child: Spin(
@@ -123,17 +88,16 @@ class _HomeWidgetState extends State<HomeWidget> {
             )
           ],
           leading: IconButton(
-              onPressed: _showSearch,
-              //  => showSearch(
-              //     context: context, delegate: WeatherSearchDelegate()),
+              onPressed: () => showSearch(
+                  context: context, delegate: WeatherSearchDelegate()),
               icon: const FaIcon(FontAwesomeIcons.search)),
           iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor: widget.appBarColors,
+          backgroundColor: appBarColors,
           elevation: 0,
           centerTitle: true,
           title: FittedBox(
             fit: BoxFit.fitWidth,
-            child: Text(widget.title,
+            child: Text(title,
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: Colors.black, fontSize: 40)),
           )
@@ -151,15 +115,15 @@ class _HomeWidgetState extends State<HomeWidget> {
 
           const SizedBox(height: 10),
           Words(
-            date: widget.locationCountry,
-            wordColor: widget.locCountryColor,
+            date: locationCountry,
+            wordColor: locCountryColor,
             // wordSize: 20,
           ),
           const SizedBox(height: 5),
           FadeInUp(
             from: 50,
             child: Text(
-              widget.currentCOndition,
+              currentCOndition,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
@@ -174,7 +138,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       child: FittedBox(
                         fit: BoxFit.cover,
                         child: Text(
-                          widget.feelsLikeData,
+                          feelsLikeData,
                           style: TextStyle(fontSize: valMult * heighval),
                         ),
                       ),
@@ -186,36 +150,33 @@ class _HomeWidgetState extends State<HomeWidget> {
           ),
 
           NewsPaperButton(
-            function: widget.function,
+            function: function,
           ),
           FadeIn(
               delay: Duration(milliseconds: 1000),
-              child: Text('News in ${widget.title}')),
+              child: Text('News in $title')),
 
           const SizedBox(height: 10),
           // const InfoTable(),
+          InfoIcon(image: 'wind.gif', title: 'Wind', percentage: windData),
           InfoIcon(
-              image: 'wind.gif', title: 'Wind', percentage: widget.windData),
-          InfoIcon(
-              image: 'drop.gif',
-              title: 'Humidity',
-              percentage: widget.humidityData),
+              image: 'drop.gif', title: 'Humidity', percentage: humidityData),
           InfoIcon(
               image: 'view.gif',
               title: 'Visibility',
-              percentage: widget.visibilityData),
+              percentage: visibilityData),
           InfoIcon(
               image: 'windy.gif',
               title: 'Wind direction',
-              percentage: widget.windDirectionData),
+              percentage: windDirectionData),
           InfoIcon(
               image: 'temperature.gif',
               title: 'Temperature',
-              percentage: widget.temperatureData),
+              percentage: temperatureData),
           InfoIcon(
             image: 'hot.gif',
             title: 'Feels like',
-            percentage: widget.feelsLikeData,
+            percentage: feelsLikeData,
           ),
 
           const SizedBox(height: 10),
