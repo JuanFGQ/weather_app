@@ -12,6 +12,35 @@ import '../services/mapBox_service.dart';
 class WeatherSearchDelegate extends SearchDelegate {
   // Feature? city;
 
+<<<<<<< HEAD
+=======
+  WeatherSearchDelegate() {
+    loadRecentHistory();
+  }
+  Future<void> loadRecentHistory() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? history = prefs.getStringList('recentHistory');
+    if (history != null) {
+      recentHistory = history;
+    }
+    selectedItem = (recentHistory.isNotEmpty ? recentHistory.first : null)!;
+  }
+
+  Future<void> saveRecentQuery() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('recentHistory', recentHistory);
+  }
+
+  Future<void> saveSelectedData(String data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (!recentHistory.contains(data)) {
+      recentHistory.add(data);
+      await prefs.setStringList('recentHistory', recentHistory);
+    }
+  }
+
+>>>>>>> e786cac3b3dce6524785e8245a2b459f8ecb4d5e
   @override
   String get searchFieldLabel => 'Search city';
 
@@ -88,13 +117,19 @@ class WeatherSearchDelegate extends SearchDelegate {
   }
 
   void getInfoSelectedCIty(Feature item) {
+<<<<<<< HEAD
     //guardo valor presionado-
     Preferences.placeName = item.placeName;
     Preferences.history.insert(0, Preferences.placeName);
+=======
+    selectedItem = item.placeName;
+    saveSelectedData(item.placeName);
+>>>>>>> e786cac3b3dce6524785e8245a2b459f8ecb4d5e
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
+<<<<<<< HEAD
     return ListView.builder(
         itemCount: Preferences.history.length,
         itemBuilder: (context, int index) {
@@ -111,4 +146,50 @@ class WeatherSearchDelegate extends SearchDelegate {
           );
         });
   }
+=======
+    List<String> suggestions = selectedItem.isEmpty
+        ? recentHistory
+        : recentHistory
+            .where((element) =>
+                element.toLowerCase().startsWith(query.toLowerCase()))
+            .toList();
+
+    if (selectedItem != null && query.isEmpty) {
+      suggestions.insert(0, selectedItem);
+    }
+
+    return ListView.builder(
+      itemCount: suggestions.length,
+      itemBuilder: (_, int index) {
+        final suggestion = suggestions[index];
+        return ListTile(
+          leading: FaIcon(FontAwesomeIcons.clockRotateLeft),
+          title: Text(suggestion),
+          trailing: IconButton(
+              splashColor: Colors.red,
+              splashRadius: 5,
+              onPressed: () {
+                //todo: eliminar del historial
+              },
+              icon: Icon(Icons.clear)),
+          onTap: () {
+            query = suggestion;
+            showResults(context);
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  void showResults(BuildContext context) {
+    super.showResults(context);
+    if (!recentHistory.contains(query)) {
+      recentHistory.add(query);
+      saveRecentQuery();
+    }
+  }
+
+  void deleteData(String data) {}
+>>>>>>> e786cac3b3dce6524785e8245a2b459f8ecb4d5e
 }
