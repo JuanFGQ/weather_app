@@ -8,22 +8,31 @@ import 'package:weather/pages/founded_location.dart';
 import 'package:weather/pages/gps_access_page.dart';
 import 'package:weather/pages/home_page.dart';
 import 'package:weather/pages/loading_page.dart';
-import 'package:weather/pages/news_content_page.dart';
 import 'package:weather/pages/news_page.dart';
+import 'package:weather/preferences/share_prefs.dart';
 import 'package:weather/services/geolocator_service.dart';
 import 'package:weather/services/mapBox_service.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 
 void main() async {
+  //making sure the process can pass
   WidgetsFlutterBinding.ensureInitialized();
+  //initialating sharePreferences
+  await Preferences.init();
+
+//initialing notificationa
 
   await initNotifications();
+
+  //get data certifycate for secure conexition SSL
 
   ByteData data =
       await PlatformAssetBundle().load('assets/lets-encrypt-r3.pem');
   SecurityContext.defaultContext
       .setTrustedCertificatesBytes(data.buffer.asUint8List());
+
+//run Application
 
   runApp(AppState());
 }
