@@ -17,13 +17,13 @@ class WeatherSearchDelegate extends SearchDelegate {
   WeatherSearchDelegate() {
     loadRecentHistory();
   }
-
   Future<void> loadRecentHistory() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String>? history = prefs.getStringList('recentHistory');
     if (history != null) {
       recentHistory = history;
     }
+    selectedItem = (recentHistory.isNotEmpty ? recentHistory.first : null)!;
   }
 
   Future<void> saveRecentQuery() async {
@@ -33,7 +33,11 @@ class WeatherSearchDelegate extends SearchDelegate {
 
   Future<void> saveSelectedData(String data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('selectedItem', data);
+
+    if (!recentHistory.contains(data)) {
+      recentHistory.add(data);
+      await prefs.setStringList('recentHistory', recentHistory);
+    }
   }
 
   @override
@@ -114,8 +118,6 @@ class WeatherSearchDelegate extends SearchDelegate {
   void getInfoSelectedCIty(Feature item) {
     selectedItem = item.placeName;
     saveSelectedData(item.placeName);
-
-    print('ELEMENTO SELECCIONADO ${item.placeName}');
   }
 
   @override
@@ -127,7 +129,7 @@ class WeatherSearchDelegate extends SearchDelegate {
                 element.toLowerCase().startsWith(query.toLowerCase()))
             .toList();
 
-    if (selectedItem != null && query.isNotEmpty) {
+    if (selectedItem != null && query.isEmpty) {
       suggestions.insert(0, selectedItem);
     }
 
@@ -146,7 +148,7 @@ class WeatherSearchDelegate extends SearchDelegate {
               },
               icon: Icon(Icons.clear)),
           onTap: () {
-            selectedItem = suggestion;
+            query = suggestion;
             showResults(context);
           },
         );
@@ -157,8 +159,8 @@ class WeatherSearchDelegate extends SearchDelegate {
   @override
   void showResults(BuildContext context) {
     super.showResults(context);
-    if (!recentHistory.contains(selectedItem)) {
-      recentHistory.add(selectedItem);
+    if (!recentHistory.contains(query)) {
+      recentHistory.add(query);
       saveRecentQuery();
     }
   }
