@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/models/State_management.dart';
 import 'package:weather/services/mapBox_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 
@@ -75,6 +76,7 @@ class _BuildResults extends StatelessWidget {
           itemCount: featureMethod.length,
           itemBuilder: (_, int index) {
             final city = featureMethod[index];
+
             return ListTile(
               leading: const CircleAvatar(
                 child: FaIcon(FontAwesomeIcons.mountainCity),
@@ -125,6 +127,7 @@ class __BuildSuggestionsState extends State<_BuildSuggestions> {
     if (Preferences.history.isEmpty) {
       return _emptyContainer();
     }
+    final weather = Provider.of<WeatherApiService>(context);
 
     return ListView.builder(
         itemCount: Preferences.history.length,
@@ -140,7 +143,14 @@ class __BuildSuggestionsState extends State<_BuildSuggestions> {
                 },
                 icon: const Icon(Icons.clear)),
             onTap: () {
+              final arg = Preferences.history[index];
+
+//TODO: HALLAR LA MANERA DE QUE SE ACTUALICE LA INFOTMACION DEL FOUNDED
+
+              weather.getFoundPlacesInfo(arg);
               Navigator.pushNamed(context, 'founded');
+
+              //lo que tengo que hacer aqui es hacer otra llamada a la API  enviando el argumento guardado
             },
           );
         });
