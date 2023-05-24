@@ -23,20 +23,28 @@ class _WeatherSearchCityState extends State<WeatherSearchCity> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
+          backgroundColor: Colors.white,
           title: TextField(
             onChanged: (value) {
               setState(() {
                 query = value;
               });
             },
-            decoration: InputDecoration(hintText: 'Search city'),
+            decoration: const InputDecoration(
+                // suffixIcon: FaIcon(FontAwesomeIcons.treeCity),
+                // prefixIcon: FaIcon(FontAwesomeIcons.searchengin),
+                // icon: FaIcon(FontAwesomeIcons.city),
+                labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                label: Text('Search city'),
+                // hintText: 'Search city',
+                border: InputBorder.none,
+                // enabledBorder: OutlineInputBorder(),
+                focusedBorder: UnderlineInputBorder()),
           ),
         ),
-        body: query.isEmpty
-            ? _BuildSuggestions()
-            : _BuildResults(
-                query: query,
-              ));
+        body:
+            query.isEmpty ? _BuildSuggestions() : _BuildResults(query: query));
   }
 }
 
@@ -48,7 +56,6 @@ class _BuildResults extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (query.isEmpty) {
-      //todo: if query is empty then show recent city history, otherwhise show empty container
       return _emptyContainer();
     }
 
@@ -115,6 +122,10 @@ class _BuildSuggestions extends StatefulWidget {
 class __BuildSuggestionsState extends State<_BuildSuggestions> {
   @override
   Widget build(BuildContext context) {
+    if (Preferences.history.isEmpty) {
+      return _emptyContainer();
+    }
+
     return ListView.builder(
         itemCount: Preferences.history.length,
         itemBuilder: (context, int index) {
@@ -128,7 +139,9 @@ class __BuildSuggestionsState extends State<_BuildSuggestions> {
                   setState(() {});
                 },
                 icon: const Icon(Icons.clear)),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, 'founded');
+            },
           );
         });
   }

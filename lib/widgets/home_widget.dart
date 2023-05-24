@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/notifications/local_notifications.dart';
+import 'package:weather/search/search_delegate_widget.dart';
 
 import '../search/search_delegate.dart';
 import '../services/weather_api_service.dart';
@@ -88,8 +89,13 @@ class HomeWidget extends StatelessWidget {
             )
           ],
           leading: IconButton(
-              onPressed: () => showSearch(
-                  context: context, delegate: WeatherSearchDelegate()),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => WeatherSearchCity())),
+
+              // showSearch(
+              //     context: context, delegate: WeatherSearchDelegate()),
               icon: const FaIcon(FontAwesomeIcons.search)),
           iconTheme: const IconThemeData(color: Colors.black),
           backgroundColor: appBarColors,
