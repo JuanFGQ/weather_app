@@ -91,7 +91,10 @@ class _BuildResults extends StatelessWidget {
                 final defCoord = cord1 + ',' + cord0;
                 weather.coords = defCoord;
 
-                Navigator.pushNamed(context, 'founded', arguments: city);
+                Navigator.pushNamed(
+                  context,
+                  'founded',
+                );
                 getInfoSelectedCIty(city);
               },
             );
@@ -144,11 +147,9 @@ class __BuildSuggestionsState extends State<_BuildSuggestions> {
                 icon: const Icon(Icons.clear)),
             onTap: () {
               final arg = Preferences.history[index];
-
-//TODO: HALLAR LA MANERA DE QUE SE ACTUALICE LA INFOTMACION DEL FOUNDED
-
-              weather.getFoundPlacesInfo(arg);
+              weather.coords = arg;
               Navigator.pushNamed(context, 'founded');
+              setState(() {});
 
               //lo que tengo que hacer aqui es hacer otra llamada a la API  enviando el argumento guardado
             },

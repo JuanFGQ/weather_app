@@ -2,10 +2,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/notifications/local_notifications.dart';
 import 'package:weather/search/search_delegate_widget.dart';
 
-import '../search/search_delegate.dart';
 import '../services/weather_api_service.dart';
 import 'info_table.dart';
 import 'letras.dart';
@@ -63,40 +61,149 @@ class HomeWidget extends StatelessWidget {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       backgroundColor: scaffoldColor,
-      // drawer: SafeArea(child: SideMenu()),
+      drawer: Drawer(
+        child: ListView(children: [
+          Column(
+            // padding: EdgeInsets.zero,
+            children: [
+              // const DrawerHeader(
+              //     decoration: BoxDecoration(color: Colors.blue),
+              //     child: Text('hola')),
+              ExpansionTile(
+                  leading: const FaIcon(FontAwesomeIcons.heartCircleCheck),
+                  title: const Text('Favorites places'),
+                  children: [
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: size.height * 0.55,
+                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: 6,
+                        itemBuilder: (BuildContext context, int index) {
+                          return _ListTileItemContent();
+                        },
+                      ),
+                    )
+                  ]),
+              ExpansionTile(
+                  leading: const FaIcon(FontAwesomeIcons.newspaper),
+                  title: const Text('News for read'),
+                  children: [
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: size.height * 0.55,
+                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: 6,
+                        itemBuilder: (BuildContext context, int index) {
+                          return _ListTileItemContent();
+                        },
+                      ),
+                    )
+                  ]),
+              ExpansionTile(
+                  childrenPadding: const EdgeInsets.only(left: 30),
+                  leading: const FaIcon(FontAwesomeIcons.paintRoller),
+                  title: const Text('Themes'),
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.format_paint_outlined),
+                      title: const Text('Dark Theme'),
+                      onTap: () {},
+                      trailing: const CircleAvatar(
+                        maxRadius: 10,
+                        backgroundColor: Colors.black,
+                      ),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.format_paint_outlined),
+                      title: const Text('Light Theme'),
+                      onTap: () {},
+                      trailing: const CircleAvatar(
+                        maxRadius: 10,
+                        backgroundColor: Colors.blue,
+                      ),
+                    ),
+                  ]),
+              const ExpansionTile(
+                childrenPadding: EdgeInsets.only(left: 30),
+                leading: FaIcon(FontAwesomeIcons.language),
+                title: Text('Language'),
+                children: [
+                  ListTile(
+                      leading: Image(
+                          image: AssetImage('assets/usa2.png'),
+                          width: 25,
+                          height: 25),
+                      title: Text('English')),
+                  ListTile(
+                      leading: Image(
+                          image: AssetImage('assets/spain.png'),
+                          width: 25,
+                          height: 25),
+                      title: Text('Castellano')),
+                  // ListTile(
+                  //     leading: Image(
+                  //         image: AssetImage('assets/spain.png'),
+                  //         width: 25,
+                  //         height: 25),
+                  //     title: Text('Ruso')),
+                ],
+              ),
+
+              // const Spacer(),
+              SizedBox(height: size.height),
+              const ListTile(
+                title: Center(child: Text('Designed and programed by Juan F.')),
+                subtitle: Center(child: Text('All rights reserved @')),
+              ),
+            ],
+            // prototypeItem: ,
+          ),
+        ]),
+      ),
       appBar: AppBar(
           actions: [
-            Visibility(
-              visible: showRefreshButton,
-              child: FittedBox(
-                fit: BoxFit.values[5],
-                child: RawMaterialButton(
-                  elevation: 10,
-                  onPressed: refreshButton,
-                  shape: CircleBorder(),
-                  fillColor: Colors.white,
-                  child: Spin(
-                    duration: Duration(milliseconds: 5000),
-                    infinite: true,
-                    child: const FaIcon(
-                      FontAwesomeIcons.refresh,
-                      size: 18,
-                    ),
-                  ),
-                  // constraints: ,
-                ),
-              ),
-            )
+            // Visibility(
+            //   visible: showRefreshButton,
+            //   child: FittedBox(
+            //     fit: BoxFit.values[5],
+            //     child: RawMaterialButton(
+            //       elevation: 10,
+            //       onPressed: refreshButton,
+            //       shape: CircleBorder(),
+            //       fillColor: Colors.white,
+            //       child: Spin(
+            //         duration: Duration(milliseconds: 5000),
+            //         infinite: true,
+            //         child: const FaIcon(
+            //           FontAwesomeIcons.refresh,
+            //           size: 18,
+            //         ),
+            //       ),
+            //       // constraints: ,
+            //     ),
+            //   ),
+            // )
+            IconButton(
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const WeatherSearchCity())),
+                icon: const FaIcon(FontAwesomeIcons.search)),
           ],
-          leading: IconButton(
-              onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => WeatherSearchCity())),
+          // leading: IconButton(
+          //     onPressed: () => Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (BuildContext context) => WeatherSearchCity())),
 
-              // showSearch(
-              //     context: context, delegate: WeatherSearchDelegate()),
-              icon: const FaIcon(FontAwesomeIcons.search)),
+          //     // showSearch(
+          //     //     context: context, delegate: WeatherSearchDelegate()),
+          //     icon: const FaIcon(FontAwesomeIcons.search)),
           iconTheme: const IconThemeData(color: Colors.black),
           backgroundColor: appBarColors,
           elevation: 0,
@@ -154,13 +261,29 @@ class HomeWidget extends StatelessWidget {
               ],
             ),
           ),
-
-          NewsPaperButton(
-            function: function,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(children: [
+                RoundedButton(
+                  infinite: true,
+                  icon: FaIcon(FontAwesomeIcons.newspaper),
+                  function: function,
+                ),
+                Text('News')
+              ]),
+              Column(
+                children: [
+                  RoundedButton(
+                    infinite: true,
+                    icon: FaIcon(FontAwesomeIcons.heartCirclePlus),
+                    function: function,
+                  ),
+                  Text('Save')
+                ],
+              ),
+            ],
           ),
-          FadeIn(
-              delay: Duration(milliseconds: 1000),
-              child: Text('News in $title')),
 
           const SizedBox(height: 10),
           // const InfoTable(),
@@ -194,27 +317,52 @@ class HomeWidget extends StatelessWidget {
   }
 }
 
-class NewsPaperButton extends StatelessWidget {
-  final void Function()? function;
+class _ListTileItemContent extends StatelessWidget {
+  const _ListTileItemContent({
+    super.key,
+  });
 
-  const NewsPaperButton({
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(6),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30), color: Colors.amber),
+      child: const ListTile(
+        leading: FaIcon(FontAwesomeIcons.locationDot),
+        title: Text('Name city'),
+        subtitle: Text('weather state'),
+        trailing: Text('20º'),
+      ),
+    );
+  }
+}
+
+class RoundedButton extends StatelessWidget {
+  final void Function()? function;
+  final bool infinite;
+  final Widget icon;
+
+  const RoundedButton({
     super.key,
     this.function,
+    required this.infinite,
+    required this.icon,
   });
 
   @override
   Widget build(BuildContext context) {
     return FadeIn(
-      delay: Duration(milliseconds: 1000),
+      delay: const Duration(milliseconds: 1000),
       child: Bounce(
-        delay: Duration(milliseconds: 800),
+        delay: const Duration(milliseconds: 800),
         from: 6,
-        infinite: true,
+        infinite: infinite,
         child: RawMaterialButton(
-          shape: CircleBorder(),
+          shape: const CircleBorder(),
           onPressed: function,
           fillColor: Colors.white,
-          child: FaIcon(FontAwesomeIcons.solidNewspaper),
+          child: icon,
           elevation: 5,
         ),
       ),
