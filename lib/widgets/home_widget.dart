@@ -170,7 +170,7 @@ class HomeWidget extends StatelessWidget {
               ),
 
               // const Spacer(),
-              // SizedBox(height: size.height),
+              SizedBox(height: size.height * 0.5),
               const ListTile(
                 title: Center(child: Text('Designed and programed by Juan F.')),
                 subtitle: Center(child: Text('All rights reserved @')),
@@ -292,7 +292,7 @@ class HomeWidget extends StatelessWidget {
                 children: [
                   RoundedButton(
                     infinite: true,
-                    icon: FaIcon(FontAwesomeIcons.heartCirclePlus),
+                    icon: FaIcon(FontAwesomeIcons.locationDot),
                     function: function,
                   ),
                   Text('Save')

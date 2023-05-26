@@ -149,7 +149,6 @@ class __BuildSuggestionsState extends State<_BuildSuggestions> {
               final arg = Preferences.history[index];
               weather.coords = arg;
               Navigator.pushNamed(context, 'founded');
-              setState(() {});
 
               //lo que tengo que hacer aqui es hacer otra llamada a la API  enviando el argumento guardado
             },

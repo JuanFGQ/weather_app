@@ -77,10 +77,17 @@ class DescriptionNewsCard extends StatelessWidget {
                     children: [
                       Text(
                           '${news.publishedAt.toString().substring(0, 10)}   ${news.publishedAt.toString().substring(10, 16)}'),
-                      RoundedButton(
-                        icon: FaIcon(FontAwesomeIcons.heart),
-                        infinite: false,
-                        function: () {},
+                      const SizedBox(
+                        width: 40,
+                      ),
+                      SizedBox(
+                        width: 30,
+                        height: 30,
+                        child: RoundedButton(
+                          icon: FaIcon(FontAwesomeIcons.heart),
+                          infinite: false,
+                          function: () {},
+                        ),
                       )
                     ],
                   )
