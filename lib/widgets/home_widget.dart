@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/search/search_delegate_widget.dart';
+import 'package:weather/widgets/rounded_button.dart';
 
 import '../services/weather_api_service.dart';
 import 'info_table.dart';
@@ -66,6 +67,18 @@ class HomeWidget extends StatelessWidget {
           Column(
             // padding: EdgeInsets.zero,
             children: [
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text('Home',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 30))),
+              ),
+              _ListTileItemContent(
+                  widget: CircleAvatar(
+                child: Image(image: AssetImage('assets/horus-eye.png')),
+              )),
               // const DrawerHeader(
               //     decoration: BoxDecoration(color: Colors.blue),
               //     child: Text('hola')),
@@ -81,7 +94,8 @@ class HomeWidget extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: 6,
                         itemBuilder: (BuildContext context, int index) {
-                          return _ListTileItemContent();
+                          return _ListTileItemContent(
+                              widget: FaIcon(FontAwesomeIcons.locationDot));
                         },
                       ),
                     )
@@ -98,7 +112,9 @@ class HomeWidget extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: 6,
                         itemBuilder: (BuildContext context, int index) {
-                          return _ListTileItemContent();
+                          return _ListTileItemContent(
+                            widget: FaIcon(FontAwesomeIcons.locationDot),
+                          );
                         },
                       ),
                     )
@@ -154,7 +170,7 @@ class HomeWidget extends StatelessWidget {
               ),
 
               // const Spacer(),
-              SizedBox(height: size.height),
+              // SizedBox(height: size.height),
               const ListTile(
                 title: Center(child: Text('Designed and programed by Juan F.')),
                 subtitle: Center(child: Text('All rights reserved @')),
@@ -318,8 +334,10 @@ class HomeWidget extends StatelessWidget {
 }
 
 class _ListTileItemContent extends StatelessWidget {
+  final Widget widget;
   const _ListTileItemContent({
     super.key,
+    required this.widget,
   });
 
   @override
@@ -328,43 +346,11 @@ class _ListTileItemContent extends StatelessWidget {
       margin: const EdgeInsets.all(6),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30), color: Colors.amber),
-      child: const ListTile(
-        leading: FaIcon(FontAwesomeIcons.locationDot),
+      child: ListTile(
+        leading: widget,
         title: Text('Name city'),
         subtitle: Text('weather state'),
         trailing: Text('20º'),
-      ),
-    );
-  }
-}
-
-class RoundedButton extends StatelessWidget {
-  final void Function()? function;
-  final bool infinite;
-  final Widget icon;
-
-  const RoundedButton({
-    super.key,
-    this.function,
-    required this.infinite,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeIn(
-      delay: const Duration(milliseconds: 1000),
-      child: Bounce(
-        delay: const Duration(milliseconds: 800),
-        from: 6,
-        infinite: infinite,
-        child: RawMaterialButton(
-          shape: const CircleBorder(),
-          onPressed: function,
-          fillColor: Colors.white,
-          child: icon,
-          elevation: 5,
-        ),
       ),
     );
   }

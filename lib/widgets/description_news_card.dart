@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/services/news_service.dart';
+import 'package:weather/widgets/rounded_button.dart';
 
 import '../models/news/articles_info.dart';
 
@@ -71,7 +73,17 @@ class DescriptionNewsCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 5),
-                  Text(news.publishedAt.toString())
+                  Row(
+                    children: [
+                      Text(
+                          '${news.publishedAt.toString().substring(0, 10)}   ${news.publishedAt.toString().substring(10, 16)}'),
+                      RoundedButton(
+                        icon: FaIcon(FontAwesomeIcons.heart),
+                        infinite: false,
+                        function: () {},
+                      )
+                    ],
+                  )
                 ],
               ),
             ),
