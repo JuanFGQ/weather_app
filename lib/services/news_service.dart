@@ -8,9 +8,7 @@ import 'package:weather/models/news/news_response.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NewsService with ChangeNotifier {
-  List<Article> listArticles = [];
-  List<Article> listArticles2 = [];
-  bool isLoading = false;
+  Article? article;
 
   bool _activeSearch = false;
 
@@ -52,22 +50,6 @@ class NewsService with ChangeNotifier {
     }
   }
 
-  // Future<NewsResponse> getNewsByQuery(String city) async {
-  //   _apiParams() {
-  //     return {'apiKey': _apiKey, 'q': city};
-  //   }
-
-  //   final uri = Uri.https(_baseUrl, '/v2/everything', _apiParams());
-
-  //   final resp = await http.get(uri);
-
-  //   if (resp.statusCode == 200) {
-  //     final newsResp = newsResponseFromJson(resp.body);
-
-  //     listArticles.addAll(newsResp.articles);
-  //   } else {}
-  // }
-
   Future<NewsResponse> getNewsByFoundedPlace(String city) async {
     _apiParams() {
       return {'apiKey': _apiKey, 'q': city, 'language': 'es'};
@@ -77,13 +59,8 @@ class NewsService with ChangeNotifier {
 
     final resp = await http.get(uri);
 
-    // if (resp.statusCode == 200) {
     final newsResp = newsResponseFromJson(resp.body);
 
-    // final list2 = listArticles2 = newsResp.articles;
     return newsResp;
-    // } else {
-
-    // }
   }
 }

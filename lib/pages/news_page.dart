@@ -22,9 +22,6 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
-  final controller = TextEditingController();
-  final stream = StreamController<dynamic>();
-
   NewsService? newsService;
   WeatherApiService? weatherServ;
 
@@ -69,10 +66,48 @@ cargado en la pantalla de busqueda . otherwhise carga el argumento de la pantall
   }
 }
 
-class _NewsViewer extends StatelessWidget {
+class _NewsViewer extends StatefulWidget {
   final List<Article> news;
 
   _NewsViewer(this.news);
+
+  @override
+  State<_NewsViewer> createState() => _NewsViewerState();
+}
+
+class _NewsViewerState extends State<_NewsViewer>
+    with TickerProviderStateMixin {
+  List<Article> orderedNews = []; //store the new ordered list of news
+  bool descAsc = false; //flags to show desc or asc list
+  late Animation<double> _myAnimation;
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    orderedNews = List.from(widget
+        .news); //here i match the instance of the list created with the list i receive in class arguments
+
+    _controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 200));
+
+    _myAnimation = CurvedAnimation(parent: _controller, curve: Curves.linear);
+
+    orderNewsByDate();
+  }
+
+  void orderNewsByDate() {
+    setState(() {
+      if (descAsc) {
+        orderedNews.sort((a, b) => a.publishedAt.compareTo(b.publishedAt));
+        _controller.forward();
+      } else {
+        orderedNews.sort((a, b) => b.publishedAt.compareTo(a.publishedAt));
+        _controller.reverse();
+      }
+      descAsc = !descAsc;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,20 +127,34 @@ class _NewsViewer extends StatelessWidget {
                 ),
               ),
             ),
+            RawMaterialButton(
+              fillColor: Colors.amber,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              onPressed: () {
+                orderNewsByDate();
+              },
+              child: AnimatedIcon(
+                icon: AnimatedIcons.view_list,
+                progress: _myAnimation,
+              ),
+            ),
             Expanded(
               child: SizedBox(
                 width: size.width * 1,
                 // color: Colors.red,
                 child: ListView.builder(
-                    shrinkWrap: false,
-                    itemCount: news.length,
-                    itemBuilder: (_, i) => ElasticIn(
-                        delay: const Duration(milliseconds: 200),
-                        duration: const Duration(milliseconds: 500),
-                        child: DescriptionNewsCard(
-                          news: news[i],
-                          index: i,
-                        ))),
+                  shrinkWrap: false,
+                  itemCount: orderedNews.length,
+                  itemBuilder: (_, i) => ElasticIn(
+                    delay: const Duration(milliseconds: 200),
+                    duration: const Duration(milliseconds: 500),
+                    child: DescriptionNewsCard(
+                      news: orderedNews[i],
+                      index: i,
+                    ),
+                  ),
+                ),
               ),
             )
           ],

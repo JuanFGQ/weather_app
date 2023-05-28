@@ -42,6 +42,7 @@ class WeatherApiService extends ChangeNotifier {
 
       foundCurrent = weatherResp.current;
       foundLocation = weatherResp.location;
+
       return true;
     } else {
       return false;
