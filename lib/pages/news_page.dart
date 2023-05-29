@@ -117,27 +117,42 @@ class _NewsViewerState extends State<_NewsViewer>
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              margin: EdgeInsets.only(left: 10),
-              child: const Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'All news',
-                  style: TextStyle(fontSize: 25),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.amber,
+                  ),
+                  margin: EdgeInsets.only(left: 10),
+                  child: const Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'All news',
+                      style: TextStyle(fontSize: 25),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            RawMaterialButton(
-              fillColor: Colors.amber,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              onPressed: () {
-                orderNewsByDate();
-              },
-              child: AnimatedIcon(
-                icon: AnimatedIcons.view_list,
-                progress: _myAnimation,
-              ),
+                GestureDetector(
+                  onTap: () {
+                    orderNewsByDate();
+                  },
+                  child: Container(
+                      margin: EdgeInsets.all(10),
+                      height: 35,
+                      width: 60,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.amber),
+                      child: (descAsc)
+                          ? const _DescAscButton(
+                              icon: Icons.arrow_upward, text: 'Asc')
+                          : const _DescAscButton(
+                              icon: Icons.arrow_downward, text: 'Desc')),
+                ),
+              ],
             ),
             Expanded(
               child: SizedBox(
@@ -160,6 +175,23 @@ class _NewsViewerState extends State<_NewsViewer>
           ],
         ),
       ),
+    );
+  }
+}
+
+class _DescAscButton extends StatelessWidget {
+  final String text;
+  final IconData icon;
+  const _DescAscButton({super.key, required this.text, required this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(text, style: TextStyle(fontWeight: FontWeight.bold)),
+        Icon(icon, size: 15)
+      ],
     );
   }
 }
