@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/State_management.dart';
+import 'package:weather/models/save_news_class.dart';
 import 'package:weather/notifications/local_notifications.dart';
 import 'package:weather/pages/founded_location.dart';
 import 'package:weather/pages/gps_access_page.dart';
@@ -49,7 +50,8 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => GeolocatorService(), lazy: false),
         ChangeNotifierProvider(create: (_) => WeatherApiService()),
         ChangeNotifierProvider(create: (_) => NewsService(), lazy: false),
-        ChangeNotifierProvider(create: (_) => StateManagement())
+        ChangeNotifierProvider(create: (_) => StateManagement()),
+        // ChangeNotifierProvider(create: (_) => SavedNews()),
       ],
       child: MyApp(),
     );

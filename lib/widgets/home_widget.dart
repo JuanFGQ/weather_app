@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/models/save_news_class.dart';
 import 'package:weather/search/search_delegate_widget.dart';
 import 'package:weather/widgets/rounded_button.dart';
 
@@ -339,6 +340,29 @@ class _ListTileItemContent extends StatelessWidget {
     super.key,
     required this.widget,
   });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(6),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30), color: Colors.amber),
+      child: ListTile(
+        leading: widget,
+        title: Text('Name city'),
+        subtitle: Text('weather state'),
+        trailing: Text('20º'),
+      ),
+    );
+  }
+}
+
+class _ListNewsItemContent extends StatelessWidget {
+  final Widget widget;
+  final SavedNews saveNews;
+
+  const _ListNewsItemContent(
+      {super.key, required this.widget, required this.saveNews});
 
   @override
   Widget build(BuildContext context) {

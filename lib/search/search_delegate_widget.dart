@@ -112,8 +112,9 @@ Widget _emptyContainer() {
 }
 
 void getInfoSelectedCIty(Feature item) {
-  //guardo valor presionado-
+  //save selected value
   Preferences.placeName = item.placeName;
+  //insert selected value to the list
   Preferences.history.insert(0, Preferences.placeName);
 }
 

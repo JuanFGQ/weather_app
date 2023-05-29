@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weather/models/save_news_class.dart';
 
 class Preferences {
   static late SharedPreferences _prefs;
@@ -31,4 +32,35 @@ class Preferences {
     _placeName = placeName;
     _prefs.setString('placeName', placeName);
   }
+
+  //****************************************************** */
+
+  //this list contains the list of savedNews this is the list i call on listview.builder
+
+  static List<String> _newsListShow = [];
+
+  static List<String> get newsListShow {
+    return _prefs.getStringList('newsListShow') ?? _newsListShow;
+  }
+
+  static set newsListShow(List<String> newsListShow) {
+    _newsListShow = newsListShow;
+    _prefs.setStringList('newListShow', newsListShow);
+  }
+
+//*************************************************** */
+
+//this list i where i save the sub-list that contains the main information for show
+
+  static List<String> _savedNews = [];
+
+  static List<String> get gSavedNews {
+    return _prefs.getStringList('gSavedNews') ?? _savedNews;
+  }
+
+  static set sSavedNews(List<String> sSavedNews) {
+    _savedNews = sSavedNews;
+    _prefs.setStringList('gSavedNews', sSavedNews);
+  }
+//*************************************************** */
 }

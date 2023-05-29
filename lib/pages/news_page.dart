@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/news/articles_info.dart';
 import 'package:weather/models/news/news_response.dart';
+import 'package:weather/models/save_news_class.dart';
 import 'package:weather/pages/no_data_page.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
@@ -86,7 +87,7 @@ class _NewsViewerState extends State<_NewsViewer>
   void initState() {
     super.initState();
     orderedNews = List.from(widget
-        .news); //here i match the instance of the list created with the list i receive in class arguments
+        .news); //here i match the instanceS of the list created with the list i receive in class arguments
 
     _controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 200));
@@ -187,12 +188,12 @@ class _NewsViewerState extends State<_NewsViewer>
   void getSelectedNews(Article selNews) {
 //todo: como crear una lista a partir de estos elementos guardados
 
-    print('SELECTED NEWS ${selNews.url}');
+    SavedNews saveN = SavedNews(
+        title: selNews.title,
+        url: selNews.url!,
+        urlToImage: selNews.urlToImage!);
 
-    print(
-      'SELECTED NEWS ${selNews.title}',
-    );
-    print('SELECTED NEWS ${selNews.urlToImage}');
+    print('SAVED NAMES ${saveN.title}');
   }
 }
 
