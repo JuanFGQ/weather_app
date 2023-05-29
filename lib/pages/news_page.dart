@@ -148,9 +148,9 @@ class _NewsViewerState extends State<_NewsViewer>
                           color: Colors.amber),
                       child: (descAsc)
                           ? const _DescAscButton(
-                              icon: Icons.arrow_upward, text: 'Asc')
+                              icon: Icons.arrow_upward, text: 'Desc')
                           : const _DescAscButton(
-                              icon: Icons.arrow_downward, text: 'Desc')),
+                              icon: Icons.arrow_downward, text: 'Asc')),
                 ),
               ],
             ),
@@ -159,23 +159,40 @@ class _NewsViewerState extends State<_NewsViewer>
                 width: size.width * 1,
                 // color: Colors.red,
                 child: ListView.builder(
-                  shrinkWrap: false,
-                  itemCount: orderedNews.length,
-                  itemBuilder: (_, i) => ElasticIn(
-                    delay: const Duration(milliseconds: 200),
-                    duration: const Duration(milliseconds: 500),
-                    child: DescriptionNewsCard(
-                      news: orderedNews[i],
-                      index: i,
-                    ),
-                  ),
-                ),
+                    shrinkWrap: false,
+                    itemCount: orderedNews.length,
+                    itemBuilder: (_, i) {
+                      final selNews = orderedNews[i];
+
+                      return ElasticIn(
+                        delay: const Duration(milliseconds: 200),
+                        duration: const Duration(milliseconds: 500),
+                        child: DescriptionNewsCard(
+                          onPressed: () {
+                            getSelectedNews(selNews);
+                          },
+                          news: orderedNews[i],
+                          index: i,
+                        ),
+                      );
+                    }),
               ),
             )
           ],
         ),
       ),
     );
+  }
+
+  void getSelectedNews(Article selNews) {
+//todo: como crear una lista a partir de estos elementos guardados
+
+    print('SELECTED NEWS ${selNews.url}');
+
+    print(
+      'SELECTED NEWS ${selNews.title}',
+    );
+    print('SELECTED NEWS ${selNews.urlToImage}');
   }
 }
 
