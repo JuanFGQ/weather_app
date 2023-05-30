@@ -11,6 +11,8 @@ class Preferences {
     _prefs = await SharedPreferences.getInstance();
   }
 
+//******************************************************* */
+
 //get list from sharePreferences
   static List<String> get history {
     return _prefs.getStringList('history') ?? _history;
@@ -22,6 +24,7 @@ class Preferences {
     _prefs.setStringList('history', history);
   }
 
+//******************************************************* */
 //for get selected Item
   static String get placeName {
     return _prefs.getString('placeName') ?? _placeName;

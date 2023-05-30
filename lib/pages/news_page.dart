@@ -13,6 +13,7 @@ import 'package:weather/services/weather_api_service.dart';
 import 'package:weather/widgets/circular_progress_indicator.dart';
 import 'package:weather/widgets/news_card.dart';
 
+import '../preferences/share_prefs.dart';
 import '../widgets/description_news_card.dart';
 
 class NewsPage extends StatefulWidget {
@@ -192,6 +193,9 @@ class _NewsViewerState extends State<_NewsViewer>
         title: selNews.title,
         url: selNews.url!,
         urlToImage: selNews.urlToImage!);
+
+    Preferences.sSavedNews = saveN as List<String>;
+    Preferences.newsListShow.insertAll(0, Preferences.gSavedNews);
 
     print('SAVED NAMES ${saveN.title}');
   }

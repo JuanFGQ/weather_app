@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/save_news_class.dart';
+import 'package:weather/preferences/share_prefs.dart';
 import 'package:weather/search/search_delegate_widget.dart';
 import 'package:weather/widgets/rounded_button.dart';
 
@@ -58,6 +59,7 @@ class HomeWidget extends StatelessWidget {
     double valMult = 10;
     final weatherAPI = Provider.of<WeatherApiService>(context);
     final apiResp = weatherAPI;
+    final savedNews = Preferences.gSavedNews;
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -111,11 +113,10 @@ class HomeWidget extends StatelessWidget {
                       ),
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: 6,
+                        itemCount: savedNews.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return _ListTileItemContent(
-                            widget: FaIcon(FontAwesomeIcons.locationDot),
-                          );
+                          final saveN = savedNews[index];
+                          return _ListNewsItemContent(widget: widget, saveNews: saveN)
                         },
                       ),
                     )
@@ -371,10 +372,13 @@ class _ListNewsItemContent extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30), color: Colors.amber),
       child: ListTile(
-        leading: widget,
-        title: Text('Name city'),
-        subtitle: Text('weather state'),
-        trailing: Text('20º'),
+        leading: CircleAvatar(child: Image(image: NetworkImage(saveNews.urlToImage)),),
+        title: Text(saveNews.title),
+        onTap: (){
+          //todo: launcher url
+          saveNews.url;
+        },
+        
       ),
     );
   }
