@@ -13,7 +13,6 @@ import 'package:weather/services/weather_api_service.dart';
 import 'package:weather/widgets/circular_progress_indicator.dart';
 import 'package:weather/widgets/news_card.dart';
 
-import '../preferences/share_prefs.dart';
 import '../widgets/description_news_card.dart';
 
 class NewsPage extends StatefulWidget {
@@ -187,13 +186,18 @@ class _NewsViewerState extends State<_NewsViewer>
   }
 
   void getSelectedNews(Article selNews) {
-    var data = {
-      'title': selNews.title,
-      'url': selNews.url,
-      'urlToImage': selNews.urlToImage
-    };
+//todo: como crear una lista a partir de estos elementos guardados
+    // List<SavedNews> saveNewsList = [];
 
-    SavedNews saveN = new SavedNews.assignData(data);
+    final newsList =
+        Provider.of<NewsService>(context, listen: false).savedNewsList;
+
+    SavedNews saveN = SavedNews(
+        title: selNews.title,
+        url: selNews.url!,
+        urlToImage: selNews.urlToImage!);
+
+    newsList.insert(0, saveN);
   }
 }
 

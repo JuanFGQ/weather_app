@@ -37,4 +37,14 @@ class Preferences {
   }
 
   //****************************************************** */
+// //get list from sharePreferences
+//   static List<SavedNews> get history {
+//     return _prefs.getStringList('history') ?? _history;
+//   }
+
+// //save list on sharePreferences
+//   static set history(List<saved> history) {
+//     _history = history;
+//     _prefs.setStringList('history', history);
+//   }
 }

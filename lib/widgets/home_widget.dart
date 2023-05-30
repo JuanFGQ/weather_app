@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:weather/models/save_news_class.dart';
 import 'package:weather/preferences/share_prefs.dart';
 import 'package:weather/search/search_delegate_widget.dart';
+import 'package:weather/services/news_service.dart';
 import 'package:weather/widgets/rounded_button.dart';
 
 import '../services/weather_api_service.dart';
@@ -57,8 +58,8 @@ class HomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     double heighval = MediaQuery.of(context).size.height * 0.01;
     double valMult = 10;
-    final weatherAPI = Provider.of<WeatherApiService>(context);
-    final apiResp = weatherAPI;
+
+    final newsList = Provider.of<NewsService>(context).savedNewsList;
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -112,11 +113,11 @@ class HomeWidget extends StatelessWidget {
                       ),
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: savedNews.length,
+                        itemCount: newsList.length,
+                        // savedNews.length,
                         itemBuilder: (BuildContext context, int index) {
-                          final saveN = savedNews[index];
-                          return _ListTileItemContent(
-                              widget: FaIcon(FontAwesomeIcons.locationDot));
+                          final saveN = newsList[index];
+                          return _ListNewsItemContent(saveNews: saveN);
                         },
                       ),
                     )
