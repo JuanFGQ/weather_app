@@ -7,7 +7,10 @@ class SavedNews {
 
   SavedNews({required this.title, required this.url, required this.urlToImage});
 
-  List<String> getSavedNewsInfo() {
-    return [url, title, urlToImage];
+  factory SavedNews.assignData(Map jsonMap) {
+    return SavedNews(
+        title: jsonMap['title'],
+        url: jsonMap['url'],
+        urlToImage: jsonMap['urlToImage']);
   }
 }
