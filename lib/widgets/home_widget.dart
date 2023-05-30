@@ -59,7 +59,6 @@ class HomeWidget extends StatelessWidget {
     double valMult = 10;
     final weatherAPI = Provider.of<WeatherApiService>(context);
     final apiResp = weatherAPI;
-    final savedNews = Preferences.gSavedNews;
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -71,8 +70,8 @@ class HomeWidget extends StatelessWidget {
             // padding: EdgeInsets.zero,
             children: [
               Container(
-                margin: EdgeInsets.only(left: 10),
-                child: Align(
+                margin: const EdgeInsets.only(left: 10),
+                child: const Align(
                     alignment: Alignment.topLeft,
                     child: Text('Home',
                         style: TextStyle(
@@ -116,7 +115,8 @@ class HomeWidget extends StatelessWidget {
                         itemCount: savedNews.length,
                         itemBuilder: (BuildContext context, int index) {
                           final saveN = savedNews[index];
-                          return _ListNewsItemContent(widget: widget, saveNews: saveN)
+                          return _ListTileItemContent(
+                              widget: FaIcon(FontAwesomeIcons.locationDot));
                         },
                       ),
                     )
@@ -359,11 +359,9 @@ class _ListTileItemContent extends StatelessWidget {
 }
 
 class _ListNewsItemContent extends StatelessWidget {
-  final Widget widget;
   final SavedNews saveNews;
 
-  const _ListNewsItemContent(
-      {super.key, required this.widget, required this.saveNews});
+  const _ListNewsItemContent({super.key, required this.saveNews});
 
   @override
   Widget build(BuildContext context) {
@@ -372,13 +370,14 @@ class _ListNewsItemContent extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30), color: Colors.amber),
       child: ListTile(
-        leading: CircleAvatar(child: Image(image: NetworkImage(saveNews.urlToImage)),),
+        leading: CircleAvatar(
+          child: Image(image: NetworkImage(saveNews.urlToImage)),
+        ),
         title: Text(saveNews.title),
-        onTap: (){
+        onTap: () {
           //todo: launcher url
-          saveNews.url;
+          print(saveNews.url);
         },
-        
       ),
     );
   }

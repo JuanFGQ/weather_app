@@ -187,8 +187,6 @@ class _NewsViewerState extends State<_NewsViewer>
   }
 
   void getSelectedNews(Article selNews) {
-//todo: como crear una lista a partir de estos elementos guardados
-
     var data = {
       'title': selNews.title,
       'url': selNews.url,
@@ -196,16 +194,6 @@ class _NewsViewerState extends State<_NewsViewer>
     };
 
     SavedNews saveN = new SavedNews.assignData(data);
-
-    // SavedNews saveN = SavedNews(
-    //     title: selNews.title,
-    //     url: selNews.url!,
-    //     urlToImage: selNews.urlToImage!);
-
-    Preferences.sSavedNews = saveN as List<String>;
-    Preferences.newsListShow.insertAll(0, Preferences.gSavedNews);
-
-    print('SAVED NAMES ${saveN.title}');
   }
 }
 

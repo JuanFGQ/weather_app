@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class SavedNews {
@@ -5,12 +7,15 @@ class SavedNews {
   String title;
   String urlToImage;
 
-  SavedNews({required this.title, required this.url, required this.urlToImage});
+  SavedNews({
+    required this.title,
+    required this.url,
+    required this.urlToImage,
+  });
 
-  factory SavedNews.assignData(Map jsonMap) {
-    return SavedNews(
-        title: jsonMap['title'],
-        url: jsonMap['url'],
-        urlToImage: jsonMap['urlToImage']);
-  }
+  factory SavedNews.assignData(Map<String, dynamic> json) => SavedNews(
+        title: json['title'],
+        url: json['url'],
+        urlToImage: json['urlToImage'],
+      );
 }
