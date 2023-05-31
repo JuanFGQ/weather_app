@@ -59,12 +59,29 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
+<<<<<<< HEAD
+=======
+  List<SavedNews> saveNewsList = [];
+
+  NewsService? newsService;
+
+  @override
+  void initState() {
+    super.initState();
+    newsService = Provider.of<NewsService>(context, listen: false);
+
+    newsService!.getSavedNewsList().then((list) {
+      setState(() {
+        saveNewsList = list;
+      });
+    });
+  }
+
+>>>>>>> 2c9805188b2f2fbdac1f1bd08dc982f347d6b0e8
   @override
   Widget build(BuildContext context) {
     double heighval = MediaQuery.of(context).size.height * 0.01;
     double valMult = 10;
-
-    final newsList = Provider.of<NewsService>(context).savedNewsList;
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -83,7 +100,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 30))),
               ),
-              _ListTileItemContent(
+              const _ListTileItemContent(
                   widget: CircleAvatar(
                 child: Image(image: AssetImage('assets/horus-eye.png')),
               )),
@@ -118,10 +135,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                       ),
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: newsList.length,
+                        itemCount: saveNewsList.length,
                         // savedNews.length,
                         itemBuilder: (BuildContext context, int index) {
-                          final saveN = newsList[index];
+                          final saveN = saveNewsList[index];
                           return _ListNewsItemContent(saveNews: saveN);
                         },
                       ),
@@ -380,7 +397,21 @@ class _ListNewsItemContent extends StatelessWidget {
           borderRadius: BorderRadius.circular(30), color: Colors.amber),
       child: ListTile(
         leading: CircleAvatar(
-          child: Image(image: NetworkImage(saveNews.urlToImage)),
+          child: (saveNews.urlToImage.isNotEmpty &&
+                  saveNews.urlToImage.startsWith('http'))
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(40),
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: FadeInImage(
+                        placeholder:
+                            const AssetImage('assets/barra_colores.gif'),
+                        image: NetworkImage(saveNews.urlToImage)),
+                  ),
+                )
+              : const FittedBox(
+                  fit: BoxFit.fill,
+                  child: Image(image: AssetImage('assets/no-image.png'))),
         ),
         title: Text(saveNews.title),
         onTap: () {
