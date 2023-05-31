@@ -198,6 +198,8 @@ class _NewsViewerState extends State<_NewsViewer>
         urlToImage: selNews.urlToImage!);
 
     newsList.insert(0, saveN);
+
+    setState(() {});
   }
 }
 
