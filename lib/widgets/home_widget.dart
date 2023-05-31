@@ -78,7 +78,7 @@ class HomeWidget extends StatelessWidget {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 30))),
               ),
-              _ListTileItemContent(
+              const _ListTileItemContent(
                   widget: CircleAvatar(
                 child: Image(image: AssetImage('assets/horus-eye.png')),
               )),
@@ -372,7 +372,21 @@ class _ListNewsItemContent extends StatelessWidget {
           borderRadius: BorderRadius.circular(30), color: Colors.amber),
       child: ListTile(
         leading: CircleAvatar(
-          child: Image(image: NetworkImage(saveNews.urlToImage)),
+          child: (saveNews.urlToImage.isNotEmpty &&
+                  saveNews.urlToImage.startsWith('http'))
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(40),
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: FadeInImage(
+                        placeholder:
+                            const AssetImage('assets/barra_colores.gif'),
+                        image: NetworkImage(saveNews.urlToImage)),
+                  ),
+                )
+              : const FittedBox(
+                  fit: BoxFit.fill,
+                  child: Image(image: AssetImage('assets/no-image.png'))),
         ),
         title: Text(saveNews.title),
         onTap: () {
