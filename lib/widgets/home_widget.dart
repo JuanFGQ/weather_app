@@ -59,25 +59,6 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-<<<<<<< HEAD
-=======
-  List<SavedNews> saveNewsList = [];
-
-  NewsService? newsService;
-
-  @override
-  void initState() {
-    super.initState();
-    newsService = Provider.of<NewsService>(context, listen: false);
-
-    newsService!.getSavedNewsList().then((list) {
-      setState(() {
-        saveNewsList = list;
-      });
-    });
-  }
-
->>>>>>> 2c9805188b2f2fbdac1f1bd08dc982f347d6b0e8
   @override
   Widget build(BuildContext context) {
     double heighval = MediaQuery.of(context).size.height * 0.01;
@@ -135,11 +116,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                       ),
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: saveNewsList.length,
+                        // itemCount: saveNewsList.length,
                         // savedNews.length,
                         itemBuilder: (BuildContext context, int index) {
-                          final saveN = saveNewsList[index];
-                          return _ListNewsItemContent(saveNews: saveN);
+                          // final saveN = saveNewsList[index];
+                          // return _ListNewsItemContent(saveNews: saveN);
                         },
                       ),
                     )

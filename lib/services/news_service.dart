@@ -66,25 +66,4 @@ class NewsService with ChangeNotifier {
 
     return newsResp;
   }
-
-  void savedNewsListServ(List<SavedNews> list) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> savedNewsJsonList =
-        list.map((savedNews) => jsonEncode(savedNews.toJson())).toList();
-
-    await prefs.setStringList('saveNewsList', savedNewsJsonList);
-  }
-
-  Future<List<SavedNews>> getSavedNewsList() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String>? savedNewsJsonList = prefs.getStringList('saveNewsList');
-    if (savedNewsJsonList != null) {
-      return savedNewsJsonList
-          .map((savedNewsJson) =>
-              SavedNews.assignData(jsonDecode(savedNewsJson)))
-          .toList();
-    } else {
-      return [];
-    }
-  }
 }
