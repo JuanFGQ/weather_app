@@ -192,18 +192,11 @@ class _NewsViewerState extends State<_NewsViewer>
         title: selNews.title,
         url: selNews.url!,
         urlToImage: selNews.urlToImage!);
+    List<SavedNews> saveNewsList = [saveN];
 
-    // newsList.insert(0, saveN);
-    // setState(() {});
-    final news = newsServ.savedNewsList = [saveN];
+    newsServ.savedNewsListServ(saveNewsList);
 
-    // List<SavedNews> saveNewsList = [saveN];
-
-    newsServ.savedNewsListServ(news);
-
-    setState(() {});
-
-    //todo:
+    //todo: verificar en la lista del side menu si estan guardandose
   }
 }
 
