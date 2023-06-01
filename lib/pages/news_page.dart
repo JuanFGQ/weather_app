@@ -173,7 +173,7 @@ class _NewsViewerState extends State<_NewsViewer>
                           news: orderedNews[i],
                           index: i,
                           onPressed: () {
-                            getSelectedNews(selNews);
+                            getSelectedNewsIndex(selNews);
                           },
                         ),
                       );
@@ -186,10 +186,11 @@ class _NewsViewerState extends State<_NewsViewer>
     );
   }
 
-  void getSelectedNews(Article selNews) async {
+  void getSelectedNewsIndex(Article selNews) async {
     final savedNewsProvider =
         Provider.of<NewsListProvider>(context, listen: false);
-    final newSave = await savedNewsProvider.newSave(
+
+    await savedNewsProvider.newSave(
         selNews.url!, selNews.title, selNews.urlToImage);
   }
 }

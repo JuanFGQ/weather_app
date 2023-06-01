@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:weather/models/saved_news_response.dart';
+import 'package:weather/models/saved_news_model.dart';
 
 class DBprovider {
   static Database? _database;

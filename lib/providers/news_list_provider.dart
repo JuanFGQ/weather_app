@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather/models/saved_news_response.dart';
+import 'package:weather/models/saved_news_model.dart';
 import 'package:weather/providers/db_provider.dart';
 
 class NewsListProvider extends ChangeNotifier {
