@@ -8,6 +8,7 @@ import 'package:weather/models/news/articles_info.dart';
 import 'package:weather/models/news/news_response.dart';
 import 'package:weather/models/save_news_class.dart';
 import 'package:weather/pages/no_data_page.dart';
+import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 import 'package:weather/widgets/circular_progress_indicator.dart';
@@ -169,11 +170,11 @@ class _NewsViewerState extends State<_NewsViewer>
                         delay: const Duration(milliseconds: 200),
                         duration: const Duration(milliseconds: 500),
                         child: DescriptionNewsCard(
+                          news: orderedNews[i],
+                          index: i,
                           onPressed: () {
                             getSelectedNews(selNews);
                           },
-                          news: orderedNews[i],
-                          index: i,
                         ),
                       );
                     }),
@@ -185,20 +186,11 @@ class _NewsViewerState extends State<_NewsViewer>
     );
   }
 
-  void getSelectedNews(Article selNews) {
-    // List<SavedNews> saveNewsList = [];
-
-    // final newsList =
-    //     Provider.of<NewsService>(context, listen: false).savedNewsList;
-
-    // SavedNews saveN = SavedNews(
-    //     title: selNews.title,
-    //     url: selNews.url!,
-    //     urlToImage: selNews.urlToImage!);
-
-    // newsList.insert(0, saveN);
-
-    // setState(() {});
+  void getSelectedNews(Article selNews) async {
+    final savedNewsProvider =
+        Provider.of<NewsListProvider>(context, listen: false);
+    final newSave = await savedNewsProvider.newSave(
+        selNews.url!, selNews.title, selNews.urlToImage);
   }
 }
 
