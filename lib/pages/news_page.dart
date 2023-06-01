@@ -6,7 +6,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/news/articles_info.dart';
 import 'package:weather/models/news/news_response.dart';
-import 'package:weather/models/save_news_class.dart';
 import 'package:weather/pages/no_data_page.dart';
 import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/services/news_service.dart';
@@ -79,21 +78,17 @@ class _NewsViewer extends StatefulWidget {
 
 class _NewsViewerState extends State<_NewsViewer>
     with TickerProviderStateMixin {
+  NewsListProvider? newsProvider;
+
   List<Article> orderedNews = []; //store the new ordered list of news
   bool descAsc = false; //flags to show desc or asc list
-  late Animation<double> _myAnimation;
-  late AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
+    newsProvider = Provider.of<NewsListProvider>(context, listen: false);
     orderedNews = List.from(widget
         .news); //here i match the instanceS of the list created with the list i receive in class arguments
-
-    _controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 200));
-
-    _myAnimation = CurvedAnimation(parent: _controller, curve: Curves.linear);
 
     orderNewsByDate();
   }
@@ -102,10 +97,8 @@ class _NewsViewerState extends State<_NewsViewer>
     setState(() {
       if (descAsc) {
         orderedNews.sort((a, b) => a.publishedAt.compareTo(b.publishedAt));
-        _controller.forward();
       } else {
         orderedNews.sort((a, b) => b.publishedAt.compareTo(a.publishedAt));
-        _controller.reverse();
       }
       descAsc = !descAsc;
     });
@@ -173,7 +166,11 @@ class _NewsViewerState extends State<_NewsViewer>
                           news: orderedNews[i],
                           index: i,
                           onPressed: () {
-                            getSelectedNewsIndex(selNews);
+                            setState(() {
+                              newsProvider!.selectedItem = i;
+                            });
+
+                            getSelectedNewsIndex(selNews, i);
                           },
                         ),
                       );
@@ -186,14 +183,14 @@ class _NewsViewerState extends State<_NewsViewer>
     );
   }
 
-  void getSelectedNewsIndex(Article selNews) async {
+  void getSelectedNewsIndex(Article selNews, int i) async {
     final savedNewsProvider =
         Provider.of<NewsListProvider>(context, listen: false);
 
     await savedNewsProvider.newSave(
         selNews.url!, selNews.title, selNews.urlToImage);
 
-    savedNewsProvider.loadSavedNews();
+    await savedNewsProvider.loadSavedNews();
   }
 }
 

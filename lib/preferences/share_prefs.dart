@@ -1,5 +1,4 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weather/models/save_news_class.dart';
 
 class Preferences {
   static late SharedPreferences _prefs;
@@ -37,9 +36,4 @@ class Preferences {
   }
 
   //****************************************************** */
-
-  // static List<SavedNews> get list {
-  //   _prefs
-
-  // }
 }

@@ -4,19 +4,26 @@ import 'package:weather/providers/db_provider.dart';
 
 class NewsListProvider extends ChangeNotifier {
   List<SavedNewsModel> news = [];
-  bool selectedNews = false;
+  int _selectedItem = -1;
+
+  int get selectedItem => _selectedItem;
+
+  set selectedItem(int value) {
+    _selectedItem = value;
+    notifyListeners();
+  }
 
   Future<SavedNewsModel> newSave(String url, title, urlToImage) async {
     final newSave =
-        new SavedNewsModel(title: title, url: url, urlToImage: urlToImage);
+        SavedNewsModel(title: title, url: url, urlToImage: urlToImage);
 
     final id = await DBprovider.db.newSave(newSave);
 
     newSave.id = id;
-    if (this.selectedNews == true) {
-      this.news.add(newSave);
-      notifyListeners();
-    }
+    // if (isPressedHeart == true) {
+    //   news.add(newSave);
+    //   notifyListeners();
+    // }
     return newSave;
   }
 
@@ -29,6 +36,11 @@ class NewsListProvider extends ChangeNotifier {
   deleteAllSavedNews() async {
     await DBprovider.db.deleteAllNews();
     this.news = [];
+    notifyListeners();
+  }
+
+  deleteNewsById(int id) async {
+    await DBprovider.db.deleteNews(id);
     notifyListeners();
   }
 }

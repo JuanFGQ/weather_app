@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/State_management.dart';
+import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/widgets/rounded_button.dart';
 
@@ -19,7 +20,7 @@ class DescriptionNewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final hearhButon = Provider.of<StateManagement>(context).hearthButton;
+    final newsListProvider = Provider.of<NewsListProvider>(context);
     return GestureDetector(
       onTap: () {
         final urlNewsLauncher =
@@ -87,13 +88,13 @@ class DescriptionNewsCard extends StatelessWidget {
                         width: 30,
                         height: 30,
                         child: RoundedButton(
-                            icon: (hearhButon)
+                            icon: index == newsListProvider.selectedItem
                                 ? const FaIcon(
-                                    FontAwesomeIcons.heartCircleCheck,
+                                    FontAwesomeIcons.solidHeart,
                                     color: Colors.red,
                                   )
                                 : const FaIcon(FontAwesomeIcons.heart,
-                                    color: Colors.white),
+                                    color: Colors.black),
                             infinite: false,
                             function: onPressed),
                       )
