@@ -192,6 +192,8 @@ class _NewsViewerState extends State<_NewsViewer>
 
     await savedNewsProvider.newSave(
         selNews.url!, selNews.title, selNews.urlToImage);
+
+    savedNewsProvider.loadSavedNews();
   }
 }
 
