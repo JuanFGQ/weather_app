@@ -38,7 +38,7 @@ CREATE TABLE News(
     });
   }
 
-  Future<int> newSave(SavedNews newSave) async {
+  Future<int> newSave(SavedNewsModel newSave) async {
     final db = await database;
 
     final res = await db!.insert('news', newSave.toJson());
@@ -46,11 +46,13 @@ CREATE TABLE News(
     return res;
   }
 
-  Future<List<SavedNews>?> getAllNews() async {
+  Future<List<SavedNewsModel>?> getAllNews() async {
     final db = await database;
     final res = await db!.query('News');
 
-    return res.isNotEmpty ? res.map((e) => SavedNews.fromJson(e)).toList() : [];
+    return res.isNotEmpty
+        ? res.map((e) => SavedNewsModel.fromJson(e)).toList()
+        : [];
   }
 
   Future<int?> deleteNews(int id) async {

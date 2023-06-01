@@ -186,20 +186,19 @@ class _NewsViewerState extends State<_NewsViewer>
   }
 
   void getSelectedNews(Article selNews) {
-//todo: como crear una lista a partir de estos elementos guardados
     // List<SavedNews> saveNewsList = [];
 
-    final newsList =
-        Provider.of<NewsService>(context, listen: false).savedNewsList;
+    // final newsList =
+    //     Provider.of<NewsService>(context, listen: false).savedNewsList;
 
-    SavedNews saveN = SavedNews(
-        title: selNews.title,
-        url: selNews.url!,
-        urlToImage: selNews.urlToImage!);
+    // SavedNews saveN = SavedNews(
+    //     title: selNews.title,
+    //     url: selNews.url!,
+    //     urlToImage: selNews.urlToImage!);
 
-    newsList.insert(0, saveN);
+    // newsList.insert(0, saveN);
 
-    setState(() {});
+    // setState(() {});
   }
 }
 
