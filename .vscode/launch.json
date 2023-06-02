@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "weather_app-main",
             "request": "launch",
@@ -33,6 +34,12 @@
             "request": "launch",
             "type": "dart",
             "deviceId": "emulator-5554"
+        },
+        {
+            "name": "pixel 3a XL",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "emulator-5554"
         }
 
 
@@ -42,7 +49,8 @@
             "name": "All Devices",
             "configurations": [
                 "samsung s22",
-                "pixel 6 API 27"
+                "pixel 6 API 27",
+                "pixel 3a XL"
             ]
         }
     ]
