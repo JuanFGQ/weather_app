@@ -61,6 +61,8 @@ class HomeWidget extends StatelessWidget {
     double heighval = MediaQuery.of(context).size.height * 0.01;
     double valMult = 10;
 
+    bool deleteNews = false;
+
     final newsListProvider = Provider.of<NewsListProvider>(context);
     final newsListP = newsListProvider.news;
 
@@ -120,6 +122,7 @@ class HomeWidget extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           final newsList = newsListP[index];
                           return _ListNewsItemContent(
+                            selectedDelete: index,
                             saveNews: newsList,
                           );
                         },
@@ -363,10 +366,23 @@ class _ListTileItemContent extends StatelessWidget {
   }
 }
 
-class _ListNewsItemContent extends StatelessWidget {
+class _ListNewsItemContent extends StatefulWidget {
   final SavedNewsModel saveNews;
+  final int selectedDelete;
+  // final bool deleteNews;
 
-  const _ListNewsItemContent({super.key, required this.saveNews});
+  const _ListNewsItemContent({
+    super.key,
+    required this.saveNews,
+    required this.selectedDelete,
+  });
+
+  @override
+  State<_ListNewsItemContent> createState() => _ListNewsItemContentState();
+}
+
+class _ListNewsItemContentState extends State<_ListNewsItemContent> {
+  bool deleteNews = false;
 
   @override
   Widget build(BuildContext context) {
@@ -376,8 +392,8 @@ class _ListNewsItemContent extends StatelessWidget {
           borderRadius: BorderRadius.circular(30), color: Colors.amber),
       child: ListTile(
         leading: CircleAvatar(
-          child: (saveNews.urlToImage.isNotEmpty &&
-                  saveNews.urlToImage.startsWith('http'))
+          child: (widget.saveNews.urlToImage.isNotEmpty &&
+                  widget.saveNews.urlToImage.startsWith('http'))
               ? ClipRRect(
                   borderRadius: BorderRadius.circular(40),
                   child: FittedBox(
@@ -385,17 +401,47 @@ class _ListNewsItemContent extends StatelessWidget {
                     child: FadeInImage(
                         placeholder:
                             const AssetImage('assets/barra_colores.gif'),
-                        image: NetworkImage(saveNews.urlToImage)),
+                        image: NetworkImage(widget.saveNews.urlToImage)),
                   ),
                 )
               : const FittedBox(
                   fit: BoxFit.fill,
                   child: Image(image: AssetImage('assets/no-image.png'))),
         ),
-        title: Text(saveNews.title),
+        title: Text(widget.saveNews.title),
+        trailing: (!deleteNews)
+            ? Container(
+                color: Colors.red,
+                child: GestureDetector(
+                    onTap: () {
+                      deleteNews = true;
+                      // setState(() {});
+                    },
+                    child: FaIcon(FontAwesomeIcons.trashCan)),
+              )
+            : Container(
+                color: Colors.red,
+                child: Column(
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          final newsListProvider =
+                              Provider.of<NewsListProvider>(context);
+
+                          newsListProvider.deleteNewsById();
+                        },
+                        child: FaIcon(FontAwesomeIcons.check)),
+                    GestureDetector(
+                        onTap: () {
+                          deleteNews = false;
+                        },
+                        child: FaIcon(FontAwesomeIcons.x))
+                  ],
+                ),
+              ),
         onTap: () {
           //todo: launcher url
-          print(saveNews.url);
+          print(widget.saveNews.url);
         },
       ),
     );
