@@ -22,7 +22,6 @@ class _HomePageState extends State<HomePage> {
   WeatherApiService? weatherApi;
   GeolocatorService? geolocatorService;
   NewsService? newsService;
-  NewsListProvider? newsListProvider;
 
   @override
   void initState() {
@@ -30,14 +29,8 @@ class _HomePageState extends State<HomePage> {
     weatherApi = Provider.of<WeatherApiService>(context, listen: false);
     geolocatorService = Provider.of<GeolocatorService>(context, listen: false);
     newsService = Provider.of<NewsService>(context, listen: false);
-    newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
 
     _loadWeatherData();
-    _loadNewsList();
-  }
-
-  void _loadNewsList() async {
-    newsListProvider!.loadSavedNews();
   }
 
   void _loadWeatherData() async {

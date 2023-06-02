@@ -6,6 +6,8 @@ import 'package:weather/pages/gps_access_page.dart';
 import 'package:weather/pages/home_page.dart';
 import 'package:weather/services/geolocator_service.dart';
 
+import '../providers/news_list_provider.dart';
+
 class LoadingPage extends StatefulWidget {
   const LoadingPage({super.key});
 
@@ -14,9 +16,18 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
+  NewsListProvider? newsListProvider;
+
   @override
   void initState() {
     super.initState();
+    newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
+
+    _loadNewsList();
+  }
+
+  void _loadNewsList() async {
+    await newsListProvider!.loadSavedNews();
   }
 
   @override

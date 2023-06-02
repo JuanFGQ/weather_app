@@ -61,8 +61,6 @@ class HomeWidget extends StatelessWidget {
     double heighval = MediaQuery.of(context).size.height * 0.01;
     double valMult = 10;
 
-    bool deleteNews = false;
-
     final newsListProvider = Provider.of<NewsListProvider>(context);
     final newsListP = newsListProvider.news;
 
@@ -109,6 +107,12 @@ class HomeWidget extends StatelessWidget {
                     )
                   ]),
               ExpansionTile(
+                  onExpansionChanged: (value) async {
+                    final newsListProvider =
+                        Provider.of<NewsListProvider>(context, listen: false);
+
+                    value = await newsListProvider.loadSavedNews();
+                  },
                   leading: const FaIcon(FontAwesomeIcons.newspaper),
                   title: const Text('News for read'),
                   children: [
@@ -122,7 +126,7 @@ class HomeWidget extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           final newsList = newsListP[index];
                           return _ListNewsItemContent(
-                            selectedDelete: index,
+                            selectedDelete: newsListP[index].id,
                             saveNews: newsList,
                           );
                         },
@@ -368,13 +372,13 @@ class _ListTileItemContent extends StatelessWidget {
 
 class _ListNewsItemContent extends StatefulWidget {
   final SavedNewsModel saveNews;
-  final int selectedDelete;
+  final int? selectedDelete;
   // final bool deleteNews;
 
-  const _ListNewsItemContent({
+  _ListNewsItemContent({
     super.key,
     required this.saveNews,
-    required this.selectedDelete,
+    this.selectedDelete,
   });
 
   @override
@@ -397,7 +401,7 @@ class _ListNewsItemContentState extends State<_ListNewsItemContent> {
               ? ClipRRect(
                   borderRadius: BorderRadius.circular(40),
                   child: FittedBox(
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                     child: FadeInImage(
                         placeholder:
                             const AssetImage('assets/barra_colores.gif'),
@@ -405,7 +409,7 @@ class _ListNewsItemContentState extends State<_ListNewsItemContent> {
                   ),
                 )
               : const FittedBox(
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                   child: Image(image: AssetImage('assets/no-image.png'))),
         ),
         title: Text(widget.saveNews.title),
@@ -415,25 +419,36 @@ class _ListNewsItemContentState extends State<_ListNewsItemContent> {
                 child: GestureDetector(
                     onTap: () {
                       deleteNews = true;
-                      // setState(() {});
+                      print('DELETE NEWS $deleteNews');
+                      setState(() {});
                     },
                     child: FaIcon(FontAwesomeIcons.trashCan)),
               )
             : Container(
-                color: Colors.red,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.red,
+                ),
                 child: Column(
                   children: [
                     GestureDetector(
                         onTap: () {
                           final newsListProvider =
-                              Provider.of<NewsListProvider>(context);
+                              Provider.of<NewsListProvider>(context,
+                                  listen: false);
 
-                          newsListProvider.deleteNewsById();
+                          newsListProvider
+                              .deleteNewsById(widget.selectedDelete!);
+
+                          newsListProvider.loadSavedNews();
+                          deleteNews = false;
+                          setState(() {});
                         },
                         child: FaIcon(FontAwesomeIcons.check)),
                     GestureDetector(
                         onTap: () {
                           deleteNews = false;
+                          setState(() {});
                         },
                         child: FaIcon(FontAwesomeIcons.x))
                   ],
