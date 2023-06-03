@@ -55,8 +55,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final weatherAPI = Provider.of<WeatherApiService>(context);
     final apiResp = weatherAPI;
-    final mapBoxAPI = Provider.of<MapBoxService>(context);
-    final mapResp = mapBoxAPI;
 
     return StreamBuilder(
       stream: stream.stream,

@@ -166,11 +166,10 @@ class _NewsViewerState extends State<_NewsViewer>
                           news: orderedNews[i],
                           index: i,
                           onPressed: () {
-                            setState(() {
-                              newsProvider!.selectedItem = i;
-                            });
+                            newsProvider!.selectedItem = i;
 
                             getSelectedNewsIndex(selNews, i);
+                            setState(() {});
                           },
                         ),
                       );

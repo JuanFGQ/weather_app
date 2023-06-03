@@ -21,20 +21,16 @@ class NewsListProvider extends ChangeNotifier {
 
     newSave.id = id;
     // if (isPressedHeart == true) {
-    //   news.add(newSave);
-    //   notifyListeners();
+    news.add(newSave);
     // }
+    notifyListeners();
+
     return newSave;
   }
 
   loadSavedNews() async {
     final news = await DBprovider.db.getAllNews();
-    this.news =
-
-        /// `[...?news]` is using the spread operator (`...`) to create a new list with all the
-        /// elements of the `news` list, if it is not null. If `news` is null, it will create an
-        /// empty list. This is a way to avoid null errors when copying a list.
-        [...?news];
+    this.news = [...?news];
     notifyListeners();
   }
 
@@ -46,6 +42,5 @@ class NewsListProvider extends ChangeNotifier {
 
   deleteNewsById(int id) async {
     await DBprovider.db.deleteNews(id);
-    notifyListeners();
   }
 }

@@ -62,30 +62,20 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  NewsListProvider? newsListProvider;
-
   @override
   void initState() {
     super.initState();
-    newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
-
-    // _loadNewsSideMenu();
   }
-
-  // void _loadNewsSideMenu() async {
-  //   await newsListProvider!.loadSavedNews();
-  // }
 
   @override
   Widget build(BuildContext context) {
     double heighval = MediaQuery.of(context).size.height * 0.01;
     double valMult = 10;
-
-    final newsListP = newsListProvider!.news;
+    final newsListProvider = Provider.of<NewsListProvider>(context);
+    final newsListP = newsListProvider.news;
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
       appBar: AppBar(
           actions: [
             // Visibility(
@@ -171,7 +161,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         shrinkWrap: true,
                         itemCount: 6,
                         itemBuilder: (BuildContext context, int index) {
-                          return _ListTileItemContent(
+                          return const _ListTileItemContent(
                               widget: FaIcon(FontAwesomeIcons.locationDot));
                         },
                       ),
@@ -259,7 +249,6 @@ class _HomeWidgetState extends State<HomeWidget> {
           ),
         ]),
       ),
-
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -401,6 +390,14 @@ class _ListNewsItemContent extends StatefulWidget {
 }
 
 class _ListNewsItemContentState extends State<_ListNewsItemContent> {
+  NewsListProvider? newsListProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
+  }
+
   bool deleteNews = false;
 
   @override
@@ -434,7 +431,7 @@ class _ListNewsItemContentState extends State<_ListNewsItemContent> {
                 child: GestureDetector(
                     onTap: () {
                       deleteNews = true;
-                      // setState(() {});
+                      setState(() {});
                     },
                     child: FadeIn(
                       delay: Duration(milliseconds: 200),
@@ -457,16 +454,12 @@ class _ListNewsItemContentState extends State<_ListNewsItemContent> {
                     children: [
                       GestureDetector(
                           onTap: () {
-                            final newsListProvider =
-                                Provider.of<NewsListProvider>(context,
-                                    listen: false);
-
-                            newsListProvider
+                            newsListProvider!
                                 .deleteNewsById(widget.selectedDelete!);
-                            setState(() {});
-                            newsListProvider.loadSavedNews();
+
+                            newsListProvider!.loadSavedNews();
                             deleteNews = false;
-                            print('DELETE');
+                            setState(() {});
                           },
                           child: FadeInUp(
                             from: 15,
@@ -481,16 +474,13 @@ class _ListNewsItemContentState extends State<_ListNewsItemContent> {
                       GestureDetector(
                           onTap: () {
                             deleteNews = false;
-                            // setState(() {});
+                            setState(() {});
                           },
                           child: FadeInDown(
                             from: 15,
                             delay: const Duration(milliseconds: 150),
-                            child: const FaIcon(
-                              FontAwesomeIcons.x,
-                              size: 15,
-                              color: Colors.white54,
-                            ),
+                            child: const FaIcon(FontAwesomeIcons.x,
+                                size: 15, color: Colors.white54),
                           ))
                     ],
                   ),
