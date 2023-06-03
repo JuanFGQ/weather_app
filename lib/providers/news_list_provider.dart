@@ -29,7 +29,12 @@ class NewsListProvider extends ChangeNotifier {
 
   loadSavedNews() async {
     final news = await DBprovider.db.getAllNews();
-    this.news = [...?news];
+    this.news =
+
+        /// `[...?news]` is using the spread operator (`...`) to create a new list with all the
+        /// elements of the `news` list, if it is not null. If `news` is null, it will create an
+        /// empty list. This is a way to avoid null errors when copying a list.
+        [...?news];
     notifyListeners();
   }
 

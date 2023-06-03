@@ -23,12 +23,12 @@ class _LoadingPageState extends State<LoadingPage> {
     super.initState();
     newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
 
-    _loadNewsList();
+    // _loadNewsList();
   }
 
-  void _loadNewsList() async {
-    await newsListProvider!.loadSavedNews();
-  }
+  // void _loadNewsList() async {
+  //   await newsListProvider!.loadSavedNews();
+  // }
 
   @override
   Widget build(BuildContext context) {

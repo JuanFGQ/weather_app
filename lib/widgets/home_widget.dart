@@ -69,12 +69,12 @@ class _HomeWidgetState extends State<HomeWidget> {
     super.initState();
     newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
 
-    _loadNewsSideMenu();
+    // _loadNewsSideMenu();
   }
 
-  void _loadNewsSideMenu() async {
-    await newsListProvider!.loadSavedNews();
-  }
+  // void _loadNewsSideMenu() async {
+  //   await newsListProvider!.loadSavedNews();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +86,58 @@ class _HomeWidgetState extends State<HomeWidget> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       // resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+          actions: [
+            // Visibility(
+            //   visible: showRefreshButton,
+            //   child: FittedBox(
+            //     fit: BoxFit.values[5],
+            //     child: RawMaterialButton(
+            //       elevation: 10,
+            //       onPressed: refreshButton,
+            //       shape: CircleBorder(),
+            //       fillColor: Colors.white,
+            //       child: Spin(
+            //         duration: Duration(milliseconds: 5000),
+            //         infinite: true,
+            //         child: const FaIcon(
+            //           FontAwesomeIcons.refresh,
+            //           size: 18,
+            //         ),
+            //       ),
+            //       // constraints: ,
+            //     ),
+            //   ),
+            // )
+            IconButton(
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const WeatherSearchCity())),
+                icon: const FaIcon(FontAwesomeIcons.search)),
+          ],
+          // leading: IconButton(
+          //     onPressed: () => Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (BuildContext context) => WeatherSearchCity())),
+
+          //     // showSearch(
+          //     //     context: context, delegate: WeatherSearchDelegate()),
+          //     icon: const FaIcon(FontAwesomeIcons.search)),
+          iconTheme: const IconThemeData(color: Colors.black),
+          backgroundColor: widget.appBarColors,
+          elevation: 0,
+          centerTitle: true,
+          title: FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(widget.title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.black, fontSize: 40)),
+          )
+          //
+          ),
       backgroundColor: widget.scaffoldColor,
       drawer: Drawer(
         child: ListView(children: [
@@ -126,7 +178,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                     )
                   ]),
               ExpansionTile(
-                  onExpansionChanged: (value) async {},
                   leading: const FaIcon(FontAwesomeIcons.newspaper),
                   title: const Text('News for read'),
                   children: [
@@ -208,58 +259,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           ),
         ]),
       ),
-      appBar: AppBar(
-          actions: [
-            // Visibility(
-            //   visible: showRefreshButton,
-            //   child: FittedBox(
-            //     fit: BoxFit.values[5],
-            //     child: RawMaterialButton(
-            //       elevation: 10,
-            //       onPressed: refreshButton,
-            //       shape: CircleBorder(),
-            //       fillColor: Colors.white,
-            //       child: Spin(
-            //         duration: Duration(milliseconds: 5000),
-            //         infinite: true,
-            //         child: const FaIcon(
-            //           FontAwesomeIcons.refresh,
-            //           size: 18,
-            //         ),
-            //       ),
-            //       // constraints: ,
-            //     ),
-            //   ),
-            // )
-            IconButton(
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const WeatherSearchCity())),
-                icon: const FaIcon(FontAwesomeIcons.search)),
-          ],
-          // leading: IconButton(
-          //     onPressed: () => Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //             builder: (BuildContext context) => WeatherSearchCity())),
 
-          //     // showSearch(
-          //     //     context: context, delegate: WeatherSearchDelegate()),
-          //     icon: const FaIcon(FontAwesomeIcons.search)),
-          iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor: widget.appBarColors,
-          elevation: 0,
-          centerTitle: true,
-          title: FittedBox(
-            fit: BoxFit.fitWidth,
-            child: Text(widget.title,
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.black, fontSize: 40)),
-          )
-          //
-          ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -419,16 +419,22 @@ class _ListNewsItemContentState extends State<_ListNewsItemContent> {
                       placeholder: const AssetImage('assets/barra_colores.gif'),
                       image: NetworkImage(widget.saveNews.urlToImage)),
                 )
-              : Image(image: AssetImage('assets/no-image.png')),
+              : const Image(image: AssetImage('assets/no-image.png')),
         ),
-        title: Text(widget.saveNews.title),
+        title: GestureDetector(
+            onTap: () {
+              final newsService =
+                  Provider.of<NewsService>(context, listen: false);
+              newsService.launcherUrlString(context, widget.saveNews.url);
+            },
+            child: Text(widget.saveNews.title)),
         trailing: (!deleteNews)
             ? Container(
                 // color: Colors.red,
                 child: GestureDetector(
                     onTap: () {
                       deleteNews = true;
-                      setState(() {});
+                      // setState(() {});
                     },
                     child: FadeIn(
                       delay: Duration(milliseconds: 200),
@@ -457,14 +463,14 @@ class _ListNewsItemContentState extends State<_ListNewsItemContent> {
 
                             newsListProvider
                                 .deleteNewsById(widget.selectedDelete!);
-
+                            setState(() {});
                             newsListProvider.loadSavedNews();
                             deleteNews = false;
-                            setState(() {});
+                            print('DELETE');
                           },
                           child: FadeInUp(
                             from: 15,
-                            delay: Duration(milliseconds: 150),
+                            delay: const Duration(milliseconds: 150),
                             child: const FaIcon(
                               FontAwesomeIcons.check,
                               size: 15,
@@ -475,11 +481,11 @@ class _ListNewsItemContentState extends State<_ListNewsItemContent> {
                       GestureDetector(
                           onTap: () {
                             deleteNews = false;
-                            setState(() {});
+                            // setState(() {});
                           },
                           child: FadeInDown(
                             from: 15,
-                            delay: Duration(milliseconds: 150),
+                            delay: const Duration(milliseconds: 150),
                             child: const FaIcon(
                               FontAwesomeIcons.x,
                               size: 15,
@@ -490,12 +496,6 @@ class _ListNewsItemContentState extends State<_ListNewsItemContent> {
                   ),
                 ),
               ),
-        onTap: () {
-          final newsService = Provider.of<NewsService>(context, listen: false);
-          newsService.launcherUrlString(context, widget.saveNews.url);
-
-          print(widget.saveNews.url);
-        },
       ),
     );
   }
