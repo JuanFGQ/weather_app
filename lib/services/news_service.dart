@@ -53,6 +53,19 @@ class NewsService with ChangeNotifier {
     }
   }
 
+  Future<void> launcherUrlString(BuildContext context, String news) async {
+    final uri = Uri.parse(news);
+
+    if (news.startsWith('http')) {
+      if (await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      )) ;
+    } else {
+      debugPrint('news');
+    }
+  }
+
   Future<NewsResponse> getNewsByFoundedPlace(String city) async {
     _apiParams() {
       return {'apiKey': _apiKey, 'q': city, 'language': 'es'};

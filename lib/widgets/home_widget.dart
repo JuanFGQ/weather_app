@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/models/news/articles_info.dart';
 import 'package:weather/models/save_news_class.dart';
 import 'package:weather/preferences/share_prefs.dart';
 import 'package:weather/providers/news_list_provider.dart';
@@ -14,7 +15,7 @@ import '../services/weather_api_service.dart';
 import 'info_table.dart';
 import 'letras.dart';
 
-class HomeWidget extends StatelessWidget {
+class HomeWidget extends StatefulWidget {
   final String title;
   final String lastUpdateDate;
   final String lastUpdateTime;
@@ -57,17 +58,35 @@ class HomeWidget extends StatelessWidget {
       required this.showRefreshButton});
 
   @override
+  State<HomeWidget> createState() => _HomeWidgetState();
+}
+
+class _HomeWidgetState extends State<HomeWidget> {
+  NewsListProvider? newsListProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
+
+    _loadNewsSideMenu();
+  }
+
+  void _loadNewsSideMenu() async {
+    await newsListProvider!.loadSavedNews();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double heighval = MediaQuery.of(context).size.height * 0.01;
     double valMult = 10;
 
-    final newsListProvider = Provider.of<NewsListProvider>(context);
-    final newsListP = newsListProvider.news;
+    final newsListP = newsListProvider!.news;
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
       // resizeToAvoidBottomInset: false,
-      backgroundColor: scaffoldColor,
+      backgroundColor: widget.scaffoldColor,
       drawer: Drawer(
         child: ListView(children: [
           Column(
@@ -107,12 +126,7 @@ class HomeWidget extends StatelessWidget {
                     )
                   ]),
               ExpansionTile(
-                  onExpansionChanged: (value) async {
-                    final newsListProvider =
-                        Provider.of<NewsListProvider>(context, listen: false);
-
-                    value = await newsListProvider.loadSavedNews();
-                  },
+                  onExpansionChanged: (value) async {},
                   leading: const FaIcon(FontAwesomeIcons.newspaper),
                   title: const Text('News for read'),
                   children: [
@@ -235,12 +249,12 @@ class HomeWidget extends StatelessWidget {
           //     //     context: context, delegate: WeatherSearchDelegate()),
           //     icon: const FaIcon(FontAwesomeIcons.search)),
           iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor: appBarColors,
+          backgroundColor: widget.appBarColors,
           elevation: 0,
           centerTitle: true,
           title: FittedBox(
             fit: BoxFit.fitWidth,
-            child: Text(title,
+            child: Text(widget.title,
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: Colors.black, fontSize: 40)),
           )
@@ -258,15 +272,15 @@ class HomeWidget extends StatelessWidget {
 
           const SizedBox(height: 10),
           Words(
-            date: locationCountry,
-            wordColor: locCountryColor,
+            date: widget.locationCountry,
+            wordColor: widget.locCountryColor,
             // wordSize: 20,
           ),
           const SizedBox(height: 5),
           FadeInUp(
             from: 50,
             child: Text(
-              currentCOndition,
+              widget.currentCOndition,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
@@ -281,7 +295,7 @@ class HomeWidget extends StatelessWidget {
                       child: FittedBox(
                         fit: BoxFit.cover,
                         child: Text(
-                          feelsLikeData,
+                          widget.feelsLikeData,
                           style: TextStyle(fontSize: valMult * heighval),
                         ),
                       ),
@@ -298,7 +312,7 @@ class HomeWidget extends StatelessWidget {
                 RoundedButton(
                   infinite: true,
                   icon: FaIcon(FontAwesomeIcons.newspaper),
-                  function: function,
+                  function: widget.function,
                 ),
                 Text('News')
               ]),
@@ -307,7 +321,7 @@ class HomeWidget extends StatelessWidget {
                   RoundedButton(
                     infinite: true,
                     icon: FaIcon(FontAwesomeIcons.locationDot),
-                    function: function,
+                    function: widget.function,
                   ),
                   Text('Save')
                 ],
@@ -317,25 +331,28 @@ class HomeWidget extends StatelessWidget {
 
           const SizedBox(height: 10),
           // const InfoTable(),
-          InfoIcon(image: 'wind.gif', title: 'Wind', percentage: windData),
           InfoIcon(
-              image: 'drop.gif', title: 'Humidity', percentage: humidityData),
+              image: 'wind.gif', title: 'Wind', percentage: widget.windData),
+          InfoIcon(
+              image: 'drop.gif',
+              title: 'Humidity',
+              percentage: widget.humidityData),
           InfoIcon(
               image: 'view.gif',
               title: 'Visibility',
-              percentage: visibilityData),
+              percentage: widget.visibilityData),
           InfoIcon(
               image: 'windy.gif',
               title: 'Wind direction',
-              percentage: windDirectionData),
+              percentage: widget.windDirectionData),
           InfoIcon(
               image: 'temperature.gif',
               title: 'Temperature',
-              percentage: temperatureData),
+              percentage: widget.temperatureData),
           InfoIcon(
             image: 'hot.gif',
             title: 'Feels like',
-            percentage: feelsLikeData,
+            percentage: widget.feelsLikeData,
           ),
 
           const SizedBox(height: 10),
@@ -373,10 +390,8 @@ class _ListTileItemContent extends StatelessWidget {
 class _ListNewsItemContent extends StatefulWidget {
   final SavedNewsModel saveNews;
   final int? selectedDelete;
-  // final bool deleteNews;
 
-  _ListNewsItemContent({
-    super.key,
+  const _ListNewsItemContent({
     required this.saveNews,
     this.selectedDelete,
   });
@@ -400,62 +415,85 @@ class _ListNewsItemContentState extends State<_ListNewsItemContent> {
                   widget.saveNews.urlToImage.startsWith('http'))
               ? ClipRRect(
                   borderRadius: BorderRadius.circular(40),
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: FadeInImage(
-                        placeholder:
-                            const AssetImage('assets/barra_colores.gif'),
-                        image: NetworkImage(widget.saveNews.urlToImage)),
-                  ),
+                  child: FadeInImage(
+                      placeholder: const AssetImage('assets/barra_colores.gif'),
+                      image: NetworkImage(widget.saveNews.urlToImage)),
                 )
-              : const FittedBox(
-                  fit: BoxFit.cover,
-                  child: Image(image: AssetImage('assets/no-image.png'))),
+              : Image(image: AssetImage('assets/no-image.png')),
         ),
         title: Text(widget.saveNews.title),
         trailing: (!deleteNews)
             ? Container(
-                color: Colors.red,
+                // color: Colors.red,
                 child: GestureDetector(
                     onTap: () {
                       deleteNews = true;
-                      print('DELETE NEWS $deleteNews');
                       setState(() {});
                     },
-                    child: FaIcon(FontAwesomeIcons.trashCan)),
+                    child: FadeIn(
+                      delay: Duration(milliseconds: 200),
+                      child: const FaIcon(
+                        FontAwesomeIcons.trashCan,
+                        size: 20,
+                      ),
+                    )),
               )
-            : Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.red,
-                ),
-                child: Column(
-                  children: [
-                    GestureDetector(
-                        onTap: () {
-                          final newsListProvider =
-                              Provider.of<NewsListProvider>(context,
-                                  listen: false);
+            : FadeIn(
+                delay: Duration(milliseconds: 100),
+                child: Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.red,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            final newsListProvider =
+                                Provider.of<NewsListProvider>(context,
+                                    listen: false);
 
-                          newsListProvider
-                              .deleteNewsById(widget.selectedDelete!);
+                            newsListProvider
+                                .deleteNewsById(widget.selectedDelete!);
 
-                          newsListProvider.loadSavedNews();
-                          deleteNews = false;
-                          setState(() {});
-                        },
-                        child: FaIcon(FontAwesomeIcons.check)),
-                    GestureDetector(
-                        onTap: () {
-                          deleteNews = false;
-                          setState(() {});
-                        },
-                        child: FaIcon(FontAwesomeIcons.x))
-                  ],
+                            newsListProvider.loadSavedNews();
+                            deleteNews = false;
+                            setState(() {});
+                          },
+                          child: FadeInUp(
+                            from: 15,
+                            delay: Duration(milliseconds: 150),
+                            child: const FaIcon(
+                              FontAwesomeIcons.check,
+                              size: 15,
+                              color: Colors.white54,
+                            ),
+                          )),
+                      const SizedBox(height: 6),
+                      GestureDetector(
+                          onTap: () {
+                            deleteNews = false;
+                            setState(() {});
+                          },
+                          child: FadeInDown(
+                            from: 15,
+                            delay: Duration(milliseconds: 150),
+                            child: const FaIcon(
+                              FontAwesomeIcons.x,
+                              size: 15,
+                              color: Colors.white54,
+                            ),
+                          ))
+                    ],
+                  ),
                 ),
               ),
         onTap: () {
-          //todo: launcher url
+          final newsService = Provider.of<NewsService>(context, listen: false);
+          newsService.launcherUrlString(context, widget.saveNews.url);
+
           print(widget.saveNews.url);
         },
       ),

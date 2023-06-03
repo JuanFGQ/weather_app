@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/models/State_management.dart';
 import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/widgets/rounded_button.dart';
@@ -49,10 +46,9 @@ class DescriptionNewsCard extends StatelessWidget {
                             image: NetworkImage(news.urlToImage!)),
                       ),
                     )
-                  : FittedBox(
+                  : const FittedBox(
                       fit: BoxFit.fill,
-                      child: const Image(
-                          image: AssetImage('assets/no-image.png'))),
+                      child: Image(image: AssetImage('assets/no-image.png'))),
             ),
           ),
           Expanded(
