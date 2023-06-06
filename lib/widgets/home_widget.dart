@@ -2,16 +2,13 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/models/news/articles_info.dart';
-import 'package:weather/models/save_news_class.dart';
-import 'package:weather/preferences/share_prefs.dart';
+
 import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/search/search_delegate_widget.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/widgets/rounded_button.dart';
 
 import '../models/saved_news_model.dart';
-import '../services/weather_api_service.dart';
 import 'info_table.dart';
 import 'letras.dart';
 
