@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:weather/pages/news_content_page.dart';
 
 class NewsCard extends StatelessWidget {
   const NewsCard({super.key});

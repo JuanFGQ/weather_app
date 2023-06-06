@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/services/geolocator_service.dart';
-import 'package:weather/services/mapBox_service.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 

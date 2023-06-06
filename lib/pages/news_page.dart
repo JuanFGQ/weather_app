@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/news/articles_info.dart';
 import 'package:weather/models/news/news_response.dart';
@@ -12,7 +9,6 @@ import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 import 'package:weather/widgets/circular_progress_indicator.dart';
-import 'package:weather/widgets/news_card.dart';
 
 import '../widgets/description_news_card.dart';
 
@@ -29,6 +25,7 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   void initState() {
+    super.initState();
     newsService = Provider.of<NewsService>(context, listen: false);
     weatherServ = Provider.of<WeatherApiService>(context, listen: false);
 
