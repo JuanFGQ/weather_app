@@ -2,15 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:provider/provider.dart';
 import 'package:weather/services/geolocator_service.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 import 'package:weather/widgets/circular_progress_indicator.dart';
 import 'package:weather/widgets/home_widget.dart';
-
-import '../models/mapbox/Feature.dart';
 
 class FoundedLocation extends StatefulWidget {
   const FoundedLocation({super.key});
