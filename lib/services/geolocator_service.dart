@@ -100,6 +100,7 @@ class GeolocatorService extends ChangeNotifier {
   }
 
   Future<void> _init() async {
+    // ignore: unused_local_variable
     final generalLocatioState = await Future.wait(
       [
         _checkGpsStatus(),
