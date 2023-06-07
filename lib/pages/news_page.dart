@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/news/articles_info.dart';
 import 'package:weather/models/news/news_response.dart';
+import 'package:weather/models/saved_news_model.dart';
 import 'package:weather/pages/no_data_page.dart';
 import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/services/news_service.dart';
@@ -166,6 +167,7 @@ class _NewsViewerState extends State<_NewsViewer>
                             newsProvider!.selectedItem = i;
 
                             getSelectedNewsIndex(selNews, i);
+
                             setState(() {});
                           },
                         ),
@@ -182,11 +184,26 @@ class _NewsViewerState extends State<_NewsViewer>
   void getSelectedNewsIndex(Article selNews, int i) async {
     final savedNewsProvider =
         Provider.of<NewsListProvider>(context, listen: false);
+    final text = selNews.title;
+    savedNewsProvider.news.where((element) {
+      if (element.title == text) {
+        // todo: establecer variable en true que muestre el showDialog
+        return true;
+      } else {
+        savedNewsProvider.newSave(
+            selNews.url!, selNews.title, selNews.urlToImage);
 
-    await savedNewsProvider.newSave(
-        selNews.url!, selNews.title, selNews.urlToImage);
+        savedNewsProvider.loadSavedNews();
+        return false;
+      }
+    });
 
-    await savedNewsProvider.loadSavedNews();
+    (existentSavedNews) async {
+      await savedNewsProvider.newSave(
+          selNews.url!, selNews.title, selNews.urlToImage);
+
+      await savedNewsProvider.loadSavedNews();
+    };
   }
 }
 
