@@ -62,6 +62,10 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   void initState() {
     super.initState();
+
+    final loadNews = Provider.of<NewsListProvider>(context, listen: false);
+
+    loadNews.loadSavedNews();
   }
 
   @override
@@ -165,26 +169,27 @@ class _HomeWidgetState extends State<HomeWidget> {
                     )
                   ]),
               ExpansionTile(
-                  leading: const FaIcon(FontAwesomeIcons.newspaper),
-                  title: const Text('News for read'),
-                  children: [
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: size.height * 0.55,
-                      ),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: newsListP.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final newsList = newsListP[index];
-                          return _ListNewsItemContent(
-                            selectedDelete: newsListP[index].id,
-                            saveNews: newsList,
-                          );
-                        },
-                      ),
-                    )
-                  ]),
+                leading: const FaIcon(FontAwesomeIcons.newspaper),
+                title: const Text('News for read'),
+                children: [
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: size.height * 0.55,
+                    ),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: newsListP.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final newsList = newsListP[index];
+                        return _ListNewsItemContent(
+                          selectedDelete: newsListP[index].id,
+                          saveNews: newsList,
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ),
               ExpansionTile(
                   childrenPadding: const EdgeInsets.only(left: 30),
                   leading: const FaIcon(FontAwesomeIcons.paintRoller),
@@ -453,6 +458,8 @@ class _ListNewsItemContentState extends State<_ListNewsItemContent> {
                           onTap: () {
                             newsListProvider!
                                 .deleteNewsById(widget.selectedDelete!);
+
+                            // newsListProvider!.deleteAllSavedNews();
 
                             newsListProvider!.loadSavedNews();
                             deleteNews = false;

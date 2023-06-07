@@ -168,16 +168,7 @@ class _NewsViewerState extends State<_NewsViewer>
                           onPressed: () {
                             newsListProvider!.selectedItem = i;
 
-                            if (newsListProvider!.news
-                                .contains(selNews.title[i])) {
-                              existentSavedItem();
-                              print('already Exists');
-                            } else {
-                              saveNewsIndex(selNews, i);
-                            }
-
-                            // existentSavedItem();
-
+                            saveNewsIndex(selNews, i);
                             setState(() {});
                           },
                         ),
@@ -194,71 +185,41 @@ class _NewsViewerState extends State<_NewsViewer>
   void saveNewsIndex(Article selNews, int i) async {
     final savedNewsProvider =
         Provider.of<NewsListProvider>(context, listen: false);
-
-    await savedNewsProvider.newSave(
-        selNews.url!, selNews.title, selNews.urlToImage);
-
     await savedNewsProvider.loadSavedNews();
+
+    final newListCopy = List.from(savedNewsProvider.news);
 
     final text = selNews.title;
 
-    final itList = savedNewsProvider.news.where((element) {
+    bool foundMatch = false;
+
+    for (var element in newListCopy) {
       if (element.title == text) {
-        // todo: establecer variable en true que muestre el showDialog
-
-        return true;
-      } else {
-        // savedNewsProvider.newSave(
-        //     selNews.url!, selNews.title, selNews.urlToImage);
-
-        // savedNewsProvider.loadSavedNews();
-        return false;
+        foundMatch = true;
+        // ignore: use_build_context_synchronously
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            alignment: Alignment.bottomCenter,
+            title: const Text(
+              'Already saved',
+              style: TextStyle(color: Colors.white70),
+            ),
+            elevation: 24,
+            backgroundColor: Color.fromARGB(130, 0, 108, 196),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          ),
+        );
+        break;
       }
-    });
-
-    (existentSavedNews) async {
+    }
+    if (!foundMatch) {
       await savedNewsProvider.newSave(
           selNews.url!, selNews.title, selNews.urlToImage);
 
       await savedNewsProvider.loadSavedNews();
-    };
-  }
-
-  void existentSavedItem() {
-    List<SavedNewsModel> list1 = newsListProvider!.news;
-    List<Article> list2 = orderedNews;
-
-    for (SavedNewsModel title1 in list1) {
-      for (Article title2 in list2) {
-        if (title1.title == title2.title) {
-          equalNewsTitle = true;
-          break;
-        }
-      }
-      if (equalNewsTitle) {
-        break;
-      } else {
-        if (equalNewsTitle) {
-          print('EQUAL TRUE');
-        } else {
-          print('EQUAL FALSE');
-        }
-      }
     }
-
-    // showDialog(
-    //     context: context,
-    //     builder: (_) => AlertDialog(
-    //           alignment: Alignment.bottomCenter,
-    //           title: const Text(
-    //             'Already saved',
-    //             style: TextStyle(color: Colors.white70),
-    //           ),
-    //           elevation: 24,
-    //           backgroundColor: Color.fromARGB(130, 0, 108, 196),
-    //           shape: RoundedRectangleBorder(
-    //               borderRadius: BorderRadius.circular(30)),
-    //         ));
   }
 }
 
