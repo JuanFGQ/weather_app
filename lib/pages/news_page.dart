@@ -199,6 +199,29 @@ class _NewsViewerState extends State<_NewsViewer>
         selNews.url!, selNews.title, selNews.urlToImage);
 
     await savedNewsProvider.loadSavedNews();
+
+    final text = selNews.title;
+
+    final itList = savedNewsProvider.news.where((element) {
+      if (element.title == text) {
+        // todo: establecer variable en true que muestre el showDialog
+
+        return true;
+      } else {
+        // savedNewsProvider.newSave(
+        //     selNews.url!, selNews.title, selNews.urlToImage);
+
+        // savedNewsProvider.loadSavedNews();
+        return false;
+      }
+    });
+
+    (existentSavedNews) async {
+      await savedNewsProvider.newSave(
+          selNews.url!, selNews.title, selNews.urlToImage);
+
+      await savedNewsProvider.loadSavedNews();
+    };
   }
 
   void existentSavedItem() {
