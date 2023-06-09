@@ -6,11 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:weather/models/news/articles_info.dart';
 import 'package:weather/models/news/news_response.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:weather/models/save_news_class.dart';
 
 class NewsService with ChangeNotifier {
-  List<SavedNews> savedNewsList = [];
-
   Article? article;
 
   bool _activeSearch = false;

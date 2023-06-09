@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/news/articles_info.dart';
 import 'package:weather/models/news/news_response.dart';
-import 'package:weather/models/saved_news_model.dart';
 import 'package:weather/pages/no_data_page.dart';
 import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/services/news_service.dart';
