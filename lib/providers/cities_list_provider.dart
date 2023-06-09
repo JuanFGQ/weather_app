@@ -13,11 +13,28 @@ class CitiesListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<SavedCitiesModel> newSave(
-      String title, temperature, updated, wind) async {
-    final newsSave = SavedCitiesModel(
+  Future<SavedCitiesModel> saveCity(
+      String temperature, title, updated, wind) async {
+    final citySave = SavedCitiesModel(
         title: title, temperature: temperature, updated: updated, wind: wind);
 
-        final id = await DBprovider.db.newSave(newSave)
+    final id = await DBprovider.db.citySave(citySave);
+
+    citySave.id = id;
+
+    cities.add(citySave);
+
+    notifyListeners();
+    return citySave;
+  }
+
+  loadSavedCities() async {
+    final cities = await DBprovider.db.getAllCities();
+    this.cities = [...?cities];
+    notifyListeners();
+  }
+
+  deleteSavedCitiesById(int id) async {
+    await DBprovider.db.deleteCities(id);
   }
 }

@@ -11,6 +11,7 @@ import 'package:weather/pages/home_page.dart';
 import 'package:weather/pages/loading_page.dart';
 import 'package:weather/pages/news_page.dart';
 import 'package:weather/preferences/share_prefs.dart';
+import 'package:weather/providers/cities_list_provider.dart';
 import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/services/geolocator_service.dart';
 import 'package:weather/services/mapBox_service.dart';
@@ -52,6 +53,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NewsService(), lazy: false),
         ChangeNotifierProvider(create: (_) => StateManagement()),
         ChangeNotifierProvider(create: (_) => NewsListProvider()),
+        ChangeNotifierProvider(create: (_) => CitiesListProvider()),
       ],
       child: MyApp(),
     );

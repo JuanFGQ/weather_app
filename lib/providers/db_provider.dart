@@ -5,6 +5,8 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:weather/models/saved_news_model.dart';
 
+import '../models/saved_cities_model.dart';
+
 class DBprovider {
   static Database? _database;
 
@@ -49,6 +51,8 @@ CREATE TABLE Cities(
     });
   }
 
+  //*************************************************** */
+//*METHODS TO NEWS
   Future<int> newSave(SavedNewsModel newSave) async {
     final db = await database;
 
@@ -83,4 +87,35 @@ CREATE TABLE Cities(
 
     return res;
   }
+
+//*METHODS FOR CITIES
+  //**************************************************** */
+
+  Future<int> citySave(SavedCitiesModel citySave) async {
+    final db = await database;
+
+    final res = await db!.insert('cities', citySave.toJson());
+
+    return res;
+  }
+
+  Future<List<SavedCitiesModel>?> getAllCities() async {
+    final db = await database;
+    final res = await db!.query('Cities');
+
+    return res.isNotEmpty
+        ? res.map((e) => SavedCitiesModel.fromJson(e)).toList()
+        : [];
+  }
+
+  Future<int?> deleteCities(int id) async {
+    final db = await database;
+    final res = await db!.delete(
+      'Cities',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    return res;
+  }
+  //**************************************************** */
 }
