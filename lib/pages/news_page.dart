@@ -75,15 +75,17 @@ class _NewsViewer extends StatefulWidget {
 
 class _NewsViewerState extends State<_NewsViewer>
     with TickerProviderStateMixin {
-  NewsListProvider? newsProvider;
+  NewsListProvider? newsListProvider;
 
   List<Article> orderedNews = []; //store the new ordered list of news
   bool descAsc = false; //flags to show desc or asc list
 
+  bool equalNewsTitle = false;
+
   @override
   void initState() {
     super.initState();
-    newsProvider = Provider.of<NewsListProvider>(context, listen: false);
+    newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
     orderedNews = List.from(widget
         .news); //here i match the instanceS of the list created with the list i receive in class arguments
 
@@ -163,10 +165,9 @@ class _NewsViewerState extends State<_NewsViewer>
                           news: orderedNews[i],
                           index: i,
                           onPressed: () {
-                            newsProvider!.selectedItem = i;
+                            newsListProvider!.selectedItem = i;
 
-                            getSelectedNewsIndex(selNews, i);
-
+                            saveNewsIndex(selNews, i);
                             setState(() {});
                           },
                         ),
@@ -180,29 +181,44 @@ class _NewsViewerState extends State<_NewsViewer>
     );
   }
 
-  void getSelectedNewsIndex(Article selNews, int i) async {
+  void saveNewsIndex(Article selNews, int i) async {
     final savedNewsProvider =
         Provider.of<NewsListProvider>(context, listen: false);
+    await savedNewsProvider.loadSavedNews();
+
+    final newListCopy = List.from(savedNewsProvider.news);
+
     final text = selNews.title;
-    savedNewsProvider.news.where((element) {
+
+    bool foundMatch = false;
+
+    for (var element in newListCopy) {
       if (element.title == text) {
-        // todo: establecer variable en true que muestre el showDialog
-        return true;
-      } else {
-        savedNewsProvider.newSave(
-            selNews.url!, selNews.title, selNews.urlToImage);
-
-        savedNewsProvider.loadSavedNews();
-        return false;
+        foundMatch = true;
+        // ignore: use_build_context_synchronously
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            alignment: Alignment.bottomCenter,
+            title: const Text(
+              'Already saved',
+              style: TextStyle(color: Colors.white70),
+            ),
+            elevation: 24,
+            backgroundColor: Color.fromARGB(130, 0, 108, 196),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          ),
+        );
+        break;
       }
-    });
-
-    (existentSavedNews) async {
+    }
+    if (!foundMatch) {
       await savedNewsProvider.newSave(
           selNews.url!, selNews.title, selNews.urlToImage);
 
       await savedNewsProvider.loadSavedNews();
-    };
+    }
   }
 }
 
@@ -221,4 +237,10 @@ class _DescAscButton extends StatelessWidget {
       ],
     );
   }
+}
+
+class Objeto {
+  final String title;
+
+  Objeto(this.title);
 }
