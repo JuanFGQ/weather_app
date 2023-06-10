@@ -42,7 +42,7 @@ class DescriptionNewsCard extends StatelessWidget {
                       child: FittedBox(
                         fit: BoxFit.fill,
                         child: FadeInImage(
-                            placeholder: AssetImage('assets/barra_colores.gif'),
+                            placeholder: const AssetImage('assets/barra_colores.gif'),
                             image: NetworkImage(news.urlToImage!)),
                       ),
                     )
@@ -53,7 +53,7 @@ class DescriptionNewsCard extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(right: 10),
+              margin: const EdgeInsets.only(right: 10),
               height: size.height * 0.16,
               // color: Colors.red,
               child: Column(
@@ -61,7 +61,7 @@ class DescriptionNewsCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(news.author ?? ''),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Flexible(
                     child: Text(
                       news.title,

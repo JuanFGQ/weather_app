@@ -305,7 +305,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   icon: FaIcon(FontAwesomeIcons.newspaper),
                   function: widget.function,
                 ),
-                Text('News')
+                const Text('News')
               ]),
               Column(
                 children: [
@@ -314,7 +314,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     icon: FaIcon(FontAwesomeIcons.locationDot),
                     function: widget.function,
                   ),
-                  Text('Save')
+                  const Text('Save')
                 ],
               ),
             ],
@@ -358,7 +358,6 @@ class _HomeWidgetState extends State<HomeWidget> {
 class _ListTileItemContent extends StatelessWidget {
   final Widget widget;
   const _ListTileItemContent({
-    super.key,
     required this.widget,
   });
 
@@ -370,9 +369,9 @@ class _ListTileItemContent extends StatelessWidget {
           borderRadius: BorderRadius.circular(30), color: Colors.amber),
       child: ListTile(
         leading: widget,
-        title: Text('Name city'),
-        subtitle: Text('weather state'),
-        trailing: Text('20º'),
+        title: const Text('Name city'),
+        subtitle: const Text('weather state'),
+        trailing: const Text('20º'),
       ),
     );
   }
@@ -436,7 +435,7 @@ class _ListNewsItemContentState extends State<_ListNewsItemContent> {
                       setState(() {});
                     },
                     child: FadeIn(
-                      delay: Duration(milliseconds: 200),
+                      delay: const Duration(milliseconds: 200),
                       child: const FaIcon(
                         FontAwesomeIcons.trashCan,
                         size: 20,
@@ -444,9 +443,9 @@ class _ListNewsItemContentState extends State<_ListNewsItemContent> {
                     )),
               )
             : FadeIn(
-                delay: Duration(milliseconds: 100),
+                delay: const Duration(milliseconds: 100),
                 child: Container(
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.red,

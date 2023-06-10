@@ -30,10 +30,10 @@ class NewsContent extends StatelessWidget {
                 _HeaderInfoNews(news: news, size: size),
                 _Description(news: news),
                 _ImageTitle(news: news, size: size),
-                SizedBox(height: 30),
-                Container(
+                const SizedBox(height: 30),
+                SizedBox(
                   width: size.width * 0.9,
-                  child: Text(news.content!, style: TextStyle(fontSize: 18)),
+                  child: Text(news.content!, style: const TextStyle(fontSize: 18)),
                 )
               ],
             ),
@@ -48,7 +48,6 @@ class _ImageTitle extends StatelessWidget {
   final Article? news;
 
   const _ImageTitle({
-    super.key,
     required this.size,
     this.news,
   });
@@ -60,7 +59,7 @@ class _ImageTitle extends StatelessWidget {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           width: size.width * 1,
           height: size.height * 0.28,
           // decoration: BoxD,
@@ -75,7 +74,7 @@ class _ImageTitle extends StatelessWidget {
                   image: NetworkImage(
                       'https://www.triviantes.com/wp-content/uploads/2021/03/catedral-de-manizales.jpg'))),
         ),
-        Container(
+        SizedBox(
           width: size.width * 0.8,
           child: Center(
             child: Text(
@@ -93,17 +92,16 @@ class _Description extends StatelessWidget {
   final Article? news;
 
   const _Description({
-    super.key,
     this.news,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: Text(
         news!.description,
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -113,7 +111,6 @@ class _HeaderInfoNews extends StatelessWidget {
   final Article? news;
 
   const _HeaderInfoNews({
-    super.key,
     required this.size,
     this.news,
   });
@@ -125,7 +122,7 @@ class _HeaderInfoNews extends StatelessWidget {
     final cityName = Provider.of<WeatherApiService>(context);
 
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       width: size.width * 1,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

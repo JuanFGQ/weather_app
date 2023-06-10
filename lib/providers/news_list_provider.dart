@@ -36,7 +36,7 @@ class NewsListProvider extends ChangeNotifier {
 
   deleteAllSavedNews() async {
     await DBprovider.db.deleteAllNews();
-    this.news = [];
+    news = [];
     notifyListeners();
   }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/services/mapBox_service.dart';
@@ -22,7 +21,7 @@ class _WeatherSearchCityState extends State<WeatherSearchCity> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: const IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
           title: TextField(
             onChanged: (value) {
@@ -43,14 +42,14 @@ class _WeatherSearchCityState extends State<WeatherSearchCity> {
           ),
         ),
         body:
-            query.isEmpty ? _BuildSuggestions() : _BuildResults(query: query));
+            query.isEmpty ? const _BuildSuggestions() : _BuildResults(query: query));
   }
 }
 
 class _BuildResults extends StatelessWidget {
   final String query;
 
-  const _BuildResults({super.key, required this.query});
+  const _BuildResults({required this.query});
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +85,7 @@ class _BuildResults extends StatelessWidget {
                 final cord1 = newCoords[1].toString();
                 final cord0 = newCoords[0].toString();
 
-                final defCoord = cord1 + ',' + cord0;
+                final defCoord = '$cord1,$cord0';
                 weather.coords = defCoord;
 
                 Navigator.pushNamed(
@@ -117,7 +116,7 @@ void getInfoSelectedCIty(Feature item) {
 }
 
 class _BuildSuggestions extends StatefulWidget {
-  const _BuildSuggestions({super.key});
+  const _BuildSuggestions();
 
   @override
   State<_BuildSuggestions> createState() => __BuildSuggestionsState();

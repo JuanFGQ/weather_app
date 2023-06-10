@@ -25,8 +25,8 @@ class RoundedButton extends StatelessWidget {
           shape: const CircleBorder(),
           onPressed: function,
           fillColor: Colors.white,
-          child: icon,
           elevation: 5,
+          child: icon,
         ),
       ),
     );

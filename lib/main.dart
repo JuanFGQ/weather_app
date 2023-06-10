@@ -37,7 +37,7 @@ void main() async {
 
 //run Application
 
-  runApp(AppState());
+  runApp(const AppState());
 }
 
 class AppState extends StatelessWidget {
@@ -55,7 +55,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NewsListProvider()),
         ChangeNotifierProvider(create: (_) => CitiesListProvider()),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     );
   }
 }
@@ -69,11 +69,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: 'loading',
       routes: {
-        'home': (_) => HomePage(),
-        'founded': (_) => FoundedLocation(),
-        'loading': (_) => LoadingPage(),
-        'gps': (_) => GpsAccessScreen(),
-        'news': (_) => NewsPage(),
+        'home': (_) => const HomePage(),
+        'founded': (_) => const FoundedLocation(),
+        'loading': (_) => const LoadingPage(),
+        'gps': (_) => const GpsAccessScreen(),
+        'news': (_) => const NewsPage(),
         // 'newsC': (_) => NewsContent(),
       },
     );

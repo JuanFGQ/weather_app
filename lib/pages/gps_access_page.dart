@@ -17,17 +17,15 @@ class _GpsAccessScreenState extends State<GpsAccessScreen> {
 
     return Scaffold(
         body: (!locationService.gpsEnabled)
-            ? _EnableGpsMessage()
+            ? const _EnableGpsMessage()
             : (!locationService.isPermissionGranted)
-                ? _AccessButton()
-                : HomePage());
+                ? const _AccessButton()
+                : const HomePage());
   }
 }
 
 class _AccessButton extends StatelessWidget {
-  const _AccessButton({
-    super.key,
-  });
+  const _AccessButton();
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +33,17 @@ class _AccessButton extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Es necesario el acceso a gps'),
+          const Text('Es necesario el acceso a gps'),
           MaterialButton(
             onPressed: () {
               final gpsAccess =
                   Provider.of<GeolocatorService>(context, listen: false);
               gpsAccess.askGpsAccess();
             },
-            child: Text('Solicitar acceso'),
             elevation: 5,
             color: Colors.amber[100],
             splashColor: Colors.amber[200],
+            child: const Text('Solicitar acceso'),
           )
         ],
       ),
@@ -54,22 +52,20 @@ class _AccessButton extends StatelessWidget {
 }
 
 class _EnableGpsMessage extends StatelessWidget {
-  const _EnableGpsMessage({
-    super.key,
-  });
+  const _EnableGpsMessage();
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Debe habilitar la ubicacion'));
+    return const Center(child: Text('Debe habilitar la ubicacion'));
   }
 }
 
 class _DisableGpsMessage extends StatelessWidget {
-  const _DisableGpsMessage({super.key});
+  const _DisableGpsMessage();
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('disable gps'),
     );
   }

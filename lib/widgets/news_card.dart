@@ -15,7 +15,7 @@ class NewsCard extends StatelessWidget {
         child: Stack(
           children: [
             Container(
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               width: size.width * 1,
               height: size.height * 0.35,
               // decoration: BoxD,
@@ -32,19 +32,19 @@ class NewsCard extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               height: size.height * 0.35,
               width: size.width * 1,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    const Color(0xCC000000),
-                    const Color(0x00000000),
-                    const Color(0x00000000),
-                    const Color(0xCC000000),
+                    Color(0xCC000000),
+                    Color(0x00000000),
+                    Color(0x00000000),
+                    Color(0xCC000000),
                   ],
                 ),
               ),
@@ -52,7 +52,7 @@ class NewsCard extends StatelessWidget {
             Positioned(
               bottom: 10,
               child: Container(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,14 +61,14 @@ class NewsCard extends StatelessWidget {
                         width: size.width * 1,
                         // color: Colors.red,
                         margin: const EdgeInsets.only(left: 10, right: 10),
-                        child: Text(
+                        child: const Text(
                           'News Source',
                           style: TextStyle(
                               backgroundColor: Colors.white,
                               fontWeight: FontWeight.bold),
                         )),
                     Container(
-                      margin: EdgeInsets.only(left: 10, right: 10),
+                      margin: const EdgeInsets.only(left: 10, right: 10),
                       width: size.width * 0.9,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -82,7 +82,7 @@ class NewsCard extends StatelessWidget {
                               blurStyle: BlurStyle.inner,
                             )
                           ]),
-                      child: Text(
+                      child: const Text(
                         'La alcaldía de Manizales, Colombia, informó que al menos 28 personas resultaron heridas en los disturbios ocurridos luego de que algunos asistentes al partido de fútbol entre Once Caldas y Alianza Petrolera ingresaron a la cancha.',
                         style: TextStyle(
                             fontWeight: FontWeight.w600,

@@ -38,10 +38,10 @@ cargado en la pantalla de busqueda . otherwhise carga el argumento de la pantall
 */
 
     if (!newsService!.activeSearch) {
-      final homeArg = '${weatherServ!.location!.name}';
+      final homeArg = weatherServ!.location!.name;
       return homeArg;
     } else {
-      final foundArg = '${weatherServ!.foundLocation!.name}';
+      final foundArg = weatherServ!.foundLocation!.name;
       return foundArg;
     }
   }
@@ -54,9 +54,9 @@ cargado en la pantalla de busqueda . otherwhise carga el argumento de la pantall
         future: newsService.getNewsByFoundedPlace(argumentSelector()),
         builder: (BuildContext context, AsyncSnapshot<NewsResponse> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularIndicator();
+            return const CircularIndicator();
           } else if (snapshot.hasData && snapshot.data!.articles.isEmpty) {
-            return NoDataPage();
+            return const NoDataPage();
           } else {
             return _NewsViewer(snapshot.data!.articles);
           }
@@ -67,7 +67,7 @@ cargado en la pantalla de busqueda . otherwhise carga el argumento de la pantall
 class _NewsViewer extends StatefulWidget {
   final List<Article> news;
 
-  _NewsViewer(this.news);
+  const _NewsViewer(this.news);
 
   @override
   State<_NewsViewer> createState() => _NewsViewerState();
@@ -115,12 +115,12 @@ class _NewsViewerState extends State<_NewsViewer>
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.amber,
                   ),
-                  margin: EdgeInsets.only(left: 10),
+                  margin: const EdgeInsets.only(left: 10),
                   child: const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
@@ -134,7 +134,7 @@ class _NewsViewerState extends State<_NewsViewer>
                     orderNewsByDate();
                   },
                   child: Container(
-                      margin: EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(10),
                       height: 35,
                       width: 60,
                       decoration: BoxDecoration(
@@ -198,16 +198,18 @@ class _NewsViewerState extends State<_NewsViewer>
         // ignore: use_build_context_synchronously
         showDialog(
           context: context,
-          builder: (_) => AlertDialog(
-            alignment: Alignment.bottomCenter,
-            title: const Text(
-              'Already saved',
-              style: TextStyle(color: Colors.white70),
+          builder: (_) => FadeInUp(
+            child: AlertDialog(
+              alignment: Alignment.bottomCenter,
+              title: const Text(
+                'Already saved',
+                style: TextStyle(color: Colors.white70),
+              ),
+              elevation: 24,
+              backgroundColor: const Color.fromARGB(130, 0, 108, 196),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
             ),
-            elevation: 24,
-            backgroundColor: Color.fromARGB(130, 0, 108, 196),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           ),
         );
         break;
@@ -225,14 +227,14 @@ class _NewsViewerState extends State<_NewsViewer>
 class _DescAscButton extends StatelessWidget {
   final String text;
   final IconData icon;
-  const _DescAscButton({super.key, required this.text, required this.icon});
+  const _DescAscButton({required this.text, required this.icon});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(text, style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(text, style: const TextStyle(fontWeight: FontWeight.bold)),
         Icon(icon, size: 15)
       ],
     );

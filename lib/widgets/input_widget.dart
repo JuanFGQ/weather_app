@@ -57,7 +57,8 @@ class InputWidget extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(horizontal: 4),
                 child: Platform.isIOS
                     ? CupertinoButton(
-                        child: const Text('comment'), onPressed: onpressIOS)
+                        onPressed: onpressIOS,
+                        child: const Text('comment'))
                     : Container(
                         margin: const EdgeInsets.symmetric(horizontal: 4),
                         child: IconTheme(

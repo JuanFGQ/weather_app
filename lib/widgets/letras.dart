@@ -20,7 +20,7 @@ class Words extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Center(
       child: Container(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         width: size.width * 0.6,
         height: 30,
         decoration: BoxDecoration(

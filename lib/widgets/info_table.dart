@@ -18,13 +18,13 @@ class InfoIcon extends StatelessWidget {
 
     return FadeInUp(
       child: Container(
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
           width: size.width * 0.9,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             color: Colors.white,
           ),
-          margin: EdgeInsets.only(left: 50, right: 50),
+          margin: const EdgeInsets.only(left: 50, right: 50),
           child: Column(
             children: [
               ListTile(

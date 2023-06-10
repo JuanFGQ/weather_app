@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/pages/gps_access_page.dart';
 import 'package:weather/pages/home_page.dart';
@@ -32,11 +31,11 @@ class _LoadingPageState extends State<LoadingPage> {
         stream: geolocatorService.loadingData,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.data! && geolocatorService.isAllGranted) {
-            return HomePage();
+            return const HomePage();
           } else {
-            return GpsAccessScreen();
+            return const GpsAccessScreen();
           }
         },
       ),

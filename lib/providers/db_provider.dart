@@ -38,16 +38,16 @@ CREATE TABLE News(
 )
 ''');
 
-      await db.execute('''
-CREATE TABLE Cities(
-  id INTEGER PRIMARY KEY,
-  title TEXT,
-  temperature TEXT,
-  updated TEXT,
-  wind TEXT,
+//       await db.execute('''
+// CREATE TABLE Cities(
+//   id INTEGER PRIMARY KEY,
+//   title TEXT,
+//   temperature TEXT,
+//   updated TEXT,
+//   wind TEXT,
 
-)
-''');
+// )
+// ''');
     });
   }
 

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather/models/news/articles_info.dart';
@@ -42,7 +41,7 @@ class NewsService with ChangeNotifier {
       if (await launchUrl(
         uri,
         mode: LaunchMode.externalApplication,
-      )) ;
+      )) {}
     } else {
       debugPrint('news');
     }
@@ -55,7 +54,7 @@ class NewsService with ChangeNotifier {
       if (await launchUrl(
         uri,
         mode: LaunchMode.externalApplication,
-      )) ;
+      )) {}
     } else {
       debugPrint('news');
     }

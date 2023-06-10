@@ -10,22 +10,22 @@ import '../models/mapbox/Feature.dart';
 class MapBoxService extends ChangeNotifier {
   Feature? feature;
 
-  String _apiKey =
+  final String _apiKey =
       'pk.eyJ1IjoianVhbmZncSIsImEiOiJjbGVsMzN2cTUwcmR3M3JucHlzcXk2OXMyIn0.OQG_aEvEIl2zT9pQ50OEHg';
-  String _baseUrl = 'api.mapbox.com';
-  String _language = 'es';
-  String _limit = '5';
+  final String _baseUrl = 'api.mapbox.com';
+  final String _language = 'es';
+  final String _limit = '5';
 
   final debouncer = Debouncer(
-    duration: Duration(milliseconds: 500),
+    duration: const Duration(milliseconds: 500),
     // onValue:  ()
   );
 
   final StreamController<List<Feature>> _suggestedCityStreamController =
-      new StreamController.broadcast();
+      StreamController.broadcast();
 
   Stream<List<Feature>> get suggestedCity =>
-      this._suggestedCityStreamController.stream;
+      _suggestedCityStreamController.stream;
 
   weatherHeader() {
     return {'access_token': _apiKey, 'limit': _limit, 'language': _language};
@@ -33,7 +33,7 @@ class MapBoxService extends ChangeNotifier {
 
   Future<List<Feature>> getPlaces(String cityName) async {
     final uri = Uri.https(_baseUrl,
-        '/geocoding/v5/mapbox.places/' + cityName + '.json', weatherHeader());
+        '/geocoding/v5/mapbox.places/$cityName.json', weatherHeader());
 //
     final resp = await http.get(uri);
 
@@ -47,12 +47,12 @@ class MapBoxService extends ChangeNotifier {
     debouncer.onValue = (value) async {
       // print('Hay valor : $value');
 
-      final results = await this.getPlaces(value);
-      this._suggestedCityStreamController.add(results);
+      final results = await getPlaces(value);
+      _suggestedCityStreamController.add(results);
     };
-    final timer = Timer.periodic(Duration(milliseconds: 200), (_) {
+    final timer = Timer.periodic(const Duration(milliseconds: 200), (_) {
       debouncer.value = searchTerm;
     });
-    Future.delayed(Duration(milliseconds: 201)).then((_) => timer.cancel());
+    Future.delayed(const Duration(milliseconds: 201)).then((_) => timer.cancel());
   }
 }

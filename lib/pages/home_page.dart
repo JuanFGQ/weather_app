@@ -10,6 +10,8 @@ import '../widgets/circular_progress_indicator.dart';
 import '../widgets/home_widget.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -43,7 +45,7 @@ class _HomePageState extends State<HomePage> {
 
   void _refreshWeatherData() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => CircularIndicator()));
+        context, MaterialPageRoute(builder: (context) => const CircularIndicator()));
     _loadWeatherData();
     Navigator.pushNamed(context, 'home');
     setState(() {});
@@ -58,7 +60,7 @@ class _HomePageState extends State<HomePage> {
       stream: stream.stream,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularIndicator();
+          return const CircularIndicator();
         } else {
           return HomeWidget(
             showRefreshButton: true,
