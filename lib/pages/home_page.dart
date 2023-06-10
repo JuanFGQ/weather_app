@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/providers/cities_list_provider.dart';
 import 'package:weather/services/geolocator_service.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
@@ -44,8 +46,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _refreshWeatherData() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const CircularIndicator()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const CircularIndicator()));
     _loadWeatherData();
     Navigator.pushNamed(context, 'home');
     setState(() {});
@@ -64,8 +66,11 @@ class _HomePageState extends State<HomePage> {
         } else {
           return HomeWidget(
             showRefreshButton: true,
+            saveLocationButton: () {
+              saveInFavouritePlaces(apiResp);
+            },
             refreshButton: _refreshWeatherData,
-            function: () {
+            newsButton: () {
               setState(() {
                 newsService!.activeSearch = false;
               });
@@ -96,6 +101,56 @@ class _HomePageState extends State<HomePage> {
         }
       },
     );
+  }
+
+  void saveInFavouritePlaces(WeatherApiService apiResp) async {
+    final saveCitiesProvider =
+        Provider.of<CitiesListProvider>(context, listen: false);
+
+    await saveCitiesProvider.loadSavedCities();
+
+    final cityListCopy = List.from(saveCitiesProvider.cities);
+
+    final comparisonText = apiResp.location?.name ?? '?';
+
+    bool foundMatch = false;
+
+    for (var element in cityListCopy) {
+      if (element.title == comparisonText) {
+        foundMatch = true;
+// ignore: use_build_context_synchronously
+        showDialog(
+          context: context,
+          builder: (_) => FadeInUp(
+            child: AlertDialog(
+              alignment: Alignment.bottomCenter,
+              title: const Text(
+                'Already saved',
+                style: TextStyle(color: Colors.white70),
+              ),
+              elevation: 24,
+              backgroundColor: const Color.fromARGB(130, 0, 108, 196),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+            ),
+          ),
+        );
+        break;
+      }
+    }
+
+    if (!foundMatch) {
+      await saveCitiesProvider.saveCity(
+          apiResp.current!.windDir,
+          apiResp.location!.name,
+          apiResp.current!.lastUpdated,
+          // '${apiResp.current?.feelslikeC ?? '?'} º',
+          apiResp.current!.windDir
+          // '${apiResp.current?.windKph ?? '?'} km/h'
+          );
+
+      await saveCitiesProvider.loadSavedCities();
+    }
   }
 
   @override

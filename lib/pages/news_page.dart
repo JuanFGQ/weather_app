@@ -167,7 +167,7 @@ class _NewsViewerState extends State<_NewsViewer>
                           onPressed: () {
                             newsListProvider!.selectedItem = i;
 
-                            saveNewsIndex(selNews, i);
+                            saveNewsIndex(selNews);
                             setState(() {});
                           },
                         ),
@@ -181,7 +181,7 @@ class _NewsViewerState extends State<_NewsViewer>
     );
   }
 
-  void saveNewsIndex(Article selNews, int i) async {
+  void saveNewsIndex(Article selNews) async {
     final savedNewsProvider =
         Provider.of<NewsListProvider>(context, listen: false);
     await savedNewsProvider.loadSavedNews();

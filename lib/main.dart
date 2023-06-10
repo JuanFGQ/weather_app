@@ -74,7 +74,6 @@ class MyApp extends StatelessWidget {
         'loading': (_) => const LoadingPage(),
         'gps': (_) => const GpsAccessScreen(),
         'news': (_) => const NewsPage(),
-        // 'newsC': (_) => NewsContent(),
       },
     );
   }

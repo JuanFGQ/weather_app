@@ -2,6 +2,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/models/saved_cities_model.dart';
+import 'package:weather/providers/cities_list_provider.dart';
 
 import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/search/search_delegate_widget.dart';
@@ -29,7 +31,9 @@ class HomeWidget extends StatefulWidget {
   final Color scaffoldColor;
   final Color appBarColors;
   final Color locCountryColor;
-  final void Function()? function;
+  final void Function()? newsButton;
+  final void Function()? saveLocationButton;
+
   final void Function()? refreshButton;
   final bool showRefreshButton;
 
@@ -50,9 +54,10 @@ class HomeWidget extends StatefulWidget {
       required this.scaffoldColor,
       required this.appBarColors,
       required this.locCountryColor,
-      this.function,
+      this.newsButton,
       this.refreshButton,
-      required this.showRefreshButton});
+      required this.showRefreshButton,
+      this.saveLocationButton});
 
   @override
   State<HomeWidget> createState() => _HomeWidgetState();
@@ -74,6 +79,8 @@ class _HomeWidgetState extends State<HomeWidget> {
     double valMult = 10;
     final newsListProvider = Provider.of<NewsListProvider>(context);
     final newsListP = newsListProvider.news;
+    final citiesListProvider = Provider.of<CitiesListProvider>(context);
+    final citiesListP = citiesListProvider.cities;
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -143,10 +150,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 30))),
               ),
-              const _ListTileItemContent(
-                  widget: CircleAvatar(
-                child: Image(image: AssetImage('assets/horus-eye.png')),
-              )),
+
               // const DrawerHeader(
               //     decoration: BoxDecoration(color: Colors.blue),
               //     child: Text('hola')),
@@ -160,10 +164,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                       ),
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: 6,
+                        itemCount: citiesListP.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return const _ListTileItemContent(
-                              widget: FaIcon(FontAwesomeIcons.locationDot));
+                          final cityList = citiesListP[index];
+                          return _ListTileItemContent(
+                            selectedDelete: citiesListP[index].id,
+                            savedCities: cityList,
+                          );
                         },
                       ),
                     )
@@ -303,7 +310,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 RoundedButton(
                   infinite: true,
                   icon: FaIcon(FontAwesomeIcons.newspaper),
-                  function: widget.function,
+                  function: widget.newsButton,
                 ),
                 const Text('News')
               ]),
@@ -312,7 +319,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   RoundedButton(
                     infinite: true,
                     icon: FaIcon(FontAwesomeIcons.locationDot),
-                    function: widget.function,
+                    function: widget.saveLocationButton,
                   ),
                   const Text('Save')
                 ],
@@ -355,23 +362,103 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 }
 
-class _ListTileItemContent extends StatelessWidget {
-  final Widget widget;
+class _ListTileItemContent extends StatefulWidget {
+  final SavedCitiesModel savedCities;
+  final int? selectedDelete;
   const _ListTileItemContent({
-    required this.widget,
+    required this.savedCities,
+    this.selectedDelete,
   });
+
+  @override
+  State<_ListTileItemContent> createState() => _ListTileItemContentState();
+}
+
+class _ListTileItemContentState extends State<_ListTileItemContent> {
+  CitiesListProvider? citiesListProvider;
+  @override
+  void initState() {
+    citiesListProvider =
+        Provider.of<CitiesListProvider>(context, listen: false);
+
+    super.initState();
+  }
+
+  bool deleteNews = false;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(6),
+      margin: EdgeInsets.all(6),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30), color: Colors.amber),
       child: ListTile(
-        leading: widget,
-        title: const Text('Name city'),
-        subtitle: const Text('weather state'),
-        trailing: const Text('20º'),
+        leading: Text(widget.savedCities.updated),
+        title: Text(widget.savedCities.title),
+        subtitle: Text(widget.savedCities.temperature),
+        trailing: (!deleteNews)
+            ? Container(
+                // color: Colors.red,
+                child: GestureDetector(
+                    onTap: () {
+                      deleteNews = true;
+                      setState(() {});
+                    },
+                    child: FadeIn(
+                      delay: const Duration(milliseconds: 200),
+                      child: const FaIcon(
+                        FontAwesomeIcons.trashCan,
+                        size: 20,
+                      ),
+                    )),
+              )
+            : FadeIn(
+                delay: const Duration(milliseconds: 100),
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.red,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            citiesListProvider!
+                                .deleteSavedCitiesById(widget.selectedDelete!);
+
+                            // newsListProvider!.deleteAllSavedNews();
+
+                            citiesListProvider!.loadSavedCities();
+                            deleteNews = false;
+                            setState(() {});
+                          },
+                          child: FadeInUp(
+                            from: 15,
+                            delay: const Duration(milliseconds: 150),
+                            child: const FaIcon(
+                              FontAwesomeIcons.check,
+                              size: 15,
+                              color: Colors.white54,
+                            ),
+                          )),
+                      const SizedBox(height: 6),
+                      GestureDetector(
+                          onTap: () {
+                            deleteNews = false;
+                            setState(() {});
+                          },
+                          child: FadeInDown(
+                            from: 15,
+                            delay: const Duration(milliseconds: 150),
+                            child: const FaIcon(FontAwesomeIcons.x,
+                                size: 15, color: Colors.white54),
+                          ))
+                    ],
+                  ),
+                ),
+              ),
       ),
     );
   }

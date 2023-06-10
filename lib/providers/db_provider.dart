@@ -23,13 +23,16 @@ class DBprovider {
 
   Future<Database?> initDB() async {
     Directory documenstDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documenstDirectory.path, 'NewsDB.db');
+    final path = join(documenstDirectory.path, 'tables.db');
 
 //create dataBase
 
-    return await openDatabase(path, version: 1, onOpen: (db) {},
-        onCreate: (Database db, int version) async {
-      await db.execute('''
+    return await openDatabase(
+      path,
+      version: 1,
+      onOpen: (db) {},
+      onCreate: (Database db, int version) async {
+        await db.execute('''
 CREATE TABLE News(
   id INTEGER PRIMARY KEY,
   title TEXT,
@@ -37,18 +40,18 @@ CREATE TABLE News(
   urlToImage TEXT
 )
 ''');
+        await db.execute('''
+CREATE TABLE Cities(
+  id INTEGER PRIMARY KEY,
+  title TEXT,
+  temperature TEXT,
+  wind TEXT,
+  updated TEXT
 
-//       await db.execute('''
-// CREATE TABLE Cities(
-//   id INTEGER PRIMARY KEY,
-//   title TEXT,
-//   temperature TEXT,
-//   updated TEXT,
-//   wind TEXT,
-
-// )
-// ''');
-    });
+)
+''');
+      },
+    );
   }
 
   //*************************************************** */
@@ -94,7 +97,7 @@ CREATE TABLE News(
   Future<int> citySave(SavedCitiesModel citySave) async {
     final db = await database;
 
-    final res = await db!.insert('cities', citySave.toJson());
+    final res = await db!.insert('Cities', citySave.toJson());
 
     return res;
   }

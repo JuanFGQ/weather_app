@@ -65,7 +65,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
                   },
                   child: HomeWidget(
                     showRefreshButton: false,
-                    function: () {
+                    newsButton: () {
                       setState(() {
                         newSERV!.activeSearch = true;
                       });

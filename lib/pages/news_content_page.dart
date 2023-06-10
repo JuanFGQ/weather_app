@@ -33,7 +33,8 @@ class NewsContent extends StatelessWidget {
                 const SizedBox(height: 30),
                 SizedBox(
                   width: size.width * 0.9,
-                  child: Text(news.content!, style: const TextStyle(fontSize: 18)),
+                  child:
+                      Text(news.content!, style: const TextStyle(fontSize: 18)),
                 )
               ],
             ),

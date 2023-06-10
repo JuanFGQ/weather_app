@@ -14,7 +14,7 @@ class CitiesListProvider extends ChangeNotifier {
   }
 
   Future<SavedCitiesModel> saveCity(
-      String temperature, title, updated, wind) async {
+      String temperature, String title, String updated, String wind) async {
     final citySave = SavedCitiesModel(
         title: title, temperature: temperature, updated: updated, wind: wind);
 
