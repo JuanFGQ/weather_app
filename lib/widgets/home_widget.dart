@@ -69,7 +69,9 @@ class _HomeWidgetState extends State<HomeWidget> {
     super.initState();
 
     final loadNews = Provider.of<NewsListProvider>(context, listen: false);
-
+    final loadCities = Provider.of<CitiesListProvider>(context, listen: false);
+// load saved cities and news before homewidget was build
+    loadCities.loadSavedCities();
     loadNews.loadSavedNews();
   }
 

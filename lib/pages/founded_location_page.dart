@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -8,6 +9,8 @@ import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 import 'package:weather/widgets/circular_progress_indicator.dart';
 import 'package:weather/widgets/home_widget.dart';
+
+import '../providers/cities_list_provider.dart';
 
 class FoundedLocation extends StatefulWidget {
   const FoundedLocation({super.key});
@@ -65,6 +68,9 @@ class _FoundedLocationState extends State<FoundedLocation> {
                   },
                   child: HomeWidget(
                     showRefreshButton: false,
+                    saveLocationButton: () {
+                      saveInFavouritePlaces(apiResp);
+                    },
                     newsButton: () {
                       setState(() {
                         newSERV!.activeSearch = true;
@@ -99,6 +105,56 @@ class _FoundedLocationState extends State<FoundedLocation> {
                 );
               }
             }));
+  }
+
+  void saveInFavouritePlaces(WeatherApiService apiResp) async {
+    final saveCitiesProvider =
+        Provider.of<CitiesListProvider>(context, listen: false);
+
+    await saveCitiesProvider.loadSavedCities();
+
+    final cityListCopy = List.from(saveCitiesProvider.cities);
+
+    final comparisonText = apiResp.foundLocation?.name ?? '?';
+
+    bool foundMatch = false;
+
+    for (var element in cityListCopy) {
+      if (element.title == comparisonText) {
+        foundMatch = true;
+// ignore: use_build_context_synchronously
+        showDialog(
+          context: context,
+          builder: (_) => FadeInUp(
+            child: AlertDialog(
+              alignment: Alignment.bottomCenter,
+              title: const Text(
+                'Already saved',
+                style: TextStyle(color: Colors.white70),
+              ),
+              elevation: 24,
+              backgroundColor: const Color.fromARGB(130, 0, 108, 196),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+            ),
+          ),
+        );
+        break;
+      }
+    }
+
+    if (!foundMatch) {
+      await saveCitiesProvider.saveCity(
+          apiResp.foundCurrent!.windDir,
+          apiResp.foundLocation!.name,
+          apiResp.foundCurrent!.lastUpdated,
+          // '${apiResp.current?.feelslikeC ?? '?'} º',
+          apiResp.foundCurrent!.windDir
+          // '${apiResp.current?.windKph ?? '?'} km/h'
+          );
+
+      await saveCitiesProvider.loadSavedCities();
+    }
   }
 
   @override

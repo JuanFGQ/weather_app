@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/State_management.dart';
 import 'package:weather/notifications/local_notifications.dart';
-import 'package:weather/pages/founded_location.dart';
+import 'package:weather/pages/founded_location_page.dart';
 import 'package:weather/pages/gps_access_page.dart';
 import 'package:weather/pages/home_page.dart';
 import 'package:weather/pages/loading_page.dart';
