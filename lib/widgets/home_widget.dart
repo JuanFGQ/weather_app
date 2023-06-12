@@ -70,7 +70,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
     final loadNews = Provider.of<NewsListProvider>(context, listen: false);
     final loadCities = Provider.of<CitiesListProvider>(context, listen: false);
-// load saved cities and news before homewidget was build
+// load saved cities and news list before homewidget was build, this to see list in expansionTile widget
     loadCities.loadSavedCities();
     loadNews.loadSavedNews();
   }
@@ -169,7 +169,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         itemCount: citiesListP.length,
                         itemBuilder: (BuildContext context, int index) {
                           final cityList = citiesListP[index];
-                          return _ListTileItemContent(
+                          return _SavedCitiesCard(
                             selectedDelete: citiesListP[index].id,
                             savedCities: cityList,
                           );
@@ -190,7 +190,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       itemCount: newsListP.length,
                       itemBuilder: (BuildContext context, int index) {
                         final newsList = newsListP[index];
-                        return _ListNewsItemContent(
+                        return _SavedNewsCard(
                           selectedDelete: newsListP[index].id,
                           saveNews: newsList,
                         );
@@ -364,19 +364,19 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 }
 
-class _ListTileItemContent extends StatefulWidget {
+class _SavedCitiesCard extends StatefulWidget {
   final SavedCitiesModel savedCities;
   final int? selectedDelete;
-  const _ListTileItemContent({
+  const _SavedCitiesCard({
     required this.savedCities,
     this.selectedDelete,
   });
 
   @override
-  State<_ListTileItemContent> createState() => _ListTileItemContentState();
+  State<_SavedCitiesCard> createState() => _SavedCitiesCardState();
 }
 
-class _ListTileItemContentState extends State<_ListTileItemContent> {
+class _SavedCitiesCardState extends State<_SavedCitiesCard> {
   CitiesListProvider? citiesListProvider;
   @override
   void initState() {
@@ -395,9 +395,14 @@ class _ListTileItemContentState extends State<_ListTileItemContent> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30), color: Colors.amber),
       child: ListTile(
-        leading: Text(widget.savedCities.updated),
-        title: Text(widget.savedCities.title),
-        subtitle: Text(widget.savedCities.temperature),
+        leading: Text(widget.savedCities.temperature),
+        title: Center(child: Text(widget.savedCities.title)),
+        subtitle: Column(
+          children: [
+            Text(widget.savedCities.wind, style: TextStyle(fontSize: 15)),
+            Text(widget.savedCities.updated, style: TextStyle(fontSize: 10)),
+          ],
+        ),
         trailing: (!deleteNews)
             ? Container(
                 // color: Colors.red,
@@ -466,20 +471,20 @@ class _ListTileItemContentState extends State<_ListTileItemContent> {
   }
 }
 
-class _ListNewsItemContent extends StatefulWidget {
+class _SavedNewsCard extends StatefulWidget {
   final SavedNewsModel saveNews;
   final int? selectedDelete;
 
-  const _ListNewsItemContent({
+  const _SavedNewsCard({
     required this.saveNews,
     this.selectedDelete,
   });
 
   @override
-  State<_ListNewsItemContent> createState() => _ListNewsItemContentState();
+  State<_SavedNewsCard> createState() => _SavedNewsCardState();
 }
 
-class _ListNewsItemContentState extends State<_ListNewsItemContent> {
+class _SavedNewsCardState extends State<_SavedNewsCard> {
   NewsListProvider? newsListProvider;
 
   @override

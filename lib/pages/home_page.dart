@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
 
     if (!foundMatch) {
       await saveCitiesProvider.saveCity(
-          apiResp.current!.windDir,
+          '${apiResp.current!.feelslikeC}º',
           apiResp.location!.name,
           apiResp.current!.lastUpdated,
           // '${apiResp.current?.feelslikeC ?? '?'} º',

@@ -145,13 +145,10 @@ class _FoundedLocationState extends State<FoundedLocation> {
 
     if (!foundMatch) {
       await saveCitiesProvider.saveCity(
-          apiResp.foundCurrent!.windDir,
+          '${apiResp.foundCurrent!.feelslikeC}º',
           apiResp.foundLocation!.name,
           apiResp.foundCurrent!.lastUpdated,
-          // '${apiResp.current?.feelslikeC ?? '?'} º',
-          apiResp.foundCurrent!.windDir
-          // '${apiResp.current?.windKph ?? '?'} km/h'
-          );
+          apiResp.foundCurrent!.condition.text);
 
       await saveCitiesProvider.loadSavedCities();
     }
