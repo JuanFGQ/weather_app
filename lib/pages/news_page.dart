@@ -79,6 +79,8 @@ class _NewsViewerState extends State<_NewsViewer>
 
   List<Article> orderedNews = []; //store the new ordered list of news
   bool descAsc = false; //flags to show desc or asc list
+  bool iconColorForNewsSave =
+      false; //save the state of button if news is already saved
 
   bool equalNewsTitle = false;
 
@@ -162,6 +164,7 @@ class _NewsViewerState extends State<_NewsViewer>
                         delay: const Duration(milliseconds: 200),
                         duration: const Duration(milliseconds: 500),
                         child: DescriptionNewsCard(
+                          iconColorForNewsSave: iconColorForNewsSave,
                           news: orderedNews[i],
                           index: i,
                           onPressed: () {
@@ -220,6 +223,7 @@ class _NewsViewerState extends State<_NewsViewer>
           selNews.url!, selNews.title, selNews.urlToImage);
 
       await savedNewsProvider.loadSavedNews();
+      iconColorForNewsSave = true;
     }
   }
 }
@@ -239,10 +243,4 @@ class _DescAscButton extends StatelessWidget {
       ],
     );
   }
-}
-
-class Objeto {
-  final String title;
-
-  Objeto(this.title);
 }

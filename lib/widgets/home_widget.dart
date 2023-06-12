@@ -35,7 +35,6 @@ class HomeWidget extends StatefulWidget {
   final void Function()? saveLocationButton;
 
   final void Function()? refreshButton;
-  final bool showRefreshButton;
 
   const HomeWidget(
       {super.key,
@@ -56,7 +55,6 @@ class HomeWidget extends StatefulWidget {
       required this.locCountryColor,
       this.newsButton,
       this.refreshButton,
-      required this.showRefreshButton,
       this.saveLocationButton});
 
   @override
@@ -88,27 +86,6 @@ class _HomeWidgetState extends State<HomeWidget> {
     return Scaffold(
       appBar: AppBar(
           actions: [
-            // Visibility(
-            //   visible: showRefreshButton,
-            //   child: FittedBox(
-            //     fit: BoxFit.values[5],
-            //     child: RawMaterialButton(
-            //       elevation: 10,
-            //       onPressed: refreshButton,
-            //       shape: CircleBorder(),
-            //       fillColor: Colors.white,
-            //       child: Spin(
-            //         duration: Duration(milliseconds: 5000),
-            //         infinite: true,
-            //         child: const FaIcon(
-            //           FontAwesomeIcons.refresh,
-            //           size: 18,
-            //         ),
-            //       ),
-            //       // constraints: ,
-            //     ),
-            //   ),
-            // )
             IconButton(
                 onPressed: () => Navigator.push(
                     context,
@@ -117,15 +94,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                             const WeatherSearchCity())),
                 icon: const FaIcon(FontAwesomeIcons.search)),
           ],
-          // leading: IconButton(
-          //     onPressed: () => Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //             builder: (BuildContext context) => WeatherSearchCity())),
-
-          //     // showSearch(
-          //     //     context: context, delegate: WeatherSearchDelegate()),
-          //     icon: const FaIcon(FontAwesomeIcons.search)),
           iconTheme: const IconThemeData(color: Colors.black),
           backgroundColor: widget.appBarColors,
           elevation: 0,
@@ -142,7 +110,6 @@ class _HomeWidgetState extends State<HomeWidget> {
       drawer: Drawer(
         child: ListView(children: [
           Column(
-            // padding: EdgeInsets.zero,
             children: [
               Container(
                 margin: const EdgeInsets.only(left: 10),
@@ -153,9 +120,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                             fontWeight: FontWeight.bold, fontSize: 30))),
               ),
 
-              // const DrawerHeader(
-              //     decoration: BoxDecoration(color: Colors.blue),
-              //     child: Text('hola')),
               ExpansionTile(
                   leading: const FaIcon(FontAwesomeIcons.heartCircleCheck),
                   title: const Text('Favorites places'),
@@ -240,12 +204,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                           width: 25,
                           height: 25),
                       title: Text('Castellano')),
-                  // ListTile(
-                  //     leading: Image(
-                  //         image: AssetImage('assets/spain.png'),
-                  //         width: 25,
-                  //         height: 25),
-                  //     title: Text('Ruso')),
                 ],
               ),
 
@@ -256,20 +214,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                 subtitle: Center(child: Text('All rights reserved @')),
               ),
             ],
-            // prototypeItem: ,
           ),
         ]),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // const Text(
-          //   'LastUpdate',
-          //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          // ),
-          // Text(lastUpdateDate),
-          // Text(lastUpdateTime),
-
           const SizedBox(height: 10),
           Words(
             date: widget.locationCountry,
@@ -310,20 +260,30 @@ class _HomeWidgetState extends State<HomeWidget> {
             children: [
               Column(children: [
                 RoundedButton(
+                  text: Text('News'),
                   infinite: true,
                   icon: FaIcon(FontAwesomeIcons.newspaper),
                   function: widget.newsButton,
                 ),
-                const Text('News')
               ]),
               Column(
                 children: [
                   RoundedButton(
+                    text: Text('Save location'),
                     infinite: true,
                     icon: FaIcon(FontAwesomeIcons.locationDot),
                     function: widget.saveLocationButton,
                   ),
-                  const Text('Save')
+                ],
+              ),
+              Column(
+                children: [
+                  RoundedButton(
+                    text: Text('Refresh'),
+                    infinite: true,
+                    icon: FaIcon(FontAwesomeIcons.refresh),
+                    function: widget.refreshButton,
+                  ),
                 ],
               ),
             ],

@@ -65,7 +65,6 @@ class _HomePageState extends State<HomePage> {
           return const CircularIndicator();
         } else {
           return HomeWidget(
-            showRefreshButton: true,
             saveLocationButton: () {
               saveInFavouritePlaces(apiResp);
             },
@@ -145,7 +144,7 @@ class _HomePageState extends State<HomePage> {
           apiResp.location!.name,
           apiResp.current!.lastUpdated,
           // '${apiResp.current?.feelslikeC ?? '?'} º',
-          apiResp.current!.windDir
+          apiResp.current!.condition.text
           // '${apiResp.current?.windKph ?? '?'} km/h'
           );
 

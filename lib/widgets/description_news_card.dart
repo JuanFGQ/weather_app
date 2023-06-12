@@ -11,8 +11,13 @@ class DescriptionNewsCard extends StatelessWidget {
   final Article news;
   final int index;
   final void Function()? onPressed;
+  final bool iconColorForNewsSave;
   const DescriptionNewsCard(
-      {super.key, required this.news, required this.index, this.onPressed});
+      {super.key,
+      required this.news,
+      required this.index,
+      this.onPressed,
+      required this.iconColorForNewsSave});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +47,8 @@ class DescriptionNewsCard extends StatelessWidget {
                       child: FittedBox(
                         fit: BoxFit.fill,
                         child: FadeInImage(
-                            placeholder: const AssetImage('assets/barra_colores.gif'),
+                            placeholder:
+                                const AssetImage('assets/barra_colores.gif'),
                             image: NetworkImage(news.urlToImage!)),
                       ),
                     )
@@ -84,7 +90,8 @@ class DescriptionNewsCard extends StatelessWidget {
                         width: 30,
                         height: 30,
                         child: RoundedButton(
-                            icon: index == newsListProvider.selectedItem
+                            icon: iconColorForNewsSave &&
+                                    index == newsListProvider.selectedItem
                                 ? const FaIcon(
                                     FontAwesomeIcons.solidHeart,
                                     color: Colors.red,

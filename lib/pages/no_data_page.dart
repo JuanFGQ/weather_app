@@ -2,6 +2,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../search/search_delegate_widget.dart';
+
 class NoDataPage extends StatelessWidget {
   const NoDataPage({super.key});
 
@@ -15,7 +17,7 @@ class NoDataPage extends StatelessWidget {
             FaIcon(FontAwesomeIcons.faceSadCry,
                 size: 80, color: const Color.fromARGB(220, 158, 158, 158)),
             const SizedBox(height: 30),
-            const Text('there is No news for this city,look for other city.',
+            const Text('There is no news for this city,look for other city.',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 30),
@@ -28,10 +30,13 @@ class NoDataPage extends StatelessWidget {
                   fillColor: Colors.yellow,
                   shape: const CircleBorder(),
                   child: FaIcon(FontAwesomeIcons.magnifyingGlassLocation),
-                  onPressed: () {}
-                  // => showSearch(
-                  //     context: context, delegate: WeatherSearchDelegate())
-                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                WeatherSearchCity()));
+                  }),
             )
           ],
         ),
