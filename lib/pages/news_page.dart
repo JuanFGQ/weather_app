@@ -75,7 +75,7 @@ class _NewsViewer extends StatefulWidget {
 
 class _NewsViewerState extends State<_NewsViewer>
     with TickerProviderStateMixin {
-  NewsListProvider? newsListProvider;
+  late NewsListProvider newsListProvider;
 
   List<Article> orderedNews = []; //store the new ordered list of news
   bool descAsc = false; //flags to show desc or asc list
@@ -164,13 +164,14 @@ class _NewsViewerState extends State<_NewsViewer>
                         delay: const Duration(milliseconds: 200),
                         duration: const Duration(milliseconds: 500),
                         child: DescriptionNewsCard(
-                          iconColorForNewsSave: iconColorForNewsSave,
+                          iconColorForNewsSave:
+                              newsListProvider.buttonStates[i] ?? false,
                           news: orderedNews[i],
                           index: i,
                           onPressed: () {
-                            newsListProvider!.selectedItem = i;
+                            // // newsListProvider!.selectedItem = i;
 
-                            saveNewsIndex(selNews);
+                            saveNewsIndex(selNews, i);
                             setState(() {});
                           },
                         ),
@@ -184,7 +185,7 @@ class _NewsViewerState extends State<_NewsViewer>
     );
   }
 
-  void saveNewsIndex(Article selNews) async {
+  void saveNewsIndex(Article selNews, int i) async {
     final savedNewsProvider =
         Provider.of<NewsListProvider>(context, listen: false);
     await savedNewsProvider.loadSavedNews();
@@ -220,10 +221,13 @@ class _NewsViewerState extends State<_NewsViewer>
     }
     if (!foundMatch) {
       await savedNewsProvider.newSave(
-          selNews.url!, selNews.title, selNews.urlToImage);
+          selNews.url!, selNews.title, selNews.urlToImage, true);
+
+      // newsListProvider!.buttonStates[i];
 
       await savedNewsProvider.loadSavedNews();
-      iconColorForNewsSave = true;
+
+      // iconColorForNewsSave = true;
     }
   }
 }

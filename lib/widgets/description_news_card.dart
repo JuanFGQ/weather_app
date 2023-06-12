@@ -1,6 +1,8 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/models/saved_news_model.dart';
 import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/widgets/rounded_button.dart';
@@ -22,7 +24,6 @@ class DescriptionNewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final newsListProvider = Provider.of<NewsListProvider>(context);
     return GestureDetector(
       onTap: () {
         final urlNewsLauncher =
@@ -89,17 +90,29 @@ class DescriptionNewsCard extends StatelessWidget {
                       SizedBox(
                         width: 30,
                         height: 30,
-                        child: RoundedButton(
-                            icon: iconColorForNewsSave &&
-                                    index == newsListProvider.selectedItem
-                                ? const FaIcon(
-                                    FontAwesomeIcons.solidHeart,
-                                    color: Colors.red,
-                                  )
-                                : const FaIcon(FontAwesomeIcons.heart,
-                                    color: Colors.black),
-                            infinite: false,
-                            function: onPressed),
+                        child: FadeIn(
+                          delay: const Duration(milliseconds: 1000),
+                          child: Bounce(
+                            delay: const Duration(milliseconds: 800),
+                            from: 6,
+                            infinite: true,
+                            child: RawMaterialButton(
+                                shape: const CircleBorder(),
+                                onPressed: onPressed,
+                                fillColor: Colors.white,
+                                elevation: 5,
+                                child: iconColorForNewsSave
+                                    // index == newsListProvider.selectedItem
+                                    ? const FaIcon(
+                                        FontAwesomeIcons.solidHeart,
+                                        color: Colors.red,
+                                      )
+                                    : const FaIcon(
+                                        FontAwesomeIcons.heart,
+                                        color: Colors.black,
+                                      )),
+                          ),
+                        ),
                       )
                     ],
                   )

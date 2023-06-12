@@ -5,9 +5,9 @@ class RoundedButton extends StatelessWidget {
   final void Function()? function;
   final bool infinite;
   final Widget icon;
-  final Widget? text;
+  Widget? text;
 
-  const RoundedButton({
+  RoundedButton({
     super.key,
     this.function,
     required this.infinite,

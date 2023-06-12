@@ -23,13 +23,13 @@ class DBprovider {
 
   Future<Database?> initDB() async {
     Directory documenstDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documenstDirectory.path, 'tables.db');
+    final path = join(documenstDirectory.path, '4dModification.db');
 
 //create dataBase
 
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onOpen: (db) {},
       onCreate: (Database db, int version) async {
         await db.execute('''
@@ -37,7 +37,8 @@ CREATE TABLE News(
   id INTEGER PRIMARY KEY,
   title TEXT,
   url TEXT,
-  urlToImage TEXT
+  urlToImage TEXT,
+  isButtonPressed BOOL
 )
 ''');
         await db.execute('''
