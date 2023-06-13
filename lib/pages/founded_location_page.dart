@@ -67,6 +67,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
                     return true;
                   },
                   child: HomeWidget(
+                    isVisibleButton: false,
                     saveLocationButton: () {
                       saveInFavouritePlaces(apiResp);
                     },

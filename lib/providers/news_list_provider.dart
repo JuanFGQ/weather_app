@@ -16,6 +16,15 @@ class NewsListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isSaveButtonPressed = false;
+
+  bool get isSaveButtonPressed => _isSaveButtonPressed;
+
+  set isSaveButtonPressed(bool value) {
+    _isSaveButtonPressed = value;
+    notifyListeners();
+  }
+
   Future<SavedNewsModel> newSave(
       String url, title, urlToImage, bool isButtonPressed) async {
     final newSave = SavedNewsModel(

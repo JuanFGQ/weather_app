@@ -65,6 +65,7 @@ class _HomePageState extends State<HomePage> {
           return const CircularIndicator();
         } else {
           return HomeWidget(
+            isVisibleButton: true,
             saveLocationButton: () {
               saveInFavouritePlaces(apiResp);
             },

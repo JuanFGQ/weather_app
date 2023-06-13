@@ -156,37 +156,38 @@ class _NewsViewerState extends State<_NewsViewer>
                 width: size.width * 1,
                 // color: Colors.red,
                 child: ListView.builder(
-                    shrinkWrap: false,
-                    itemCount: orderedNews.length,
-                    itemBuilder: (_, i) {
-                      final selNews = orderedNews[i];
-                      final newListCopy = List.from(newsListProvider.news);
-                      bool isNewSaved = false;
+                  shrinkWrap: false,
+                  itemCount: orderedNews.length,
+                  itemBuilder: (_, i) {
+                    final selNews = orderedNews[i];
+                    final newListCopy = List.from(newsListProvider.news);
+                    bool isNewSaved = false;
 
-                      for (var element in newListCopy) {
-                        if (element.title == selNews.title) {
-                          isNewSaved = true;
-                          break;
-                        }
+                    for (var element in newListCopy) {
+                      if (element.title == selNews.title) {
+                        isNewSaved = true;
+                        break;
                       }
-                      saveNewsIndex(selNews, i);
+                    }
 
-                      return ElasticIn(
-                        delay: const Duration(milliseconds: 200),
-                        duration: const Duration(milliseconds: 500),
-                        child: DescriptionNewsCard(
-                          iconColorForNewsSave: isNewSaved,
-                          news: orderedNews[i],
-                          index: i,
-                          onPressed: () {
-                            newsListProvider.selectedItem = i;
+                    return ElasticIn(
+                      delay: const Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 500),
+                      child: DescriptionNewsCard(
+                        iconColorForNewsSave: isNewSaved,
+                        news: orderedNews[i],
+                        index: i,
+                        onPressed: () {
+                          newsListProvider.selectedItem = i;
+                          // newsListProvider.isSaveButtonPressed = true;
 
-                            // saveNewsIndex(selNews, i);
-                            setState(() {});
-                          },
-                        ),
-                      );
-                    }),
+                          saveNewsIndex(selNews, i);
+                          setState(() {});
+                        },
+                      ),
+                    );
+                  },
+                ),
               ),
             )
           ],

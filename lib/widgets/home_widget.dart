@@ -36,26 +36,30 @@ class HomeWidget extends StatefulWidget {
 
   final void Function()? refreshButton;
 
-  const HomeWidget(
-      {super.key,
-      required this.title,
-      required this.lastUpdateDate,
-      required this.lastUpdateTime,
-      required this.locationCountry,
-      required this.currentCOndition,
-      required this.currentFeelsLikeNumber,
-      required this.windData,
-      required this.humidityData,
-      required this.visibilityData,
-      required this.windDirectionData,
-      required this.temperatureData,
-      required this.feelsLikeData,
-      required this.scaffoldColor,
-      required this.appBarColors,
-      required this.locCountryColor,
-      this.newsButton,
-      this.refreshButton,
-      this.saveLocationButton});
+  final bool isVisibleButton;
+
+  const HomeWidget({
+    super.key,
+    required this.title,
+    required this.lastUpdateDate,
+    required this.lastUpdateTime,
+    required this.locationCountry,
+    required this.currentCOndition,
+    required this.currentFeelsLikeNumber,
+    required this.windData,
+    required this.humidityData,
+    required this.visibilityData,
+    required this.windDirectionData,
+    required this.temperatureData,
+    required this.feelsLikeData,
+    required this.scaffoldColor,
+    required this.appBarColors,
+    required this.locCountryColor,
+    this.newsButton,
+    this.refreshButton,
+    this.saveLocationButton,
+    required this.isVisibleButton,
+  });
 
   @override
   State<HomeWidget> createState() => _HomeWidgetState();
@@ -276,15 +280,18 @@ class _HomeWidgetState extends State<HomeWidget> {
                   ),
                 ],
               ),
-              Column(
-                children: [
-                  RoundedButton(
-                    text: Text('Refresh'),
-                    infinite: true,
-                    icon: FaIcon(FontAwesomeIcons.refresh),
-                    function: widget.refreshButton,
-                  ),
-                ],
+              Visibility(
+                visible: widget.isVisibleButton,
+                child: Column(
+                  children: [
+                    RoundedButton(
+                      text: Text('Refresh'),
+                      infinite: true,
+                      icon: FaIcon(FontAwesomeIcons.refresh),
+                      function: widget.refreshButton,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

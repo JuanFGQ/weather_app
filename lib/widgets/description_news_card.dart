@@ -14,12 +14,16 @@ class DescriptionNewsCard extends StatelessWidget {
   final int index;
   final void Function()? onPressed;
   final bool iconColorForNewsSave;
-  const DescriptionNewsCard(
-      {super.key,
-      required this.news,
-      required this.index,
-      this.onPressed,
-      required this.iconColorForNewsSave});
+  // final bool pressedBoolean;
+
+  const DescriptionNewsCard({
+    super.key,
+    required this.news,
+    required this.index,
+    this.onPressed,
+    required this.iconColorForNewsSave,
+    // required this.pressedBoolean,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +107,8 @@ class DescriptionNewsCard extends StatelessWidget {
                                 fillColor: Colors.white,
                                 elevation: 5,
                                 child: iconColorForNewsSave ||
+                                        // newsListProvider.isSaveButtonPressed
+                                        // ||
                                         index == newsListProvider.selectedItem
                                     ? const FaIcon(
                                         FontAwesomeIcons.solidHeart,
