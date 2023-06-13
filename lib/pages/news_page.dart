@@ -92,6 +92,7 @@ class _NewsViewerState extends State<_NewsViewer>
         .news); //here i match the instanceS of the list created with the list i receive in class arguments
 
     orderNewsByDate();
+    newsListProvider.loadSavedNews(); // load all saved news before widget build
   }
 
   void orderNewsByDate() {
@@ -159,19 +160,28 @@ class _NewsViewerState extends State<_NewsViewer>
                     itemCount: orderedNews.length,
                     itemBuilder: (_, i) {
                       final selNews = orderedNews[i];
+                      final newListCopy = List.from(newsListProvider.news);
+                      bool isNewSaved = false;
+
+                      for (var element in newListCopy) {
+                        if (element.title == selNews.title) {
+                          isNewSaved = true;
+                          break;
+                        }
+                      }
+                      saveNewsIndex(selNews, i);
 
                       return ElasticIn(
                         delay: const Duration(milliseconds: 200),
                         duration: const Duration(milliseconds: 500),
                         child: DescriptionNewsCard(
-                          iconColorForNewsSave:
-                              newsListProvider.buttonStates[i] ?? false,
+                          iconColorForNewsSave: isNewSaved,
                           news: orderedNews[i],
                           index: i,
                           onPressed: () {
-                            // // newsListProvider!.selectedItem = i;
+                            newsListProvider.selectedItem = i;
 
-                            saveNewsIndex(selNews, i);
+                            // saveNewsIndex(selNews, i);
                             setState(() {});
                           },
                         ),

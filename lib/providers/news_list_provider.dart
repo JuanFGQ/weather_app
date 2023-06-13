@@ -7,14 +7,14 @@ class NewsListProvider extends ChangeNotifier {
   Map<int, bool> buttonStates =
       {}; //map to store the states of button was pressed and saved
 
-  // int _selectedItem = -1;
+  int _selectedItem = -1;
 
-  // int get selectedItem => _selectedItem;
+  int get selectedItem => _selectedItem;
 
-  // set selectedItem(int value) {
-  //   _selectedItem = value;
-  //   notifyListeners();
-  // }
+  set selectedItem(int value) {
+    _selectedItem = value;
+    notifyListeners();
+  }
 
   Future<SavedNewsModel> newSave(
       String url, title, urlToImage, bool isButtonPressed) async {

@@ -23,6 +23,7 @@ class DescriptionNewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final newsListProvider = Provider.of<NewsListProvider>(context);
     final size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
@@ -101,8 +102,8 @@ class DescriptionNewsCard extends StatelessWidget {
                                 onPressed: onPressed,
                                 fillColor: Colors.white,
                                 elevation: 5,
-                                child: iconColorForNewsSave
-                                    // index == newsListProvider.selectedItem
+                                child: iconColorForNewsSave ||
+                                        index == newsListProvider.selectedItem
                                     ? const FaIcon(
                                         FontAwesomeIcons.solidHeart,
                                         color: Colors.red,
