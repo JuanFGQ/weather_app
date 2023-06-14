@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +18,9 @@ import 'package:weather/services/geolocator_service.dart';
 import 'package:weather/services/mapBox_service.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
+
+import 'generated/l10n.dart';
+import 'l10n/l10n.dart';
 
 void main() async {
   //making sure the process can pass
@@ -75,6 +79,7 @@ class MyApp extends StatelessWidget {
         'gps': (_) => const GpsAccessScreen(),
         'news': (_) => const NewsPage(),
       },
+      supportedLocales: L10n.all,
     );
   }
 }
