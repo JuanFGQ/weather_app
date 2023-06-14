@@ -262,14 +262,16 @@ class _HomeWidgetState extends State<HomeWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(children: [
-                RoundedButton(
-                  text: Text('News'),
-                  infinite: true,
-                  icon: FaIcon(FontAwesomeIcons.newspaper),
-                  function: widget.newsButton,
-                ),
-              ]),
+              Column(
+                children: [
+                  RoundedButton(
+                    text: Text('News'),
+                    infinite: true,
+                    icon: FaIcon(FontAwesomeIcons.newspaper),
+                    function: widget.newsButton,
+                  ),
+                ],
+              ),
               Column(
                 children: [
                   RoundedButton(
