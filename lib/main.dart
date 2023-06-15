@@ -19,7 +19,6 @@ import 'package:weather/services/mapBox_service.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 
-import 'generated/l10n.dart';
 import 'l10n/l10n.dart';
 
 void main() async {
@@ -79,7 +78,7 @@ class MyApp extends StatelessWidget {
         'gps': (_) => const GpsAccessScreen(),
         'news': (_) => const NewsPage(),
       },
-      supportedLocales: L10n.all,
+      // supportedLocales: L10n.all,
     );
   }
 }

@@ -1,1 +1,11 @@
-{}
+{
+    "language": "Español",
+    "@language":{
+        "description":"Lenguage actual"
+    },
+ "language": "Español",
+    "@language":{
+        "description":"Lenguage actual"
+    }
+
+}
