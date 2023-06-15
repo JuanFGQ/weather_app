@@ -3,9 +3,59 @@
     "@language":{
         "description":"Lenguage actual"
     },
- "language": "Español",
-    "@language":{
-        "description":"Lenguage actual"
-    }
+ "noticias": "Noticias",
+    "@noticias":{
+        "description":"Noticias"
+    },
+    "guardarubicacion": "Guardar ubicacion",
+    "@guardarubicacion":{
+        "description":"Guardar ubicacion"
+    },
+    "refrescar": "Refrescar",
+    "@refrescar":{
+        "description":"Refrescar pagina"
+    },
+    "buscarciudad": "Buscar ciudad",
+    "@buscarciudad":{
+        "description":"Buscar ciudad"
+    },
+    "noticiasporleer": "Noticias por leer",
+    "@noticiasporleer":{
+        "description":"Noticias por leer"
+    },
+    "lugaresfavoritos": "Lugares favoritos",
+    "@lugaresfavoritos":{
+        "description":"Lugares favoritos"
+    },
+    "temas": "Temas",
+    "@temas":{
+        "description":"Temas"
+    },
+     "viento": "Viento",
+    "@viento":{
+        "description":"viento"
+    },
+     "humedad": "Humedad",
+    "@humedad":{
+        "description":"Humedad"
+    },
+     "visibilidad": "Visibilidad",
+    "@visibilidad":{
+        "description":"Visibilidad"
+    },
+     "direcciondelviento": "Direccion del viento",
+    "@direcciondelviento":{
+        "description":"Direccion del viento"
+    },
+     "temperatura": "Temperatura",
+    "@temperatura":{
+        "description":"Temperatura"
+    },
+     "sensaciontermica": "Sensacion termica",
+    "@sensaciontermica":{
+        "description":"Sensacion termica"
+    },
+    
+
 
 }

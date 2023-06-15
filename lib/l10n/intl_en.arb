@@ -5,7 +5,14 @@
     "refresh":"Refresh",
     "searchcity":"Search city",
     "newsforread":"News for read",
-    "favouriteplaces":"Favourite places"
+    "favouriteplaces":"Favourite places",
+    "themes":"themes",
+    "wind":"Wind",
+    "humidity":"Humidity",
+    "visibility":"Visibility",
+    "winddirection":"Wind direction",
+    "temperature":"Temperature",
+    "feelslike":"Feels like",
     
    
 
