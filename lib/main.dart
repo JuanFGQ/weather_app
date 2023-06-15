@@ -80,10 +80,7 @@ class MyApp extends StatelessWidget {
         'news': (_) => const NewsPage(),
       },
       supportedLocales: L10n.all,
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        AppLocalizations.delegate,
-      ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
     );
   }
 }
