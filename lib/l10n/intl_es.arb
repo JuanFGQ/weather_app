@@ -3,58 +3,58 @@
     "@language":{
         "description":"Lenguage actual"
     },
- "noticias": "Noticias",
-    "@noticias":{
+ "news": "Noticias",
+    "@news":{
         "description":"Noticias"
     },
-    "guardarubicacion": "Guardar ubicacion",
-    "@guardarubicacion":{
+    "savelocation": "Guardar ubicacion",
+    "@savelocation":{
         "description":"Guardar ubicacion"
     },
-    "refrescar": "Refrescar",
-    "@refrescar":{
+    "refresh": "Refrescar",
+    "@refresh":{
         "description":"Refrescar pagina"
     },
-    "buscarciudad": "Buscar ciudad",
-    "@buscarciudad":{
+    "searchcity": "Buscar ciudad",
+    "@searchcity":{
         "description":"Buscar ciudad"
     },
-    "noticiasporleer": "Noticias por leer",
-    "@noticiasporleer":{
+    "newsforread": "Noticias por leer",
+    "@newsforread":{
         "description":"Noticias por leer"
     },
-    "lugaresfavoritos": "Lugares favoritos",
-    "@lugaresfavoritos":{
+    "favouriteplaces": "Lugares favoritos",
+    "@favouriteplaces":{
         "description":"Lugares favoritos"
     },
-    "temas": "Temas",
-    "@temas":{
+    "themes": "Temas",
+    "@themes":{
         "description":"Temas"
     },
-     "viento": "Viento",
-    "@viento":{
+     "wind": "Viento",
+    "@wind":{
         "description":"viento"
     },
-     "humedad": "Humedad",
-    "@humedad":{
+     "humidity": "Humedad",
+    "@humidity":{
         "description":"Humedad"
     },
-     "visibilidad": "Visibilidad",
-    "@visibilidad":{
+     "visibility": "Visibilidad",
+    "@visibility":{
         "description":"Visibilidad"
     },
-     "direcciondelviento": "Direccion del viento",
-    "@direcciondelviento":{
+     "winddirection": "Direccion del viento",
+    "@winddirection":{
         "description":"Direccion del viento"
     },
-     "temperatura": "Temperatura",
-    "@temperatura":{
+     "temperature": "Temperatura",
+    "@temperature":{
         "description":"Temperatura"
     },
-     "sensaciontermica": "Sensacion termica",
-    "@sensaciontermica":{
+     "feelslike": "Sensacion termica",
+    "@feelslike":{
         "description":"Sensacion termica"
-    },
+    }
     
 
 

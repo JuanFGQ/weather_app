@@ -20,6 +20,7 @@ import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 
 import 'l10n/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   //making sure the process can pass
@@ -58,7 +59,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NewsListProvider()),
         ChangeNotifierProvider(create: (_) => CitiesListProvider()),
       ],
-      child: const MyApp(),
+      child: MyApp(),
     );
   }
 }
@@ -78,7 +79,11 @@ class MyApp extends StatelessWidget {
         'gps': (_) => const GpsAccessScreen(),
         'news': (_) => const NewsPage(),
       },
-      // supportedLocales: L10n.all,
+      supportedLocales: L10n.all,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        AppLocalizations.delegate,
+      ],
     );
   }
 }
