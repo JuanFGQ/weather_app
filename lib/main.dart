@@ -13,6 +13,7 @@ import 'package:weather/pages/loading_page.dart';
 import 'package:weather/pages/news_page.dart';
 import 'package:weather/preferences/share_prefs.dart';
 import 'package:weather/providers/cities_list_provider.dart';
+import 'package:weather/providers/locale_provider.dart';
 import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/services/geolocator_service.dart';
 import 'package:weather/services/mapBox_service.dart';
@@ -58,6 +59,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => StateManagement()),
         ChangeNotifierProvider(create: (_) => NewsListProvider()),
         ChangeNotifierProvider(create: (_) => CitiesListProvider()),
+        ChangeNotifierProvider(create: (_) => LocaleProvider()),
       ],
       child: MyApp(),
     );
@@ -69,6 +71,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final localeProvider = Provider.of<LocaleProvider>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: 'loading',
@@ -79,8 +83,12 @@ class MyApp extends StatelessWidget {
         'gps': (_) => const GpsAccessScreen(),
         'news': (_) => const NewsPage(),
       },
+      // locale: localeProvider.locale,
       supportedLocales: L10n.all,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      locale: const Locale('en'),
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+      ],
     );
   }
 }
