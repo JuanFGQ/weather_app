@@ -37,7 +37,6 @@ class ThemeChanger with ChangeNotifier {
 
       default:
         _darkTheme = false;
-        _darkTheme = false;
         _currentTheme = ThemeData.light();
     }
   }
@@ -62,9 +61,11 @@ class ThemeChanger with ChangeNotifier {
     if (value) {
       //134
       _currentTheme = ThemeData.dark().copyWith(
-          primaryColorLight: Colors.pinkAccent,
+          primaryColorLight: Colors.black,
+          secondaryHeaderColor: Colors.grey,
           scaffoldBackgroundColor: Colors.amberAccent,
-          textTheme: TextTheme(bodyText1: TextStyle(color: Colors.white10)),
+          textTheme:
+              TextTheme(bodyLarge: TextStyle(color: Colors.grey.shade400)),
           colorScheme: ColorScheme.fromSwatch()
               .copyWith(secondary: Colors.yellow)); //134
     } else {

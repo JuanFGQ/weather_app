@@ -34,7 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "home": MessageLookupByLibrary.simpleMessage("home"),
         "humidity": MessageLookupByLibrary.simpleMessage("Humidity"),
         "language": MessageLookupByLibrary.simpleMessage("English"),
-        "lighttheme": MessageLookupByLibrary.simpleMessage("Tema ligero"),
+        "lighttheme": MessageLookupByLibrary.simpleMessage("Light theme"),
         "news": MessageLookupByLibrary.simpleMessage("News "),
         "newsforread": MessageLookupByLibrary.simpleMessage("News for read"),
         "oldnews": MessageLookupByLibrary.simpleMessage("Old news"),

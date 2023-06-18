@@ -185,6 +185,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         onTap: () {},
                         trailing: Switch.adaptive(
                             value: appTheme.darkTheme,
+                            activeColor: Colors.pink,
                             onChanged: (value) {
                               appTheme.darkTheme = value;
                             })),
@@ -194,17 +195,18 @@ class _HomeWidgetState extends State<HomeWidget> {
                         onTap: () {},
                         trailing: Switch.adaptive(
                             value: appTheme.customTheme,
+                            activeColor: Colors.red,
                             onChanged: (value) {
                               appTheme.customTheme = value;
                             })),
                   ]),
               ExpansionTile(
-                childrenPadding: EdgeInsets.only(left: 30),
-                leading: FaIcon(FontAwesomeIcons.language),
+                childrenPadding: const EdgeInsets.only(left: 30),
+                leading: const FaIcon(FontAwesomeIcons.language),
                 title: Text(AppLocalizations.of(context)!.language),
                 children: [
                   ListTile(
-                    leading: Image(
+                    leading: const Image(
                         image: AssetImage('assets/usa2.png'),
                         width: 25,
                         height: 25),

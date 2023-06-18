@@ -44,8 +44,6 @@ class DescriptionNewsCard extends StatelessWidget {
               margin: const EdgeInsets.all(10),
               width: size.width * 0.35,
               height: size.height * 0.18,
-              // decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(60), color: Colors.amber),
               child: (news.urlToImage != null &&
                       news.urlToImage!.startsWith('http'))
                   ? ClipRRect(
@@ -67,7 +65,6 @@ class DescriptionNewsCard extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.only(right: 10),
               height: size.height * 0.16,
-              // color: Colors.red,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
