@@ -54,7 +54,54 @@
      "feelslike": "Sensacion termica",
     "@feelslike":{
         "description":"Sensacion termica"
-    }
+    },
+    "english": "Inglés",
+    "@english":{
+        "description":"Inglés"
+    },
+    "spanish": "Español",
+    "@spanish":{
+        "description":"Español"
+    },
+    "allnews": "Todas las noticias",
+    "@allnews":{
+        "description":"Todas las noticias"
+    },
+    "descending": "Descendiente",
+    "@descending":{
+        "description":"Descendiente"
+    },
+    "ascending": "Ascendente",
+    "@ascending":{
+        "description":"Ascendente"
+    },
+
+"darktheme": "Tema oscuro",
+"@darktheme":{
+    "description":"Tema oscuro"
+},
+"lighttheme": "Tema ligero",
+"@lighttheme":{
+    "description":"Tema ligero"
+},
+"home": "Pagina principal",
+"@home":{
+    "description":"Pagina principal"
+},
+"recentsnews": "Noticias recientes",
+"@recentsnews":{
+    "description":"Noticias recientes"
+},
+"oldnews": "Noticias antiguas",
+"@oldnews":{
+    "description":"Noticias antiguas"
+},
+"allreadysave": "Ya esta guardado!",
+"@allreadysave":{
+    "description":"Ya esta guardado!"
+}
+
+
     
 
 

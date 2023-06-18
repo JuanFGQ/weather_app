@@ -4,15 +4,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/saved_cities_model.dart';
 import 'package:weather/providers/cities_list_provider.dart';
+import 'package:weather/providers/localization_provider.dart';
 
 import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/search/search_delegate_widget.dart';
 import 'package:weather/services/news_service.dart';
+import 'package:weather/theme/theme_changer.dart';
 import 'package:weather/widgets/rounded_button.dart';
 
 import '../models/saved_news_model.dart';
 import 'info_table.dart';
 import 'letras.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeWidget extends StatefulWidget {
   final String title;
@@ -85,6 +89,9 @@ class _HomeWidgetState extends State<HomeWidget> {
     final newsListP = newsListProvider.news;
     final citiesListProvider = Provider.of<CitiesListProvider>(context);
     final citiesListP = citiesListProvider.cities;
+    final localeProvider = Provider.of<LocalizationProvider>(context);
+    final appTheme = Provider.of<ThemeChanger>(context);
+    final accentColor = appTheme.currentTheme.colorScheme.secondary;
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -117,16 +124,16 @@ class _HomeWidgetState extends State<HomeWidget> {
             children: [
               Container(
                 margin: const EdgeInsets.only(left: 10),
-                child: const Align(
+                child: Align(
                     alignment: Alignment.topLeft,
-                    child: Text('Home',
+                    child: Text(AppLocalizations.of(context)!.home,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 30))),
               ),
 
               ExpansionTile(
                   leading: const FaIcon(FontAwesomeIcons.heartCircleCheck),
-                  title: const Text('Favorites places'),
+                  title: Text(AppLocalizations.of(context)!.favouriteplaces),
                   children: [
                     ConstrainedBox(
                       constraints: BoxConstraints(
@@ -147,7 +154,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                   ]),
               ExpansionTile(
                 leading: const FaIcon(FontAwesomeIcons.newspaper),
-                title: const Text('News for read'),
+                title: Text(AppLocalizations.of(context)!.newsforread),
                 children: [
                   ConstrainedBox(
                     constraints: BoxConstraints(
@@ -170,44 +177,65 @@ class _HomeWidgetState extends State<HomeWidget> {
               ExpansionTile(
                   childrenPadding: const EdgeInsets.only(left: 30),
                   leading: const FaIcon(FontAwesomeIcons.paintRoller),
-                  title: const Text('Themes'),
+                  title: Text(AppLocalizations.of(context)!.themes),
                   children: [
                     ListTile(
-                      leading: const Icon(Icons.format_paint_outlined),
-                      title: const Text('Dark Theme'),
-                      onTap: () {},
-                      trailing: const CircleAvatar(
-                        maxRadius: 10,
-                        backgroundColor: Colors.black,
-                      ),
-                    ),
+                        leading: const Icon(Icons.format_paint_outlined),
+                        title: Text(AppLocalizations.of(context)!.darktheme),
+                        onTap: () {},
+                        trailing: Switch.adaptive(
+                            value: appTheme.darkTheme,
+                            onChanged: (value) {
+                              appTheme.darkTheme = value;
+                            })),
                     ListTile(
-                      leading: const Icon(Icons.format_paint_outlined),
-                      title: const Text('Light Theme'),
-                      onTap: () {},
-                      trailing: const CircleAvatar(
-                        maxRadius: 10,
-                        backgroundColor: Colors.blue,
-                      ),
-                    ),
+                        leading: const Icon(Icons.format_paint_outlined),
+                        title: Text(AppLocalizations.of(context)!.lighttheme),
+                        onTap: () {},
+                        trailing: Switch.adaptive(
+                            value: appTheme.customTheme,
+                            onChanged: (value) {
+                              appTheme.customTheme = value;
+                            })),
                   ]),
-              const ExpansionTile(
+              ExpansionTile(
                 childrenPadding: EdgeInsets.only(left: 30),
                 leading: FaIcon(FontAwesomeIcons.language),
-                title: Text('Language'),
+                title: Text(AppLocalizations.of(context)!.language),
                 children: [
                   ListTile(
-                      leading: Image(
-                          image: AssetImage('assets/usa2.png'),
-                          width: 25,
-                          height: 25),
-                      title: Text('English')),
+                    leading: Image(
+                        image: AssetImage('assets/usa2.png'),
+                        width: 25,
+                        height: 25),
+                    title: Text(AppLocalizations.of(context)!.english),
+                    trailing: Switch.adaptive(
+                        value: localeProvider.languageEnglish,
+                        activeColor: Colors.amber,
+                        onChanged: (value) {
+                          localeProvider.languageEnglish = value;
+                          localeProvider.languageSpanish = false;
+                          if (!localeProvider.languageEnglish) {
+                            localeProvider.languageSpanish = true;
+                          }
+                        }),
+                  ),
                   ListTile(
-                      leading: Image(
-                          image: AssetImage('assets/spain.png'),
-                          width: 25,
-                          height: 25),
-                      title: Text('Castellano')),
+                    leading: const Image(
+                        image: AssetImage('assets/spain.png'),
+                        width: 25,
+                        height: 25),
+                    title: Text(AppLocalizations.of(context)!.spanish),
+                    trailing: Switch.adaptive(
+                        value: localeProvider.languageSpanish,
+                        onChanged: (value) {
+                          localeProvider.languageSpanish = value;
+                          localeProvider.languageEnglish = false;
+                          if (!localeProvider.languageSpanish) {
+                            localeProvider.languageEnglish = true;
+                          }
+                        }),
+                  ),
                 ],
               ),
 
@@ -265,7 +293,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               Column(
                 children: [
                   RoundedButton(
-                    text: Text('News'),
+                    text: Text(AppLocalizations.of(context)!.news),
                     infinite: true,
                     icon: FaIcon(FontAwesomeIcons.newspaper),
                     function: widget.newsButton,
@@ -275,7 +303,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               Column(
                 children: [
                   RoundedButton(
-                    text: Text('Save location'),
+                    text: Text(AppLocalizations.of(context)!.savelocation),
                     infinite: true,
                     icon: FaIcon(FontAwesomeIcons.locationDot),
                     function: widget.saveLocationButton,
@@ -287,7 +315,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 child: Column(
                   children: [
                     RoundedButton(
-                      text: Text('Refresh'),
+                      text: Text(AppLocalizations.of(context)!.refresh),
                       infinite: true,
                       icon: FaIcon(FontAwesomeIcons.refresh),
                       function: widget.refreshButton,
@@ -301,26 +329,28 @@ class _HomeWidgetState extends State<HomeWidget> {
           const SizedBox(height: 10),
           // const InfoTable(),
           InfoIcon(
-              image: 'wind.gif', title: 'Wind', percentage: widget.windData),
+              image: 'wind.gif',
+              title: AppLocalizations.of(context)!.wind,
+              percentage: widget.windData),
           InfoIcon(
               image: 'drop.gif',
-              title: 'Humidity',
+              title: AppLocalizations.of(context)!.humidity,
               percentage: widget.humidityData),
           InfoIcon(
               image: 'view.gif',
-              title: 'Visibility',
+              title: AppLocalizations.of(context)!.visibility,
               percentage: widget.visibilityData),
           InfoIcon(
               image: 'windy.gif',
-              title: 'Wind direction',
+              title: AppLocalizations.of(context)!.winddirection,
               percentage: widget.windDirectionData),
           InfoIcon(
               image: 'temperature.gif',
-              title: 'Temperature',
+              title: AppLocalizations.of(context)!.temperature,
               percentage: widget.temperatureData),
           InfoIcon(
             image: 'hot.gif',
-            title: 'Feels like',
+            title: AppLocalizations.of(context)!.feelslike,
             percentage: widget.feelsLikeData,
           ),
 

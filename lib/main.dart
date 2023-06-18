@@ -13,15 +13,17 @@ import 'package:weather/pages/loading_page.dart';
 import 'package:weather/pages/news_page.dart';
 import 'package:weather/preferences/share_prefs.dart';
 import 'package:weather/providers/cities_list_provider.dart';
-import 'package:weather/providers/locale_provider.dart';
+import 'package:weather/providers/localization_provider.dart';
 import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/services/geolocator_service.dart';
 import 'package:weather/services/mapBox_service.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
+import 'package:weather/theme/theme_changer.dart';
 
 import 'l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   //making sure the process can pass
@@ -59,7 +61,8 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => StateManagement()),
         ChangeNotifierProvider(create: (_) => NewsListProvider()),
         ChangeNotifierProvider(create: (_) => CitiesListProvider()),
-        ChangeNotifierProvider(create: (_) => LocaleProvider()),
+        ChangeNotifierProvider(create: (_) => LocalizationProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeChanger(0)),
       ],
       child: MyApp(),
     );
@@ -71,7 +74,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final localeProvider = Provider.of<LocaleProvider>(context);
+    final localeProvider = Provider.of<LocalizationProvider>(context);
+    final appTheme = Provider.of<ThemeChanger>(context).currentTheme;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -83,11 +87,13 @@ class MyApp extends StatelessWidget {
         'gps': (_) => const GpsAccessScreen(),
         'news': (_) => const NewsPage(),
       },
-      // locale: localeProvider.locale,
+      theme: appTheme,
       supportedLocales: L10n.all,
-      locale: const Locale('en'),
-      localizationsDelegates: [
+      locale: (localeProvider.languageEnglish) ? Locale('en') : Locale('es'),
+      localizationsDelegates: const [
         AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
       ],
     );
   }

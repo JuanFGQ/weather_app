@@ -8,6 +8,7 @@ import 'package:weather/providers/news_list_provider.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 import 'package:weather/widgets/circular_progress_indicator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../widgets/description_news_card.dart';
 
@@ -124,11 +125,11 @@ class _NewsViewerState extends State<_NewsViewer>
                     color: Colors.amber,
                   ),
                   margin: const EdgeInsets.only(left: 10),
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'All news',
-                      style: TextStyle(fontSize: 25),
+                      AppLocalizations.of(context)!.allnews,
+                      style: const TextStyle(fontSize: 25),
                     ),
                   ),
                 ),
@@ -216,9 +217,9 @@ class _NewsViewerState extends State<_NewsViewer>
           builder: (_) => FadeInUp(
             child: AlertDialog(
               alignment: Alignment.bottomCenter,
-              title: const Text(
-                'Already saved',
-                style: TextStyle(color: Colors.white70),
+              title: Text(
+                AppLocalizations.of(context)!.allreadysave,
+                style: const TextStyle(color: Colors.white70),
               ),
               elevation: 24,
               backgroundColor: const Color.fromARGB(130, 0, 108, 196),

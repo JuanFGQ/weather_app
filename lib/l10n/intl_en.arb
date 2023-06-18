@@ -12,7 +12,18 @@
     "visibility":"Visibility",
     "winddirection":"Wind direction",
     "temperature":"Temperature",
-    "feelslike":"Feels like"
+    "feelslike":"Feels like",
+    "english":"English",
+    "spanish":"Spanish",
+    "allnews":"All news",
+    "descending":"Descending",
+    "ascending":"Ascendente",
+    "darktheme":"Dark theme",
+    "lighttheme":"Tema ligero",
+    "home":"home",
+    "recentsnews":"Recent news",
+    "oldnews":"Old news",
+    "allreadysave":"All ready saved"
     
    
 
