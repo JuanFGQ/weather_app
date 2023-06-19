@@ -104,19 +104,21 @@ class _HomeWidgetState extends State<HomeWidget> {
                             const WeatherSearchCity())),
                 icon: const FaIcon(FontAwesomeIcons.search)),
           ],
-          iconTheme: (appTheme.darkTheme)
-              ? IconThemeData(color: Colors.white)
-              : IconThemeData(color: Colors.black),
-          // backgroundColor: widget.appBarColors,
+          // iconTheme: (appTheme.darkTheme)
+          //     ? IconThemeData(color: Colors.white)
+          //     : IconThemeData(color: Colors.black),
+          // // backgroundColor: widget.appBarColors,
           elevation: 0,
           centerTitle: true,
           title: FittedBox(
             fit: BoxFit.fitWidth,
-            child: Text(widget.title,
-                textAlign: TextAlign.center,
-                style: (appTheme.darkTheme)
-                    ? TextStyle(color: Colors.white, fontSize: 40)
-                    : TextStyle(color: Colors.black, fontSize: 40)),
+            child: Text(
+              widget.title,
+              textAlign: TextAlign.center,
+              // style: (appTheme.darkTheme)
+              //     ? TextStyle(color: Colors.white, fontSize: 40)
+              //     : TextStyle(color: Colors.black, fontSize: 40),
+            ),
           )
           //
           ),
@@ -188,7 +190,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         onTap: () {},
                         trailing: Switch.adaptive(
                             value: appTheme.darkTheme,
-                            activeColor: Colors.pink,
+                            // activeColor: Colors.pink,
                             onChanged: (value) {
                               appTheme.darkTheme = value;
                             })),
@@ -198,7 +200,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         onTap: () {},
                         trailing: Switch.adaptive(
                             value: appTheme.customTheme,
-                            activeColor: Colors.red,
+                            // activeColor: Colors.red,
                             onChanged: (value) {
                               appTheme.customTheme = value;
                             })),
@@ -216,7 +218,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     title: Text(AppLocalizations.of(context)!.english),
                     trailing: Switch.adaptive(
                         value: localeProvider.languageEnglish,
-                        activeColor: Colors.amber,
+                        // activeColor: Colors.amber,
                         onChanged: (value) {
                           localeProvider.languageEnglish = value;
                           localeProvider.languageSpanish = false;
@@ -300,15 +302,17 @@ class _HomeWidgetState extends State<HomeWidget> {
                   RoundedButton(
                     text: Text(
                       AppLocalizations.of(context)!.news,
-                      style: TextStyle(
-                          color: (appTheme.darkTheme)
-                              ? Colors.grey
-                              : Colors.black),
+                      // style: TextStyle(
+                      //     color: (appTheme.darkTheme)
+                      //         ? Colors.grey
+                      //         : Colors.black),
                     ),
                     infinite: true,
-                    icon: FaIcon(FontAwesomeIcons.newspaper,
-                        color:
-                            (appTheme.darkTheme) ? Colors.grey : Colors.black),
+                    icon: FaIcon(
+                      FontAwesomeIcons.newspaper,
+                      // color:
+                      //     (appTheme.darkTheme) ? Colors.grey : Colors.black
+                    ),
                     function: widget.newsButton,
                   ),
                 ],
@@ -318,15 +322,16 @@ class _HomeWidgetState extends State<HomeWidget> {
                   RoundedButton(
                     text: Text(
                       AppLocalizations.of(context)!.savelocation,
-                      style: TextStyle(
-                          color: (appTheme.darkTheme)
-                              ? Colors.grey
-                              : Colors.black),
+                      // style: TextStyle(
+                      //     color: (appTheme.darkTheme)
+                      //         ? Colors.grey
+                      //         : Colors.black),
                     ),
                     infinite: true,
-                    icon: FaIcon(FontAwesomeIcons.locationDot,
-                        color:
-                            (appTheme.darkTheme) ? Colors.grey : Colors.black),
+                    icon: FaIcon(
+                      FontAwesomeIcons.locationDot,
+                      // color: (appTheme.darkTheme) ? Colors.grey : Colors.black,
+                    ),
                     function: widget.saveLocationButton,
                   ),
                 ],
@@ -445,7 +450,7 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.red,
+                    // color: Colors.red,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -467,7 +472,7 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
                             child: const FaIcon(
                               FontAwesomeIcons.check,
                               size: 15,
-                              color: Colors.white54,
+                              // color: Colors.white54,
                             ),
                           )),
                       const SizedBox(height: 6),
@@ -479,8 +484,11 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
                           child: FadeInDown(
                             from: 15,
                             delay: const Duration(milliseconds: 150),
-                            child: const FaIcon(FontAwesomeIcons.x,
-                                size: 15, color: Colors.white54),
+                            child: const FaIcon(
+                              FontAwesomeIcons.x,
+                              size: 15,
+                              // color: Colors.white54,
+                            ),
                           ))
                     ],
                   ),
@@ -520,7 +528,9 @@ class _SavedNewsCardState extends State<_SavedNewsCard> {
     return Container(
       margin: const EdgeInsets.all(6),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30), color: Colors.amber),
+        borderRadius: BorderRadius.circular(30),
+        //  color: Colors.amber,
+      ),
       child: ListTile(
         leading: CircleAvatar(
           child: (widget.saveNews.urlToImage.isNotEmpty &&
@@ -562,7 +572,7 @@ class _SavedNewsCardState extends State<_SavedNewsCard> {
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.red,
+                    // color: Colors.red,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -584,7 +594,7 @@ class _SavedNewsCardState extends State<_SavedNewsCard> {
                             child: const FaIcon(
                               FontAwesomeIcons.check,
                               size: 15,
-                              color: Colors.white54,
+                              // color: Colors.white54,
                             ),
                           )),
                       const SizedBox(height: 6),
@@ -596,8 +606,11 @@ class _SavedNewsCardState extends State<_SavedNewsCard> {
                           child: FadeInDown(
                             from: 15,
                             delay: const Duration(milliseconds: 150),
-                            child: const FaIcon(FontAwesomeIcons.x,
-                                size: 15, color: Colors.white54),
+                            child: const FaIcon(
+                              FontAwesomeIcons.x,
+                              size: 15,
+                              // color: Colors.white54
+                            ),
                           ))
                     ],
                   ),

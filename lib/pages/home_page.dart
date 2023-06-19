@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage> {
               alignment: Alignment.bottomCenter,
               title: const Text(
                 'Already saved',
-                style: TextStyle(color: Colors.white70),
+                // style: TextStyle(color: Colors.white70),
               ),
               elevation: 24,
               backgroundColor: const Color.fromARGB(130, 0, 108, 196),

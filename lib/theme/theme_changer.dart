@@ -46,7 +46,40 @@ class ThemeChanger with ChangeNotifier {
     _darkTheme = value;
     if (value) {
       //134
-      _currentTheme = ThemeData.dark(); //134
+      _currentTheme = ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: Colors.blue,
+          appBarTheme: AppBarTheme(color: Colors.blue),
+          textTheme: TextTheme(
+            titleLarge: TextStyle(color: Colors.white10),
+            bodyLarge: TextStyle(color: Colors.white10),
+            displayLarge: TextStyle(color: Colors.white10),
+          )
+          // primaryColor: Colors.red,
+          // colorScheme: ColorScheme(
+          //     brightness: Brightness.dark,
+          //     primary: Colors.blue,
+          //     onPrimary: Colors.red,
+          //     secondary: Colors.yellow,
+          //     onSecondary: Colors.green,
+          //     error: Colors.blue,
+          //     onError: Colors.orange,
+          //     background: Colors.amberAccent,
+          //     onBackground: Colors.cyan,
+          //     surface: Colors.tealAccent,
+          //     onSurface: Colors.lime,
+          //     primaryContainer: Colors.white),
+          // // iconButtonTheme: IconButtonThemeData(
+          // //     style: ButtonStyle(
+          // //         backgroundColor: MaterialStatePropertyAll(Colors.brown))),
+          // // iconTheme: IconThemeData(color: Colors.yellow),
+          // filledButtonTheme: FilledButtonThemeData(
+          //     style: ButtonStyle(
+          //         backgroundColor: MaterialStatePropertyAll(Colors.green))),
+          // primaryIconTheme: IconThemeData(color: Colors.blue),
+          // typography: Typography(
+          //     dense:
+          //         TextTheme(bodyLarge: TextStyle(fontStyle: FontStyle.italic))),
+          ); //134
     } else {
       //134
       _currentTheme = ThemeData.light(); //134
@@ -60,14 +93,16 @@ class ThemeChanger with ChangeNotifier {
 
     if (value) {
       //134
-      _currentTheme = ThemeData.dark().copyWith(
+      _currentTheme = ThemeData.light().copyWith(
           // primaryColorLight: Colors.black,
-          secondaryHeaderColor: Colors.grey,
+          // secondaryHeaderColor: Colors.blue,
           // scaffoldBackgroundColor: Colors.amberAccent,
-          textTheme:
-              TextTheme(bodyLarge: TextStyle(color: Colors.grey.shade400)),
-          colorScheme: ColorScheme.fromSwatch()
-              .copyWith(secondary: Colors.yellow)); //134
+          // textTheme:
+          //     TextTheme(bodyLarge: TextStyle(color: Colors.grey.shade400)),
+          // colorScheme: ColorScheme.fromSwatch()
+          //     .copyWith(secondary: Colors.yellow)
+          //
+          ); //134
     } else {
       //134
       _currentTheme = ThemeData.light(); //134
