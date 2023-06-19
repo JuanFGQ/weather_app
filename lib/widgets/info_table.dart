@@ -17,26 +17,33 @@ class InfoIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final appTheme = Provider.of<ThemeChanger>(context).currentTheme;
+    final appTheme = Provider.of<ThemeChanger>(context);
 
     return FadeInUp(
-      child: Container(
-          padding: const EdgeInsets.all(5),
-          width: size.width * 0.9,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.white,
-          ),
-          margin: const EdgeInsets.only(left: 50, right: 50),
-          child: Column(
-            children: [
-              ListTile(
-                leading: Image(image: AssetImage('assets/$image')),
-                title: Text(title),
-                trailing: Text(percentage),
-              ),
-            ],
-          )),
+      child: Opacity(
+        opacity: (appTheme.darkTheme) ? 0.5 : 1,
+        child: Container(
+            padding: const EdgeInsets.all(5),
+            width: size.width * 0.9,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: Colors.white,
+            ),
+            margin: const EdgeInsets.only(left: 50, right: 50),
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Image(image: AssetImage('assets/$image')),
+                  title: Text(
+                    title,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  trailing:
+                      Text(percentage, style: TextStyle(color: Colors.black)),
+                ),
+              ],
+            )),
+      ),
     );
   }
 }

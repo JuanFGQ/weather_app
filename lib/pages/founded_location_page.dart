@@ -78,9 +78,9 @@ class _FoundedLocationState extends State<FoundedLocation> {
 
                       Navigator.pushNamed(context, 'news');
                     },
-                    locCountryColor: Colors.yellow,
-                    appBarColors: Colors.yellow,
-                    scaffoldColor: Colors.yellow,
+                    // locCountryColor: Colors.yellow,
+                    // appBarColors: Colors.yellow,
+                    // scaffoldColor: Colors.yellow,
                     title: apiResp.foundLocation?.name ?? '?',
                     lastUpdateDate:
                         apiResp.foundCurrent?.lastUpdated.substring(0, 10) ??

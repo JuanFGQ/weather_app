@@ -32,9 +32,9 @@ class HomeWidget extends StatefulWidget {
   final String windDirectionData;
   final String temperatureData;
   final String feelsLikeData;
-  final Color scaffoldColor;
-  final Color appBarColors;
-  final Color locCountryColor;
+  // final Color scaffoldColor;
+  // final Color appBarColors;
+  // final Color locCountryColor;
   final void Function()? newsButton;
   final void Function()? saveLocationButton;
 
@@ -56,9 +56,9 @@ class HomeWidget extends StatefulWidget {
     required this.windDirectionData,
     required this.temperatureData,
     required this.feelsLikeData,
-    required this.scaffoldColor,
-    required this.appBarColors,
-    required this.locCountryColor,
+    // required this.scaffoldColor,
+    // required this.appBarColors,
+    // required this.locCountryColor,
     this.newsButton,
     this.refreshButton,
     this.saveLocationButton,
@@ -91,7 +91,6 @@ class _HomeWidgetState extends State<HomeWidget> {
     final citiesListP = citiesListProvider.cities;
     final localeProvider = Provider.of<LocalizationProvider>(context);
     final appTheme = Provider.of<ThemeChanger>(context);
-    final accentColor = appTheme.currentTheme.colorScheme.secondary;
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -105,19 +104,23 @@ class _HomeWidgetState extends State<HomeWidget> {
                             const WeatherSearchCity())),
                 icon: const FaIcon(FontAwesomeIcons.search)),
           ],
-          iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor: widget.appBarColors,
+          iconTheme: (appTheme.darkTheme)
+              ? IconThemeData(color: Colors.white)
+              : IconThemeData(color: Colors.black),
+          // backgroundColor: widget.appBarColors,
           elevation: 0,
           centerTitle: true,
           title: FittedBox(
             fit: BoxFit.fitWidth,
             child: Text(widget.title,
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.black, fontSize: 40)),
+                style: (appTheme.darkTheme)
+                    ? TextStyle(color: Colors.white, fontSize: 40)
+                    : TextStyle(color: Colors.black, fontSize: 40)),
           )
           //
           ),
-      backgroundColor: widget.scaffoldColor,
+      // backgroundColor: widget.scaffoldColor,
       drawer: Drawer(
         child: ListView(children: [
           Column(
@@ -127,7 +130,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(AppLocalizations.of(context)!.home,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 30))),
               ),
 
@@ -257,7 +260,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           const SizedBox(height: 10),
           Words(
             date: widget.locationCountry,
-            wordColor: widget.locCountryColor,
+            // wordColor: widget.locCountryColor,
             // wordSize: 20,
           ),
           const SizedBox(height: 5),
@@ -295,9 +298,17 @@ class _HomeWidgetState extends State<HomeWidget> {
               Column(
                 children: [
                   RoundedButton(
-                    text: Text(AppLocalizations.of(context)!.news),
+                    text: Text(
+                      AppLocalizations.of(context)!.news,
+                      style: TextStyle(
+                          color: (appTheme.darkTheme)
+                              ? Colors.grey
+                              : Colors.black),
+                    ),
                     infinite: true,
-                    icon: FaIcon(FontAwesomeIcons.newspaper),
+                    icon: FaIcon(FontAwesomeIcons.newspaper,
+                        color:
+                            (appTheme.darkTheme) ? Colors.grey : Colors.black),
                     function: widget.newsButton,
                   ),
                 ],
@@ -305,9 +316,17 @@ class _HomeWidgetState extends State<HomeWidget> {
               Column(
                 children: [
                   RoundedButton(
-                    text: Text(AppLocalizations.of(context)!.savelocation),
+                    text: Text(
+                      AppLocalizations.of(context)!.savelocation,
+                      style: TextStyle(
+                          color: (appTheme.darkTheme)
+                              ? Colors.grey
+                              : Colors.black),
+                    ),
                     infinite: true,
-                    icon: FaIcon(FontAwesomeIcons.locationDot),
+                    icon: FaIcon(FontAwesomeIcons.locationDot,
+                        color:
+                            (appTheme.darkTheme) ? Colors.grey : Colors.black),
                     function: widget.saveLocationButton,
                   ),
                 ],

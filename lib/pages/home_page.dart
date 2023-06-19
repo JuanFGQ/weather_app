@@ -77,9 +77,9 @@ class _HomePageState extends State<HomePage> {
 
               Navigator.pushNamed(context, 'news');
             },
-            locCountryColor: Colors.blue,
-            appBarColors: Colors.blue,
-            scaffoldColor: Colors.blue,
+            // locCountryColor: Colors.blue,
+            // appBarColors: Colors.blue,
+            // scaffoldColor: Colors.blue,
             title: apiResp.location?.name ?? '?',
 
             lastUpdateDate:
