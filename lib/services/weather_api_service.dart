@@ -15,12 +15,14 @@ class WeatherApiService extends ChangeNotifier {
   final String _baseUrl = 'api.weatherapi.com';
   final String _key = 'a1f73a2fb6cc40c29eb175425232204';
   final String _aqi = 'no';
-  final String
-      _language; //todo: this parameter is to change the search language dinamically
+  // final String
+  //     _language; //todo: this parameter is to change the search language dinamically
 
   String _coords = '';
 
-  WeatherApiService(this._language);
+  WeatherApiService(
+      // this._language
+      );
   String get coords => _coords;
   set coords(String value) {
     _coords = value;

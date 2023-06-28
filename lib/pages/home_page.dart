@@ -108,8 +108,6 @@ class _HomePageState extends State<HomePage> {
     final saveCitiesProvider =
         Provider.of<CitiesListProvider>(context, listen: false);
 
-    // String coords = await geolocatorService!.getCurrentLocation();
-
     await saveCitiesProvider.loadSavedCities();
 
     final cityListCopy = List.from(saveCitiesProvider.cities);
@@ -143,6 +141,8 @@ class _HomePageState extends State<HomePage> {
     }
 
     if (!foundMatch) {
+      String coords = await geolocatorService!.getCurrentLocation();
+
       await saveCitiesProvider.saveCity(
         '${apiResp.current!.feelslikeC}º',
         apiResp.location!.name,

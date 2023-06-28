@@ -23,13 +23,13 @@ class DBprovider {
 
   Future<Database?> initDB() async {
     Directory documenstDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documenstDirectory.path, '4dModification.db');
+    final path = join(documenstDirectory.path, '5dModification.db');
 
 //create dataBase
 
     return await openDatabase(
       path,
-      version: 2,
+      version: 3,
       onOpen: (db) {},
       onCreate: (Database db, int version) async {
         await db.execute('''
@@ -47,7 +47,8 @@ CREATE TABLE Cities(
   title TEXT,
   temperature TEXT,
   wind TEXT,
-  updated TEXT
+  updated TEXT,
+  coords TEXT
 
 )
 ''');
