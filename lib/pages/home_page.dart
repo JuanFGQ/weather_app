@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> {
     stream.sink.add(hasData);
   }
 
+//refresh the current location and all the information on it
   void _refreshWeatherData() {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const CircularIndicator()));
@@ -77,9 +78,9 @@ class _HomePageState extends State<HomePage> {
 
               Navigator.pushNamed(context, 'news');
             },
-            // locCountryColor: Colors.blue,
-            // appBarColors: Colors.blue,
-            // scaffoldColor: Colors.blue,
+            locCountryColor: Colors.blue,
+            appBarColors: Colors.blue,
+            scaffoldColor: Colors.blue,
             title: apiResp.location?.name ?? '?',
 
             lastUpdateDate:
@@ -107,6 +108,8 @@ class _HomePageState extends State<HomePage> {
     final saveCitiesProvider =
         Provider.of<CitiesListProvider>(context, listen: false);
 
+    // String coords = await geolocatorService!.getCurrentLocation();
+
     await saveCitiesProvider.loadSavedCities();
 
     final cityListCopy = List.from(saveCitiesProvider.cities);
@@ -126,7 +129,7 @@ class _HomePageState extends State<HomePage> {
               alignment: Alignment.bottomCenter,
               title: const Text(
                 'Already saved',
-                // style: TextStyle(color: Colors.white70),
+                style: TextStyle(color: Colors.white70),
               ),
               elevation: 24,
               backgroundColor: const Color.fromARGB(130, 0, 108, 196),
@@ -141,13 +144,12 @@ class _HomePageState extends State<HomePage> {
 
     if (!foundMatch) {
       await saveCitiesProvider.saveCity(
-          '${apiResp.current!.feelslikeC}º',
-          apiResp.location!.name,
-          apiResp.current!.lastUpdated,
-          // '${apiResp.current?.feelslikeC ?? '?'} º',
-          apiResp.current!.condition.text
-          // '${apiResp.current?.windKph ?? '?'} km/h'
-          );
+        '${apiResp.current!.feelslikeC}º',
+        apiResp.location!.name,
+        apiResp.current!.lastUpdated,
+        apiResp.current!.condition.text,
+        coords,
+      );
 
       await saveCitiesProvider.loadSavedCities();
     }
