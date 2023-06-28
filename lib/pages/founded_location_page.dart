@@ -23,7 +23,6 @@ class _FoundedLocationState extends State<FoundedLocation> {
   final streamFound = StreamController<dynamic>();
 
   WeatherApiService? weatherAPI;
-
   GeolocatorService? geolocSERV;
   NewsService? newSERV;
 
@@ -70,6 +69,8 @@ class _FoundedLocationState extends State<FoundedLocation> {
                     isVisibleButton: false,
                     saveLocationButton: () {
                       saveInFavouritePlaces(apiResp);
+
+                      print('COORDERNADAS $weatherAPI!.coords');
                     },
                     newsButton: () {
                       setState(() {
@@ -78,9 +79,9 @@ class _FoundedLocationState extends State<FoundedLocation> {
 
                       Navigator.pushNamed(context, 'news');
                     },
-                    // locCountryColor: Colors.yellow,
-                    // appBarColors: Colors.yellow,
-                    // scaffoldColor: Colors.yellow,
+                    locCountryColor: Colors.yellow,
+                    appBarColors: Colors.yellow,
+                    scaffoldColor: Colors.yellow,
                     title: apiResp.foundLocation?.name ?? '?',
                     lastUpdateDate:
                         apiResp.foundCurrent?.lastUpdated.substring(0, 10) ??
@@ -148,7 +149,8 @@ class _FoundedLocationState extends State<FoundedLocation> {
           '${apiResp.foundCurrent!.feelslikeC}º',
           apiResp.foundLocation!.name,
           apiResp.foundCurrent!.lastUpdated,
-          apiResp.foundCurrent!.condition.text);
+          apiResp.foundCurrent!.condition.text,
+          weatherAPI!.coords);
 
       await saveCitiesProvider.loadSavedCities();
     }

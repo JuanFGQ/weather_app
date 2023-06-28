@@ -13,10 +13,14 @@ class CitiesListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<SavedCitiesModel> saveCity(
-      String temperature, String title, String updated, String wind) async {
+  Future<SavedCitiesModel> saveCity(String temperature, String title,
+      String updated, String wind, String coords) async {
     final citySave = SavedCitiesModel(
-        title: title, temperature: temperature, updated: updated, wind: wind);
+        title: title,
+        temperature: temperature,
+        updated: updated,
+        wind: wind,
+        coords: coords);
 
     final id = await DBprovider.db.citySave(citySave);
 

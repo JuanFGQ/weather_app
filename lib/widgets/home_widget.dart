@@ -13,6 +13,7 @@ import 'package:weather/theme/theme_changer.dart';
 import 'package:weather/widgets/rounded_button.dart';
 
 import '../models/saved_news_model.dart';
+import '../services/weather_api_service.dart';
 import 'info_table.dart';
 import 'letras.dart';
 
@@ -32,9 +33,9 @@ class HomeWidget extends StatefulWidget {
   final String windDirectionData;
   final String temperatureData;
   final String feelsLikeData;
-  // final Color scaffoldColor;
-  // final Color appBarColors;
-  // final Color locCountryColor;
+  final Color scaffoldColor;
+  final Color appBarColors;
+  final Color locCountryColor;
   final void Function()? newsButton;
   final void Function()? saveLocationButton;
 
@@ -56,9 +57,9 @@ class HomeWidget extends StatefulWidget {
     required this.windDirectionData,
     required this.temperatureData,
     required this.feelsLikeData,
-    // required this.scaffoldColor,
-    // required this.appBarColors,
-    // required this.locCountryColor,
+    required this.scaffoldColor,
+    required this.appBarColors,
+    required this.locCountryColor,
     this.newsButton,
     this.refreshButton,
     this.saveLocationButton,
@@ -91,6 +92,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     final citiesListP = citiesListProvider.cities;
     final localeProvider = Provider.of<LocalizationProvider>(context);
     final appTheme = Provider.of<ThemeChanger>(context);
+    final accentColor = appTheme.currentTheme.colorScheme.secondary;
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -104,25 +106,19 @@ class _HomeWidgetState extends State<HomeWidget> {
                             const WeatherSearchCity())),
                 icon: const FaIcon(FontAwesomeIcons.search)),
           ],
-          // iconTheme: (appTheme.darkTheme)
-          //     ? IconThemeData(color: Colors.white)
-          //     : IconThemeData(color: Colors.black),
-          // // backgroundColor: widget.appBarColors,
+          iconTheme: const IconThemeData(color: Colors.black),
+          backgroundColor: widget.appBarColors,
           elevation: 0,
           centerTitle: true,
           title: FittedBox(
             fit: BoxFit.fitWidth,
-            child: Text(
-              widget.title,
-              textAlign: TextAlign.center,
-              // style: (appTheme.darkTheme)
-              //     ? TextStyle(color: Colors.white, fontSize: 40)
-              //     : TextStyle(color: Colors.black, fontSize: 40),
-            ),
+            child: Text(widget.title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.black, fontSize: 40)),
           )
           //
           ),
-      // backgroundColor: widget.scaffoldColor,
+      backgroundColor: widget.scaffoldColor,
       drawer: Drawer(
         child: ListView(children: [
           Column(
@@ -132,7 +128,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(AppLocalizations.of(context)!.home,
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 30))),
               ),
 
@@ -190,7 +186,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         onTap: () {},
                         trailing: Switch.adaptive(
                             value: appTheme.darkTheme,
-                            // activeColor: Colors.pink,
+                            activeColor: Colors.pink,
                             onChanged: (value) {
                               appTheme.darkTheme = value;
                             })),
@@ -200,7 +196,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         onTap: () {},
                         trailing: Switch.adaptive(
                             value: appTheme.customTheme,
-                            // activeColor: Colors.red,
+                            activeColor: Colors.red,
                             onChanged: (value) {
                               appTheme.customTheme = value;
                             })),
@@ -218,7 +214,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     title: Text(AppLocalizations.of(context)!.english),
                     trailing: Switch.adaptive(
                         value: localeProvider.languageEnglish,
-                        // activeColor: Colors.amber,
+                        activeColor: Colors.amber,
                         onChanged: (value) {
                           localeProvider.languageEnglish = value;
                           localeProvider.languageSpanish = false;
@@ -262,7 +258,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           const SizedBox(height: 10),
           Words(
             date: widget.locationCountry,
-            // wordColor: widget.locCountryColor,
+            wordColor: widget.locCountryColor,
             // wordSize: 20,
           ),
           const SizedBox(height: 5),
@@ -300,19 +296,9 @@ class _HomeWidgetState extends State<HomeWidget> {
               Column(
                 children: [
                   RoundedButton(
-                    text: Text(
-                      AppLocalizations.of(context)!.news,
-                      // style: TextStyle(
-                      //     color: (appTheme.darkTheme)
-                      //         ? Colors.grey
-                      //         : Colors.black),
-                    ),
+                    text: Text(AppLocalizations.of(context)!.news),
                     infinite: true,
-                    icon: FaIcon(
-                      FontAwesomeIcons.newspaper,
-                      // color:
-                      //     (appTheme.darkTheme) ? Colors.grey : Colors.black
-                    ),
+                    icon: FaIcon(FontAwesomeIcons.newspaper),
                     function: widget.newsButton,
                   ),
                 ],
@@ -320,18 +306,9 @@ class _HomeWidgetState extends State<HomeWidget> {
               Column(
                 children: [
                   RoundedButton(
-                    text: Text(
-                      AppLocalizations.of(context)!.savelocation,
-                      // style: TextStyle(
-                      //     color: (appTheme.darkTheme)
-                      //         ? Colors.grey
-                      //         : Colors.black),
-                    ),
+                    text: Text(AppLocalizations.of(context)!.savelocation),
                     infinite: true,
-                    icon: FaIcon(
-                      FontAwesomeIcons.locationDot,
-                      // color: (appTheme.darkTheme) ? Colors.grey : Colors.black,
-                    ),
+                    icon: FaIcon(FontAwesomeIcons.locationDot),
                     function: widget.saveLocationButton,
                   ),
                 ],
@@ -415,15 +392,24 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
 
   @override
   Widget build(BuildContext context) {
+    final weather = Provider.of<WeatherApiService>(context);
+
     return Container(
       margin: EdgeInsets.all(6),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30), color: Colors.amber),
       child: ListTile(
         leading: Text(widget.savedCities.temperature),
-        title: Center(child: Text(widget.savedCities.title)),
+        title: GestureDetector(
+            onTap: () {
+              weather.coords = widget.savedCities.coords;
+              Navigator.pushNamed(context, 'founded');
+              //todo: al tocar ir a la noticia selecionada
+            },
+            child: Center(child: Text(widget.savedCities.title))),
         subtitle: Column(
           children: [
+            Text(widget.savedCities.coords),
             Text(widget.savedCities.wind, style: TextStyle(fontSize: 15)),
             Text(widget.savedCities.updated, style: TextStyle(fontSize: 10)),
           ],
@@ -450,7 +436,7 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    // color: Colors.red,
+                    color: Colors.red,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -472,7 +458,7 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
                             child: const FaIcon(
                               FontAwesomeIcons.check,
                               size: 15,
-                              // color: Colors.white54,
+                              color: Colors.white54,
                             ),
                           )),
                       const SizedBox(height: 6),
@@ -484,11 +470,8 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
                           child: FadeInDown(
                             from: 15,
                             delay: const Duration(milliseconds: 150),
-                            child: const FaIcon(
-                              FontAwesomeIcons.x,
-                              size: 15,
-                              // color: Colors.white54,
-                            ),
+                            child: const FaIcon(FontAwesomeIcons.x,
+                                size: 15, color: Colors.white54),
                           ))
                     ],
                   ),
@@ -528,9 +511,7 @@ class _SavedNewsCardState extends State<_SavedNewsCard> {
     return Container(
       margin: const EdgeInsets.all(6),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        //  color: Colors.amber,
-      ),
+          borderRadius: BorderRadius.circular(30), color: Colors.amber),
       child: ListTile(
         leading: CircleAvatar(
           child: (widget.saveNews.urlToImage.isNotEmpty &&
@@ -572,7 +553,7 @@ class _SavedNewsCardState extends State<_SavedNewsCard> {
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    // color: Colors.red,
+                    color: Colors.red,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -594,7 +575,7 @@ class _SavedNewsCardState extends State<_SavedNewsCard> {
                             child: const FaIcon(
                               FontAwesomeIcons.check,
                               size: 15,
-                              // color: Colors.white54,
+                              color: Colors.white54,
                             ),
                           )),
                       const SizedBox(height: 6),
@@ -606,11 +587,8 @@ class _SavedNewsCardState extends State<_SavedNewsCard> {
                           child: FadeInDown(
                             from: 15,
                             delay: const Duration(milliseconds: 150),
-                            child: const FaIcon(
-                              FontAwesomeIcons.x,
-                              size: 15,
-                              // color: Colors.white54
-                            ),
+                            child: const FaIcon(FontAwesomeIcons.x,
+                                size: 15, color: Colors.white54),
                           ))
                     ],
                   ),

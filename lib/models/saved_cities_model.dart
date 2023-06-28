@@ -16,23 +16,24 @@ class SavedCitiesModel {
   String temperature;
   String updated;
   String wind;
+  String coords;
 
-  SavedCitiesModel({
-    this.id,
-    required this.title,
-    required this.temperature,
-    required this.updated,
-    required this.wind,
-  });
+  SavedCitiesModel(
+      {this.id,
+      required this.title,
+      required this.temperature,
+      required this.updated,
+      required this.wind,
+      required this.coords});
 
   factory SavedCitiesModel.fromJson(Map<String, dynamic> json) =>
       SavedCitiesModel(
-        id: json["id"],
-        title: json["title"],
-        temperature: json["temperature"],
-        updated: json["updated"],
-        wind: json["wind"],
-      );
+          id: json["id"],
+          title: json["title"],
+          temperature: json["temperature"],
+          updated: json["updated"],
+          wind: json["wind"],
+          coords: json["coords"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -40,5 +41,6 @@ class SavedCitiesModel {
         "temperature": temperature,
         "updated": updated,
         "wind": wind,
+        "coords": coords
       };
 }

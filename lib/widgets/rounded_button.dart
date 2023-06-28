@@ -1,7 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:weather/theme/theme_changer.dart';
 
 class RoundedButton extends StatelessWidget {
   final void Function()? function;
@@ -19,7 +17,6 @@ class RoundedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appTheme = Provider.of<ThemeChanger>(context);
     return Column(
       children: [
         FadeIn(
@@ -31,7 +28,7 @@ class RoundedButton extends StatelessWidget {
             child: RawMaterialButton(
               shape: const CircleBorder(),
               onPressed: function,
-              fillColor: (appTheme.darkTheme) ? Colors.white38 : Colors.white,
+              fillColor: Colors.white,
               elevation: 5,
               child: icon,
             ),
