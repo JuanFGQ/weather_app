@@ -69,8 +69,6 @@ class _FoundedLocationState extends State<FoundedLocation> {
                     isVisibleButton: false,
                     saveLocationButton: () {
                       saveInFavouritePlaces(apiResp);
-
-                      print('COORDERNADAS $weatherAPI!.coords');
                     },
                     newsButton: () {
                       setState(() {

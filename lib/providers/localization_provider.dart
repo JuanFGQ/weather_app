@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:weather/l10n/l10n.dart';
 
 class LocalizationProvider extends ChangeNotifier {
   bool _languageEnglish = true;
