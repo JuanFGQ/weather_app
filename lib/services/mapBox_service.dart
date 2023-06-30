@@ -53,6 +53,7 @@ class MapBoxService extends ChangeNotifier {
     final timer = Timer.periodic(const Duration(milliseconds: 200), (_) {
       debouncer.value = searchTerm;
     });
-    Future.delayed(const Duration(milliseconds: 201)).then((_) => timer.cancel());
+    Future.delayed(const Duration(milliseconds: 201))
+        .then((_) => timer.cancel());
   }
 }
