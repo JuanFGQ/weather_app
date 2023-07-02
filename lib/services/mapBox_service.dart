@@ -14,7 +14,7 @@ class MapBoxService extends ChangeNotifier {
       'pk.eyJ1IjoianVhbmZncSIsImEiOiJjbGVsMzN2cTUwcmR3M3JucHlzcXk2OXMyIn0.OQG_aEvEIl2zT9pQ50OEHg';
   final String _baseUrl = 'api.mapbox.com';
   final String _language = 'es';
-  final String _limit = '5';
+  final String _limit = '8';
 
   final debouncer = Debouncer(
     duration: const Duration(milliseconds: 500),
@@ -28,7 +28,12 @@ class MapBoxService extends ChangeNotifier {
       _suggestedCityStreamController.stream;
 
   weatherHeader() {
-    return {'access_token': _apiKey, 'limit': _limit, 'language': _language};
+    return {
+      'access_token': _apiKey,
+      'limit': _limit,
+      'language': _language,
+      'types': 'place,country'
+    };
   }
 
   Future<List<Feature>> getPlaces(String cityName) async {

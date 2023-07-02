@@ -11,6 +11,7 @@ import 'package:weather/widgets/circular_progress_indicator.dart';
 import 'package:weather/widgets/home_widget.dart';
 
 import '../providers/cities_list_provider.dart';
+import '../services/image_service.dart';
 
 class FoundedLocation extends StatefulWidget {
   const FoundedLocation({super.key});
@@ -25,6 +26,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
   WeatherApiService? weatherAPI;
   GeolocatorService? geolocSERV;
   NewsService? newSERV;
+  ImageService? imageService;
 
   @override
   void initState() {
@@ -32,6 +34,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
     weatherAPI = Provider.of<WeatherApiService>(context, listen: false);
     geolocSERV = Provider.of<GeolocatorService>(context, listen: false);
     newSERV = Provider.of<NewsService>(context, listen: false);
+    imageService = Provider.of<ImageService>(context, listen: false);
 
     _loadDataFounded();
   }
@@ -42,6 +45,10 @@ class _FoundedLocationState extends State<FoundedLocation> {
     final hasData = await weatherAPI!.getFoundPlacesInfo(coords);
 
     await (hasData) ? true : false;
+
+//flag to select argument according to the page
+    imageService!.searchText = true;
+
     streamFound.sink.add(hasData);
   }
 
@@ -109,12 +116,20 @@ class _FoundedLocationState extends State<FoundedLocation> {
   void saveInFavouritePlaces(WeatherApiService apiResp) async {
     final saveCitiesProvider =
         Provider.of<CitiesListProvider>(context, listen: false);
+    // final imagesProvider = Provider.of<ImageService>(context, listen: false);
 
     await saveCitiesProvider.loadSavedCities();
 
     final cityListCopy = List.from(saveCitiesProvider.cities);
 
     final comparisonText = apiResp.foundLocation?.name ?? '?';
+
+    // final city =
+    //     '${apiResp.foundLocation?.name} ${apiResp.foundLocation?.country}';
+
+    // final respTest = await imagesProvider.findPhotos(city);
+
+    // print('city ARG ${city} IMAGES PROVIDER ${respTest}');
 
     bool foundMatch = false;
 

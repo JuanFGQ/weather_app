@@ -3,34 +3,53 @@ import 'package:http/http.dart' as http;
 import 'package:weather/models/image_response.dart';
 
 class ImageService extends ChangeNotifier {
+  Photo? photo;
+  List _urlImages = [];
+
+  List get urlImages => _urlImages;
+
+  set urlImages(List value) {
+    _urlImages = value;
+    notifyListeners();
+  }
+
+  bool _searchText = false;
+
+  bool get searchText => _searchText;
+
+  set searchText(bool value) {
+    _searchText = value;
+    notifyListeners();
+  }
+
   final String _apiKey = 'a0523d51b3e71736a55983de6f20b164';
   final String _baseUrl = 'api.flickr.com';
-
-  Future<List<String>> buscarFotos(String ciudad) async {
-    final uri = Uri.https(_baseUrl, '/services/rest/');
-
+  Future<List<String>> findPhotos(String ciudad) async {
     final params = {
       'method': 'flickr.photos.search',
       'api_key': _apiKey,
-      'text': ciudad,
+      'text': '${ciudad} ciudad',
       'format': 'json',
+      'sort': 'interestingness-asc',
       'nojsoncallback': '1',
-      'per_page': '10' // Cantidad de fotos a obtener
+      'per_page': '50'
+          '' // Cantidad de fotos a obtener
     };
 
-    // final response = await http.get(url.replace(queryParameters: params));
+    final uri = Uri.https(_baseUrl, '/services/rest/', params);
 
-    // if (response.statusCode == 200) {
-    // final data = imageResponseFromJson(response.body);
+    final resp = await http.get(uri);
 
-    //   if (data['photos'] != null && data['photos']['photo'] != null) {
-    //     final photos = data['photos']['photo'] as List<dynamic>;
-    //     return photos
-    //         .map((photo) =>
-    //             'https://live.staticflickr.com/${photo['server']}/${photo['id']}_${photo['secret']}.jpg')
-    //         .toList()
-    //         .cast<String>();
-    //   }
+    final imageResp = imageResponseFromJson(resp.body);
+
+    final photos = imageResp.photos.photo;
+
+    if (resp.statusCode == 200) {
+      return photos
+          .map((photo) =>
+              'https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_w.jpg')
+          .toList();
+    }
     return [];
   }
 

@@ -115,42 +115,58 @@ class _NewsViewerState extends State<_NewsViewer>
       body: SafeArea(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.amber,
-                  ),
-                  margin: const EdgeInsets.only(left: 10),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      AppLocalizations.of(context)!.allnews,
-                      style: const TextStyle(fontSize: 25),
+            Container(
+              margin: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(30),
+                      bottomLeft: Radius.circular(30)),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(offset: Offset(0.0, 1.0), blurRadius: 3.0)
+                  ]),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      // color: Colors.amber,
+                    ),
+                    margin: const EdgeInsets.only(left: 10),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        AppLocalizations.of(context)!.allnews,
+                        style: const TextStyle(fontSize: 40),
+                      ),
                     ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    orderNewsByDate();
-                  },
-                  child: Container(
-                      margin: const EdgeInsets.all(10),
-                      height: 35,
-                      width: 60,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.amber),
-                      child: (descAsc)
-                          ? const _DescAscButton(
-                              icon: Icons.arrow_upward, text: 'Desc')
-                          : const _DescAscButton(
-                              icon: Icons.arrow_downward, text: 'Asc')),
-                ),
-              ],
+                  GestureDetector(
+                    onTap: () {
+                      orderNewsByDate();
+                    },
+                    child: Container(
+                        margin: const EdgeInsets.all(10),
+                        height: 35,
+                        width: 60,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            // color: Colors.white,
+                            color: Colors.blue[200],
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: Offset(0.0, 1.0), blurRadius: 3.0)
+                            ]),
+                        child: (descAsc)
+                            ? const _DescAscButton(
+                                icon: Icons.arrow_upward, text: 'Desc')
+                            : const _DescAscButton(
+                                icon: Icons.arrow_downward, text: 'Asc')),
+                  ),
+                ],
+              ),
             ),
             Expanded(
               child: SizedBox(

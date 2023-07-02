@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/providers/cities_list_provider.dart';
 import 'package:weather/services/geolocator_service.dart';
+import 'package:weather/services/image_service.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 
@@ -24,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   WeatherApiService? weatherApi;
   GeolocatorService? geolocatorService;
   NewsService? newsService;
+  ImageService? imageService;
 
   @override
   void initState() {
@@ -31,6 +33,7 @@ class _HomePageState extends State<HomePage> {
     weatherApi = Provider.of<WeatherApiService>(context, listen: false);
     geolocatorService = Provider.of<GeolocatorService>(context, listen: false);
     newsService = Provider.of<NewsService>(context, listen: false);
+    imageService = Provider.of<ImageService>(context, listen: false);
 
     _loadWeatherData();
   }
@@ -41,6 +44,9 @@ class _HomePageState extends State<HomePage> {
     final hasData = await weatherApi!.getInfoWeatherLocation(coords);
 
     (hasData) ? true : false;
+
+//flag to select argument according to the page
+    imageService!.searchText = false;
 
     stream.sink.add(hasData);
   }
@@ -108,11 +114,19 @@ class _HomePageState extends State<HomePage> {
     final saveCitiesProvider =
         Provider.of<CitiesListProvider>(context, listen: false);
 
+    // final imagesProvider = Provider.of<ImageService>(context, listen: false);
+
     await saveCitiesProvider.loadSavedCities();
 
     final cityListCopy = List.from(saveCitiesProvider.cities);
 
     final comparisonText = apiResp.location?.name ?? '?';
+
+    // final city = '${apiResp.location?.name} ${apiResp.location?.country}';
+
+    // final respTest = await imagesProvider.findPhotos(city);
+
+    // print('city ARG ${city} IMAGES PROVIDER ${respTest}');
 
     bool foundMatch = false;
 
