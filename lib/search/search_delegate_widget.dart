@@ -41,8 +41,9 @@ class _WeatherSearchCityState extends State<WeatherSearchCity> {
                 focusedBorder: UnderlineInputBorder()),
           ),
         ),
-        body:
-            query.isEmpty ? const _BuildSuggestions() : _BuildResults(query: query));
+        body: query.isEmpty
+            ? const _BuildSuggestions()
+            : _BuildResults(query: query));
   }
 }
 
@@ -75,9 +76,8 @@ class _BuildResults extends StatelessWidget {
             final city = featureMethod[index];
 
             return ListTile(
-              leading: const CircleAvatar(
-                child: FaIcon(FontAwesomeIcons.mountainCity),
-              ),
+              leading: FaIcon(FontAwesomeIcons.mountainCity,
+                  color: const Color.fromARGB(197, 158, 158, 158)),
               title: Text(city.placeName),
               onTap: () {
                 final newCoords = city.center;
