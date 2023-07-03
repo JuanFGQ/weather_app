@@ -36,7 +36,7 @@ class WeatherApiService extends ChangeNotifier {
 
   getFoundPlacesInfo(String coords) async {
     _apiParams() {
-      return {'key': _key, 'q': coords, 'aqi': _aqi};
+      return {'key': _key, 'q': coords, 'aqi': _aqi, 'lang': 'es'};
     }
 
     final uri = Uri.https(_baseUrl, '/v1/current.json', _apiParams());
@@ -56,7 +56,7 @@ class WeatherApiService extends ChangeNotifier {
 
   getInfoWeatherLocation(String coords) async {
     _apiParams() {
-      return {'key': _key, 'q': coords, 'aqi': _aqi};
+      return {'key': _key, 'q': coords, 'aqi': _aqi, 'lang': 'es'};
     }
 
     final uri = Uri.https(_baseUrl, '/v1/current.json', _apiParams());
