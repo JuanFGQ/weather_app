@@ -10,6 +10,7 @@ import 'package:weather/pages/founded_location_page.dart';
 import 'package:weather/pages/gps_access_page.dart';
 import 'package:weather/pages/home_page.dart';
 import 'package:weather/pages/loading_page.dart';
+import 'package:weather/pages/new_desing_page.dart';
 import 'package:weather/pages/news_page.dart';
 import 'package:weather/preferences/share_prefs.dart';
 import 'package:weather/providers/cities_list_provider.dart';
@@ -81,13 +82,14 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'loading',
+      initialRoute: 'ND',
       routes: {
         'home': (_) => const HomePage(),
         'founded': (_) => const FoundedLocation(),
         'loading': (_) => const LoadingPage(),
         'gps': (_) => const GpsAccessScreen(),
         'news': (_) => const NewsPage(),
+        'ND': (_) => NewsDesignPage()
       },
       theme: appTheme,
       supportedLocales: L10n.all,
