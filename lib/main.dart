@@ -91,7 +91,7 @@ class MyApp extends StatelessWidget {
         'news': (_) => const NewsPage(),
         'ND': (_) => NewsDesignPage()
       },
-      theme: appTheme,
+      // theme: appTheme,
       supportedLocales: L10n.all,
       locale: (localeProvider.languageEnglish) ? Locale('en') : Locale('es'),
       localizationsDelegates: const [
