@@ -86,7 +86,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
                     },
                     locCountryColor: Colors.yellow,
                     appBarColors: Colors.yellow,
-                    scaffoldColor: Colors.yellow,
+                    scaffoldColor: Colors.blueAccent,
                     title: apiResp.foundLocation?.name ?? '?',
                     lastUpdateDate:
                         apiResp.foundCurrent?.lastUpdated.substring(0, 10) ??
