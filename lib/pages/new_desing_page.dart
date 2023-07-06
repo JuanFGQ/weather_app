@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/widgets/info_table.dart';
 
 import '../models/saved_cities_model.dart';
 import '../models/saved_news_model.dart';
@@ -14,9 +15,53 @@ import '../services/news_service.dart';
 import '../services/weather_api_service.dart';
 import '../theme/theme_changer.dart';
 import '../widgets/gradient_text_widget.dart';
+import '../widgets/rounded_button.dart';
 
 class NewsDesignPage extends StatefulWidget {
-  const NewsDesignPage({super.key});
+  // final String title;
+  // final String lastUpdateDate;
+  // final String lastUpdateTime;
+  // final String locationCountry;
+  // final String currentCOndition;
+  // final String currentFeelsLikeNumber;
+  // final String windData;
+  // final String humidityData;
+
+  // final String visibilityData;
+  // final String windDirectionData;
+  // final String temperatureData;
+  // final String feelsLikeData;
+  // final Color scaffoldColor;
+  // final Color appBarColors;
+  // final Color locCountryColor;
+  // final void Function()? newsButton;
+  // final void Function()? saveLocationButton;
+
+  // final void Function()? refreshButton;
+
+  // final bool isVisibleButton;
+  const NewsDesignPage({
+    super.key,
+    // required this.title,
+    // required this.lastUpdateDate,
+    // required this.lastUpdateTime,
+    // required this.locationCountry,
+    // required this.currentCOndition,
+    // required this.currentFeelsLikeNumber,
+    // required this.windData,
+    // required this.humidityData,
+    // required this.visibilityData,
+    // required this.windDirectionData,
+    // required this.temperatureData,
+    // required this.feelsLikeData,
+    // required this.scaffoldColor,
+    // required this.appBarColors,
+    // required this.locCountryColor,
+    // this.newsButton,
+    // this.saveLocationButton,
+    // this.refreshButton,
+    // required this.isVisibleButton
+  });
 
   @override
   State<NewsDesignPage> createState() => _NewsDesignPageState();
@@ -174,16 +219,79 @@ class _NewsDesignPageState extends State<NewsDesignPage> {
         ),
         body: Stack(
           children: [
-            _Background(),
-            _HeaderWidget(globalKey: _globalKey),
-            Container(
-                margin: EdgeInsets.only(top: 100, left: 20),
-                child: GradientText('10º',
-                    style: TextStyle(fontSize: 150),
-                    gradient: LinearGradient(
-                        colors: [Colors.white, Colors.white.withAlpha(0)],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter))),
+            const _Background(),
+            Column(
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _HeaderWidget(globalKey: _globalKey),
+                Container(
+                    alignment: Alignment.centerLeft,
+                    // margin: EdgeInsets.only(top: 100, left: 20),
+                    margin: EdgeInsets.only(left: 20),
+                    child: GradientText('10º',
+                        style: TextStyle(fontSize: 150),
+                        gradient: LinearGradient(
+                            colors: [Colors.white, Colors.white.withAlpha(0)],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter))),
+                SizedBox(height: 20),
+                Container(
+                    margin: EdgeInsets.only(left: 20),
+                    alignment: Alignment.centerLeft,
+                    child: const Text('Parcialmente nublado',
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontSize: 20,
+                            color: Colors.white))),
+                SizedBox(height: 100),
+                Row(
+                  children: [
+                    Container(
+                      // margin: EdgeInsets.only(left: 20, right: 20),
+                      child: Row(
+                        children: [
+                          Container(
+                            child: Column(
+                              children: [
+                                RoundedButton(
+                                  text:
+                                      Text(AppLocalizations.of(context)!.news),
+                                  infinite: true,
+                                  icon: FaIcon(FontAwesomeIcons.newspaper),
+                                  // function: widget.newsButton
+                                ),
+                                RoundedButton(
+                                  text: Text(AppLocalizations.of(context)!
+                                      .savelocation),
+                                  infinite: true,
+                                  icon: FaIcon(FontAwesomeIcons.locationDot),
+                                  // function: widget.saveLocationButton
+                                ),
+                                RoundedButton(
+                                  text: Text(
+                                      AppLocalizations.of(context)!.refresh),
+                                  infinite: true,
+                                  icon: FaIcon(FontAwesomeIcons.refresh),
+                                  // function: widget.refreshButton,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              InfoIcon(
+                                  image: 'hot.gif',
+                                  title: 'WindDir ',
+                                  percentage: '10º'),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ],
         ));
   }
@@ -222,12 +330,16 @@ class _HeaderWidget extends StatelessWidget {
           // Drawer(),
           FaIcon(FontAwesomeIcons.locationDot, color: Colors.white),
           SizedBox(width: 18),
-          Text(
-            'Guadalajara',
-            style: TextStyle(
-                fontStyle: FontStyle.italic, fontSize: 20, color: Colors.white),
-          ),
+          Text('Guadalajara',
+              style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontSize: 20,
+                  color: Colors.white)),
           Spacer(),
+
+          // AnimatedIcon(icon: AnimatedIconData.
+
+          // , progress: progress),
 
           IconButton(
               onPressed: () {
