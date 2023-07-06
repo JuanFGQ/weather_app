@@ -67,8 +67,23 @@ class NewsDesignPage extends StatefulWidget {
   State<NewsDesignPage> createState() => _NewsDesignPageState();
 }
 
-class _NewsDesignPageState extends State<NewsDesignPage> {
+class _NewsDesignPageState extends State<NewsDesignPage>
+    with TickerProviderStateMixin {
   GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -223,7 +238,10 @@ class _NewsDesignPageState extends State<NewsDesignPage> {
             Column(
               // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _HeaderWidget(globalKey: _globalKey),
+                _HeaderWidget(
+                  globalKey: _globalKey,
+                  animationcontroller: _animationController,
+                ),
                 Container(
                     alignment: Alignment.centerLeft,
                     // margin: EdgeInsets.only(top: 100, left: 20),
@@ -249,27 +267,37 @@ class _NewsDesignPageState extends State<NewsDesignPage> {
                     Container(
                       // margin: EdgeInsets.only(left: 20, right: 20),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
                             child: Column(
                               children: [
                                 RoundedButton(
-                                  text:
-                                      Text(AppLocalizations.of(context)!.news),
+                                  text: Text(AppLocalizations.of(context)!.news,
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white)),
                                   infinite: true,
                                   icon: FaIcon(FontAwesomeIcons.newspaper),
                                   // function: widget.newsButton
                                 ),
                                 RoundedButton(
-                                  text: Text(AppLocalizations.of(context)!
-                                      .savelocation),
+                                  text: Text(
+                                      AppLocalizations.of(context)!
+                                          .savelocation,
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white)),
                                   infinite: true,
                                   icon: FaIcon(FontAwesomeIcons.locationDot),
                                   // function: widget.saveLocationButton
                                 ),
                                 RoundedButton(
                                   text: Text(
-                                      AppLocalizations.of(context)!.refresh),
+                                      AppLocalizations.of(context)!.refresh,
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white)),
                                   infinite: true,
                                   icon: FaIcon(FontAwesomeIcons.refresh),
                                   // function: widget.refreshButton,
@@ -280,8 +308,18 @@ class _NewsDesignPageState extends State<NewsDesignPage> {
                           Column(
                             children: [
                               InfoIcon(
-                                  image: 'hot.gif',
-                                  title: 'WindDir ',
+                                  image: 'wind.gif',
+                                  title: 'Wind Dir ',
+                                  percentage: '10º'),
+                              SizedBox(height: 5),
+                              InfoIcon(
+                                  image: 'drop.gif',
+                                  title: 'Humidity ',
+                                  percentage: '10º'),
+                              SizedBox(height: 5),
+                              InfoIcon(
+                                  image: 'view.gif',
+                                  title: 'Visibility ',
                                   percentage: '10º'),
                             ],
                           )
@@ -314,9 +352,13 @@ class _Background extends StatelessWidget {
 }
 
 class _HeaderWidget extends StatelessWidget {
+  final AnimationController animationcontroller;
+
   const _HeaderWidget({
     super.key,
     required GlobalKey<ScaffoldState> globalKey,
+    required this.animationcontroller,
+    // required this.animation,
   }) : _globalKey = globalKey;
 
   final GlobalKey<ScaffoldState> _globalKey;
@@ -328,6 +370,7 @@ class _HeaderWidget extends StatelessWidget {
       child: Row(
         children: [
           // Drawer(),
+
           FaIcon(FontAwesomeIcons.locationDot, color: Colors.white),
           SizedBox(width: 18),
           Text('Guadalajara',
@@ -344,8 +387,13 @@ class _HeaderWidget extends StatelessWidget {
           IconButton(
               onPressed: () {
                 _globalKey.currentState!.openDrawer();
+                animationcontroller.forward();
               },
-              icon: FaIcon(FontAwesomeIcons.caretDown, color: Colors.white))
+              icon: AnimatedIcon(
+                  icon: AnimatedIcons.arrow_menu, progress: animationcontroller)
+
+              // FaIcon(FontAwesomeIcons.caretDown, color: Colors.white)
+              )
         ],
       ),
     );
