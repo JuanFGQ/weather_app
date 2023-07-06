@@ -71,6 +71,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     with TickerProviderStateMixin {
   GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
   late AnimationController _animationController;
+  bool _isPressed = false;
 
   @override
   void initState() {
@@ -239,8 +240,19 @@ class _NewsDesignPageState extends State<NewsDesignPage>
               // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _HeaderWidget(
-                  globalKey: _globalKey,
-                  animationcontroller: _animationController,
+                  widget: AnimatedIcon(
+                      icon: AnimatedIcons.arrow_menu,
+                      progress: _animationController),
+                  onpressed: () {
+                    if (_isPressed == false) {
+                      _animationController.forward();
+                      _isPressed = true;
+                      _globalKey.currentState!.openDrawer();
+                    } else {
+                      _animationController.reverse();
+                      _isPressed = false;
+                    }
+                  },
                 ),
                 Container(
                     alignment: Alignment.centerLeft,
@@ -352,48 +364,26 @@ class _Background extends StatelessWidget {
 }
 
 class _HeaderWidget extends StatelessWidget {
-  final AnimationController animationcontroller;
+  final void Function()? onpressed;
+  final Widget widget;
 
-  const _HeaderWidget({
-    super.key,
-    required GlobalKey<ScaffoldState> globalKey,
-    required this.animationcontroller,
-    // required this.animation,
-  }) : _globalKey = globalKey;
-
-  final GlobalKey<ScaffoldState> _globalKey;
+  const _HeaderWidget({this.onpressed, required this.widget});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       child: Row(
         children: [
-          // Drawer(),
-
-          FaIcon(FontAwesomeIcons.locationDot, color: Colors.white),
-          SizedBox(width: 18),
+          const FaIcon(FontAwesomeIcons.locationDot, color: Colors.white),
+          const SizedBox(width: 18),
           Text('Guadalajara',
               style: TextStyle(
                   fontStyle: FontStyle.italic,
                   fontSize: 20,
                   color: Colors.white)),
           Spacer(),
-
-          // AnimatedIcon(icon: AnimatedIconData.
-
-          // , progress: progress),
-
-          IconButton(
-              onPressed: () {
-                _globalKey.currentState!.openDrawer();
-                animationcontroller.forward();
-              },
-              icon: AnimatedIcon(
-                  icon: AnimatedIcons.arrow_menu, progress: animationcontroller)
-
-              // FaIcon(FontAwesomeIcons.caretDown, color: Colors.white)
-              )
+          IconButton(onPressed: onpressed, icon: widget)
         ],
       ),
     );
