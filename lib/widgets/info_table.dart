@@ -23,8 +23,9 @@ class InfoIcon extends StatelessWidget {
       child: Opacity(
         opacity: (appTheme.darkTheme) ? 0.5 : 1,
         child: Container(
+            height: 70,
             padding: const EdgeInsets.all(5),
-            width: size.width * 0.9,
+            width: size.width * 0.4,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               color: Colors.white,
@@ -34,10 +35,10 @@ class InfoIcon extends StatelessWidget {
               children: [
                 ListTile(
                   leading: Image(image: AssetImage('assets/$image')),
-                  title: Text(
-                    title,
-                    style: TextStyle(color: Colors.black),
-                  ),
+                  // title: Text(
+                  //   title,
+                  //   style: TextStyle(color: Colors.black),
+                  // ),
                   trailing:
                       Text(percentage, style: TextStyle(color: Colors.black)),
                 ),
