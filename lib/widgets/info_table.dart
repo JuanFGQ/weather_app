@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/theme/theme_changer.dart';
 
-class InfoIcon extends StatelessWidget {
+class InfoTable extends StatelessWidget {
   final String image;
   final String title;
   final String percentage;
 
-  const InfoIcon(
+  const InfoTable(
       {super.key,
       required this.image,
       required this.title,
@@ -22,36 +22,47 @@ class InfoIcon extends StatelessWidget {
     return FadeInUp(
       child: Opacity(
         opacity: (appTheme.darkTheme) ? 0.5 : 1,
-        child: Column(
+        child: Row(
           children: [
-            Container(
-              padding: EdgeInsets.only(left: 98),
+            RotatedBox(
+              quarterTurns: 3,
               child: Text(title,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontStyle: FontStyle.italic, color: Colors.white)),
             ),
+            // SizedBox(w),
             Container(
-                height: 50,
-                // padding: const EdgeInsets.all(5),
-                width: size.width * 0.4,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.white,
-                ),
-                margin: const EdgeInsets.only(left: 110),
-                child: ListTile(
-                  leading:
-                      Text(percentage, style: TextStyle(color: Colors.black)),
-
-                  // title: Text(
-                  //   title,
-                  //   style: TextStyle(color: Colors.black),
-                  // ),
-                  trailing: Container(
-                      height: 30,
-                      width: 30,
-                      child: Image(image: AssetImage('assets/$image'))),
-                )),
+              height: size.height * 0.15,
+              // padding: const EdgeInsets.all(5),
+              width: size.width * 0.15,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: Colors.white,
+              ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.white,
+                          border: Border.all(width: 5)),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: Image(
+                          image: AssetImage('assets/$image'),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(
+                          top: 15, bottom: 15, left: 4, right: 5),
+                      child: Text(percentage))
+                ],
+              ),
+            ),
           ],
         ),
       ),

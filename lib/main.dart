@@ -82,14 +82,14 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'ND',
+      initialRoute: 'home',
       routes: {
         'home': (_) => const HomePage(),
         'founded': (_) => const FoundedLocation(),
         'loading': (_) => const LoadingPage(),
         'gps': (_) => const GpsAccessScreen(),
         'news': (_) => const NewsPage(),
-        'ND': (_) => NewsDesignPage()
+        // 'ND': (_) => NewsDesignPage()
       },
       // theme: appTheme,
       supportedLocales: L10n.all,

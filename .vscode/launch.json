@@ -5,6 +5,7 @@
     "version": "0.2.0",
     "configurations": [
 
+
         {
             "name": "weather_app-main",
             "request": "launch",
@@ -50,7 +51,7 @@
             "configurations": [
                 "samsung s22",
                 "pixel 6 API 27",
-                "pixel 3a XL"
+                // "pixel 3a XL"
             ]
         }
     ]

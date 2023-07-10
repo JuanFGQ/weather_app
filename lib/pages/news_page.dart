@@ -29,7 +29,7 @@ class _NewsPageState extends State<NewsPage> {
     newsService = Provider.of<NewsService>(context, listen: false);
     weatherServ = Provider.of<WeatherApiService>(context, listen: false);
 
-    argumentSelector();
+    // argumentSelector();
   }
 
   String argumentSelector() {
@@ -117,7 +117,7 @@ class _NewsViewerState extends State<_NewsViewer>
           children: [
             Container(
               margin: EdgeInsets.all(20),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(30),
                       bottomLeft: Radius.circular(30)),
@@ -155,7 +155,7 @@ class _NewsViewerState extends State<_NewsViewer>
                             borderRadius: BorderRadius.circular(10),
                             // color: Colors.white,
                             color: Colors.blue[200],
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                   offset: Offset(0.0, 1.0), blurRadius: 3.0)
                             ]),

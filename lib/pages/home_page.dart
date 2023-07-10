@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/pages/new_desing_page.dart';
 import 'package:weather/providers/cities_list_provider.dart';
 import 'package:weather/services/geolocator_service.dart';
 import 'package:weather/services/image_service.dart';
@@ -71,7 +72,7 @@ class _HomePageState extends State<HomePage> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularIndicator();
         } else {
-          return HomeWidget(
+          return NewsDesignPage(
             isVisibleButton: true,
             saveLocationButton: () {
               saveInFavouritePlaces(apiResp);

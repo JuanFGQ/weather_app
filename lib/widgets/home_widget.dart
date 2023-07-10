@@ -240,27 +240,27 @@ class _HomeWidgetState extends State<HomeWidget> {
 
               const SizedBox(height: 10),
               // const InfoTable(),
-              InfoIcon(
+              InfoTable(
                   image: 'wind.gif',
                   title: AppLocalizations.of(context)!.wind,
                   percentage: widget.windData),
-              InfoIcon(
+              InfoTable(
                   image: 'drop.gif',
                   title: AppLocalizations.of(context)!.humidity,
                   percentage: widget.humidityData),
-              InfoIcon(
+              InfoTable(
                   image: 'view.gif',
                   title: AppLocalizations.of(context)!.visibility,
                   percentage: widget.visibilityData),
-              InfoIcon(
+              InfoTable(
                   image: 'windy.gif',
                   title: AppLocalizations.of(context)!.winddirection,
                   percentage: widget.windDirectionData),
-              InfoIcon(
+              InfoTable(
                   image: 'temperature.gif',
                   title: AppLocalizations.of(context)!.temperature,
                   percentage: widget.temperatureData),
-              InfoIcon(
+              InfoTable(
                 image: 'hot.gif',
                 title: AppLocalizations.of(context)!.feelslike,
                 percentage: widget.feelsLikeData,
