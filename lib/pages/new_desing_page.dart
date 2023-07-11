@@ -15,6 +15,7 @@ import '../models/saved_news_model.dart';
 import '../providers/cities_list_provider.dart';
 import '../providers/localization_provider.dart';
 import '../providers/news_list_provider.dart';
+import '../search/search_delegate_widget.dart';
 import '../services/image_service.dart';
 import '../services/news_service.dart';
 import '../services/weather_api_service.dart';
@@ -36,9 +37,9 @@ class NewsDesignPage extends StatefulWidget {
   final String windDirectionData;
   final String temperatureData;
   final String feelsLikeData;
-  final Color scaffoldColor;
-  final Color appBarColors;
-  final Color locCountryColor;
+  // final Color scaffoldColor;
+  // final Color appBarColors;
+  // final Color locCountryColor;
   final void Function()? newsButton;
   final void Function()? saveLocationButton;
 
@@ -59,9 +60,9 @@ class NewsDesignPage extends StatefulWidget {
       required this.windDirectionData,
       required this.temperatureData,
       required this.feelsLikeData,
-      required this.scaffoldColor,
-      required this.appBarColors,
-      required this.locCountryColor,
+      // required this.scaffoldColor,
+      // required this.appBarColors,
+      // required this.locCountryColor,
       this.newsButton,
       this.saveLocationButton,
       this.refreshButton,
@@ -127,148 +128,20 @@ class _NewsDesignPageState extends State<NewsDesignPage>
 
     return Scaffold(
         key: _globalKey,
-        drawer: Drawer(
-          // shape: ShapeBorder.c,
-          child: ListView(children: [
-            Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 10),
-                  child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(AppLocalizations.of(context)!.home,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 30))),
-                ),
-
-                ExpansionTile(
-                    leading: const FaIcon(FontAwesomeIcons.heartCircleCheck),
-                    title: Text(AppLocalizations.of(context)!.favouriteplaces),
-                    children: [
-                      ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxHeight: size.height * 0.55,
-                        ),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: citiesListP.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final cityList = citiesListP[index];
-                            return _SavedCitiesCard(
-                              selectedDelete: citiesListP[index].id,
-                              savedCities: cityList,
-                            );
-                          },
-                        ),
-                      )
-                    ]),
-                ExpansionTile(
-                  leading: const FaIcon(FontAwesomeIcons.newspaper),
-                  title: Text(AppLocalizations.of(context)!.newsforread),
-                  children: [
-                    ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: size.height * 0.55,
-                      ),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: newsListP.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final newsList = newsListP[index];
-                          return _SavedNewsCard(
-                            selectedDelete: newsListP[index].id,
-                            saveNews: newsList,
-                          );
-                        },
-                      ),
-                    )
-                  ],
-                ),
-                ExpansionTile(
-                    childrenPadding: const EdgeInsets.only(left: 30),
-                    leading: const FaIcon(FontAwesomeIcons.paintRoller),
-                    title: Text(AppLocalizations.of(context)!.themes),
-                    children: [
-                      ListTile(
-                          leading: const Icon(Icons.format_paint_outlined),
-                          title: Text(AppLocalizations.of(context)!.darktheme),
-                          onTap: () {},
-                          trailing: Switch.adaptive(
-                              value: appTheme.darkTheme,
-                              activeColor: Colors.pink,
-                              onChanged: (value) {
-                                appTheme.darkTheme = value;
-                              })),
-                      ListTile(
-                          leading: const Icon(Icons.format_paint_outlined),
-                          title: Text(AppLocalizations.of(context)!.lighttheme),
-                          onTap: () {},
-                          trailing: Switch.adaptive(
-                              value: appTheme.customTheme,
-                              activeColor: Colors.red,
-                              onChanged: (value) {
-                                appTheme.customTheme = value;
-                              })),
-                    ]),
-                ExpansionTile(
-                  childrenPadding: const EdgeInsets.only(left: 30),
-                  leading: const FaIcon(FontAwesomeIcons.language),
-                  title: Text(AppLocalizations.of(context)!.language),
-                  children: [
-                    ListTile(
-                      leading: const Image(
-                          image: AssetImage('assets/usa2.png'),
-                          width: 25,
-                          height: 25),
-                      title: Text(AppLocalizations.of(context)!.english),
-                      trailing: Switch.adaptive(
-                          value: localeProvider.languageEnglish,
-                          activeColor: Colors.amber,
-                          onChanged: (value) {
-                            localeProvider.languageEnglish = value;
-                            localeProvider.languageSpanish = false;
-                            if (!localeProvider.languageEnglish) {
-                              localeProvider.languageSpanish = true;
-                            }
-                          }),
-                    ),
-                    ListTile(
-                      leading: const Image(
-                          image: AssetImage('assets/spain.png'),
-                          width: 25,
-                          height: 25),
-                      title: Text(AppLocalizations.of(context)!.spanish),
-                      trailing: Switch.adaptive(
-                          value: localeProvider.languageSpanish,
-                          onChanged: (value) {
-                            localeProvider.languageSpanish = value;
-                            localeProvider.languageEnglish = false;
-                            if (!localeProvider.languageSpanish) {
-                              localeProvider.languageEnglish = true;
-                            }
-                          }),
-                    ),
-                  ],
-                ),
-
-                // const Spacer(),
-                SizedBox(height: size.height * 0.5),
-                const ListTile(
-                  title:
-                      Center(child: Text('Designed and programed by Juan F.')),
-                  subtitle: Center(child: Text('All rights reserved @')),
-                ),
-              ],
-            ),
-          ]),
-        ),
+        drawer: _MenuDrawer(
+            size: size,
+            citiesListP: citiesListP,
+            newsListP: newsListP,
+            appTheme: appTheme,
+            localeProvider: localeProvider),
         body: Column(
           children: [
             Stack(
+              // alignment: AlignmentDirectional.topStart,
               children: [
                 const _Background(),
                 Column(
-                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     _HeaderWidget(
                       onpressed: () {
@@ -276,8 +149,10 @@ class _NewsDesignPageState extends State<NewsDesignPage>
                       },
                       location: widget.title,
                     ),
-                    _TemperatureNumber(
-                      tempNumber: widget.temperatureData,
+                    Container(
+                      child: _TemperatureNumber(
+                        tempNumber: widget.temperatureData,
+                      ),
                     ),
                     SizedBox(height: 20),
                     _WeatherState(
@@ -310,6 +185,161 @@ class _NewsDesignPageState extends State<NewsDesignPage>
   }
 }
 
+class _MenuDrawer extends StatelessWidget {
+  const _MenuDrawer({
+    super.key,
+    required this.size,
+    required this.citiesListP,
+    required this.newsListP,
+    required this.appTheme,
+    required this.localeProvider,
+  });
+
+  final Size size;
+  final List<SavedCitiesModel> citiesListP;
+  final List<SavedNewsModel> newsListP;
+  final ThemeChanger appTheme;
+  final LocalizationProvider localeProvider;
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      // shape: ShapeBorder.c,
+      child: ListView(children: [
+        Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(left: 10),
+              child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(AppLocalizations.of(context)!.home,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 30))),
+            ),
+
+            ExpansionTile(
+                leading: const FaIcon(FontAwesomeIcons.heartCircleCheck),
+                title: Text(AppLocalizations.of(context)!.favouriteplaces),
+                children: [
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: size.height * 0.55,
+                    ),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: citiesListP.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final cityList = citiesListP[index];
+                        return _SavedCitiesCard(
+                          selectedDelete: citiesListP[index].id,
+                          savedCities: cityList,
+                        );
+                      },
+                    ),
+                  )
+                ]),
+            ExpansionTile(
+              leading: const FaIcon(FontAwesomeIcons.newspaper),
+              title: Text(AppLocalizations.of(context)!.newsforread),
+              children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: size.height * 0.55,
+                  ),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: newsListP.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final newsList = newsListP[index];
+                      return _SavedNewsCard(
+                        selectedDelete: newsListP[index].id,
+                        saveNews: newsList,
+                      );
+                    },
+                  ),
+                )
+              ],
+            ),
+            ExpansionTile(
+                childrenPadding: const EdgeInsets.only(left: 30),
+                leading: const FaIcon(FontAwesomeIcons.paintRoller),
+                title: Text(AppLocalizations.of(context)!.themes),
+                children: [
+                  ListTile(
+                      leading: const Icon(Icons.format_paint_outlined),
+                      title: Text(AppLocalizations.of(context)!.darktheme),
+                      onTap: () {},
+                      trailing: Switch.adaptive(
+                          value: appTheme.darkTheme,
+                          activeColor: Colors.pink,
+                          onChanged: (value) {
+                            appTheme.darkTheme = value;
+                          })),
+                  ListTile(
+                      leading: const Icon(Icons.format_paint_outlined),
+                      title: Text(AppLocalizations.of(context)!.lighttheme),
+                      onTap: () {},
+                      trailing: Switch.adaptive(
+                          value: appTheme.customTheme,
+                          activeColor: Colors.red,
+                          onChanged: (value) {
+                            appTheme.customTheme = value;
+                          })),
+                ]),
+            ExpansionTile(
+              childrenPadding: const EdgeInsets.only(left: 30),
+              leading: const FaIcon(FontAwesomeIcons.language),
+              title: Text(AppLocalizations.of(context)!.language),
+              children: [
+                ListTile(
+                  leading: const Image(
+                      image: AssetImage('assets/usa2.png'),
+                      width: 25,
+                      height: 25),
+                  title: Text(AppLocalizations.of(context)!.english),
+                  trailing: Switch.adaptive(
+                      value: localeProvider.languageEnglish,
+                      activeColor: Colors.amber,
+                      onChanged: (value) {
+                        localeProvider.languageEnglish = value;
+                        localeProvider.languageSpanish = false;
+                        if (!localeProvider.languageEnglish) {
+                          localeProvider.languageSpanish = true;
+                        }
+                      }),
+                ),
+                ListTile(
+                  leading: const Image(
+                      image: AssetImage('assets/spain.png'),
+                      width: 25,
+                      height: 25),
+                  title: Text(AppLocalizations.of(context)!.spanish),
+                  trailing: Switch.adaptive(
+                      value: localeProvider.languageSpanish,
+                      onChanged: (value) {
+                        localeProvider.languageSpanish = value;
+                        localeProvider.languageEnglish = false;
+                        if (!localeProvider.languageSpanish) {
+                          localeProvider.languageEnglish = true;
+                        }
+                      }),
+                ),
+              ],
+            ),
+
+            // const Spacer(),
+            SizedBox(height: size.height * 0.5),
+            const ListTile(
+              title: Center(child: Text('Designed and programed by Juan F.')),
+              subtitle: Center(child: Text('All rights reserved @')),
+            ),
+          ],
+        ),
+      ]),
+    );
+  }
+}
+
 class _ForeCastTable extends StatelessWidget {
   const _ForeCastTable({super.key});
 
@@ -321,7 +351,7 @@ class _ForeCastTable extends StatelessWidget {
         margin: EdgeInsets.all(10),
         // color: Colors.red,
         // height: size.height * 0.3,
-        // width: size.width * 0.3,
+        // width: double.infinity,
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: const [
@@ -451,12 +481,16 @@ class _ActionButtons extends StatelessWidget {
             function: refreshPage,
           ),
           RoundedButton(
-            text: Text(AppLocalizations.of(context)!.refresh,
+            text: Text(AppLocalizations.of(context)!.searchcity,
                 style: const TextStyle(
                     fontStyle: FontStyle.italic, color: Colors.white)),
             infinite: true,
             icon: const FaIcon(FontAwesomeIcons.search),
-            function: refreshPage,
+            function: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        const WeatherSearchCity())),
           ),
         ],
       ),
@@ -496,7 +530,7 @@ class _TemperatureNumber extends StatelessWidget {
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           final screenWidth = constraints.maxWidth;
-// final screenHeight = constraints.maxHeight;
+          // final screenHeight = constraints.maxHeight;
 
           double? fontSize;
 

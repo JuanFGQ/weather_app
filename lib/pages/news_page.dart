@@ -85,9 +85,13 @@ class _NewsViewerState extends State<_NewsViewer>
 
   bool equalNewsTitle = false;
 
+  NewsService? newSERV;
+
   @override
   void initState() {
     super.initState();
+    newSERV = Provider.of<NewsService>(context, listen: false);
+
     newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
     orderedNews = List.from(widget
         .news); //here i match the instanceS of the list created with the list i receive in class arguments
@@ -110,107 +114,116 @@ class _NewsViewerState extends State<_NewsViewer>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final weatherAPI = Provider.of<WeatherApiService>(context);
+    final apiResp = weatherAPI;
 
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.all(20),
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(30),
-                      bottomLeft: Radius.circular(30)),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(offset: Offset(0.0, 1.0), blurRadius: 3.0)
-                  ]),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      // color: Colors.amber,
-                    ),
-                    margin: const EdgeInsets.only(left: 10),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        AppLocalizations.of(context)!.allnews,
-                        style: const TextStyle(fontSize: 40),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      orderNewsByDate();
-                    },
-                    child: Container(
-                        margin: const EdgeInsets.all(10),
-                        height: 35,
-                        width: 60,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            // color: Colors.white,
-                            color: Colors.blue[200],
-                            boxShadow: const [
-                              BoxShadow(
-                                  offset: Offset(0.0, 1.0), blurRadius: 3.0)
-                            ]),
-                        child: (descAsc)
-                            ? const _DescAscButton(
-                                icon: Icons.arrow_upward, text: 'Desc')
-                            : const _DescAscButton(
-                                icon: Icons.arrow_downward, text: 'Asc')),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: SizedBox(
-                width: size.width * 1,
-                // color: Colors.red,
-                child: ListView.builder(
-                  shrinkWrap: false,
-                  itemCount: orderedNews.length,
-                  itemBuilder: (_, i) {
-                    final selNews = orderedNews[i];
-                    final newListCopy = List.from(newsListProvider.news);
-                    bool isNewSaved = false;
-
-                    for (var element in newListCopy) {
-                      if (element.title == selNews.title) {
-                        isNewSaved = true;
-                        break;
-                      }
-                    }
-
-                    return ElasticIn(
-                      delay: const Duration(milliseconds: 200),
-                      duration: const Duration(milliseconds: 500),
-                      child: DescriptionNewsCard(
-                        iconColorForNewsSave: isNewSaved,
-                        news: orderedNews[i],
-                        index: i,
-                        onPressed: () {
-                          newsListProvider.selectedItem = i;
-                          // newsListProvider.isSaveButtonPressed = true;
-
-                          saveNewsIndex(selNews, i);
-                          setState(() {});
-                        },
-                      ),
-                    );
-                  },
+    return
+        // Scaffold(
+        //   body: SafeArea(
+        // child:
+        Column(
+      children: [
+        Container(
+          margin: EdgeInsets.all(15),
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(offset: Offset(0.0, 1.0), blurRadius: 3.0)
+              ]),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                margin: const EdgeInsets.only(left: 10),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: (!newSERV!.activeSearch)
+                      ? Text(
+                          '${AppLocalizations.of(context)!.allnews} in ${apiResp.location?.name}',
+                          style: const TextStyle(fontSize: 20),
+                        )
+                      : Text(
+                          '${AppLocalizations.of(context)!.allnews} in ${apiResp.foundLocation?.name}',
+                          style: const TextStyle(fontSize: 20),
+                        ),
                 ),
               ),
-            )
-          ],
+              GestureDetector(
+                onTap: () {
+                  orderNewsByDate();
+                },
+                child: Container(
+                    margin: const EdgeInsets.only(
+                        top: 10, bottom: 10, right: 10, left: 5),
+                    height: 35,
+                    width: 60,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(100),
+                            bottomRight: Radius.circular(100)),
+                        // color: Colors.white,
+                        color: Colors.blue[200],
+                        boxShadow: const [
+                          BoxShadow(offset: Offset(0.0, 1.0), blurRadius: 3.0)
+                        ]),
+                    child: (descAsc)
+                        ? const _DescAscButton(
+                            icon: Icons.arrow_upward, text: 'Desc')
+                        : const _DescAscButton(
+                            icon: Icons.arrow_downward, text: 'Asc')),
+              ),
+            ],
+          ),
         ),
-      ),
+        Expanded(
+          child: SizedBox(
+            width: size.width * 1,
+            // color: Colors.red,
+            child: ListView.builder(
+              shrinkWrap: false,
+              itemCount: orderedNews.length,
+              itemBuilder: (_, i) {
+                final selNews = orderedNews[i];
+                final newListCopy = List.from(newsListProvider.news);
+                bool isNewSaved = false;
+
+                for (var element in newListCopy) {
+                  if (element.title == selNews.title) {
+                    isNewSaved = true;
+                    break;
+                  }
+                }
+
+                return ElasticIn(
+                  delay: const Duration(milliseconds: 200),
+                  duration: const Duration(milliseconds: 500),
+                  child: DescriptionNewsCard(
+                    iconColorForNewsSave: isNewSaved,
+                    news: orderedNews[i],
+                    index: i,
+                    onPressed: () {
+                      newsListProvider.selectedItem = i;
+                      // newsListProvider.isSaveButtonPressed = true;
+
+                      saveNewsIndex(selNews, i);
+                      setState(() {});
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        )
+      ],
     );
+    // ),
+
+    // );
   }
 
   void saveNewsIndex(Article selNews, int i) async {

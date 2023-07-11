@@ -93,7 +93,7 @@ class DescriptionNewsCard extends StatelessWidget {
                       Text(
                           '${news.publishedAt.toString().substring(0, 10)}   ${news.publishedAt.toString().substring(10, 16)}'),
                       const SizedBox(
-                        width: 40,
+                        width: 20,
                       ),
                       SizedBox(
                         width: 30,

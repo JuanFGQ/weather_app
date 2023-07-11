@@ -82,14 +82,14 @@ class _HomePageState extends State<HomePage> {
             newsButton: () {
               setState(() {
                 newsService!.activeSearch = false;
-                ShowModalBottomSheet(context);
               });
+              ShowModalBottomSheet(context);
 
               // Navigator.pushNamed(context, 'news');
             },
-            locCountryColor: Colors.blue,
-            appBarColors: Colors.blue,
-            scaffoldColor: Colors.blue,
+            // locCountryColor: Colors.blue,
+            // appBarColors: Colors.blue,
+            // scaffoldColor: Colors.blue,
             title: apiResp.location?.name ?? '?',
 
             lastUpdateDate:

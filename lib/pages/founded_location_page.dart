@@ -4,6 +4,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:weather/pages/new_desing_page.dart';
 import 'package:weather/services/geolocator_service.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
@@ -12,6 +13,7 @@ import 'package:weather/widgets/home_widget.dart';
 
 import '../providers/cities_list_provider.dart';
 import '../services/image_service.dart';
+import '../widgets/modal_bottomSheet.dart';
 
 class FoundedLocation extends StatefulWidget {
   const FoundedLocation({super.key});
@@ -72,7 +74,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
 
                     return true;
                   },
-                  child: HomeWidget(
+                  child: NewsDesignPage(
                     isVisibleButton: false,
                     saveLocationButton: () {
                       saveInFavouritePlaces(apiResp);
@@ -81,12 +83,8 @@ class _FoundedLocationState extends State<FoundedLocation> {
                       setState(() {
                         newSERV!.activeSearch = true;
                       });
-
-                      Navigator.pushNamed(context, 'news');
+                      ShowModalBottomSheet(context);
                     },
-                    locCountryColor: Colors.yellow,
-                    appBarColors: Colors.yellow,
-                    scaffoldColor: Colors.blueAccent,
                     title: apiResp.foundLocation?.name ?? '?',
                     lastUpdateDate:
                         apiResp.foundCurrent?.lastUpdated.substring(0, 10) ??

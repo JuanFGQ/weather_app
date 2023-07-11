@@ -12,8 +12,18 @@ class ForeCastTable extends StatelessWidget {
       margin: EdgeInsets.all(5),
       width: size.width * 0.50,
       decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.bottomLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color.fromARGB(255, 19, 86, 140),
+              Color.fromARGB(255, 85, 194, 245),
+              Color.fromARGB(255, 56, 172, 172)
+            ]),
         borderRadius: BorderRadius.circular(30),
         color: Colors.amber,
+
+//
       ),
       child: FittedBox(
         fit: BoxFit.fitWidth,
