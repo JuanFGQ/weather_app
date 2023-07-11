@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'home',
+      initialRoute: 'loading',
       routes: {
         'home': (_) => const HomePage(),
         'founded': (_) => const FoundedLocation(),

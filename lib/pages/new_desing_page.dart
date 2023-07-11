@@ -83,6 +83,30 @@ class _NewsDesignPageState extends State<NewsDesignPage>
   @override
   void initState() {
     super.initState();
+    weatherServ = Provider.of<WeatherApiService>(context, listen: false);
+
+    final loadNews = Provider.of<NewsListProvider>(context, listen: false);
+    final loadCities = Provider.of<CitiesListProvider>(context, listen: false);
+// load saved cities and news list before homewidget was build, this to see list in expansionTile widget
+    loadCities.loadSavedCities();
+    loadNews.loadSavedNews();
+    // getPopularPhotos();
+  }
+
+  Future<void> getPopularPhotos() async {
+    if (!imageService!.searchText) {
+      final searchArg =
+          '${weatherServ!.location?.name} ${weatherServ!.location?.country}';
+      searchText = searchArg;
+    } else {
+      final foundArg =
+          '${weatherServ!.foundLocation?.name} ${weatherServ!.foundLocation?.country}';
+      searchText = foundArg;
+    }
+
+    final photos = await imageService!.findPhotos(searchText);
+
+    imageService!.urlImages = photos;
   }
 
   @override
@@ -250,7 +274,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
                       onpressed: () {
                         _globalKey.currentState!.openDrawer();
                       },
-                      location: widget.locationCountry,
+                      location: widget.title,
                     ),
                     _TemperatureNumber(
                       tempNumber: widget.temperatureData,
@@ -348,7 +372,7 @@ class _InfoTableList extends StatelessWidget {
         children: [
           InfoTable(
               image: 'wind.gif',
-              title: (AppLocalizations.of(context)!.humidity),
+              title: (AppLocalizations.of(context)!.wind),
               percentage: windData),
           SizedBox(width: 10),
           InfoTable(
@@ -358,22 +382,22 @@ class _InfoTableList extends StatelessWidget {
           SizedBox(width: 10),
           InfoTable(
               image: 'view.gif',
-              title: (AppLocalizations.of(context)!.humidity),
+              title: (AppLocalizations.of(context)!.visibility),
               percentage: visibilityData),
           SizedBox(width: 10),
           InfoTable(
               image: 'windy.gif',
-              title: (AppLocalizations.of(context)!.humidity),
+              title: (AppLocalizations.of(context)!.winddirection),
               percentage: windDirectionData),
           SizedBox(width: 10),
           InfoTable(
               image: 'temperature.gif',
-              title: (AppLocalizations.of(context)!.humidity),
+              title: (AppLocalizations.of(context)!.temperature),
               percentage: temperatureData),
           SizedBox(width: 10),
           InfoTable(
               image: 'hot.gif',
-              title: (AppLocalizations.of(context)!.humidity),
+              title: (AppLocalizations.of(context)!.feelslike),
               percentage: feelsLikeData),
         ],
       ),
@@ -396,36 +420,47 @@ class _ActionButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         // color: Colors.white,
-        margin: EdgeInsets.all(20),
+        // margin: EdgeInsets.all(20),
         // color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            RoundedButton(
-              text: Text(AppLocalizations.of(context)!.news,
+        child: FittedBox(
+      fit: BoxFit.contain,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          RoundedButton(
+            text: Text(AppLocalizations.of(context)!.news,
+                style: const TextStyle(
+                    fontStyle: FontStyle.italic, color: Colors.white)),
+            infinite: true,
+            icon: const FaIcon(FontAwesomeIcons.newspaper),
+            function: newsButton,
+          ),
+          RoundedButton(
+              text: Text(AppLocalizations.of(context)!.savelocation,
                   style: const TextStyle(
                       fontStyle: FontStyle.italic, color: Colors.white)),
               infinite: true,
-              icon: const FaIcon(FontAwesomeIcons.newspaper),
-              function: newsButton,
-            ),
-            RoundedButton(
-                text: Text(AppLocalizations.of(context)!.savelocation,
-                    style: const TextStyle(
-                        fontStyle: FontStyle.italic, color: Colors.white)),
-                infinite: true,
-                icon: const FaIcon(FontAwesomeIcons.locationDot),
-                function: saveLocation),
-            RoundedButton(
-              text: Text(AppLocalizations.of(context)!.refresh,
-                  style: const TextStyle(
-                      fontStyle: FontStyle.italic, color: Colors.white)),
-              infinite: true,
-              icon: const FaIcon(FontAwesomeIcons.refresh),
-              function: refreshPage,
-            ),
-          ],
-        ));
+              icon: const FaIcon(FontAwesomeIcons.locationDot),
+              function: saveLocation),
+          RoundedButton(
+            text: Text(AppLocalizations.of(context)!.refresh,
+                style: const TextStyle(
+                    fontStyle: FontStyle.italic, color: Colors.white)),
+            infinite: true,
+            icon: const FaIcon(FontAwesomeIcons.refresh),
+            function: refreshPage,
+          ),
+          RoundedButton(
+            text: Text(AppLocalizations.of(context)!.refresh,
+                style: const TextStyle(
+                    fontStyle: FontStyle.italic, color: Colors.white)),
+            infinite: true,
+            icon: const FaIcon(FontAwesomeIcons.search),
+            function: refreshPage,
+          ),
+        ],
+      ),
+    ));
   }
 }
 

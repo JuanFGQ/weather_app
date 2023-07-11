@@ -59,7 +59,10 @@ class InfoTable extends StatelessWidget {
                   Container(
                       margin: EdgeInsets.only(
                           top: 15, bottom: 15, left: 4, right: 5),
-                      child: Text(percentage))
+                      child: Text(
+                        percentage,
+                        textAlign: TextAlign.center,
+                      ))
                 ],
               ),
             ),

@@ -9,6 +9,7 @@ import 'package:weather/services/geolocator_service.dart';
 import 'package:weather/services/image_service.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
+import 'package:weather/widgets/modal_bottomSheet.dart';
 
 import '../widgets/circular_progress_indicator.dart';
 import '../widgets/home_widget.dart';
@@ -81,9 +82,10 @@ class _HomePageState extends State<HomePage> {
             newsButton: () {
               setState(() {
                 newsService!.activeSearch = false;
+                ShowModalBottomSheet(context);
               });
 
-              Navigator.pushNamed(context, 'news');
+              // Navigator.pushNamed(context, 'news');
             },
             locCountryColor: Colors.blue,
             appBarColors: Colors.blue,
