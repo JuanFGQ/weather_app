@@ -94,7 +94,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
                             '?',
                     locationCountry: apiResp.foundLocation?.country ?? '?',
                     currentCOndition:
-                        apiResp.foundCurrent?.condition.text ?? '?',
+                        '${apiResp.foundCurrent?.condition.text ?? '?'}',
                     currentFeelsLikeNumber:
                         '${apiResp.foundCurrent?.feelslikeC.toString()}º',
                     windData: '${apiResp.foundCurrent?.windKph ?? '?'} km/h',
@@ -160,7 +160,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
           '${apiResp.foundCurrent!.feelslikeC}º',
           apiResp.foundLocation!.name,
           apiResp.foundCurrent!.lastUpdated,
-          apiResp.foundCurrent!.condition.text,
+          '${apiResp.foundCurrent!.condition.text}',
           weatherAPI!.coords);
 
       await saveCitiesProvider.loadSavedCities();
