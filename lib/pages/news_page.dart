@@ -140,42 +140,44 @@ class _NewsViewerState extends State<_NewsViewer>
                   borderRadius: BorderRadius.circular(10),
                 ),
                 margin: const EdgeInsets.only(left: 10),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: (!newSERV!.activeSearch)
-                      ? Text(
-                          '${AppLocalizations.of(context)!.allnews} in ${apiResp.location?.name}',
-                          style: const TextStyle(fontSize: 20),
-                        )
-                      : Text(
-                          '${AppLocalizations.of(context)!.allnews} in ${apiResp.foundLocation?.name}',
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                ),
+                child: (!newSERV!.activeSearch)
+                    ? Text(
+                        '${AppLocalizations.of(context)!.allnews} in ${apiResp.location?.name}',
+                        style: const TextStyle(
+                            overflow: TextOverflow.visible,
+                            fontWeight: FontWeight.w900),
+                      )
+                    : Text(
+                        '${AppLocalizations.of(context)!.allnews} in ${apiResp.foundLocation?.name}',
+                        style: const TextStyle(fontSize: 20),
+                      ),
               ),
-              GestureDetector(
-                onTap: () {
-                  orderNewsByDate();
-                },
-                child: Container(
-                    margin: const EdgeInsets.only(
-                        top: 10, bottom: 10, right: 10, left: 5),
-                    height: 35,
-                    width: 60,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(100),
-                            bottomRight: Radius.circular(100)),
-                        // color: Colors.white,
-                        color: Colors.blue[200],
-                        boxShadow: const [
-                          BoxShadow(offset: Offset(0.0, 1.0), blurRadius: 3.0)
-                        ]),
-                    child: (descAsc)
-                        ? const _DescAscButton(
-                            icon: Icons.arrow_upward, text: 'Desc')
-                        : const _DescAscButton(
-                            icon: Icons.arrow_downward, text: 'Asc')),
+              FittedBox(
+                fit: BoxFit.fitWidth,
+                child: GestureDetector(
+                  onTap: () {
+                    orderNewsByDate();
+                  },
+                  child: Container(
+                      margin:
+                          const EdgeInsets.only(top: 10, bottom: 10, left: 5),
+                      height: 35,
+                      width: 60,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(100),
+                              bottomRight: Radius.circular(100)),
+                          // color: Colors.white,
+                          color: Colors.blue[200],
+                          boxShadow: const [
+                            BoxShadow(offset: Offset(0.0, 1.0), blurRadius: 3.0)
+                          ]),
+                      child: (descAsc)
+                          ? const _DescAscButton(
+                              icon: Icons.arrow_upward, text: 'Desc')
+                          : const _DescAscButton(
+                              icon: Icons.arrow_downward, text: 'Asc')),
+                ),
               ),
             ],
           ),
