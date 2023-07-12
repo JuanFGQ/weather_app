@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:weather/models/weather/currten_weather_api.dart';
-import 'package:weather/models/weather/location_weather.dart';
-import 'package:weather/models/weather/weather_api_response.dart';
+
+import '../models/new_weather_response.dart';
+// import 'package:weather/models/weather/currten_weather_api.dart';
+// import 'package:weather/models/weather/location_weather.dart';
+// import 'package:weather/models/weather/weather_api_response.dart';
 
 class WeatherApiService extends ChangeNotifier {
   Location? location;
@@ -15,6 +17,7 @@ class WeatherApiService extends ChangeNotifier {
   final String _baseUrl = 'api.weatherapi.com';
   final String _key = 'a1f73a2fb6cc40c29eb175425232204';
   final String _aqi = 'no';
+  final String _days = '7';
   // final String
   //     _language; //todo: this parameter is to change the search language dinamically
 
@@ -29,21 +32,27 @@ class WeatherApiService extends ChangeNotifier {
     notifyListeners();
   }
 
-  final StreamController<dynamic> _foundPlaces =
-      StreamController<dynamic>.broadcast();
+  // final StreamController<dynamic> _foundPlaces =
+  //     StreamController<dynamic>.broadcast();
 
-  Stream get foundPlaces => _foundPlaces.stream;
+  // Stream get foundPlaces => _foundPlaces.stream;
 
   getFoundPlacesInfo(String coords) async {
     _apiParams() {
-      return {'key': _key, 'q': coords, 'aqi': _aqi, 'lang': 'es'};
+      return {
+        'key': _key,
+        'q': coords,
+        'aqi': _aqi,
+        'days': _days,
+        'lang': 'es',
+      };
     }
 
-    final uri = Uri.https(_baseUrl, '/v1/current.json', _apiParams());
+    final uri = Uri.https(_baseUrl, 'v1/forecast.json', _apiParams());
     final resp = await http.get(uri);
 
     if (resp.statusCode == 200) {
-      final weatherResp = weatherApiFromJson(resp.body);
+      final weatherResp = weatherResponseFromJson(resp.body);
 
       foundCurrent = weatherResp.current;
       foundLocation = weatherResp.location;
@@ -59,15 +68,17 @@ class WeatherApiService extends ChangeNotifier {
       return {'key': _key, 'q': coords, 'aqi': _aqi, 'lang': 'es'};
     }
 
-    final uri = Uri.https(_baseUrl, '/v1/current.json', _apiParams());
+    final uri = Uri.https(_baseUrl, 'v1/forecast.json', _apiParams());
 
     final resp = await http.get(uri);
 
     if (resp.statusCode == 200) {
-      final weatherResp = weatherApiFromJson(resp.body);
+      final weatherResp = weatherResponseFromJson(resp.body);
 
       location = weatherResp.location;
       current = weatherResp.current;
+
+      print(weatherResp.forecast.forecastday);
 
       return true;
     } else {
