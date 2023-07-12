@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
             lastUpdateTime:
                 apiResp.current?.lastUpdated.substring(10, 16) ?? '?',
             locationCountry: apiResp.location?.country ?? '?',
-            currentCOndition: apiResp.current?.condition.text ?? '?',
+            currentCOndition: '${apiResp.current?.condition.text ?? '?'}',
             currentFeelsLikeNumber:
                 '${apiResp.current?.feelslikeC.toString()}º',
             windData: '${apiResp.current?.windKph ?? '?'} km/h',
@@ -164,7 +164,7 @@ class _HomePageState extends State<HomePage> {
         '${apiResp.current!.feelslikeC}º',
         apiResp.location!.name,
         apiResp.current!.lastUpdated,
-        apiResp.current!.condition.text,
+        '${apiResp.current!.condition.text}',
         coords,
       );
 
