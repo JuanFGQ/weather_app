@@ -10,6 +10,7 @@ import 'package:weather/pages/news_page.dart';
 import 'package:weather/widgets/forecast_table.dart';
 import 'package:weather/widgets/info_table.dart';
 
+import '../models/new_weather_response.dart';
 import '../models/saved_cities_model.dart';
 import '../models/saved_news_model.dart';
 import '../providers/cities_list_provider.dart';
@@ -174,12 +175,13 @@ class _NewsDesignPageState extends State<NewsDesignPage>
                       windData: widget.windData,
                       windDirectionData: widget.windDirectionData,
                     ),
-                    // _ForeCastTable()
                   ],
                 ),
               ],
             ),
-            _ForeCastTable()
+            _ForeCastTable(
+              forecast: weatherServ!.forecast!,
+            )
           ],
         ));
   }
@@ -341,28 +343,28 @@ class _MenuDrawer extends StatelessWidget {
 }
 
 class _ForeCastTable extends StatelessWidget {
-  const _ForeCastTable({super.key});
+  final List<Forecastday> forecast;
+  const _ForeCastTable({super.key, required this.forecast});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Expanded(
       child: Container(
         margin: EdgeInsets.all(10),
         // color: Colors.red,
         // height: size.height * 0.3,
         // width: double.infinity,
-        child: ListView(
+        child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          children: const [
-            ForeCastTable(),
-            ForeCastTable(),
-            ForeCastTable(),
-            ForeCastTable(),
-            ForeCastTable(),
-            ForeCastTable(),
-            ForeCastTable(),
-          ],
+          itemCount: forecast.length,
+          itemBuilder: (BuildContext contex, int index) {
+            final fore = forecast[index];
+            return ForeCastTable(
+              forecast: fore,
+            );
+          },
+          // children: const [
+          // ],
         ),
       ),
     );

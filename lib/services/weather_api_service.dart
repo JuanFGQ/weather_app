@@ -13,6 +13,7 @@ class WeatherApiService extends ChangeNotifier {
   Current? current;
   Location? foundLocation;
   Current? foundCurrent;
+  List<Forecastday>? forecast;
 
   final String _baseUrl = 'api.weatherapi.com';
   final String _key = 'a1f73a2fb6cc40c29eb175425232204';
@@ -65,7 +66,13 @@ class WeatherApiService extends ChangeNotifier {
 
   getInfoWeatherLocation(String coords) async {
     _apiParams() {
-      return {'key': _key, 'q': coords, 'aqi': _aqi, 'lang': 'es'};
+      return {
+        'key': _key,
+        'q': coords,
+        'aqi': _aqi,
+        'lang': 'es',
+        'days': _days
+      };
     }
 
     final uri = Uri.https(_baseUrl, 'v1/forecast.json', _apiParams());
@@ -78,8 +85,9 @@ class WeatherApiService extends ChangeNotifier {
       location = weatherResp.location;
       current = weatherResp.current;
 
-      print(weatherResp.forecast.forecastday);
+      forecast = weatherResp.forecast.forecastday;
 
+      print(forecast);
       return true;
     } else {
       return false;

@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:weather/models/new_weather_response.dart';
 
 class ForeCastTable extends StatelessWidget {
-  const ForeCastTable({super.key});
+  final Forecastday forecast;
+
+  ForeCastTable({super.key, required this.forecast});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Expanded(
         child: Container(
-      margin: EdgeInsets.all(5),
+      margin: const EdgeInsets.all(5),
       width: size.width * 0.50,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
             begin: Alignment.bottomLeft,
             end: Alignment.bottomRight,
             colors: [
@@ -31,10 +34,11 @@ class ForeCastTable extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 child: Text(
-                  'Lunes',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  forecast.date.toString(),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 )),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -44,7 +48,7 @@ class ForeCastTable extends StatelessWidget {
                   margin: EdgeInsets.only(left: 20),
                   child: Stack(
                     children: [
-                      Positioned(
+                      const Positioned(
                           top: -4,
                           child: Text(
                             'AVG',
@@ -53,19 +57,19 @@ class ForeCastTable extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                                 fontStyle: FontStyle.italic),
                           )),
-                      Spacer(),
+                      const Spacer(),
                       Text(
-                        '20º',
-                        style: TextStyle(
+                        forecast.day.avgtempC.toString(),
+                        style: const TextStyle(
                             fontSize: 65, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(width: 15),
+                const SizedBox(width: 15),
                 Container(
-                    margin: EdgeInsets.only(bottom: 30, right: 20),
-                    child: FaIcon(
+                    margin: const EdgeInsets.only(bottom: 30, right: 20),
+                    child: const FaIcon(
                       FontAwesomeIcons.cloud,
                       size: 30,
                     ))
@@ -75,16 +79,16 @@ class ForeCastTable extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 _SubIconsInfo(
-                  icon: FaIcon(FontAwesomeIcons.droplet, size: 20),
-                  text: '10%',
+                  icon: const FaIcon(FontAwesomeIcons.droplet, size: 20),
+                  text: forecast.day.avghumidity.toString(),
                 ),
                 _SubIconsInfo(
-                  icon: FaIcon(FontAwesomeIcons.wind, size: 20),
-                  text: '20km/h',
+                  icon: const FaIcon(FontAwesomeIcons.wind, size: 20),
+                  text: forecast.day.maxwindKph.toString(),
                 ),
                 _SubIconsInfo(
-                  icon: FaIcon(FontAwesomeIcons.sun, size: 20),
-                  text: 'low',
+                  icon: const FaIcon(FontAwesomeIcons.sun, size: 20),
+                  text: forecast.day.uv.toString(),
                 ),
               ],
             )

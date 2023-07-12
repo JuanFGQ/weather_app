@@ -183,7 +183,7 @@ class Condition {
       };
 }
 
-enum Text {
+enum WeatherConditions {
   PARTLY_CLOUDY,
   HEAVY_RAIN,
   LIGHT_RAIN_SHOWER,
@@ -194,13 +194,14 @@ enum Text {
 }
 
 final textValues = EnumValues({
-  "Clear": Text.CLEAR,
-  "Heavy rain": Text.HEAVY_RAIN,
-  "Light rain shower": Text.LIGHT_RAIN_SHOWER,
-  "Moderate or heavy rain shower": Text.MODERATE_OR_HEAVY_RAIN_SHOWER,
-  "Partly cloudy": Text.PARTLY_CLOUDY,
-  "Patchy rain possible": Text.PATCHY_RAIN_POSSIBLE,
-  "Sunny": Text.SUNNY
+  "Clear": WeatherConditions.CLEAR,
+  "Heavy rain": WeatherConditions.HEAVY_RAIN,
+  "Light rain shower": WeatherConditions.LIGHT_RAIN_SHOWER,
+  "Moderate or heavy rain shower":
+      WeatherConditions.MODERATE_OR_HEAVY_RAIN_SHOWER,
+  "Partly cloudy": WeatherConditions.PARTLY_CLOUDY,
+  "Patchy rain possible": WeatherConditions.PATCHY_RAIN_POSSIBLE,
+  "Sunny": WeatherConditions.SUNNY
 });
 
 class Forecast {
