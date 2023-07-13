@@ -20,6 +20,8 @@ class WeatherApiService extends ChangeNotifier {
   final String _key = 'a1f73a2fb6cc40c29eb175425232204';
   final String _aqi = 'no';
   final String _days = '7';
+  final String _lang = 'en';
+
   // final String
   //     _language; //todo: this parameter is to change the search language dinamically
 
@@ -31,6 +33,15 @@ class WeatherApiService extends ChangeNotifier {
   String get coords => _coords;
   set coords(String value) {
     _coords = value;
+    notifyListeners();
+  }
+
+  bool _isEnglish = false;
+
+  bool get isEnglish => _isEnglish;
+
+  set isEnglish(bool value) {
+    _isEnglish = value;
     notifyListeners();
   }
 
@@ -46,7 +57,7 @@ class WeatherApiService extends ChangeNotifier {
         'q': coords,
         'aqi': _aqi,
         'days': _days,
-        'lang': 'es',
+        'lang': _lang,
       };
     }
 
@@ -72,7 +83,7 @@ class WeatherApiService extends ChangeNotifier {
         'key': _key,
         'q': coords,
         'aqi': _aqi,
-        'lang': 'es',
+        'lang': _lang,
         'days': _days
       };
     }
