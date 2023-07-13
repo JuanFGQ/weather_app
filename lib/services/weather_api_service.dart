@@ -14,6 +14,7 @@ class WeatherApiService extends ChangeNotifier {
   Location? foundLocation;
   Current? foundCurrent;
   List<Forecastday>? forecast;
+  // List<Forecastday>? foundForecast;
 
   final String _baseUrl = 'api.weatherapi.com';
   final String _key = 'a1f73a2fb6cc40c29eb175425232204';
@@ -57,6 +58,7 @@ class WeatherApiService extends ChangeNotifier {
 
       foundCurrent = weatherResp.current;
       foundLocation = weatherResp.location;
+      forecast = weatherResp.forecast.forecastday;
 
       return true;
     } else {

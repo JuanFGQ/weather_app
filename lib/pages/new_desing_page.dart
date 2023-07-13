@@ -608,19 +608,25 @@ class _HeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.only(top: 60, left: 20, right: 20),
       child: Row(
         children: [
           const FaIcon(FontAwesomeIcons.locationDot, color: Colors.white),
           const SizedBox(width: 18),
-          Text(location,
-              style: const TextStyle(
-                  fontStyle: FontStyle.italic,
-                  decoration: TextDecoration.underline,
-                  // textBaseline: TextBaseline.alphabetic,
-                  fontSize: 25,
-                  color: Colors.white)),
+          Container(
+            width: size.width * 0.65,
+            child: Text(location,
+                textScaleFactor: 1,
+                overflow: TextOverflow.visible,
+                style: const TextStyle(
+                    fontStyle: FontStyle.italic,
+                    decoration: TextDecoration.underline,
+                    // textBaseline: TextBaseline.alphabetic,
+                    fontSize: 25,
+                    color: Colors.white)),
+          ),
           const Spacer(),
           IconButton(
             icon: const FaIcon(

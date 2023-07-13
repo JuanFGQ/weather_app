@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
   GeolocatorService? geolocatorService;
   NewsService? newsService;
   ImageService? imageService;
+  CitiesListProvider? citiesListProvider;
 
   @override
   void initState() {
@@ -36,6 +37,8 @@ class _HomePageState extends State<HomePage> {
     geolocatorService = Provider.of<GeolocatorService>(context, listen: false);
     newsService = Provider.of<NewsService>(context, listen: false);
     imageService = Provider.of<ImageService>(context, listen: false);
+    citiesListProvider =
+        Provider.of<CitiesListProvider>(context, listen: false);
 
     _loadWeatherData();
   }
@@ -124,12 +127,6 @@ class _HomePageState extends State<HomePage> {
     final cityListCopy = List.from(saveCitiesProvider.cities);
 
     final comparisonText = apiResp.location?.name ?? '?';
-
-    // final city = '${apiResp.location?.name} ${apiResp.location?.country}';
-
-    // final respTest = await imagesProvider.findPhotos(city);
-
-    // print('city ARG ${city} IMAGES PROVIDER ${respTest}');
 
     bool foundMatch = false;
 

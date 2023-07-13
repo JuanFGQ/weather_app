@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:weather/models/new_weather_response.dart';
 
 class ForeCastTable extends StatelessWidget {
@@ -10,6 +11,10 @@ class ForeCastTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final forecastDate = forecast.date;
+    final dayFormat = DateFormat('EEEE');
+    final dayName = dayFormat.format(forecastDate);
+
     return Expanded(
         child: Container(
       margin: const EdgeInsets.all(5),
@@ -36,7 +41,7 @@ class ForeCastTable extends StatelessWidget {
             Container(
                 margin: const EdgeInsets.all(10),
                 child: Text(
-                  forecast.date.toString(),
+                  dayName,
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 )),
