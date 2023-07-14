@@ -57,7 +57,7 @@ class WeatherApiService extends ChangeNotifier {
         'q': coords,
         'aqi': _aqi,
         'days': _days,
-        'lang': _lang,
+        'lang': (isEnglish) ? 'en' : 'es',
       };
     }
 
@@ -83,7 +83,7 @@ class WeatherApiService extends ChangeNotifier {
         'key': _key,
         'q': coords,
         'aqi': _aqi,
-        'lang': _lang,
+        'lang': (isEnglish) ? 'en' : 'es',
         'days': _days
       };
     }

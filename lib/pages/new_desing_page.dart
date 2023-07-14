@@ -130,11 +130,12 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     return Scaffold(
         key: _globalKey,
         drawer: _MenuDrawer(
-            size: size,
-            citiesListP: citiesListP,
-            newsListP: newsListP,
-            appTheme: appTheme,
-            localeProvider: localeProvider),
+          size: size,
+          citiesListP: citiesListP,
+          newsListP: newsListP,
+          appTheme: appTheme,
+          localeProvider: localeProvider,
+        ),
         body: Column(
           children: [
             Stack(
@@ -205,6 +206,8 @@ class _MenuDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final weatherServ = Provider.of<WeatherApiService>(context);
+
     return Drawer(
       // shape: ShapeBorder.c,
       child: ListView(children: [
@@ -304,7 +307,10 @@ class _MenuDrawer extends StatelessWidget {
                       activeColor: Colors.amber,
                       onChanged: (value) {
                         localeProvider.languageEnglish = value;
+                        weatherServ.isEnglish = value;
+
                         localeProvider.languageSpanish = false;
+
                         if (!localeProvider.languageEnglish) {
                           localeProvider.languageSpanish = true;
                         }
