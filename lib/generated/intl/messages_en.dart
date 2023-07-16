@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "allnews": MessageLookupByLibrary.simpleMessage("All news"),
         "allreadysave": MessageLookupByLibrary.simpleMessage("All ready saved"),
         "ascending": MessageLookupByLibrary.simpleMessage("Ascendente"),
+        "cloud": MessageLookupByLibrary.simpleMessage("Cloud"),
         "darktheme": MessageLookupByLibrary.simpleMessage("Dark theme"),
         "descending": MessageLookupByLibrary.simpleMessage("Descending"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
@@ -37,7 +38,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "lighttheme": MessageLookupByLibrary.simpleMessage("Light theme"),
         "news": MessageLookupByLibrary.simpleMessage("News "),
         "newsforread": MessageLookupByLibrary.simpleMessage("News for read"),
+        "nonews": MessageLookupByLibrary.simpleMessage(
+            "Theres no news for this city,look for other city."),
         "oldnews": MessageLookupByLibrary.simpleMessage("Old news"),
+        "precipitation": MessageLookupByLibrary.simpleMessage("Precipitation"),
+        "pressure": MessageLookupByLibrary.simpleMessage("Pressure"),
         "recentsnews": MessageLookupByLibrary.simpleMessage("Recent news"),
         "refresh": MessageLookupByLibrary.simpleMessage("Refresh"),
         "savelocation": MessageLookupByLibrary.simpleMessage("Save location"),
@@ -45,7 +50,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "spanish": MessageLookupByLibrary.simpleMessage("Spanish"),
         "temperature": MessageLookupByLibrary.simpleMessage("Temperature"),
         "themes": MessageLookupByLibrary.simpleMessage("themes"),
+        "uvrays": MessageLookupByLibrary.simpleMessage(" UV rays"),
         "visibility": MessageLookupByLibrary.simpleMessage("Visibility"),
+        "weeklyforecast":
+            MessageLookupByLibrary.simpleMessage("Weekly Forecast"),
         "wind": MessageLookupByLibrary.simpleMessage("Wind"),
         "winddirection": MessageLookupByLibrary.simpleMessage("Wind direction")
       };

@@ -11,6 +11,7 @@ import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 import 'package:weather/widgets/modal_bottomSheet.dart';
 
+import '../providers/localization_provider.dart';
 import '../widgets/circular_progress_indicator.dart';
 import '../widgets/home_widget.dart';
 
@@ -69,6 +70,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final weatherAPI = Provider.of<WeatherApiService>(context);
     final apiResp = weatherAPI;
+    final localeProvider = Provider.of<LocalizationProvider>(context);
 
     return StreamBuilder(
       stream: stream.stream,
@@ -77,6 +79,26 @@ class _HomePageState extends State<HomePage> {
           return const CircularIndicator();
         } else {
           return NewsDesignPage(
+            onChangedEnglish: (value) {
+              _refreshWeatherData();
+              localeProvider.languageEnglish = value;
+              localeProvider.languageSpanish = false;
+              weatherApi!.isEnglish = true;
+
+              if (!localeProvider.languageEnglish) {
+                localeProvider.languageSpanish = true;
+              }
+            },
+            onChangedSpanish: (value) {
+              _refreshWeatherData();
+              localeProvider.languageSpanish = value;
+              weatherApi!.isEnglish = false;
+
+              localeProvider.languageEnglish = false;
+              if (!localeProvider.languageSpanish) {
+                localeProvider.languageEnglish = true;
+              }
+            },
             isVisibleButton: true,
             saveLocationButton: () {
               saveInFavouritePlaces(apiResp);
@@ -110,6 +132,9 @@ class _HomePageState extends State<HomePage> {
             temperatureData: '${apiResp.current?.tempC ?? '?'} º',
             feelsLikeData: '${apiResp.current?.feelslikeC ?? '?'} º',
             humidityData: '${apiResp.current?.humidity ?? '?'}%',
+            precipitation: '${apiResp.current?.precipIn ?? '?'}%',
+            pressure: '${apiResp.current?.pressureMb ?? '?'}mb',
+            uvRays: '${apiResp.current?.uv ?? '?'}',
           );
         }
       },

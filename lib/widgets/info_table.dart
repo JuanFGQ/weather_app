@@ -47,7 +47,7 @@ class InfoTable extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
                           color: Colors.white,
-                          border: Border.all(width: 5)),
+                          border: Border.all(width: 1)),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
                         child: Image(
@@ -57,7 +57,7 @@ class InfoTable extends StatelessWidget {
                     ),
                   ),
                   Container(
-                      margin: EdgeInsets.only(
+                      margin: const EdgeInsets.only(
                           top: 15, bottom: 15, left: 4, right: 5),
                       child: Text(
                         percentage,

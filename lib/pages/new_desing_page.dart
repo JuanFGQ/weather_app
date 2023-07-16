@@ -38,13 +38,17 @@ class NewsDesignPage extends StatefulWidget {
   final String windDirectionData;
   final String temperatureData;
   final String feelsLikeData;
-  // final Color scaffoldColor;
-  // final Color appBarColors;
-  // final Color locCountryColor;
+  final String precipitation;
+  final String pressure;
+  final String uvRays;
+
   final void Function()? newsButton;
   final void Function()? saveLocationButton;
 
   final void Function()? refreshButton;
+
+  final void Function(bool)? onChangedEnglish;
+  final void Function(bool)? onChangedSpanish;
 
   final bool isVisibleButton;
   const NewsDesignPage(
@@ -67,7 +71,12 @@ class NewsDesignPage extends StatefulWidget {
       this.newsButton,
       this.saveLocationButton,
       this.refreshButton,
-      required this.isVisibleButton});
+      required this.isVisibleButton,
+      this.onChangedEnglish,
+      this.onChangedSpanish,
+      required this.precipitation,
+      required this.pressure,
+      required this.uvRays});
 
   @override
   State<NewsDesignPage> createState() => _NewsDesignPageState();
@@ -95,21 +104,21 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     // getPopularPhotos();
   }
 
-  Future<void> getPopularPhotos() async {
-    if (!imageService!.searchText) {
-      final searchArg =
-          '${weatherServ!.location?.name} ${weatherServ!.location?.country}';
-      searchText = searchArg;
-    } else {
-      final foundArg =
-          '${weatherServ!.foundLocation?.name} ${weatherServ!.foundLocation?.country}';
-      searchText = foundArg;
-    }
+  // Future<void> getPopularPhotos() async {
+  //   if (!imageService!.searchText) {
+  //     final searchArg =
+  //         '${weatherServ!.location?.name} ${weatherServ!.location?.country}';
+  //     searchText = searchArg;
+  //   } else {
+  //     final foundArg =
+  //         '${weatherServ!.foundLocation?.name} ${weatherServ!.foundLocation?.country}';
+  //     searchText = foundArg;
+  //   }
 
-    final photos = await imageService!.findPhotos(searchText);
+  //   final photos = await imageService!.findPhotos(searchText);
 
-    imageService!.urlImages = photos;
-  }
+  //   imageService!.urlImages = photos;
+  // }
 
   @override
   void dispose() {
@@ -128,8 +137,11 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+        // backgroundColor: Color.fromARGB(255, 198, 199, 172),
         key: _globalKey,
         drawer: _MenuDrawer(
+          onChangedEnglish: widget.onChangedEnglish,
+          onChangedSpanish: widget.onChangedSpanish,
           size: size,
           citiesListP: citiesListP,
           newsListP: newsListP,
@@ -175,10 +187,31 @@ class _NewsDesignPageState extends State<NewsDesignPage>
                       visibilityData: widget.visibilityData,
                       windData: widget.windData,
                       windDirectionData: widget.windDirectionData,
+                      precipitation: widget.precipitation,
+                      pressure: widget.pressure,
+                      uvRays: widget.uvRays,
                     ),
                   ],
                 ),
               ],
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 20, right: 20),
+              child: const Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    'Weekly Forecast',
+                    style: TextStyle(
+                        // decoration: TextDecoration.underline,
+                        fontSize: 20,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                  FaIcon(FontAwesomeIcons.arrowRight)
+                ],
+              ),
             ),
             _ForeCastTable(
               forecast: weatherServ!.forecast!,
@@ -196,6 +229,8 @@ class _MenuDrawer extends StatelessWidget {
     required this.newsListP,
     required this.appTheme,
     required this.localeProvider,
+    this.onChangedEnglish,
+    this.onChangedSpanish,
   });
 
   final Size size;
@@ -203,6 +238,8 @@ class _MenuDrawer extends StatelessWidget {
   final List<SavedNewsModel> newsListP;
   final ThemeChanger appTheme;
   final LocalizationProvider localeProvider;
+  final void Function(bool)? onChangedEnglish;
+  final void Function(bool)? onChangedSpanish;
 
   @override
   Widget build(BuildContext context) {
@@ -265,32 +302,32 @@ class _MenuDrawer extends StatelessWidget {
                 )
               ],
             ),
-            ExpansionTile(
-                childrenPadding: const EdgeInsets.only(left: 30),
-                leading: const FaIcon(FontAwesomeIcons.paintRoller),
-                title: Text(AppLocalizations.of(context)!.themes),
-                children: [
-                  ListTile(
-                      leading: const Icon(Icons.format_paint_outlined),
-                      title: Text(AppLocalizations.of(context)!.darktheme),
-                      onTap: () {},
-                      trailing: Switch.adaptive(
-                          value: appTheme.darkTheme,
-                          activeColor: Colors.pink,
-                          onChanged: (value) {
-                            appTheme.darkTheme = value;
-                          })),
-                  ListTile(
-                      leading: const Icon(Icons.format_paint_outlined),
-                      title: Text(AppLocalizations.of(context)!.lighttheme),
-                      onTap: () {},
-                      trailing: Switch.adaptive(
-                          value: appTheme.customTheme,
-                          activeColor: Colors.red,
-                          onChanged: (value) {
-                            appTheme.customTheme = value;
-                          })),
-                ]),
+            // ExpansionTile(
+            //     childrenPadding: const EdgeInsets.only(left: 30),
+            //     leading: const FaIcon(FontAwesomeIcons.paintRoller),
+            //     title: Text(AppLocalizations.of(context)!.themes),
+            //     children: [
+            //       ListTile(
+            //           leading: const Icon(Icons.format_paint_outlined),
+            //           title: Text(AppLocalizations.of(context)!.darktheme),
+            //           onTap: () {},
+            //           trailing: Switch.adaptive(
+            //               value: appTheme.darkTheme,
+            //               activeColor: Colors.pink,
+            //               onChanged: (value) {
+            //                 appTheme.darkTheme = value;
+            //               })),
+            //       ListTile(
+            //           leading: const Icon(Icons.format_paint_outlined),
+            //           title: Text(AppLocalizations.of(context)!.lighttheme),
+            //           onTap: () {},
+            //           trailing: Switch.adaptive(
+            //               value: appTheme.customTheme,
+            //               activeColor: Colors.red,
+            //               onChanged: (value) {
+            //                 appTheme.customTheme = value;
+            //               })),
+            //     ]),
             ExpansionTile(
               childrenPadding: const EdgeInsets.only(left: 30),
               leading: const FaIcon(FontAwesomeIcons.language),
@@ -305,16 +342,17 @@ class _MenuDrawer extends StatelessWidget {
                   trailing: Switch.adaptive(
                       value: localeProvider.languageEnglish,
                       activeColor: Colors.amber,
-                      onChanged: (value) {
-                        localeProvider.languageEnglish = value;
-                        weatherServ.isEnglish = value;
+                      onChanged: onChangedEnglish
+                      // (value) {
+                      //   localeProvider.languageEnglish = value;
+                      //   weatherServ.isEnglish = true;
+                      //   localeProvider.languageSpanish = false;
 
-                        localeProvider.languageSpanish = false;
-
-                        if (!localeProvider.languageEnglish) {
-                          localeProvider.languageSpanish = true;
-                        }
-                      }),
+                      //   if (!localeProvider.languageEnglish) {
+                      //     localeProvider.languageSpanish = true;
+                      //   }
+                      // },
+                      ),
                 ),
                 ListTile(
                   leading: const Image(
@@ -324,13 +362,17 @@ class _MenuDrawer extends StatelessWidget {
                   title: Text(AppLocalizations.of(context)!.spanish),
                   trailing: Switch.adaptive(
                       value: localeProvider.languageSpanish,
-                      onChanged: (value) {
-                        localeProvider.languageSpanish = value;
-                        localeProvider.languageEnglish = false;
-                        if (!localeProvider.languageSpanish) {
-                          localeProvider.languageEnglish = true;
-                        }
-                      }),
+                      onChanged: onChangedSpanish
+                      // (value) {
+                      //   localeProvider.languageSpanish = value;
+                      //   weatherServ.isEnglish = false;
+
+                      //   localeProvider.languageEnglish = false;
+                      //   if (!localeProvider.languageSpanish) {
+                      //     localeProvider.languageEnglish = true;
+                      //   }
+                      // },
+                      ),
                 ),
               ],
             ),
@@ -356,7 +398,7 @@ class _ForeCastTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.all(10),
+        margin: EdgeInsets.only(top: 2, left: 10, right: 10, bottom: 10),
         // color: Colors.red,
         // height: size.height * 0.3,
         // width: double.infinity,
@@ -384,6 +426,9 @@ class _InfoTableList extends StatelessWidget {
   final String windDirectionData;
   final String temperatureData;
   final String feelsLikeData;
+  final String precipitation;
+  final String pressure;
+  final String uvRays;
 
   const _InfoTableList({
     super.key,
@@ -394,6 +439,9 @@ class _InfoTableList extends StatelessWidget {
     required this.windDirectionData,
     required this.temperatureData,
     required this.feelsLikeData,
+    required this.precipitation,
+    required this.pressure,
+    required this.uvRays,
   });
 
   final Size size;
@@ -437,6 +485,21 @@ class _InfoTableList extends StatelessWidget {
               image: 'hot.gif',
               title: (AppLocalizations.of(context)!.feelslike),
               percentage: feelsLikeData),
+          SizedBox(width: 10),
+          InfoTable(
+              image: 'drizzle.gif',
+              title: (AppLocalizations.of(context)!.precipitation),
+              percentage: precipitation),
+          SizedBox(width: 10),
+          InfoTable(
+              image: 'gauge.gif',
+              title: (AppLocalizations.of(context)!.pressure),
+              percentage: pressure),
+          SizedBox(width: 10),
+          InfoTable(
+              image: 'sun (1).gif',
+              title: (AppLocalizations.of(context)!.uvrays),
+              percentage: uvRays),
         ],
       ),
     );
@@ -862,7 +925,7 @@ class _SavedNewsCardState extends State<_SavedNewsCard> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.blue[200],
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(offset: Offset(0.0, 1.0), blurRadius: 3.0)
                       ]),
                   child: Column(

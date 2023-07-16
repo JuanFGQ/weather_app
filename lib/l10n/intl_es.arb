@@ -99,10 +99,69 @@
 "allreadysave": "Ya esta guardado!",
 "@allreadysave":{
     "description":"Ya esta guardado!"
+},
+"cloud": "Nubosidad",
+"@cloud":{
+    "description":"Nubosidad"
+},
+
+"pressure": "Presion",
+"@pressure":{
+    "description":"Presion"
+}
+,
+"precipitation": "Precipitacion",
+"@precipitation":{
+    "description":"Precipitacion"
 }
 
-
-    
-
-
+,
+"uvrays": "Rayos UV",
+"@uvrays":{
+    "description":"Rayos UV"
 }
+,
+"weeklyforecast": "Pronostico Semanal",
+"@weeklyforecast":{
+    "description":"Pronostico Semanal"  
+},
+
+"nonews": "No hay noticias para esta ciudad, busca otra!",
+"@nonews":{
+    "description":"No hay noticias para esta ciudad, busca otra!"
+},
+"dayNames": {
+    "Monday": "Lunes",
+    "@Monday":{
+        "description":"Lunes"
+    },
+    "Tuesday": "Martes",
+    "@Tuesday":{
+        "description":"Martes"
+    },
+    "Wednesday": "Miércoles",
+    "@Wednesday":{
+        "description":"Miércoles"
+    },
+    "Thursday": "Jueves",
+    "@Thursday":{
+        "description":"Jueves"
+    },
+    "Friday": "Viernes",
+    "@Friday":{
+        "description":"Viernes"
+    },
+    "Saturday": "Sábado",
+    "@Saturday":{
+        "description":"Sábado"
+    },
+    "Sunday": "Domingo",
+    "@Sunday":{
+        "description":"Domingo"
+    }
+  }
+
+
+    }
+
+

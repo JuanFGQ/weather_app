@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "allreadysave":
             MessageLookupByLibrary.simpleMessage("Ya esta guardado!"),
         "ascending": MessageLookupByLibrary.simpleMessage("Ascendente"),
+        "cloud": MessageLookupByLibrary.simpleMessage("Nubosidad"),
         "darktheme": MessageLookupByLibrary.simpleMessage("Tema oscuro"),
         "descending": MessageLookupByLibrary.simpleMessage("Descendiente"),
         "english": MessageLookupByLibrary.simpleMessage("Inglés"),
@@ -39,7 +40,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "news": MessageLookupByLibrary.simpleMessage("Noticias"),
         "newsforread":
             MessageLookupByLibrary.simpleMessage("Noticias por leer"),
+        "nonews": MessageLookupByLibrary.simpleMessage(
+            "No hay noticias para esta ciudad, busca otra!"),
         "oldnews": MessageLookupByLibrary.simpleMessage("Noticias antiguas"),
+        "precipitation": MessageLookupByLibrary.simpleMessage("Precipitacion"),
+        "pressure": MessageLookupByLibrary.simpleMessage("Presion"),
         "recentsnews":
             MessageLookupByLibrary.simpleMessage("Noticias recientes"),
         "refresh": MessageLookupByLibrary.simpleMessage("Refrescar"),
@@ -49,7 +54,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "spanish": MessageLookupByLibrary.simpleMessage("Español"),
         "temperature": MessageLookupByLibrary.simpleMessage("Temperatura"),
         "themes": MessageLookupByLibrary.simpleMessage("Temas"),
+        "uvrays": MessageLookupByLibrary.simpleMessage("Rayos UV"),
         "visibility": MessageLookupByLibrary.simpleMessage("Visibilidad"),
+        "weeklyforecast":
+            MessageLookupByLibrary.simpleMessage("Pronostico Semanal"),
         "wind": MessageLookupByLibrary.simpleMessage("Viento"),
         "winddirection":
             MessageLookupByLibrary.simpleMessage("Direccion del viento")

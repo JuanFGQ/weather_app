@@ -36,7 +36,7 @@ class WeatherApiService extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _isEnglish = false;
+  bool _isEnglish = true;
 
   bool get isEnglish => _isEnglish;
 

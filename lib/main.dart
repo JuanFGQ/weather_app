@@ -78,7 +78,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localeProvider = Provider.of<LocalizationProvider>(context);
-    final appTheme = Provider.of<ThemeChanger>(context).currentTheme;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -93,7 +92,9 @@ class MyApp extends StatelessWidget {
       },
       // theme: appTheme,
       supportedLocales: L10n.all,
-      locale: (localeProvider.languageEnglish) ? Locale('en') : Locale('es'),
+      locale: (localeProvider.languageEnglish)
+          ? const Locale('en')
+          : const Locale('es'),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

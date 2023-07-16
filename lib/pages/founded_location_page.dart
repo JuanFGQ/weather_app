@@ -12,6 +12,7 @@ import 'package:weather/widgets/circular_progress_indicator.dart';
 import 'package:weather/widgets/home_widget.dart';
 
 import '../providers/cities_list_provider.dart';
+import '../providers/localization_provider.dart';
 import '../services/image_service.dart';
 import '../widgets/modal_bottomSheet.dart';
 
@@ -54,11 +55,20 @@ class _FoundedLocationState extends State<FoundedLocation> {
     streamFound.sink.add(hasData);
   }
 
+  void _refreshWeatherData() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const CircularIndicator()));
+    _loadDataFounded();
+    Navigator.pushNamed(context, 'founded');
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final weatherData = Provider.of<WeatherApiService>(context);
 
     final apiResp = weatherData;
+    final localeProvider = Provider.of<LocalizationProvider>(context);
 
     return Scaffold(
         body: StreamBuilder(
@@ -75,6 +85,28 @@ class _FoundedLocationState extends State<FoundedLocation> {
                     return true;
                   },
                   child: NewsDesignPage(
+                    onChangedEnglish: (value) {
+                      _refreshWeatherData();
+                      localeProvider.languageEnglish = value;
+                      localeProvider.languageSpanish = false;
+                      // weatherAPI!.isEnglish = true;
+
+                      if (!localeProvider.languageEnglish) {
+                        localeProvider.languageSpanish = true;
+                        weatherAPI!.isEnglish = false;
+                      }
+                      //
+                    },
+                    onChangedSpanish: (value) {
+                      _refreshWeatherData();
+                      localeProvider.languageSpanish = value;
+                      // weatherAPI!.isEnglish = false;
+                      localeProvider.languageEnglish = false;
+                      if (!localeProvider.languageSpanish) {
+                        localeProvider.languageEnglish = true;
+                        weatherAPI!.isEnglish = true;
+                      }
+                    },
                     isVisibleButton: false,
                     saveLocationButton: () {
                       saveInFavouritePlaces(apiResp);
@@ -105,6 +137,9 @@ class _FoundedLocationState extends State<FoundedLocation> {
                     feelsLikeData:
                         '${apiResp.foundCurrent?.feelslikeC ?? '?'} º',
                     humidityData: '${apiResp.foundCurrent?.humidity ?? '?'}',
+                    precipitation: '${apiResp.foundCurrent?.precipIn ?? '?'}%',
+                    pressure: '${apiResp.foundCurrent?.pressureMb ?? '?'}mb',
+                    uvRays: '${apiResp.foundCurrent?.uv ?? '?'}',
                   ),
                 );
               }

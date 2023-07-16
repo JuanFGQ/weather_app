@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/models/new_weather_response.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForeCastTable extends StatelessWidget {
   final Forecastday forecast;
@@ -14,7 +15,10 @@ class ForeCastTable extends StatelessWidget {
     final forecastDate = forecast.date;
     final dayFormat = DateFormat('EEEE');
     final dayName = dayFormat.format(forecastDate);
-    final weatherCondition = forecast.day.condition.text;
+
+    // final weatherCondition = forecast.day.condition.text;
+
+// final translatedDayName = AppLocalizations.of(context).
 
     return Expanded(
         child: Container(
@@ -31,11 +35,11 @@ class ForeCastTable extends StatelessWidget {
         //     ]),
         borderRadius: BorderRadius.circular(30),
         color: Colors.white,
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.grey,
             offset: Offset(1, 1.5),
-            spreadRadius: 3,
+            spreadRadius: 1,
             blurRadius: 0.2,
             // blurStyle: BlurStyle.outer,
           )
@@ -107,17 +111,17 @@ class ForeCastTable extends StatelessWidget {
                 _SubIconsInfo(
                   icon: const FaIcon(FontAwesomeIcons.droplet,
                       color: Colors.blue, size: 20),
-                  text: forecast.day.avghumidity.toString(),
+                  text: '${forecast.day.avghumidity} %',
                 ),
                 _SubIconsInfo(
                   icon: const FaIcon(FontAwesomeIcons.wind,
                       color: Colors.cyanAccent, size: 20),
-                  text: forecast.day.maxwindKph.toString(),
+                  text: '${forecast.day.maxwindKph} km/h',
                 ),
                 _SubIconsInfo(
                   icon: const FaIcon(FontAwesomeIcons.sun,
                       color: Colors.yellow, size: 20),
-                  text: forecast.day.uv.toString(),
+                  text: '${forecast.day.uv} uv',
                 ),
               ],
             )
@@ -129,34 +133,31 @@ class ForeCastTable extends StatelessWidget {
 
   Widget _buildWeatherIcon() {
     final weatherCondition = forecast.day.condition.text;
-    switch (weatherCondition) {
-      case 'Partly cloudy':
-        return Image(image: AssetImage('assets/clouds (1).gif'));
 
-      // Icon(
-      //   Icons.wb_cloudy,
-      //   size: 30,
-      // );
-      case 'Heavy rain':
-        return Image(image: AssetImage('assets/storm.gif'));
+    final Map<String, Image> weatherIcons = {
+      'Partly cloudy': Image(image: AssetImage('assets/clouds (1).gif')),
+      'Heavy rain': Image(image: AssetImage('assets/storm.gif')),
+      'Fuertes lluvias': Image(image: AssetImage('assets/storm.gif')),
+      'Light rain shower': Image(image: AssetImage('assets/rain.gif')),
+      'Lluvia ligera': Image(image: AssetImage('assets/rain.gif')),
+      'Parcialmente nublado': Image(image: AssetImage('assets/clouds (1).gif')),
+      'Patchy rain possible': Image(image: AssetImage('assets/rain (1).gif')),
+      'Moderate rain': Image(image: AssetImage('assets/rain (1).gif')),
+      'Lluvia moderada a intervalos':
+          Image(image: AssetImage('assets/rain (1).gif')),
+      'Moderate or heavy rain shower':
+          Image(image: AssetImage('assets/rain (1).gif')),
+      'Lluvia fuerte o moderada':
+          Image(image: AssetImage('assets/rain (1).gif')),
+      'Sunny': Image(image: AssetImage('assets/sun.gif')),
+      'Soleado': Image(image: AssetImage('assets/sun.gif')),
+      'Clear': Image(image: AssetImage('assets/rainbow.gif')),
+      'Despejado': Image(image: AssetImage('assets/rainbow.gif')),
+    };
 
-      case 'Light rain shower':
-        return Image(image: AssetImage('assets/rain.gif'));
-
-      case 'Patchy rain possible':
-      case 'Moderate rain':
-        return Image(image: AssetImage('assets/rain (1).gif'));
-      case 'Moderate or heavy rain shower':
-        return const Icon(Icons.beach_access, size: 30);
-      case 'Sunny':
-        return Image(image: AssetImage('assets/sun.gif'));
-
-      case 'Clear':
-        return Image(image: AssetImage('assets/rainbow.gif'));
-
-      default:
-        return Image(image: AssetImage('assets/clouds (1).gif'));
-    }
+    return weatherIcons.containsKey(weatherCondition)
+        ? weatherIcons[weatherCondition]!
+        : Image(image: AssetImage('assets/clouds (1).gif'));
   }
 }
 
@@ -182,3 +183,45 @@ class _SubIconsInfo extends StatelessWidget {
     );
   }
 }
+
+// "dayNames": {
+//     "Monday": "Lunes",
+//     "@Monday":{
+//         "description":"Lunes"
+//     },
+//     "Tuesday": "Martes",
+//     "@Tuesday":{
+//         "description":"Martes"
+//     },
+//     "Wednesday": "Miércoles",
+//     "@Wednesday":{
+//         "description":"Miércoles"
+//     },
+//     "Thursday": "Jueves",
+//     "@Thursday":{
+//         "description":"Jueves"
+//     },
+//     "Friday": "Viernes",
+//     "@Friday":{
+//         "description":"Viernes"
+//     },
+//     "Saturday": "Sábado",
+//     "@Saturday":{
+//         "description":"Sábado"
+//     },
+//     "Sunday": "Domingo",
+//     "@Sunday":{
+//         "description":"Domingo"
+//     }
+//   }
+
+
+// "dayNames": {
+    //   "Monday": "Lunes",
+    //   "Tuesday": "Martes",
+    //   "Wednesday": "Miércoles",
+    //   "Thursday": "Jueves",
+    //   "Friday": "Viernes",
+    //   "Saturday": "Sábado",
+    //   "Sunday": "Domingo"
+    // }

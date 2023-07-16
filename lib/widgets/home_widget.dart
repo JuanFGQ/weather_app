@@ -1,6 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+// import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/models/image_response.dart';
@@ -269,67 +269,67 @@ class _HomeWidgetState extends State<HomeWidget> {
               const SizedBox(height: 10),
             ],
           ),
-          _DetailsCityPage()
+          // _DetailsCityPage()
         ],
       ),
     );
   }
 }
 
-class _DetailsCityPage extends StatelessWidget {
-  // final ImageResponse imageTitle;
+// class _DetailsCityPage extends StatelessWidget {
+//   // final ImageResponse imageTitle;
 
-  // _DetailsCityPage({super.key required this.imageTitle});
+//   // _DetailsCityPage({super.key required this.imageTitle});
 
-  @override
-  Widget build(BuildContext context) {
-    final urlImages = Provider.of<ImageService>(context);
-    final size = MediaQuery.of(context).size;
+//   @override
+//   Widget build(BuildContext context) {
+//     final urlImages = Provider.of<ImageService>(context);
+//     final size = MediaQuery.of(context).size;
 
-    return Container(
-      margin: EdgeInsets.only(top: 20, left: 10, right: 10),
-      child: MasonryGridView.count(
-        // physics:
-        // clipBehavior: Clip.hardEdge,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        crossAxisCount: 2,
-        itemCount: urlImages.urlImages.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      backgroundColor: Colors.transparent,
-                      content: Image.network(
-                        urlImages.urlImages[index],
-                        fit: BoxFit.cover,
-                      ),
-                    );
-                  });
+//     return Container(
+//       margin: EdgeInsets.only(top: 20, left: 10, right: 10),
+//       child: MasonryGridView.count(
+//         // physics:
+//         // clipBehavior: Clip.hardEdge,
+//         mainAxisSpacing: 10,
+//         crossAxisSpacing: 10,
+//         crossAxisCount: 2,
+//         itemCount: urlImages.urlImages.length,
+//         itemBuilder: (context, index) {
+//           return GestureDetector(
+//             onTap: () {
+//               showDialog(
+//                   context: context,
+//                   builder: (BuildContext context) {
+//                     return AlertDialog(
+//                       backgroundColor: Colors.transparent,
+//                       content: Image.network(
+//                         urlImages.urlImages[index],
+//                         fit: BoxFit.cover,
+//                       ),
+//                     );
+//                   });
 
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (_) => ImageDetailPage(
-              //               imageUrl: urlImages.urlImages[index],
-              //             )));
-            },
-            child: Hero(
-              tag: urlImages.urlImages[index],
-              child: Image.network(
-                urlImages.urlImages[index],
-                fit: BoxFit.cover,
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
+//               // Navigator.push(
+//               //     context,
+//               //     MaterialPageRoute(
+//               //         builder: (_) => ImageDetailPage(
+//               //               imageUrl: urlImages.urlImages[index],
+//               //             )));
+//             },
+//             child: Hero(
+//               tag: urlImages.urlImages[index],
+//               child: Image.network(
+//                 urlImages.urlImages[index],
+//                 fit: BoxFit.cover,
+//               ),
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
 
 class _MenuDrawer extends StatelessWidget {
   const _MenuDrawer({

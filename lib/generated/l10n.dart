@@ -299,6 +299,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Nubosidad`
+  String get cloud {
+    return Intl.message(
+      'Nubosidad',
+      name: 'cloud',
+      desc: 'Nubosidad',
+      args: [],
+    );
+  }
+
+  /// `Presion`
+  String get pressure {
+    return Intl.message(
+      'Presion',
+      name: 'pressure',
+      desc: 'Presion',
+      args: [],
+    );
+  }
+
+  /// `Precipitacion`
+  String get precipitation {
+    return Intl.message(
+      'Precipitacion',
+      name: 'precipitation',
+      desc: 'Precipitacion',
+      args: [],
+    );
+  }
+
+  /// `Rayos UV`
+  String get uvrays {
+    return Intl.message(
+      'Rayos UV',
+      name: 'uvrays',
+      desc: 'Rayos UV',
+      args: [],
+    );
+  }
+
+  /// `Pronostico Semanal`
+  String get weeklyforecast {
+    return Intl.message(
+      'Pronostico Semanal',
+      name: 'weeklyforecast',
+      desc: 'Pronostico Semanal',
+      args: [],
+    );
+  }
+
+  /// `No hay noticias para esta ciudad, busca otra!`
+  String get nonews {
+    return Intl.message(
+      'No hay noticias para esta ciudad, busca otra!',
+      name: 'nonews',
+      desc: 'No hay noticias para esta ciudad, busca otra!',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
