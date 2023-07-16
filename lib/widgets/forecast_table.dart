@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:weather/models/new_weather_response.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weather/services/weather_api_service.dart';
 
 class ForeCastTable extends StatelessWidget {
   final Forecastday forecast;
@@ -11,9 +13,11 @@ class ForeCastTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final weatherLanguage = Provider.of<WeatherApiService>(context);
     final size = MediaQuery.of(context).size;
     final forecastDate = forecast.date;
-    final dayFormat = DateFormat('EEEE');
+    final dayFormat =
+        DateFormat('EEEE', (weatherLanguage.isEnglish == false) ? 'es' : 'en');
     final dayName = dayFormat.format(forecastDate);
 
     // final weatherCondition = forecast.day.condition.text;

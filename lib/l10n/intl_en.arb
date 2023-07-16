@@ -29,16 +29,8 @@
     "precipitation":"Precipitation",
     "uvrays":" UV rays",
     "weeklyforecast":"Weekly Forecast",
-    "nonews":"Theres no news for this city,look for other city.",
-    "dayNames": {
-        "Monday": "Lunes",
-        "Tuesday": "Martes",
-        "Wednesday": "Miércoles",
-        "Thursday": "Jueves",
-        "Friday": "Viernes",
-        "Saturday": "Sábado",
-        "Sunday": "Domingo"
-      }
+    "nonews":"Theres no news for this city,look for other city."
+  
     
    
 
