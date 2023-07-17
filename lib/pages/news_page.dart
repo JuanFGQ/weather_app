@@ -52,7 +52,8 @@ cargado en la pantalla de busqueda . otherwhise carga el argumento de la pantall
     final newsService = Provider.of<NewsService>(context);
 
     return FutureBuilder(
-        future: newsService.getNewsByFoundedPlace(argumentSelector()),
+        future: newsService.getNewsByFoundedPlace(
+            argumentSelector(), (!weatherServ!.isEnglish) ? 'es' : 'en'),
         builder: (BuildContext context, AsyncSnapshot<NewsResponse> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularIndicator();
@@ -141,15 +142,23 @@ class _NewsViewerState extends State<_NewsViewer>
                 ),
                 margin: const EdgeInsets.only(left: 10),
                 child: (!newSERV!.activeSearch)
-                    ? Text(
-                        '${AppLocalizations.of(context)!.allnews} in ${apiResp.location?.name}',
-                        style: const TextStyle(
-                            overflow: TextOverflow.visible,
-                            fontWeight: FontWeight.w900),
+                    ? SizedBox(
+                        width: size.width * 0.6,
+                        child: Text(
+                          '${AppLocalizations.of(context)!.allnews} ${AppLocalizations.of(context)!.ins} ${apiResp.location?.name}',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              overflow: TextOverflow.visible,
+                              fontWeight: FontWeight.w900),
+                        ),
                       )
-                    : Text(
-                        '${AppLocalizations.of(context)!.allnews} in ${apiResp.foundLocation?.name}',
-                        style: const TextStyle(fontSize: 20),
+                    : SizedBox(
+                        width: size.width * 0.6,
+                        child: Text(
+                          '${AppLocalizations.of(context)!.allnews} ${AppLocalizations.of(context)!.ins} ${apiResp.foundLocation?.name}',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontSize: 20),
+                        ),
                       ),
               ),
               FittedBox(

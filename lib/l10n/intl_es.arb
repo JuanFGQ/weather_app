@@ -129,6 +129,10 @@
 "nonews": "No hay noticias para esta ciudad, busca otra!",
 "@nonews":{
     "description":"No hay noticias para esta ciudad, busca otra!"
+},
+"ins":"en",
+"@in":{
+    "description":"en"
 }
 
 

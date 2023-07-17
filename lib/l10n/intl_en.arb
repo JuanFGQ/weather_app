@@ -29,7 +29,8 @@
     "precipitation":"Precipitation",
     "uvrays":" UV rays",
     "weeklyforecast":"Weekly Forecast",
-    "nonews":"Theres no news for this city,look for other city."
+    "nonews":"Theres no news for this city,look for other city.",
+    "ins":"in"
   
     
    

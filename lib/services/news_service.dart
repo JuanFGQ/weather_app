@@ -60,9 +60,9 @@ class NewsService with ChangeNotifier {
     }
   }
 
-  Future<NewsResponse> getNewsByFoundedPlace(String city) async {
+  Future<NewsResponse> getNewsByFoundedPlace(String city, language) async {
     _apiParams() {
-      return {'apiKey': _apiKey, 'q': city, 'language': 'es'};
+      return {'apiKey': _apiKey, 'q': city, 'language': language};
     }
 
     final uri = Uri.https(_baseUrl, '/v2/everything', _apiParams());
