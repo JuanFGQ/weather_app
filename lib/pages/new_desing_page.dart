@@ -153,7 +153,9 @@ class _NewsDesignPageState extends State<NewsDesignPage>
             Stack(
               // alignment: AlignmentDirectional.topStart,
               children: [
-                const _Background(),
+                _Background(
+                  forecast: widget.currentCOndition,
+                ),
                 Column(
                   // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -243,7 +245,7 @@ class _MenuDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final weatherServ = Provider.of<WeatherApiService>(context);
+    // final weatherServ = Provider.of<WeatherApiService>(context);
 
     return Drawer(
       // shape: ShapeBorder.c,
@@ -623,9 +625,8 @@ class _TemperatureNumber extends StatelessWidget {
 }
 
 class _Background extends StatelessWidget {
-  const _Background({
-    super.key,
-  });
+  final String forecast;
+  const _Background({required this.forecast});
 
   @override
   Widget build(BuildContext context) {
@@ -654,17 +655,42 @@ class _Background extends StatelessWidget {
           blendMode: BlendMode.darken,
           child: Container(
             height: size.height * 0.75,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30)),
                 image: DecorationImage(
-                    image: AssetImage('assets/field-gdc2e8bedd_1280.jpg'),
+                    image: AssetImage(_builBackGroundImage()),
                     fit: BoxFit.fill)),
           ),
         ),
       ),
     ]);
+  }
+
+  String _builBackGroundImage() {
+    final weatherCondition = forecast;
+
+    final Map<String, String> backGrounds = {
+      'Partly cloudy': 'assets/clouds (1).gif',
+      'Heavy rain': ('assets/clouds (1).gif'),
+      'Fuertes lluvias': ('assets/clouds (1).gif'),
+      'Light rain shower': ('assets/clouds (1).gif'),
+      'Lluvia ligera': ('assets/clouds (1).gif'),
+      'Parcialmente nublado': ('assets/clouds (1).gif'),
+      'Patchy rain possible': ('assets/clouds (1).gif'),
+      'Moderate rain': ('assets/clouds (1).gif'),
+      'Lluvia moderada a intervalos': ('assets/clouds (1).gif'),
+      'Moderate or heavy rain shower': ('assets/clouds (1).gif'),
+      'Lluvia fuerte o moderada': ('assets/clouds (1).gif'),
+      'Sunny': ('assets/clouds (1).gif'),
+      'Soleado': ('assets/clouds (1).gif'),
+      'Clear': ('assets/clouds (1).gif'),
+      'Despejado': ('assets/clouds (1).gif'),
+    };
+    return backGrounds.containsKey(weatherCondition)
+        ? backGrounds[backGrounds]!
+        : 'assets/field-gdc2e8bedd_1280.jpg';
   }
 }
 
