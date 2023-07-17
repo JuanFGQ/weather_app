@@ -173,7 +173,7 @@ class _NewsViewerState extends State<_NewsViewer>
                       height: 35,
                       width: 60,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                               topRight: Radius.circular(100),
                               bottomRight: Radius.circular(100)),
                           // color: Colors.white,
@@ -194,7 +194,6 @@ class _NewsViewerState extends State<_NewsViewer>
         Expanded(
           child: SizedBox(
             width: size.width * 1,
-            // color: Colors.red,
             child: ListView.builder(
               shrinkWrap: false,
               itemCount: orderedNews.length,
@@ -219,8 +218,6 @@ class _NewsViewerState extends State<_NewsViewer>
                     index: i,
                     onPressed: () {
                       newsListProvider.selectedItem = i;
-                      // newsListProvider.isSaveButtonPressed = true;
-
                       saveNewsIndex(selNews, i);
                       setState(() {});
                     },
@@ -275,11 +272,7 @@ class _NewsViewerState extends State<_NewsViewer>
       await savedNewsProvider.newSave(
           selNews.url!, selNews.title, selNews.urlToImage, true);
 
-      // newsListProvider!.buttonStates[i];
-
       await savedNewsProvider.loadSavedNews();
-
-      // iconColorForNewsSave = true;
     }
   }
 }

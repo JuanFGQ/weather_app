@@ -113,8 +113,6 @@ class DescriptionNewsCard extends StatelessWidget {
                                 fillColor: Colors.white,
                                 elevation: 5,
                                 child: iconColorForNewsSave ||
-                                        // newsListProvider.isSaveButtonPressed
-                                        // ||
                                         index == newsListProvider.selectedItem
                                     ? const FaIcon(
                                         FontAwesomeIcons.solidHeart,

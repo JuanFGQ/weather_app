@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "feelslike": MessageLookupByLibrary.simpleMessage("Feels like"),
         "home": MessageLookupByLibrary.simpleMessage("home"),
         "humidity": MessageLookupByLibrary.simpleMessage("Humidity"),
+        "ins": MessageLookupByLibrary.simpleMessage("in"),
         "language": MessageLookupByLibrary.simpleMessage("English"),
         "lighttheme": MessageLookupByLibrary.simpleMessage("Light theme"),
         "news": MessageLookupByLibrary.simpleMessage("News "),

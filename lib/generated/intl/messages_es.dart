@@ -35,6 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "feelslike": MessageLookupByLibrary.simpleMessage("Sensacion termica"),
         "home": MessageLookupByLibrary.simpleMessage("Pagina principal"),
         "humidity": MessageLookupByLibrary.simpleMessage("Humedad"),
+        "ins": MessageLookupByLibrary.simpleMessage("en"),
         "language": MessageLookupByLibrary.simpleMessage("Español"),
         "lighttheme": MessageLookupByLibrary.simpleMessage("Tema ligero"),
         "news": MessageLookupByLibrary.simpleMessage("Noticias"),

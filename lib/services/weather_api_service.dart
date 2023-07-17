@@ -20,7 +20,6 @@ class WeatherApiService extends ChangeNotifier {
   final String _key = 'a1f73a2fb6cc40c29eb175425232204';
   final String _aqi = 'no';
   final String _days = '7';
-  final String _lang = 'en';
 
   // final String
   //     _language; //todo: this parameter is to change the search language dinamically

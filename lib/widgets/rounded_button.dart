@@ -22,6 +22,8 @@ class RoundedButton extends StatelessWidget {
         FadeIn(
           delay: const Duration(milliseconds: 1000),
           child: RawMaterialButton(
+            hoverColor: Colors.white38,
+            highlightColor: const Color.fromARGB(188, 96, 125, 139),
             shape: const CircleBorder(),
             onPressed: function,
             fillColor: Colors.white,

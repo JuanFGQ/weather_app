@@ -359,6 +359,16 @@ class S {
       args: [],
     );
   }
+
+  /// `en`
+  String get ins {
+    return Intl.message(
+      'en',
+      name: 'ins',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

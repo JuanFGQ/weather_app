@@ -4,8 +4,6 @@ import 'package:weather/providers/db_provider.dart';
 
 class NewsListProvider extends ChangeNotifier {
   List<SavedNewsModel> news = [];
-  Map<int, bool> buttonStates =
-      {}; //map to store the states of button was pressed and saved
 
   int _selectedItem = -1;
 
@@ -13,15 +11,6 @@ class NewsListProvider extends ChangeNotifier {
 
   set selectedItem(int value) {
     _selectedItem = value;
-    notifyListeners();
-  }
-
-  bool _isSaveButtonPressed = false;
-
-  bool get isSaveButtonPressed => _isSaveButtonPressed;
-
-  set isSaveButtonPressed(bool value) {
-    _isSaveButtonPressed = value;
     notifyListeners();
   }
 
@@ -34,7 +23,6 @@ class NewsListProvider extends ChangeNotifier {
 
     newSave.id = id;
     news.add(newSave);
-    buttonStates[id] = isButtonPressed; //save state of button into the map
     notifyListeners();
 
     return newSave;

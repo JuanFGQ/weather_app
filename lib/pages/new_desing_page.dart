@@ -104,6 +104,21 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     // getPopularPhotos();
   }
 
+  // void _isSavedLocation() async {
+  //   final citiesProvider =
+  //       Provider.of<CitiesListProvider>(context, listen: false);
+
+  //   final listCitiesCopy = List.from(citiesProvider.cities);
+  //   final comparisonText = weatherServ!.location!.name;
+
+  //   for (var element in listCitiesCopy) {
+  //     if (element.title == comparisonText) {
+  //       citiesProvider.isPressedSaveButton = true;
+  //       break;
+  //     }
+  //   }
+  //   citiesProvider.isPressedSaveButton = false;
+  // }
   // Future<void> getPopularPhotos() async {
   //   if (!imageService!.searchText) {
   //     final searchArg =
@@ -521,6 +536,10 @@ class _ActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final saveCitiesProvider =
+        Provider.of<CitiesListProvider>(context, listen: false);
+
+    Function(AnimationController)? animationController;
     return Container(
         // color: Colors.white,
         // margin: EdgeInsets.all(20),
@@ -543,7 +562,19 @@ class _ActionButtons extends StatelessWidget {
                   style: const TextStyle(
                       fontStyle: FontStyle.italic, color: Colors.white)),
               infinite: true,
-              icon: const FaIcon(FontAwesomeIcons.locationDot),
+              icon: Spin(
+                // animate: saveCitiesProvider.isPressedSaveButton,
+                // controller: ,
+                child: const FaIcon(
+                  FontAwesomeIcons.locationDot,
+                ),
+              ),
+              //         color: Colors.red),
+              // (!saveCitiesProvider.isPressedSaveButton)
+              //     ? const FaIcon(FontAwesomeIcons.locationDot,
+              //         color: Colors.black)
+              //     : const FaIcon(FontAwesomeIcons.locationDot,
+              //         color: Colors.red),
               function: saveLocation),
           RoundedButton(
             text: Text(AppLocalizations.of(context)!.refresh,
@@ -643,11 +674,11 @@ class _Background extends StatelessWidget {
               end: Alignment.bottomCenter,
               colors: [
                 Colors.transparent,
-                Color.fromARGB(207, 0, 0, 0),
+                Color.fromARGB(127, 0, 0, 0),
               ],
               stops: [
                 0.0,
-                3.0,
+                1.0,
               ],
               tileMode: TileMode.repeated,
             ).createShader(bounds);
@@ -656,11 +687,13 @@ class _Background extends StatelessWidget {
           child: Container(
             height: size.height * 0.75,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30)),
                 image: DecorationImage(
-                    image: AssetImage(_builBackGroundImage()),
+                    image: AssetImage(_builBackGroundImage()
+                        // _builBackGroundImage()
+                        ),
                     fit: BoxFit.fill)),
           ),
         ),
@@ -672,25 +705,28 @@ class _Background extends StatelessWidget {
     final weatherCondition = forecast;
 
     final Map<String, String> backGrounds = {
-      'Partly cloudy': 'assets/clouds (1).gif',
-      'Heavy rain': ('assets/clouds (1).gif'),
-      'Fuertes lluvias': ('assets/clouds (1).gif'),
-      'Light rain shower': ('assets/clouds (1).gif'),
-      'Lluvia ligera': ('assets/clouds (1).gif'),
-      'Parcialmente nublado': ('assets/clouds (1).gif'),
-      'Patchy rain possible': ('assets/clouds (1).gif'),
-      'Moderate rain': ('assets/clouds (1).gif'),
-      'Lluvia moderada a intervalos': ('assets/clouds (1).gif'),
-      'Moderate or heavy rain shower': ('assets/clouds (1).gif'),
-      'Lluvia fuerte o moderada': ('assets/clouds (1).gif'),
-      'Sunny': ('assets/clouds (1).gif'),
-      'Soleado': ('assets/clouds (1).gif'),
-      'Clear': ('assets/clouds (1).gif'),
-      'Despejado': ('assets/clouds (1).gif'),
+      'Partly cloudy': 'assets/red-lighthouse-g1933290b4_640.jpg',
+      'Parcialmente nublado': 'assets/red-lighthouse-g1933290b4_640.jpg',
+      'niebla moderada': 'assets/fog-g23cb2c869_640.jpg',
+      'Heavy rain': 'assets/mountains-g809c71b53_640.jpg',
+      'Overcast': 'assets/red-lighthouse-g1933290b4_640.jpg',
+      'Fuertes lluvias': 'assets/mountains-g809c71b53_640.jpg',
+      'Light rain shower': 'assets/railing-g65bea1cfd_640.jpg',
+      'Light rain': 'assets/railing-g65bea1cfd_640.jpg',
+      'Lluvia ligera': 'assets/railing-g65bea1cfd_640.jpg',
+      'Patchy rain possible': 'assets/railing-g65bea1cfd_640.jpg',
+      'Moderate rain': 'assets/railing-g65bea1cfd_640.jpg',
+      'Moderate or heavy rain shower': 'assets/mountains-g809c71b53_640.jpg',
+      'Lluvia moderada a intervalos': 'assets/heavy-rain-g4ec8672ac_1280.jpg',
+      'Lluvia fuerte o moderada': 'assets/railing-g65bea1cfd_640.jpg',
+      'Sunny': 'assets/ocean-g87e883915_640.jpg',
+      'Soleado': 'assets/ocean-g87e883915_640.jpg',
+      'Clear': 'assets/phang-nga-bay-g3332dcc82_640.jpg',
+      'Despejado': 'assets/phang-nga-bay-g3332dcc82_640.jpg',
     };
     return backGrounds.containsKey(weatherCondition)
-        ? backGrounds[backGrounds]!
-        : 'assets/field-gdc2e8bedd_1280.jpg';
+        ? backGrounds[weatherCondition]!
+        : 'assets/phang-nga-bay-g3332dcc82_640.jpg';
   }
 }
 

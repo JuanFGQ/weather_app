@@ -89,7 +89,6 @@ class _FoundedLocationState extends State<FoundedLocation> {
                       _refreshWeatherData();
                       localeProvider.languageEnglish = value;
                       localeProvider.languageSpanish = false;
-                      // weatherAPI!.isEnglish = true;
 
                       if (!localeProvider.languageEnglish) {
                         localeProvider.languageSpanish = true;

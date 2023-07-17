@@ -42,6 +42,8 @@ class _HomePageState extends State<HomePage> {
         Provider.of<CitiesListProvider>(context, listen: false);
 
     _loadWeatherData();
+    // citiesListProvider!.loadSavedCities();
+    // _isSavedLocation();
   }
 
   void _loadWeatherData() async {
@@ -52,7 +54,7 @@ class _HomePageState extends State<HomePage> {
     (hasData) ? true : false;
 
 //flag to select argument according to the page
-    imageService!.searchText = false;
+    // imageService!.searchText = false;
 
     stream.sink.add(hasData);
   }
@@ -65,6 +67,19 @@ class _HomePageState extends State<HomePage> {
     Navigator.pushNamed(context, 'home');
     setState(() {});
   }
+
+  // void _isSavedLocation() async {
+  //   final listCitiesCopy = List.from(citiesListProvider!.cities);
+  //   final comparisonText = await weatherApi!.location!.name;
+
+  //   for (var element in listCitiesCopy) {
+  //     if (element.title == comparisonText) {
+  //       citiesListProvider!.isPressedSaveButton = true;
+  //       break;
+  //     }
+  //   }
+  //   citiesListProvider!.isPressedSaveButton = false;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +117,9 @@ class _HomePageState extends State<HomePage> {
             isVisibleButton: true,
             saveLocationButton: () {
               saveInFavouritePlaces(apiResp);
+              setState(() {
+                citiesListProvider!.isPressedSaveButton = true;
+              });
             },
             refreshButton: _refreshWeatherData,
             newsButton: () {
@@ -109,12 +127,8 @@ class _HomePageState extends State<HomePage> {
                 newsService!.activeSearch = false;
               });
               ShowModalBottomSheet(context);
-
-              // Navigator.pushNamed(context, 'news');
             },
-            // locCountryColor: Colors.blue,
-            // appBarColors: Colors.blue,
-            // scaffoldColor: Colors.blue,
+
             title: apiResp.location?.name ?? '?',
 
             lastUpdateDate:
@@ -158,6 +172,7 @@ class _HomePageState extends State<HomePage> {
     for (var element in cityListCopy) {
       if (element.title == comparisonText) {
         foundMatch = true;
+        saveCitiesProvider.isPressedSaveButton = true;
 // ignore: use_build_context_synchronously
         showDialog(
           context: context,
@@ -191,6 +206,8 @@ class _HomePageState extends State<HomePage> {
       );
 
       await saveCitiesProvider.loadSavedCities();
+
+      // saveCitiesProvider.isPressedSaveButton = false;
     }
   }
 
