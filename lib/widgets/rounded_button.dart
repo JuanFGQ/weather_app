@@ -21,17 +21,12 @@ class RoundedButton extends StatelessWidget {
       children: [
         FadeIn(
           delay: const Duration(milliseconds: 1000),
-          child: Bounce(
-            delay: const Duration(milliseconds: 800),
-            from: 6,
-            infinite: infinite,
-            child: RawMaterialButton(
-              shape: const CircleBorder(),
-              onPressed: function,
-              fillColor: Colors.white,
-              elevation: 5,
-              child: icon,
-            ),
+          child: RawMaterialButton(
+            shape: const CircleBorder(),
+            onPressed: function,
+            fillColor: Colors.white,
+            elevation: 5,
+            child: icon,
           ),
         ),
         ZoomIn(delay: Duration(milliseconds: 1000), child: text!)
