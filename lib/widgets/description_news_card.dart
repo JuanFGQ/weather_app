@@ -48,7 +48,8 @@ class DescriptionNewsCard extends StatelessWidget {
                     blurRadius: 3.0,
                     color: Color.fromARGB(255, 48, 43, 43))
               ]),
-              margin: const EdgeInsets.all(10),
+              margin: const EdgeInsets.only(
+                  top: 10, bottom: 10, left: 10, right: 5),
               width: size.width * 0.35,
               height: size.height * 0.18,
               child: (news.urlToImage != null &&
@@ -70,8 +71,8 @@ class DescriptionNewsCard extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              margin: const EdgeInsets.only(right: 10),
-              height: size.height * 0.16,
+              margin: const EdgeInsets.only(right: 5),
+              height: size.height * 0.17,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -81,6 +82,7 @@ class DescriptionNewsCard extends StatelessWidget {
                   Flexible(
                     child: Text(
                       news.title,
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
                           overflow: TextOverflow.visible,
                           // fontSize: 18,
