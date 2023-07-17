@@ -16,13 +16,12 @@ class ForeCastTable extends StatelessWidget {
     final weatherLanguage = Provider.of<WeatherApiService>(context);
     final size = MediaQuery.of(context).size;
     final forecastDate = forecast.date;
-    final dayFormat =
+    final dayFormatName =
         DateFormat('EEEE', (weatherLanguage.isEnglish == false) ? 'es' : 'en');
-    final dayName = dayFormat.format(forecastDate);
-
-    // final weatherCondition = forecast.day.condition.text;
-
-// final translatedDayName = AppLocalizations.of(context).
+    final dayName = dayFormatName.format(forecastDate).toUpperCase();
+    final dayFormatNumber =
+        DateFormat('MMMMd', (weatherLanguage.isEnglish == false) ? 'es' : 'en');
+    final dayNumber = dayFormatNumber.format(forecastDate);
 
     return Expanded(
         child: Container(
@@ -56,13 +55,26 @@ class ForeCastTable extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Container(
-                margin: const EdgeInsets.all(10),
-                child: Text(
-                  dayName,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                )),
+            Column(
+              children: [
+                Container(
+                    margin: const EdgeInsets.only(
+                        top: 10, bottom: 4, left: 10, right: 10),
+                    child: Text(
+                      dayName,
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
+                    )),
+                Container(
+                    margin:
+                        const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                    child: Text(
+                      dayNumber,
+                      style: const TextStyle(
+                          fontSize: 12, fontWeight: FontWeight.bold),
+                    )),
+              ],
+            ),
             Container(
               margin: const EdgeInsets.all(5),
               child: Text(
