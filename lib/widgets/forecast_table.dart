@@ -22,19 +22,10 @@ class ForeCastTable extends StatelessWidget {
         DateFormat('MMMMd', (weatherLanguage.isEnglish == false) ? 'es' : 'en');
     final dayNumber = dayFormatNumber.format(forecastDate);
 
-    return Expanded(
-        child: Container(
+    return Container(
       margin: const EdgeInsets.all(5),
       width: size.width * 0.50,
       decoration: BoxDecoration(
-        // gradient: const LinearGradient(
-        //     begin: Alignment.bottomLeft,
-        //     end: Alignment.bottomRight,
-        //     colors: [
-        //       Color.fromARGB(255, 19, 86, 140),
-        //       Color.fromARGB(255, 85, 194, 245),
-        //       Color.fromARGB(255, 56, 172, 172)
-        //     ]),
         borderRadius: BorderRadius.circular(30),
         color: Colors.white,
         boxShadow: const [
@@ -91,19 +82,17 @@ class ForeCastTable extends StatelessWidget {
                   margin: const EdgeInsets.only(left: 20),
                   child: Stack(
                     children: [
-                      Positioned(
-                          top: -4,
-                          child: Container(
-                            margin: const EdgeInsets.all(5),
-                            child: const Text(
-                              'AVG',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic),
-                            ),
-                          )),
-                      const Spacer(),
+                      Container(
+                        margin: const EdgeInsets.all(5),
+                        child: const Text(
+                          'AVG',
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                      // const Spacer(),
                       Text(
                         '${forecast.day.avgtempC}º',
                         style: const TextStyle(
@@ -143,7 +132,7 @@ class ForeCastTable extends StatelessWidget {
           ],
         ),
       ),
-    ));
+    );
   }
 
   Widget _buildWeatherIcon() {
@@ -199,45 +188,3 @@ class _SubIconsInfo extends StatelessWidget {
     );
   }
 }
-
-// "dayNames": {
-//     "Monday": "Lunes",
-//     "@Monday":{
-//         "description":"Lunes"
-//     },
-//     "Tuesday": "Martes",
-//     "@Tuesday":{
-//         "description":"Martes"
-//     },
-//     "Wednesday": "Miércoles",
-//     "@Wednesday":{
-//         "description":"Miércoles"
-//     },
-//     "Thursday": "Jueves",
-//     "@Thursday":{
-//         "description":"Jueves"
-//     },
-//     "Friday": "Viernes",
-//     "@Friday":{
-//         "description":"Viernes"
-//     },
-//     "Saturday": "Sábado",
-//     "@Saturday":{
-//         "description":"Sábado"
-//     },
-//     "Sunday": "Domingo",
-//     "@Sunday":{
-//         "description":"Domingo"
-//     }
-//   }
-
-
-// "dayNames": {
-    //   "Monday": "Lunes",
-    //   "Tuesday": "Martes",
-    //   "Wednesday": "Miércoles",
-    //   "Thursday": "Jueves",
-    //   "Friday": "Viernes",
-    //   "Saturday": "Sábado",
-    //   "Sunday": "Domingo"
-    // }

@@ -7,7 +7,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../providers/providers.dart';
 import '../services/services.dart';
-import '../widgets/description_news_card.dart';
 import '../widgets/widgets.dart';
 import 'pages.dart';
 
