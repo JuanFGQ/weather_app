@@ -1,4 +1,4 @@
-import '../mapBox_response.dart';
+import 'mapbox_response.dart';
 
 class Feature {
   Feature({

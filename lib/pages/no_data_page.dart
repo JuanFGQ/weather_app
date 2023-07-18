@@ -14,8 +14,8 @@ class NoDataPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FaIcon(FontAwesomeIcons.faceSadCry,
-                size: 80, color: const Color.fromARGB(220, 158, 158, 158)),
+            const FaIcon(FontAwesomeIcons.faceSadCry,
+                size: 80, color: Color.fromARGB(220, 158, 158, 158)),
             const SizedBox(height: 30),
             const Text('There is no news for this city,look for other city.',
                 textAlign: TextAlign.center,
@@ -29,13 +29,13 @@ class NoDataPage extends StatelessWidget {
                   elevation: 10,
                   fillColor: Colors.yellow,
                   shape: const CircleBorder(),
-                  child: FaIcon(FontAwesomeIcons.magnifyingGlassLocation),
+                  child: const FaIcon(FontAwesomeIcons.magnifyingGlassLocation),
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                WeatherSearchCity()));
+                                const WeatherSearchCity()));
                   }),
             )
           ],

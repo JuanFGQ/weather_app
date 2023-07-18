@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/pages/gps_access_page.dart';
-import 'package:weather/pages/home_page.dart';
-import 'package:weather/services/geolocator_service.dart';
 
-import '../providers/news_list_provider.dart';
+import '../providers/providers.dart';
+import '../services/services.dart';
+import 'pages.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({super.key});

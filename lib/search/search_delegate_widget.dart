@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/services/mapBox_service.dart';
+import 'package:weather/services/mapbox_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 
 import '../models/mapbox/Feature.dart';
@@ -76,8 +76,8 @@ class _BuildResults extends StatelessWidget {
             final city = featureMethod[index];
 
             return ListTile(
-              leading: FaIcon(FontAwesomeIcons.mountainCity,
-                  color: const Color.fromARGB(197, 158, 158, 158)),
+              leading: const FaIcon(FontAwesomeIcons.mountainCity,
+                  color: Color.fromARGB(197, 158, 158, 158)),
               title: Text(city.placeName),
               onTap: () {
                 final newCoords = city.center;
@@ -104,6 +104,7 @@ class _BuildResults extends StatelessWidget {
 
 Widget _emptyContainer() {
   return const Center(
+    // ignore: deprecated_member_use
     child: FaIcon(FontAwesomeIcons.search, color: Colors.blue, size: 50),
   );
 }

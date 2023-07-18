@@ -1,16 +1,15 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/models/news/articles_info.dart';
-import 'package:weather/models/news/news_response.dart';
-import 'package:weather/pages/no_data_page.dart';
-import 'package:weather/providers/news_list_provider.dart';
-import 'package:weather/services/news_service.dart';
-import 'package:weather/services/weather_api_service.dart';
-import 'package:weather/widgets/circular_progress_indicator.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../models/models.dart';
+import '../providers/providers.dart';
+import '../services/services.dart';
 import '../widgets/description_news_card.dart';
+import '../widgets/widgets.dart';
+import 'pages.dart';
 
 class NewsPage extends StatefulWidget {
   const NewsPage({super.key});
@@ -125,7 +124,7 @@ class _NewsViewerState extends State<_NewsViewer>
         Column(
       children: [
         Container(
-          margin: EdgeInsets.all(15),
+          margin: const EdgeInsets.all(15),
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(30)),
               color: Colors.white,

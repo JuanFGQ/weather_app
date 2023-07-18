@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather/helpers/debouncer.dart';
-import 'package:weather/models/mapBox_response.dart';
+import 'package:weather/models/mapbox/mapbox_response.dart';
 
 import '../models/mapbox/Feature.dart';
 

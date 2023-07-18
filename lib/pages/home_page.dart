@@ -3,17 +3,13 @@ import 'dart:async';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/pages/new_desing_page.dart';
-import 'package:weather/providers/cities_list_provider.dart';
-import 'package:weather/services/geolocator_service.dart';
-import 'package:weather/services/image_service.dart';
-import 'package:weather/services/news_service.dart';
-import 'package:weather/services/weather_api_service.dart';
-import 'package:weather/widgets/modal_bottomSheet.dart';
 
 import '../providers/localization_provider.dart';
-import '../widgets/circular_progress_indicator.dart';
-import '../widgets/home_widget.dart';
+import '../providers/providers.dart';
+import '../services/services.dart';
+import '../widgets/modal_bottomsheet.dart';
+import '../widgets/widgets.dart';
+import 'pages.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -136,7 +132,7 @@ class _HomePageState extends State<HomePage> {
             lastUpdateTime:
                 apiResp.current?.lastUpdated.substring(10, 16) ?? '?',
             locationCountry: apiResp.location?.country ?? '?',
-            currentCOndition: '${apiResp.current?.condition.text ?? '?'}',
+            currentCOndition: apiResp.current?.condition.text ?? '?',
             currentFeelsLikeNumber:
                 '${apiResp.current?.feelslikeC.toString()}º',
             windData: '${apiResp.current?.windKph ?? '?'} km/h',
@@ -201,7 +197,7 @@ class _HomePageState extends State<HomePage> {
         '${apiResp.current!.feelslikeC}º',
         apiResp.location!.name,
         apiResp.current!.lastUpdated,
-        '${apiResp.current!.condition.text}',
+        apiResp.current!.condition.text,
         coords,
       );
 

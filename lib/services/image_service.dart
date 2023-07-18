@@ -28,7 +28,7 @@ class ImageService extends ChangeNotifier {
     final params = {
       'method': 'flickr.photos.search',
       'api_key': _apiKey,
-      'text': '${ciudad} ciudad',
+      'text': '$ciudad ciudad',
       'format': 'json',
       'sort': 'interestingness-asc',
       'nojsoncallback': '1',

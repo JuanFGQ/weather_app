@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/models/new_weather_response.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weather/models/weather/new_weather_response.dart';
 import 'package:weather/services/weather_api_service.dart';
 
 class ForeCastTable extends StatelessWidget {
   final Forecastday forecast;
 
-  ForeCastTable({super.key, required this.forecast});
+  const ForeCastTable({super.key, required this.forecast});
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +105,7 @@ class ForeCastTable extends StatelessWidget {
                           )),
                       const Spacer(),
                       Text(
-                        forecast.day.avgtempC.toString() + 'º',
+                        '${forecast.day.avgtempC}º',
                         style: const TextStyle(
                             fontSize: 65, fontWeight: FontWeight.bold),
                       ),
@@ -151,29 +150,30 @@ class ForeCastTable extends StatelessWidget {
     final weatherCondition = forecast.day.condition.text;
 
     final Map<String, Image> weatherIcons = {
-      'Partly cloudy': Image(image: AssetImage('assets/clouds (1).gif')),
-      'Heavy rain': Image(image: AssetImage('assets/storm.gif')),
-      'Fuertes lluvias': Image(image: AssetImage('assets/storm.gif')),
-      'Light rain shower': Image(image: AssetImage('assets/rain.gif')),
-      'Lluvia ligera': Image(image: AssetImage('assets/rain.gif')),
-      'Parcialmente nublado': Image(image: AssetImage('assets/clouds (1).gif')),
-      'Patchy rain possible': Image(image: AssetImage('assets/rain (1).gif')),
-      'Moderate rain': Image(image: AssetImage('assets/rain (1).gif')),
+      'Partly cloudy': const Image(image: AssetImage('assets/clouds (1).gif')),
+      'Heavy rain': const Image(image: AssetImage('assets/storm.gif')),
+      'Fuertes lluvias': const Image(image: AssetImage('assets/storm.gif')),
+      'Light rain shower': const Image(image: AssetImage('assets/rain.gif')),
+      'Lluvia ligera': const Image(image: AssetImage('assets/rain.gif')),
+      'Parcialmente nublado':
+          const Image(image: AssetImage('assets/clouds (1).gif')),
+      'Patchy rain possible':
+          const Image(image: AssetImage('assets/rain (1).gif')),
       'Lluvia moderada a intervalos':
-          Image(image: AssetImage('assets/rain (1).gif')),
+          const Image(image: AssetImage('assets/rain (1).gif')),
       'Moderate or heavy rain shower':
-          Image(image: AssetImage('assets/rain (1).gif')),
+          const Image(image: AssetImage('assets/rain (1).gif')),
       'Lluvia fuerte o moderada':
-          Image(image: AssetImage('assets/rain (1).gif')),
-      'Sunny': Image(image: AssetImage('assets/sun.gif')),
-      'Soleado': Image(image: AssetImage('assets/sun.gif')),
-      'Clear': Image(image: AssetImage('assets/rainbow.gif')),
-      'Despejado': Image(image: AssetImage('assets/rainbow.gif')),
+          const Image(image: AssetImage('assets/rain (1).gif')),
+      'Sunny': const Image(image: AssetImage('assets/sun.gif')),
+      'Soleado': const Image(image: AssetImage('assets/sun.gif')),
+      'Clear': const Image(image: AssetImage('assets/rainbow.gif')),
+      'Despejado': const Image(image: AssetImage('assets/rainbow.gif')),
     };
 
     return weatherIcons.containsKey(weatherCondition)
         ? weatherIcons[weatherCondition]!
-        : Image(image: AssetImage('assets/clouds (1).gif'));
+        : const Image(image: AssetImage('assets/clouds (1).gif'));
   }
 }
 
@@ -181,12 +181,12 @@ class _SubIconsInfo extends StatelessWidget {
   final Widget icon;
   final String text;
 
-  const _SubIconsInfo({super.key, required this.icon, required this.text});
+  const _SubIconsInfo({required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5),
+      margin: const EdgeInsets.all(5),
       child: Row(
         children: [
           icon,

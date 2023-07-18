@@ -4,17 +4,12 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:weather/pages/new_desing_page.dart';
-import 'package:weather/services/geolocator_service.dart';
-import 'package:weather/services/news_service.dart';
-import 'package:weather/services/weather_api_service.dart';
-import 'package:weather/widgets/circular_progress_indicator.dart';
-import 'package:weather/widgets/home_widget.dart';
 
-import '../providers/cities_list_provider.dart';
-import '../providers/localization_provider.dart';
-import '../services/image_service.dart';
-import '../widgets/modal_bottomSheet.dart';
+import '../providers/providers.dart';
+import '../services/services.dart';
+import '../widgets/modal_bottomsheet.dart';
+import '../widgets/widgets.dart';
+import 'pages.dart';
 
 class FoundedLocation extends StatefulWidget {
   const FoundedLocation({super.key});
@@ -125,7 +120,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
                             '?',
                     locationCountry: apiResp.foundLocation?.country ?? '?',
                     currentCOndition:
-                        '${apiResp.foundCurrent?.condition.text ?? '?'}',
+                        apiResp.foundCurrent?.condition.text ?? '?',
                     currentFeelsLikeNumber:
                         '${apiResp.foundCurrent?.feelslikeC.toString()}º',
                     windData: '${apiResp.foundCurrent?.windKph ?? '?'} km/h',
@@ -194,7 +189,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
           '${apiResp.foundCurrent!.feelslikeC}º',
           apiResp.foundLocation!.name,
           apiResp.foundCurrent!.lastUpdated,
-          '${apiResp.foundCurrent!.condition.text}',
+          apiResp.foundCurrent!.condition.text,
           weatherAPI!.coords);
 
       await saveCitiesProvider.loadSavedCities();

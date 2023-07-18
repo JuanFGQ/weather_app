@@ -1,9 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/new_weather_response.dart';
+import '../models/weather/new_weather_response.dart';
 // import 'package:weather/models/weather/currten_weather_api.dart';
 // import 'package:weather/models/weather/location_weather.dart';
 // import 'package:weather/models/weather/weather_api_response.dart';
@@ -50,7 +48,7 @@ class WeatherApiService extends ChangeNotifier {
   // Stream get foundPlaces => _foundPlaces.stream;
 
   getFoundPlacesInfo(String coords) async {
-    _apiParams() {
+    apiParams() {
       return {
         'key': _key,
         'q': coords,
@@ -60,7 +58,7 @@ class WeatherApiService extends ChangeNotifier {
       };
     }
 
-    final uri = Uri.https(_baseUrl, 'v1/forecast.json', _apiParams());
+    final uri = Uri.https(_baseUrl, 'v1/forecast.json', apiParams());
     final resp = await http.get(uri);
 
     if (resp.statusCode == 200) {
@@ -77,7 +75,7 @@ class WeatherApiService extends ChangeNotifier {
   }
 
   getInfoWeatherLocation(String coords) async {
-    _apiParams() {
+    apiParams() {
       return {
         'key': _key,
         'q': coords,
@@ -87,7 +85,7 @@ class WeatherApiService extends ChangeNotifier {
       };
     }
 
-    final uri = Uri.https(_baseUrl, 'v1/forecast.json', _apiParams());
+    final uri = Uri.https(_baseUrl, 'v1/forecast.json', apiParams());
 
     final resp = await http.get(uri);
 
@@ -99,7 +97,6 @@ class WeatherApiService extends ChangeNotifier {
 
       forecast = weatherResp.forecast.forecastday;
 
-      print(forecast);
       return true;
     } else {
       return false;

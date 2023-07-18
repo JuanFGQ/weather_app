@@ -1,31 +1,19 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/models/State_management.dart';
 import 'package:weather/notifications/local_notifications.dart';
-import 'package:weather/pages/founded_location_page.dart';
-import 'package:weather/pages/gps_access_page.dart';
-import 'package:weather/pages/home_page.dart';
-import 'package:weather/pages/loading_page.dart';
-import 'package:weather/pages/new_desing_page.dart';
-import 'package:weather/pages/news_page.dart';
 import 'package:weather/preferences/share_prefs.dart';
-import 'package:weather/providers/cities_list_provider.dart';
-import 'package:weather/providers/localization_provider.dart';
-import 'package:weather/providers/news_list_provider.dart';
-import 'package:weather/services/geolocator_service.dart';
-import 'package:weather/services/image_service.dart';
-import 'package:weather/services/mapBox_service.dart';
-import 'package:weather/services/news_service.dart';
-import 'package:weather/services/weather_api_service.dart';
-import 'package:weather/theme/theme_changer.dart';
 
 import 'l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'pages/pages.dart';
+import 'providers/providers.dart';
+import 'services/services.dart';
 
 void main() async {
   //making sure the process can pass
@@ -61,13 +49,11 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => WeatherApiService()),
         ChangeNotifierProvider(create: (_) => NewsService(), lazy: false),
         ChangeNotifierProvider(create: (_) => ImageService()),
-        ChangeNotifierProvider(create: (_) => StateManagement()),
         ChangeNotifierProvider(create: (_) => NewsListProvider()),
         ChangeNotifierProvider(create: (_) => CitiesListProvider()),
         ChangeNotifierProvider(create: (_) => LocalizationProvider()),
-        ChangeNotifierProvider(create: (_) => ThemeChanger(0)),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     );
   }
 }
@@ -83,12 +69,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: 'loading',
       routes: {
-        'home': (_) => const HomePage(),
-        'founded': (_) => const FoundedLocation(),
         'loading': (_) => const LoadingPage(),
-        'gps': (_) => const GpsAccessScreen(),
-        'news': (_) => const NewsPage(),
-        // 'ND': (_) => NewsDesignPage()
       },
       // theme: appTheme,
       supportedLocales: L10n.all,

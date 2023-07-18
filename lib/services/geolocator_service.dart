@@ -65,7 +65,6 @@ class GeolocatorService extends ChangeNotifier {
         final statusStream = (event.index == 1) ? true : false;
         gpsEnabled = statusStream;
 
-        print(statusStream);
         _loadingData.sink.add(statusStream);
       },
     );
@@ -88,6 +87,8 @@ class GeolocatorService extends ChangeNotifier {
         isPermissionGranted = false;
         openAppSettings();
         break;
+      case PermissionStatus.provisional:
+        break;
     }
   }
 
@@ -107,8 +108,5 @@ class GeolocatorService extends ChangeNotifier {
         _isPermissionGrant(),
       ],
     );
-
-    // _gpsEnabled = generalLocatioState[0];
-    // _isPermissionGranted = generalLocatioState[1];
   }
 }

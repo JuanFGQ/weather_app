@@ -22,6 +22,7 @@ class RefreshPage extends StatelessWidget {
                 duration: const Duration(milliseconds: 5000),
                 infinite: true,
                 child: const FaIcon(
+                  // ignore: deprecated_member_use
                   FontAwesomeIcons.refresh,
                   size: 18,
                 ),

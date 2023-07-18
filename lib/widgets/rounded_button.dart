@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class RoundedButton extends StatelessWidget {
   final void Function()? function;
   final bool infinite;
@@ -31,7 +32,7 @@ class RoundedButton extends StatelessWidget {
             child: icon,
           ),
         ),
-        ZoomIn(delay: Duration(milliseconds: 1000), child: text!)
+        ZoomIn(delay: const Duration(milliseconds: 1000), child: text!)
       ],
     );
   }

@@ -184,12 +184,22 @@ class Condition {
 }
 
 enum WeatherConditions {
+  // ignore: constant_identifier_names
   PARTLY_CLOUDY,
+  // ignore: constant_identifier_names
+
+  // ignore: constant_identifier_names
   HEAVY_RAIN,
+
+  // ignore: constant_identifier_names
   LIGHT_RAIN_SHOWER,
+  // ignore: constant_identifier_names
   PATCHY_RAIN_POSSIBLE,
+  // ignore: constant_identifier_names
   SUNNY,
+  // ignore: constant_identifier_names
   MODERATE_OR_HEAVY_RAIN_SHOWER,
+  // ignore: constant_identifier_names
   CLEAR
 }
 

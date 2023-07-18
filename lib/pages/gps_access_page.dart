@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/pages/home_page.dart';
-import 'package:weather/services/geolocator_service.dart';
+
+import '../services/services.dart';
+import 'pages.dart';
 
 class GpsAccessScreen extends StatefulWidget {
   const GpsAccessScreen({super.key});
@@ -59,41 +60,3 @@ class _EnableGpsMessage extends StatelessWidget {
     return const Center(child: Text('Debe habilitar la ubicacion'));
   }
 }
-
-class _DisableGpsMessage extends StatelessWidget {
-  const _DisableGpsMessage();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('disable gps'),
-    );
-  }
-}
-
-
-
-// if (!snapshot.hasData) {
-//             return _DisableGpsMessage();
-//           } else if (snapshot.data!) {
-//             // `!` is used to mark `data` as non-null
-//             return _AccessButton(); // Show this widget when the data is `true`
-//           } else {
-//             return _EnableGpsMessage(); // Show this widget when the data is `false`
-//           }
-
-
-
-// StreamBuilder(
-//         stream: locationService.loadingData,
-//         builder: (BuildContext context, AsyncSnapshot snapshot) {
-//           if (!snapshot.hasData) {
-//             return Text('no hay data');
-//           } else if (snapshot.data!) {
-//             // `!` is used to mark `data` as non-null
-//             return _AccessButton(); // Show this widget when the data is `true`
-//           } else {
-//             return _EnableGpsMessage(); // Show this widget when the data is `false`
-//           }
-//         },
-//       ),

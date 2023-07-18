@@ -1,25 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:weather/models/saved_cities_model.dart';
+import 'package:weather/models/database/saved_cities_model.dart';
 import 'package:weather/providers/db_provider.dart';
 
 class CitiesListProvider extends ChangeNotifier {
   List<SavedCitiesModel> cities = [];
-  // int _selectedItem = -1;
-
-  // int get selectedItem => _selectedItem;
-
-  // set selectedItem(int value) {
-  //   _selectedItem = value;
-  //   notifyListeners();
-  // }
-
-  // int _selectedCity = -1;
-  // int get selectedCity => _selectedCity;
-
-  // set selectedCity(int value) {
-  //   _selectedCity = value;
-  //   notifyListeners();
-  // }
 
   bool _isPressedSaveButton = false;
 

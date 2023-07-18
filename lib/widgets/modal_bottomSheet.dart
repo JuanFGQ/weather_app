@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../pages/news_page.dart';
 
+// ignore: non_constant_identifier_names
 void ShowModalBottomSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
@@ -11,9 +12,9 @@ void ShowModalBottomSheet(BuildContext context) {
     barrierColor: Colors.transparent,
     builder: (context) {
       return Container(
-        margin: EdgeInsets.all(8),
+        margin: const EdgeInsets.all(8),
         child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           child: BackdropFilter(
             filter: ImageFilter.blur(
               sigmaX: 8.0,
@@ -22,7 +23,7 @@ void ShowModalBottomSheet(BuildContext context) {
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white12,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
                 border: Border.all(
                   color: Colors.black26,
                   width: 0.5,
@@ -49,7 +50,7 @@ void ShowModalBottomSheet(BuildContext context) {
                       ),
                     ),
                   ),
-                  Expanded(child: NewsPage()),
+                  const Expanded(child: NewsPage()),
                 ],
               ),
             ),

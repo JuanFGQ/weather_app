@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:weather/models/saved_news_model.dart';
+import 'package:weather/models/database/saved_news_model.dart';
 
-import '../models/saved_cities_model.dart';
+import '../models/database/saved_cities_model.dart';
+
+// ignore: depend_on_referenced_packages
+import 'package:path/path.dart';
 
 class DBprovider {
   static Database? _database;

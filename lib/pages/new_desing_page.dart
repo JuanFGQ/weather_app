@@ -1,28 +1,15 @@
-import 'dart:math';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/pages/news_page.dart';
-import 'package:weather/widgets/forecast_table.dart';
-import 'package:weather/widgets/info_table.dart';
 
-import '../models/new_weather_response.dart';
-import '../models/saved_cities_model.dart';
-import '../models/saved_news_model.dart';
-import '../providers/cities_list_provider.dart';
-import '../providers/localization_provider.dart';
-import '../providers/news_list_provider.dart';
+import '../models/models.dart';
+import '../providers/providers.dart';
 import '../search/search_delegate_widget.dart';
-import '../services/image_service.dart';
-import '../services/news_service.dart';
-import '../services/weather_api_service.dart';
-import '../theme/theme_changer.dart';
-import '../widgets/gradient_text_widget.dart';
-import '../widgets/rounded_button.dart';
+import '../services/services.dart';
+import '../widgets/widgets.dart';
 
 class NewsDesignPage extends StatefulWidget {
   final String title;
@@ -84,7 +71,7 @@ class NewsDesignPage extends StatefulWidget {
 
 class _NewsDesignPageState extends State<NewsDesignPage>
     with TickerProviderStateMixin {
-  GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
   List<String> popularPhotos = [];
   String searchText = '';
 
@@ -101,43 +88,6 @@ class _NewsDesignPageState extends State<NewsDesignPage>
 // load saved cities and news list before homewidget was build, this to see list in expansionTile widget
     loadCities.loadSavedCities();
     loadNews.loadSavedNews();
-    // getPopularPhotos();
-  }
-
-  // void _isSavedLocation() async {
-  //   final citiesProvider =
-  //       Provider.of<CitiesListProvider>(context, listen: false);
-
-  //   final listCitiesCopy = List.from(citiesProvider.cities);
-  //   final comparisonText = weatherServ!.location!.name;
-
-  //   for (var element in listCitiesCopy) {
-  //     if (element.title == comparisonText) {
-  //       citiesProvider.isPressedSaveButton = true;
-  //       break;
-  //     }
-  //   }
-  //   citiesProvider.isPressedSaveButton = false;
-  // }
-  // Future<void> getPopularPhotos() async {
-  //   if (!imageService!.searchText) {
-  //     final searchArg =
-  //         '${weatherServ!.location?.name} ${weatherServ!.location?.country}';
-  //     searchText = searchArg;
-  //   } else {
-  //     final foundArg =
-  //         '${weatherServ!.foundLocation?.name} ${weatherServ!.foundLocation?.country}';
-  //     searchText = foundArg;
-  //   }
-
-  //   final photos = await imageService!.findPhotos(searchText);
-
-  //   imageService!.urlImages = photos;
-  // }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -147,7 +97,6 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     final citiesListProvider = Provider.of<CitiesListProvider>(context);
     final citiesListP = citiesListProvider.cities;
     final localeProvider = Provider.of<LocalizationProvider>(context);
-    final appTheme = Provider.of<ThemeChanger>(context);
 
     final size = MediaQuery.of(context).size;
 
@@ -160,19 +109,16 @@ class _NewsDesignPageState extends State<NewsDesignPage>
           size: size,
           citiesListP: citiesListP,
           newsListP: newsListP,
-          appTheme: appTheme,
           localeProvider: localeProvider,
         ),
         body: Column(
           children: [
             Stack(
-              // alignment: AlignmentDirectional.topStart,
               children: [
                 _Background(
                   forecast: widget.currentCOndition,
                 ),
                 Column(
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     _HeaderWidget(
                       onpressed: () {
@@ -180,12 +126,10 @@ class _NewsDesignPageState extends State<NewsDesignPage>
                       },
                       location: widget.title,
                     ),
-                    Container(
-                      child: _TemperatureNumber(
-                        tempNumber: widget.temperatureData,
-                      ),
+                    _TemperatureNumber(
+                      tempNumber: widget.temperatureData,
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     _WeatherState(
                       weatherState: widget.currentCOndition,
                     ),
@@ -195,7 +139,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
                       newsButton: widget.newsButton,
                       refreshPage: widget.refreshButton,
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     _InfoTableList(
                       size: size,
                       feelsLikeData: widget.feelsLikeData,
@@ -213,7 +157,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
               ],
             ),
             Container(
-              margin: EdgeInsets.only(left: 20, right: 20),
+              margin: const EdgeInsets.only(left: 20, right: 20),
               child: const Row(
                 // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -240,11 +184,9 @@ class _NewsDesignPageState extends State<NewsDesignPage>
 
 class _MenuDrawer extends StatelessWidget {
   const _MenuDrawer({
-    super.key,
     required this.size,
     required this.citiesListP,
     required this.newsListP,
-    required this.appTheme,
     required this.localeProvider,
     this.onChangedEnglish,
     this.onChangedSpanish,
@@ -253,7 +195,6 @@ class _MenuDrawer extends StatelessWidget {
   final Size size;
   final List<SavedCitiesModel> citiesListP;
   final List<SavedNewsModel> newsListP;
-  final ThemeChanger appTheme;
   final LocalizationProvider localeProvider;
   final void Function(bool)? onChangedEnglish;
   final void Function(bool)? onChangedSpanish;
@@ -319,32 +260,7 @@ class _MenuDrawer extends StatelessWidget {
                 )
               ],
             ),
-            // ExpansionTile(
-            //     childrenPadding: const EdgeInsets.only(left: 30),
-            //     leading: const FaIcon(FontAwesomeIcons.paintRoller),
-            //     title: Text(AppLocalizations.of(context)!.themes),
-            //     children: [
-            //       ListTile(
-            //           leading: const Icon(Icons.format_paint_outlined),
-            //           title: Text(AppLocalizations.of(context)!.darktheme),
-            //           onTap: () {},
-            //           trailing: Switch.adaptive(
-            //               value: appTheme.darkTheme,
-            //               activeColor: Colors.pink,
-            //               onChanged: (value) {
-            //                 appTheme.darkTheme = value;
-            //               })),
-            //       ListTile(
-            //           leading: const Icon(Icons.format_paint_outlined),
-            //           title: Text(AppLocalizations.of(context)!.lighttheme),
-            //           onTap: () {},
-            //           trailing: Switch.adaptive(
-            //               value: appTheme.customTheme,
-            //               activeColor: Colors.red,
-            //               onChanged: (value) {
-            //                 appTheme.customTheme = value;
-            //               })),
-            //     ]),
+
             ExpansionTile(
               childrenPadding: const EdgeInsets.only(left: 30),
               leading: const FaIcon(FontAwesomeIcons.language),
@@ -359,17 +275,7 @@ class _MenuDrawer extends StatelessWidget {
                   trailing: Switch.adaptive(
                       value: localeProvider.languageEnglish,
                       activeColor: Colors.amber,
-                      onChanged: onChangedEnglish
-                      // (value) {
-                      //   localeProvider.languageEnglish = value;
-                      //   weatherServ.isEnglish = true;
-                      //   localeProvider.languageSpanish = false;
-
-                      //   if (!localeProvider.languageEnglish) {
-                      //     localeProvider.languageSpanish = true;
-                      //   }
-                      // },
-                      ),
+                      onChanged: onChangedEnglish),
                 ),
                 ListTile(
                   leading: const Image(
@@ -379,17 +285,7 @@ class _MenuDrawer extends StatelessWidget {
                   title: Text(AppLocalizations.of(context)!.spanish),
                   trailing: Switch.adaptive(
                       value: localeProvider.languageSpanish,
-                      onChanged: onChangedSpanish
-                      // (value) {
-                      //   localeProvider.languageSpanish = value;
-                      //   weatherServ.isEnglish = false;
-
-                      //   localeProvider.languageEnglish = false;
-                      //   if (!localeProvider.languageSpanish) {
-                      //     localeProvider.languageEnglish = true;
-                      //   }
-                      // },
-                      ),
+                      onChanged: onChangedSpanish),
                 ),
               ],
             ),
@@ -409,16 +305,13 @@ class _MenuDrawer extends StatelessWidget {
 
 class _ForeCastTable extends StatelessWidget {
   final List<Forecastday> forecast;
-  const _ForeCastTable({super.key, required this.forecast});
+  const _ForeCastTable({required this.forecast});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.only(top: 2, left: 10, right: 10, bottom: 10),
-        // color: Colors.red,
-        // height: size.height * 0.3,
-        // width: double.infinity,
+        margin: const EdgeInsets.only(top: 2, left: 10, right: 10, bottom: 10),
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: forecast.length,
@@ -448,7 +341,6 @@ class _InfoTableList extends StatelessWidget {
   final String uvRays;
 
   const _InfoTableList({
-    super.key,
     required this.size,
     required this.windData,
     required this.humidityData,
@@ -466,7 +358,7 @@ class _InfoTableList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       // color: Colors.red,
       width: double.infinity,
       height: size.height * 0.18,
@@ -477,42 +369,42 @@ class _InfoTableList extends StatelessWidget {
               image: 'wind.gif',
               title: (AppLocalizations.of(context)!.wind),
               percentage: windData),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           InfoTable(
               image: 'drop.gif',
               title: (AppLocalizations.of(context)!.humidity),
               percentage: humidityData),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           InfoTable(
               image: 'view.gif',
               title: (AppLocalizations.of(context)!.visibility),
               percentage: visibilityData),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           InfoTable(
               image: 'windy.gif',
               title: (AppLocalizations.of(context)!.winddirection),
               percentage: windDirectionData),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           InfoTable(
               image: 'temperature.gif',
               title: (AppLocalizations.of(context)!.temperature),
               percentage: temperatureData),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           InfoTable(
               image: 'hot.gif',
               title: (AppLocalizations.of(context)!.feelslike),
               percentage: feelsLikeData),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           InfoTable(
               image: 'drizzle.gif',
               title: (AppLocalizations.of(context)!.precipitation),
               percentage: precipitation),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           InfoTable(
               image: 'gauge.gif',
               title: (AppLocalizations.of(context)!.pressure),
               percentage: pressure),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           InfoTable(
               image: 'sun (1).gif',
               title: (AppLocalizations.of(context)!.uvrays),
@@ -528,7 +420,6 @@ class _ActionButtons extends StatelessWidget {
   final void Function()? refreshPage;
   final void Function()? newsButton;
   const _ActionButtons({
-    super.key,
     this.saveLocation,
     this.refreshPage,
     this.newsButton,
@@ -536,15 +427,7 @@ class _ActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final saveCitiesProvider =
-        Provider.of<CitiesListProvider>(context, listen: false);
-
-    Function(AnimationController)? animationController;
-    return Container(
-        // color: Colors.white,
-        // margin: EdgeInsets.all(20),
-        // color: Colors.white,
-        child: FittedBox(
+    return FittedBox(
       fit: BoxFit.contain,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -581,6 +464,7 @@ class _ActionButtons extends StatelessWidget {
                 style: const TextStyle(
                     fontStyle: FontStyle.italic, color: Colors.white)),
             infinite: true,
+            // ignore: deprecated_member_use
             icon: const FaIcon(FontAwesomeIcons.refresh),
             function: refreshPage,
           ),
@@ -589,6 +473,7 @@ class _ActionButtons extends StatelessWidget {
                 style: const TextStyle(
                     fontStyle: FontStyle.italic, color: Colors.white)),
             infinite: true,
+            // ignore: deprecated_member_use
             icon: const FaIcon(FontAwesomeIcons.search),
             function: () => Navigator.push(
                 context,
@@ -598,21 +483,20 @@ class _ActionButtons extends StatelessWidget {
           ),
         ],
       ),
-    ));
+    );
   }
 }
 
 class _WeatherState extends StatelessWidget {
   final String weatherState;
   const _WeatherState({
-    super.key,
     required this.weatherState,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(left: 20),
+        margin: const EdgeInsets.only(left: 20),
         alignment: Alignment.centerLeft,
         child: Text(weatherState,
             style: const TextStyle(
@@ -625,12 +509,12 @@ class _WeatherState extends StatelessWidget {
 class _TemperatureNumber extends StatelessWidget {
   final String tempNumber;
 
-  const _TemperatureNumber({super.key, required this.tempNumber});
+  const _TemperatureNumber({required this.tempNumber});
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(left: 20),
+      margin: const EdgeInsets.only(left: 20),
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           final screenWidth = constraints.maxWidth;
@@ -746,7 +630,7 @@ class _HeaderWidget extends StatelessWidget {
         children: [
           const FaIcon(FontAwesomeIcons.locationDot, color: Colors.white),
           const SizedBox(width: 18),
-          Container(
+          SizedBox(
             width: size.width * 0.65,
             child: Text(location,
                 textScaleFactor: 1,
@@ -801,7 +685,7 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
     final weather = Provider.of<WeatherApiService>(context);
 
     return Container(
-      margin: EdgeInsets.all(6),
+      margin: const EdgeInsets.all(6),
       decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(10),
@@ -850,7 +734,7 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
             : FadeIn(
                 delay: const Duration(milliseconds: 100),
                 child: Container(
-                  margin: EdgeInsets.all(2),
+                  margin: const EdgeInsets.all(2),
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -939,8 +823,7 @@ class _SavedNewsCardState extends State<_SavedNewsCard> {
                 color: Colors.grey, offset: Offset(0.0, 1.0), blurRadius: 6.0)
           ]),
       child: ListTile(
-        leading: Container(
-          // color: Colors.blue,
+        leading: SizedBox(
           height: 50,
           width: 50,
           child: (widget.saveNews.urlToImage.isNotEmpty &&
@@ -965,21 +848,18 @@ class _SavedNewsCardState extends State<_SavedNewsCard> {
             },
             child: Text(widget.saveNews.title)),
         trailing: (!deleteNews)
-            ? Container(
-                // color: Colors.red,
-                child: GestureDetector(
-                    onTap: () {
-                      deleteNews = true;
-                      setState(() {});
-                    },
-                    child: FadeIn(
-                      delay: const Duration(milliseconds: 200),
-                      child: const FaIcon(
-                        FontAwesomeIcons.trashCan,
-                        size: 20,
-                      ),
-                    )),
-              )
+            ? GestureDetector(
+                onTap: () {
+                  deleteNews = true;
+                  setState(() {});
+                },
+                child: FadeIn(
+                  delay: const Duration(milliseconds: 200),
+                  child: const FaIcon(
+                    FontAwesomeIcons.trashCan,
+                    size: 20,
+                  ),
+                ))
             : FadeIn(
                 delay: const Duration(milliseconds: 100),
                 child: Container(
