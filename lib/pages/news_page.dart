@@ -47,6 +47,7 @@ cargado en la pantalla de busqueda . otherwhise carga el argumento de la pantall
 
   @override
   Widget build(BuildContext context) {
+    print('NEWS PAGE BUILD');
     final newsService = Provider.of<NewsService>(context);
 
     return FutureBuilder(

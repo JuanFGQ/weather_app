@@ -14,6 +14,7 @@ class GpsAccessScreen extends StatefulWidget {
 class _GpsAccessScreenState extends State<GpsAccessScreen> {
   @override
   Widget build(BuildContext context) {
+    print('GPS BUILD');
     final locationService = Provider.of<GeolocatorService>(context);
 
     return Scaffold(

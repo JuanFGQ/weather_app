@@ -70,6 +70,7 @@ class MyApp extends StatelessWidget {
       initialRoute: 'loading',
       routes: {
         'loading': (_) => const LoadingPage(),
+        'founded': (_) => const FoundedLocation(),
       },
       // theme: appTheme,
       supportedLocales: L10n.all,

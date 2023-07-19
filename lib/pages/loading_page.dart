@@ -18,11 +18,11 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   void initState() {
     super.initState();
-    newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
   }
 
   @override
   Widget build(BuildContext context) {
+    print('LOADING PAGE BUILD');
     final geolocatorService = Provider.of<GeolocatorService>(context);
 
     return Scaffold(

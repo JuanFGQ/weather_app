@@ -17,20 +17,6 @@ class NewsService with ChangeNotifier {
     notifyListeners();
   }
 
-  //*********************************************************** */
-
-  final StreamController<dynamic> _streamHomePage =
-      StreamController<dynamic>.broadcast();
-
-  Stream get streamHomePage => _streamHomePage.stream;
-  //*********************************************************** */
-
-  final StreamController<dynamic> _streamFoundPage =
-      StreamController<dynamic>.broadcast();
-
-  Stream get streamFoundPage => _streamFoundPage.stream;
-  //*********************************************************** */
-
   final String _baseUrl = 'newsapi.org';
   final String _apiKey = '2a9b8b7fb27348e8a959c3d43b8fc3e1';
 

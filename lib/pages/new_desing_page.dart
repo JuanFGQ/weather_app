@@ -92,6 +92,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
 
   @override
   Widget build(BuildContext context) {
+    print('NEW DESIGN PAGE BUILD');
     final newsListProvider = Provider.of<NewsListProvider>(context);
     final newsListP = newsListProvider.news;
     final citiesListProvider = Provider.of<CitiesListProvider>(context);
@@ -363,6 +364,7 @@ class _InfoTableList extends StatelessWidget {
       width: double.infinity,
       height: size.height * 0.18,
       child: ListView(
+        // itemExtent: size.height * 0.18,
         scrollDirection: Axis.horizontal,
         children: [
           InfoTable(

@@ -22,17 +22,13 @@ class _FoundedLocationState extends State<FoundedLocation> {
   final streamFound = StreamController<dynamic>();
 
   WeatherApiService? weatherAPI;
-  GeolocatorService? geolocSERV;
   NewsService? newSERV;
-  ImageService? imageService;
 
   @override
   void initState() {
     super.initState();
     weatherAPI = Provider.of<WeatherApiService>(context, listen: false);
-    geolocSERV = Provider.of<GeolocatorService>(context, listen: false);
     newSERV = Provider.of<NewsService>(context, listen: false);
-    imageService = Provider.of<ImageService>(context, listen: false);
 
     _loadDataFounded();
   }
@@ -45,7 +41,6 @@ class _FoundedLocationState extends State<FoundedLocation> {
     await (hasData) ? true : false;
 
 //flag to select argument according to the page
-    imageService!.searchText = true;
 
     streamFound.sink.add(hasData);
   }
@@ -60,6 +55,7 @@ class _FoundedLocationState extends State<FoundedLocation> {
 
   @override
   Widget build(BuildContext context) {
+    print('FOUNDED LOCATION BUILD');
     final weatherData = Provider.of<WeatherApiService>(context);
 
     final apiResp = weatherData;

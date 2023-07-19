@@ -9,6 +9,7 @@ class RefreshPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('REFRESH PAGE BUILD');
     return Scaffold(
       body: Center(
         child: Column(

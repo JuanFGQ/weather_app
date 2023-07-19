@@ -23,7 +23,6 @@ class _HomePageState extends State<HomePage> {
   WeatherApiService? weatherApi;
   GeolocatorService? geolocatorService;
   NewsService? newsService;
-  ImageService? imageService;
   CitiesListProvider? citiesListProvider;
 
   @override
@@ -32,13 +31,10 @@ class _HomePageState extends State<HomePage> {
     weatherApi = Provider.of<WeatherApiService>(context, listen: false);
     geolocatorService = Provider.of<GeolocatorService>(context, listen: false);
     newsService = Provider.of<NewsService>(context, listen: false);
-    imageService = Provider.of<ImageService>(context, listen: false);
     citiesListProvider =
         Provider.of<CitiesListProvider>(context, listen: false);
 
     _loadWeatherData();
-    // citiesListProvider!.loadSavedCities();
-    // _isSavedLocation();
   }
 
   void _loadWeatherData() async {
@@ -47,9 +43,6 @@ class _HomePageState extends State<HomePage> {
     final hasData = await weatherApi!.getInfoWeatherLocation(coords);
 
     (hasData) ? true : false;
-
-//flag to select argument according to the page
-    // imageService!.searchText = false;
 
     stream.sink.add(hasData);
   }
@@ -63,21 +56,9 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
-  // void _isSavedLocation() async {
-  //   final listCitiesCopy = List.from(citiesListProvider!.cities);
-  //   final comparisonText = await weatherApi!.location!.name;
-
-  //   for (var element in listCitiesCopy) {
-  //     if (element.title == comparisonText) {
-  //       citiesListProvider!.isPressedSaveButton = true;
-  //       break;
-  //     }
-  //   }
-  //   citiesListProvider!.isPressedSaveButton = false;
-  // }
-
   @override
   Widget build(BuildContext context) {
+    print('HOMEPAGE BUILD');
     final weatherAPI = Provider.of<WeatherApiService>(context);
     final apiResp = weatherAPI;
     final localeProvider = Provider.of<LocalizationProvider>(context);
@@ -154,8 +135,6 @@ class _HomePageState extends State<HomePage> {
     final saveCitiesProvider =
         Provider.of<CitiesListProvider>(context, listen: false);
 
-    // final imagesProvider = Provider.of<ImageService>(context, listen: false);
-
     await saveCitiesProvider.loadSavedCities();
 
     final cityListCopy = List.from(saveCitiesProvider.cities);
@@ -201,14 +180,16 @@ class _HomePageState extends State<HomePage> {
       );
 
       await saveCitiesProvider.loadSavedCities();
-
-      // saveCitiesProvider.isPressedSaveButton = false;
     }
   }
 
   @override
   void dispose() {
     stream.close();
+    weatherApi?.dispose();
+    geolocatorService?.dispose();
+    newsService?.dispose();
+    citiesListProvider?.dispose();
     super.dispose();
   }
 }
