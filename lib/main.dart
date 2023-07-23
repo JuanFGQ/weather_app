@@ -21,7 +21,7 @@ void main() async {
   //initialating sharePreferences
   await Preferences.init();
 
-//initialing notificationa
+//initialing notifications
 
   await initNotifications();
 
@@ -70,9 +70,6 @@ class MyApp extends StatelessWidget {
       routes: {
         'loading': (_) => const LoadingPage(),
         'ND': (_) => const NewsDesignPage(),
-
-        // 'founded': (_) => const FoundedLocation(),
-        // 'home': (_) => const HomePage(),
       },
       // theme: appTheme,
       supportedLocales: L10n.all,

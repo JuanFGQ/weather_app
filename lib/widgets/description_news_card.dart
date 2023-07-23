@@ -39,17 +39,6 @@ class DescriptionNewsCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(60),
             child: Container(
-              // TODO: erased temporaly for test
-              // decoration: BoxDecoration(
-              //   color: Colors.blue[200],
-              //   boxShadow: const [
-              //     BoxShadow(
-              //       offset: Offset(0.0, 1.0),
-              //       blurRadius: 3.0,
-              //       color: Color.fromARGB(255, 48, 43, 43),
-              //     )
-              //   ],
-              // ),
               margin: const EdgeInsets.only(
                   top: 10, bottom: 10, left: 10, right: 5),
               width: size.width * 0.35,
