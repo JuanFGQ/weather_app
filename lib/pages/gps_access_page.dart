@@ -14,6 +14,8 @@ class GpsAccessScreen extends StatefulWidget {
 class _GpsAccessScreenState extends State<GpsAccessScreen> {
   @override
   Widget build(BuildContext context) {
+    //aqui tambien deberia tener un stream por que tengo que estar atento a si el usuario desactiva la ubicacion
+    //que no este limitado solo cuando la app inicia
     print('GPS BUILD');
     final locationService = Provider.of<GeolocatorService>(context);
 
@@ -22,7 +24,7 @@ class _GpsAccessScreenState extends State<GpsAccessScreen> {
             ? const _EnableGpsMessage()
             : (!locationService.isPermissionGranted)
                 ? const _AccessButton()
-                : const HomePage());
+                : const NewsDesignPage());
   }
 }
 

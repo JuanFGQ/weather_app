@@ -19,9 +19,6 @@ class WeatherApiService extends ChangeNotifier {
   final String _aqi = 'no';
   final String _days = '7';
 
-  // final String
-  //     _language; //todo: this parameter is to change the search language dinamically
-
   String _coords = '';
 
   WeatherApiService(
@@ -40,38 +37,6 @@ class WeatherApiService extends ChangeNotifier {
   set isEnglish(bool value) {
     _isEnglish = value;
     notifyListeners();
-  }
-
-  // final StreamController<dynamic> _foundPlaces =
-  //     StreamController<dynamic>.broadcast();
-
-  // Stream get foundPlaces => _foundPlaces.stream;
-
-  getFoundPlacesInfo(String coords) async {
-    apiParams() {
-      return {
-        'key': _key,
-        'q': coords,
-        'aqi': _aqi,
-        'days': _days,
-        'lang': (isEnglish) ? 'en' : 'es',
-      };
-    }
-
-    final uri = Uri.https(_baseUrl, 'v1/forecast.json', apiParams());
-    final resp = await http.get(uri);
-
-    if (resp.statusCode == 200) {
-      final weatherResp = weatherResponseFromJson(resp.body);
-
-      foundCurrent = weatherResp.current;
-      foundLocation = weatherResp.location;
-      forecast = weatherResp.forecast.forecastday;
-
-      return true;
-    } else {
-      return false;
-    }
   }
 
   getInfoWeatherLocation(String coords) async {

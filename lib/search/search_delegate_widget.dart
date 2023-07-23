@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/services/mapbox_service.dart';
+import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 
 import '../models/mapbox/Feature.dart';
@@ -30,14 +31,9 @@ class _WeatherSearchCityState extends State<WeatherSearchCity> {
               });
             },
             decoration: const InputDecoration(
-                // suffixIcon: FaIcon(FontAwesomeIcons.treeCity),
-                // prefixIcon: FaIcon(FontAwesomeIcons.searchengin),
-                // icon: FaIcon(FontAwesomeIcons.city),
                 labelStyle: TextStyle(fontWeight: FontWeight.bold),
                 label: Text('Search city'),
-                // hintText: 'Search city',
                 border: InputBorder.none,
-                // enabledBorder: OutlineInputBorder(),
                 focusedBorder: UnderlineInputBorder()),
           ),
         ),
@@ -55,18 +51,19 @@ class _BuildResults extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (query.isEmpty) {
-      return _emptyContainer();
+      return const EmptyContainer();
     }
 
     final mapBoxSearch = Provider.of<MapBoxService>(context, listen: false);
     final weather = Provider.of<WeatherApiService>(context);
+    final newsService = Provider.of<NewsService>(context);
 
     mapBoxSearch.getSuggestionByQuery(query);
 
     return StreamBuilder(
       stream: mapBoxSearch.suggestedCity,
       builder: (_, AsyncSnapshot<List<Feature>> snapshot) {
-        if (!snapshot.hasData) return _emptyContainer();
+        if (!snapshot.hasData) return const EmptyContainer();
 
         final featureMethod = snapshot.data!;
 
@@ -80,6 +77,7 @@ class _BuildResults extends StatelessWidget {
                   color: Color.fromARGB(197, 158, 158, 158)),
               title: Text(city.placeName),
               onTap: () {
+                newsService.activeSearch = true;
                 final newCoords = city.center;
 
                 final cord1 = newCoords[1].toString();
@@ -90,7 +88,7 @@ class _BuildResults extends StatelessWidget {
 
                 Navigator.pushNamed(
                   context,
-                  'founded',
+                  'ND',
                 );
                 getInfoSelectedCIty(city);
               },
@@ -100,13 +98,6 @@ class _BuildResults extends StatelessWidget {
       },
     );
   }
-}
-
-Widget _emptyContainer() {
-  return const Center(
-    // ignore: deprecated_member_use
-    child: FaIcon(FontAwesomeIcons.search, color: Colors.blue, size: 50),
-  );
 }
 
 void getInfoSelectedCIty(Feature item) {
@@ -127,31 +118,48 @@ class __BuildSuggestionsState extends State<_BuildSuggestions> {
   @override
   Widget build(BuildContext context) {
     if (Preferences.history.isEmpty) {
-      return _emptyContainer();
+      return const EmptyContainer();
     }
     final weather = Provider.of<WeatherApiService>(context);
+    final newsService = Provider.of<NewsService>(context);
 
     return ListView.builder(
-        itemCount: Preferences.history.length,
-        itemBuilder: (context, int index) {
-          final placeName = Preferences.history[index];
-          return ListTile(
-            leading: const FaIcon(FontAwesomeIcons.clockRotateLeft),
-            title: Text(placeName),
-            trailing: IconButton(
-                onPressed: () {
-                  Preferences.history.removeAt(index);
-                  setState(() {});
-                },
-                icon: const Icon(Icons.clear)),
-            onTap: () {
-              final arg = Preferences.history[index];
-              weather.coords = arg;
-              Navigator.pushNamed(context, 'founded');
+      itemCount: Preferences.history.length,
+      itemBuilder: (context, int index) {
+        final placeName = Preferences.history[index];
+        return ListTile(
+          leading: const FaIcon(FontAwesomeIcons.clockRotateLeft),
+          title: Text(placeName),
+          trailing: IconButton(
+              onPressed: () {
+                Preferences.history.removeAt(index);
+                // setState(() {});
+              },
+              icon: const Icon(Icons.clear)),
+          onTap: () {
+            newsService.activeSearch = true;
+            final arg = Preferences.history[index];
+            weather.coords = arg;
+            // Navigator.pushNamed(context, 'founded');
 
-              //lo que tengo que hacer aqui es hacer otra llamada a la API  enviando el argumento guardado
-            },
-          );
-        });
+            //todo: activeSearch en true para hacer el cambio de argumentos en el NewDesignPage
+
+            //lo que tengo que hacer aqui es hacer otra llamada a la API  enviando el argumento guardado
+          },
+        );
+      },
+    );
+  }
+}
+
+class EmptyContainer extends StatelessWidget {
+  const EmptyContainer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      // ignore: deprecated_member_use
+      child: FaIcon(FontAwesomeIcons.search, color: Colors.blue, size: 50),
+    );
   }
 }

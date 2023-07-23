@@ -48,7 +48,6 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => GeolocatorService(), lazy: false),
         ChangeNotifierProvider(create: (_) => WeatherApiService()),
         ChangeNotifierProvider(create: (_) => NewsService(), lazy: false),
-        ChangeNotifierProvider(create: (_) => ImageService()),
         ChangeNotifierProvider(create: (_) => NewsListProvider()),
         ChangeNotifierProvider(create: (_) => CitiesListProvider()),
         ChangeNotifierProvider(create: (_) => LocalizationProvider()),
@@ -70,8 +69,10 @@ class MyApp extends StatelessWidget {
       initialRoute: 'loading',
       routes: {
         'loading': (_) => const LoadingPage(),
-        'founded': (_) => const FoundedLocation(),
-        'home': (_) => const HomePage(),
+        'ND': (_) => const NewsDesignPage(),
+
+        // 'founded': (_) => const FoundedLocation(),
+        // 'home': (_) => const HomePage(),
       },
       // theme: appTheme,
       supportedLocales: L10n.all,

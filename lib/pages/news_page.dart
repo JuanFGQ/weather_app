@@ -26,24 +26,22 @@ class _NewsPageState extends State<NewsPage> {
     super.initState();
     newsService = Provider.of<NewsService>(context, listen: false);
     weatherServ = Provider.of<WeatherApiService>(context, listen: false);
-
-    // argumentSelector();
   }
 
-  String argumentSelector() {
+  // String argumentSelector() {
 /*
 simplemente al iniciar verifica el estado de la variable si es verdadera me retorna el argumento 
 cargado en la pantalla de busqueda . otherwhise carga el argumento de la pantalla home 
 */
 
-    if (!newsService!.activeSearch) {
-      final homeArg = weatherServ!.location!.name;
-      return homeArg;
-    } else {
-      final foundArg = weatherServ!.foundLocation!.name;
-      return foundArg;
-    }
-  }
+  //   if (!newsService!.activeSearch) {
+  //     final homeArg = weatherServ!.location!.name;
+  //     return homeArg;
+  //   } else {
+  //     final foundArg = weatherServ!.foundLocation!.name;
+  //     return foundArg;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +49,8 @@ cargado en la pantalla de busqueda . otherwhise carga el argumento de la pantall
     final newsService = Provider.of<NewsService>(context);
 
     return FutureBuilder(
-        future: newsService.getNewsByFoundedPlace(
-            argumentSelector(), (!weatherServ!.isEnglish) ? 'es' : 'en'),
+        future: newsService.getNewsByFoundedPlace(weatherServ!.location!.name,
+            (!weatherServ!.isEnglish) ? 'es' : 'en'),
         builder: (BuildContext context, AsyncSnapshot<NewsResponse> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularIndicator();
@@ -93,8 +91,8 @@ class _NewsViewerState extends State<_NewsViewer>
     newSERV = Provider.of<NewsService>(context, listen: false);
 
     newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
-    orderedNews = List.from(widget
-        .news); //here i match the instanceS of the list created with the list i receive in class arguments
+    orderedNews = List.from(widget.news);
+    //here i match the instanceS of the list created with the list i receive in class arguments
 
     orderNewsByDate();
     newsListProvider.loadSavedNews(); // load all saved news before widget build
@@ -117,11 +115,7 @@ class _NewsViewerState extends State<_NewsViewer>
     final weatherAPI = Provider.of<WeatherApiService>(context);
     final apiResp = weatherAPI;
 
-    return
-        // Scaffold(
-        //   body: SafeArea(
-        // child:
-        Column(
+    return Column(
       children: [
         Container(
           margin: const EdgeInsets.all(15),
@@ -208,19 +202,15 @@ class _NewsViewerState extends State<_NewsViewer>
                   }
                 }
 
-                return ElasticIn(
-                  delay: const Duration(milliseconds: 200),
-                  duration: const Duration(milliseconds: 500),
-                  child: DescriptionNewsCard(
-                    iconColorForNewsSave: isNewSaved,
-                    news: orderedNews[i],
-                    index: i,
-                    onPressed: () {
-                      newsListProvider.selectedItem = i;
-                      saveNewsIndex(selNews, i);
-                      setState(() {});
-                    },
-                  ),
+                return DescriptionNewsCard(
+                  iconColorForNewsSave: isNewSaved,
+                  news: orderedNews[i],
+                  index: i,
+                  onPressed: () {
+                    newsListProvider.selectedItem = i;
+                    saveNewsIndex(selNews, i);
+                    setState(() {});
+                  },
                 );
               },
             ),

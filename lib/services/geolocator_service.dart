@@ -26,10 +26,10 @@ class GeolocatorService extends ChangeNotifier {
   }
 //********************************************* */
 
-  final StreamController<bool> _refreshLocation =
-      StreamController<bool>.broadcast();
+  // final StreamController<bool> _refreshLocation =
+  //     StreamController<bool>.broadcast();
 
-  Stream get refreshLocation => _refreshLocation.stream;
+  // Stream get refreshLocation => _refreshLocation.stream;
 //********************************************* */
   final StreamController<bool> _loadingData =
       StreamController<bool>.broadcast();

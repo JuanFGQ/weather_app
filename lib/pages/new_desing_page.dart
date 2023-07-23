@@ -1,69 +1,23 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'dart:async';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/pages/loading_page.dart';
 
 import '../models/models.dart';
 import '../providers/providers.dart';
 import '../search/search_delegate_widget.dart';
 import '../services/services.dart';
+import '../widgets/modal_bottomsheet.dart';
 import '../widgets/widgets.dart';
 
 class NewsDesignPage extends StatefulWidget {
-  final String title;
-  final String lastUpdateDate;
-  final String lastUpdateTime;
-  final String locationCountry;
-  final String currentCOndition;
-  final String currentFeelsLikeNumber;
-  final String windData;
-  final String humidityData;
-
-  final String visibilityData;
-  final String windDirectionData;
-  final String temperatureData;
-  final String feelsLikeData;
-  final String precipitation;
-  final String pressure;
-  final String uvRays;
-
-  final void Function()? newsButton;
-  final void Function()? saveLocationButton;
-
-  final void Function()? refreshButton;
-
-  final void Function(bool)? onChangedEnglish;
-  final void Function(bool)? onChangedSpanish;
-
-  final bool isVisibleButton;
-  const NewsDesignPage(
-      {super.key,
-      required this.title,
-      required this.lastUpdateDate,
-      required this.lastUpdateTime,
-      required this.locationCountry,
-      required this.currentCOndition,
-      required this.currentFeelsLikeNumber,
-      required this.windData,
-      required this.humidityData,
-      required this.visibilityData,
-      required this.windDirectionData,
-      required this.temperatureData,
-      required this.feelsLikeData,
-      // required this.scaffoldColor,
-      // required this.appBarColors,
-      // required this.locCountryColor,
-      this.newsButton,
-      this.saveLocationButton,
-      this.refreshButton,
-      required this.isVisibleButton,
-      this.onChangedEnglish,
-      this.onChangedSpanish,
-      required this.precipitation,
-      required this.pressure,
-      required this.uvRays});
+  const NewsDesignPage({
+    super.key,
+  });
 
   @override
   State<NewsDesignPage> createState() => _NewsDesignPageState();
@@ -71,53 +25,84 @@ class NewsDesignPage extends StatefulWidget {
 
 class _NewsDesignPageState extends State<NewsDesignPage>
     with TickerProviderStateMixin {
-  final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
-  List<String> popularPhotos = [];
-  String searchText = '';
-
-  ImageService? imageService;
+  NewsService? newsServ;
   WeatherApiService? weatherServ;
+  GeolocatorService? geolocatorService;
+  CitiesListProvider? citiesListProvider;
 
   @override
   void initState() {
     super.initState();
+    newsServ = Provider.of<NewsService>(context, listen: false);
+    citiesListProvider =
+        Provider.of<CitiesListProvider>(context, listen: false);
     weatherServ = Provider.of<WeatherApiService>(context, listen: false);
+    geolocatorService = Provider.of<GeolocatorService>(context, listen: false);
 
     final loadNews = Provider.of<NewsListProvider>(context, listen: false);
     final loadCities = Provider.of<CitiesListProvider>(context, listen: false);
-// load saved cities and news list before homewidget was build, this to see list in expansionTile widget
     loadCities.loadSavedCities();
     loadNews.loadSavedNews();
+    // _loadData();
+    _superSearchInfo();
+  }
+
+  Future _superSearchInfo() async {
+    String actualLocationCoords = await geolocatorService!.getCurrentLocation();
+
+    final searhCityCoords = weatherServ!.coords;
+
+    final coords =
+        (!newsServ!.activeSearch) ? actualLocationCoords : searhCityCoords;
+
+    final hasData = await weatherServ!.getInfoWeatherLocation(coords);
+
+    return hasData;
   }
 
   @override
   Widget build(BuildContext context) {
     print('NEW DESIGN PAGE BUILD');
-    final newsListProvider = Provider.of<NewsListProvider>(context);
-    final newsListP = newsListProvider.news;
-    final citiesListProvider = Provider.of<CitiesListProvider>(context);
-    final citiesListP = citiesListProvider.cities;
-    final localeProvider = Provider.of<LocalizationProvider>(context);
 
-    final size = MediaQuery.of(context).size;
+    return FutureBuilder(
+        future: _superSearchInfo(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularIndicator();
+          } else {
+            return _WeatherWidget();
+          }
+        });
+  }
+}
+
+class _WeatherWidget extends StatefulWidget {
+  @override
+  State<_WeatherWidget> createState() => _WeatherWidgetState();
+}
+
+class _WeatherWidgetState extends State<_WeatherWidget> {
+  @override
+  Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+    final weatherAPI = Provider.of<WeatherApiService>(context);
+    final newsService = Provider.of<NewsService>(context);
+
+    final apiResp = weatherAPI;
+    // final newsService = Provider.of<NewsService>(context);
+    final citiesListProvider =
+        Provider.of<CitiesListProvider>(context, listen: false);
 
     return Scaffold(
-        // backgroundColor: Color.fromARGB(255, 198, 199, 172),
         key: _globalKey,
-        drawer: _MenuDrawer(
-          onChangedEnglish: widget.onChangedEnglish,
-          onChangedSpanish: widget.onChangedSpanish,
-          size: size,
-          citiesListP: citiesListP,
-          newsListP: newsListP,
-          localeProvider: localeProvider,
-        ),
+        drawer: _MenuDrawer(),
         body: Column(
           children: [
             Stack(
               children: [
                 _Background(
-                  forecast: widget.currentCOndition,
+                  // forecast: widget.currentCOndition,
+                  condition: apiResp.current!.condition.text,
                 ),
                 Column(
                   children: [
@@ -125,33 +110,40 @@ class _NewsDesignPageState extends State<NewsDesignPage>
                       onpressed: () {
                         _globalKey.currentState!.openDrawer();
                       },
-                      location: widget.title,
+                      location: apiResp.location!.name,
                     ),
                     _TemperatureNumber(
-                      tempNumber: widget.temperatureData,
+                      tempNumber: '${apiResp.current?.feelslikeC.toString()}º',
                     ),
                     const SizedBox(height: 20),
                     _WeatherState(
-                      weatherState: widget.currentCOndition,
+                      weatherState: apiResp.current!.condition.text,
                     ),
-                    // SizedBox(height: 100),
                     _ActionButtons(
-                      saveLocation: widget.saveLocationButton,
-                      newsButton: widget.newsButton,
-                      refreshPage: widget.refreshButton,
+                      saveLocation: () {
+                        saveInFavouritePlaces(apiResp);
+                        citiesListProvider.isPressedSaveButton = true;
+                      },
+                      newsButton: () {
+                        ShowModalBottomSheet(context);
+                      },
+                      refreshPage: () {
+                        newsService.activeSearch = false;
+                        Navigator.pushNamed(context, 'ND');
+                      },
                     ),
                     const SizedBox(height: 20),
                     _InfoTableList(
-                      size: size,
-                      feelsLikeData: widget.feelsLikeData,
-                      humidityData: widget.humidityData,
-                      temperatureData: widget.temperatureData,
-                      visibilityData: widget.visibilityData,
-                      windData: widget.windData,
-                      windDirectionData: widget.windDirectionData,
-                      precipitation: widget.precipitation,
-                      pressure: widget.pressure,
-                      uvRays: widget.uvRays,
+                      feelsLikeData:
+                          '${apiResp.current?.feelslikeC.toString()}º',
+                      humidityData: '${apiResp.current?.humidity ?? '?'}%',
+                      temperatureData: '${apiResp.current?.tempC ?? '?'} º',
+                      visibilityData: '${apiResp.current?.visKm ?? '?'} km/h ',
+                      windData: '${apiResp.current?.windKph ?? '?'} km/h',
+                      windDirectionData: apiResp.current?.windDir ?? '?',
+                      precipitation: '${apiResp.current?.precipIn ?? '?'}%',
+                      pressure: '${apiResp.current?.pressureMb ?? '?'}mb',
+                      uvRays: '${apiResp.current?.uv ?? '?'}',
                     ),
                   ],
                 ),
@@ -176,36 +168,80 @@ class _NewsDesignPageState extends State<NewsDesignPage>
               ),
             ),
             _ForeCastTable(
-              forecast: weatherServ!.forecast!,
+              forecast: weatherAPI.forecast!,
             )
           ],
         ));
   }
+
+  void saveInFavouritePlaces(WeatherApiService apiResp) async {
+    final geolocatorService =
+        Provider.of<GeolocatorService>(context, listen: false);
+    final saveCitiesProvider =
+        Provider.of<CitiesListProvider>(context, listen: false);
+
+    await saveCitiesProvider.loadSavedCities();
+
+    final cityListCopy = List.from(saveCitiesProvider.cities);
+
+    final comparisonText = apiResp.location?.name ?? '?';
+
+    bool foundMatch = false;
+
+    for (var element in cityListCopy) {
+      if (element.title == comparisonText) {
+        foundMatch = true;
+        saveCitiesProvider.isPressedSaveButton = true;
+// ignore: use_build_context_synchronously
+        showDialog(
+          context: context,
+          builder: (_) => FadeInUp(
+            child: AlertDialog(
+              alignment: Alignment.bottomCenter,
+              title: const Text(
+                'Already saved',
+                style: TextStyle(color: Colors.white70),
+              ),
+              elevation: 24,
+              backgroundColor: const Color.fromARGB(130, 0, 108, 196),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+            ),
+          ),
+        );
+        break;
+      }
+    }
+
+    if (!foundMatch) {
+      String coords = await geolocatorService.getCurrentLocation();
+
+      await saveCitiesProvider.saveCity(
+        '${apiResp.current!.feelslikeC}º',
+        apiResp.location!.name,
+        apiResp.current!.lastUpdated,
+        apiResp.current!.condition.text,
+        coords,
+      );
+
+      await saveCitiesProvider.loadSavedCities();
+    }
+  }
 }
 
 class _MenuDrawer extends StatelessWidget {
-  const _MenuDrawer({
-    required this.size,
-    required this.citiesListP,
-    required this.newsListP,
-    required this.localeProvider,
-    this.onChangedEnglish,
-    this.onChangedSpanish,
-  });
-
-  final Size size;
-  final List<SavedCitiesModel> citiesListP;
-  final List<SavedNewsModel> newsListP;
-  final LocalizationProvider localeProvider;
-  final void Function(bool)? onChangedEnglish;
-  final void Function(bool)? onChangedSpanish;
-
   @override
   Widget build(BuildContext context) {
-    // final weatherServ = Provider.of<WeatherApiService>(context);
+    final newsListProvider = Provider.of<NewsListProvider>(context);
+    final newsListP = newsListProvider.news;
+    final citiesListProvider = Provider.of<CitiesListProvider>(context);
+    final citiesListP = citiesListProvider.cities;
+    final localeProvider = Provider.of<LocalizationProvider>(context);
+
+    final size = MediaQuery.of(context).size;
+    final weatherApi = Provider.of<WeatherApiService>(context);
 
     return Drawer(
-      // shape: ShapeBorder.c,
       child: ListView(children: [
         Column(
           children: [
@@ -274,9 +310,19 @@ class _MenuDrawer extends StatelessWidget {
                       height: 25),
                   title: Text(AppLocalizations.of(context)!.english),
                   trailing: Switch.adaptive(
-                      value: localeProvider.languageEnglish,
-                      activeColor: Colors.amber,
-                      onChanged: onChangedEnglish),
+                    value: localeProvider.languageEnglish,
+                    activeColor: Colors.amber,
+                    onChanged: (value) {
+                      localeProvider.languageEnglish = value;
+                      localeProvider.languageSpanish = false;
+                      weatherApi.isEnglish = true;
+
+                      if (!localeProvider.languageEnglish) {
+                        localeProvider.languageSpanish = true;
+                      }
+                      Navigator.pushNamed(context, 'ND');
+                    },
+                  ),
                 ),
                 ListTile(
                   leading: const Image(
@@ -285,8 +331,17 @@ class _MenuDrawer extends StatelessWidget {
                       height: 25),
                   title: Text(AppLocalizations.of(context)!.spanish),
                   trailing: Switch.adaptive(
-                      value: localeProvider.languageSpanish,
-                      onChanged: onChangedSpanish),
+                    value: localeProvider.languageSpanish,
+                    onChanged: (value) {
+                      localeProvider.languageSpanish = value;
+                      weatherApi.isEnglish = false;
+                      localeProvider.languageEnglish = false;
+                      if (!localeProvider.languageSpanish) {
+                        localeProvider.languageEnglish = true;
+                      }
+                      Navigator.pushNamed(context, 'ND');
+                    },
+                  ),
                 ),
               ],
             ),
@@ -341,30 +396,27 @@ class _InfoTableList extends StatelessWidget {
   final String pressure;
   final String uvRays;
 
-  const _InfoTableList({
-    required this.size,
-    required this.windData,
-    required this.humidityData,
-    required this.visibilityData,
-    required this.windDirectionData,
-    required this.temperatureData,
-    required this.feelsLikeData,
-    required this.precipitation,
-    required this.pressure,
-    required this.uvRays,
-  });
-
-  final Size size;
+  const _InfoTableList(
+      {super.key,
+      required this.windData,
+      required this.humidityData,
+      required this.visibilityData,
+      required this.windDirectionData,
+      required this.temperatureData,
+      required this.feelsLikeData,
+      required this.precipitation,
+      required this.pressure,
+      required this.uvRays});
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Container(
       margin: const EdgeInsets.all(10),
-      // color: Colors.red,
       width: double.infinity,
       height: size.height * 0.18,
       child: ListView(
-        // itemExtent: size.height * 0.18,
         scrollDirection: Axis.horizontal,
         children: [
           InfoTable(
@@ -448,18 +500,10 @@ class _ActionButtons extends StatelessWidget {
                       fontStyle: FontStyle.italic, color: Colors.white)),
               infinite: true,
               icon: Spin(
-                // animate: saveCitiesProvider.isPressedSaveButton,
-                // controller: ,
                 child: const FaIcon(
                   FontAwesomeIcons.locationDot,
                 ),
               ),
-              //         color: Colors.red),
-              // (!saveCitiesProvider.isPressedSaveButton)
-              //     ? const FaIcon(FontAwesomeIcons.locationDot,
-              //         color: Colors.black)
-              //     : const FaIcon(FontAwesomeIcons.locationDot,
-              //         color: Colors.red),
               function: saveLocation),
           RoundedButton(
             text: Text(AppLocalizations.of(context)!.refresh,
@@ -542,8 +586,8 @@ class _TemperatureNumber extends StatelessWidget {
 }
 
 class _Background extends StatelessWidget {
-  final String forecast;
-  const _Background({required this.forecast});
+  final String condition;
+  const _Background({required this.condition});
 
   @override
   Widget build(BuildContext context) {
@@ -588,7 +632,7 @@ class _Background extends StatelessWidget {
   }
 
   String _builBackGroundImage() {
-    final weatherCondition = forecast;
+    final weatherCondition = condition;
 
     final Map<String, String> backGrounds = {
       'Partly cloudy': 'assets/red-lighthouse-g1933290b4_640.jpg',
@@ -685,6 +729,7 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
   @override
   Widget build(BuildContext context) {
     final weather = Provider.of<WeatherApiService>(context);
+    final newsServ = Provider.of<NewsService>(context);
 
     return Container(
       margin: const EdgeInsets.all(6),
@@ -700,8 +745,9 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
         // leading: Text(widget.savedCities.temperature),
         title: GestureDetector(
           onTap: () {
+            newsServ.activeSearch = true;
             weather.coords = widget.savedCities.coords;
-            Navigator.pushNamed(context, 'founded');
+            Navigator.pushNamed(context, 'ND');
           },
           child: Center(
             child: Bounce(

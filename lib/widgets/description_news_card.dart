@@ -39,13 +39,17 @@ class DescriptionNewsCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(60),
             child: Container(
-              decoration:
-                  BoxDecoration(color: Colors.blue[200], boxShadow: const [
-                BoxShadow(
-                    offset: Offset(0.0, 1.0),
-                    blurRadius: 3.0,
-                    color: Color.fromARGB(255, 48, 43, 43))
-              ]),
+              // TODO: erased temporaly for test
+              // decoration: BoxDecoration(
+              //   color: Colors.blue[200],
+              //   boxShadow: const [
+              //     BoxShadow(
+              //       offset: Offset(0.0, 1.0),
+              //       blurRadius: 3.0,
+              //       color: Color.fromARGB(255, 48, 43, 43),
+              //     )
+              //   ],
+              // ),
               margin: const EdgeInsets.only(
                   top: 10, bottom: 10, left: 10, right: 5),
               width: size.width * 0.35,
@@ -100,27 +104,22 @@ class DescriptionNewsCard extends StatelessWidget {
                         width: 30,
                         height: 30,
                         child: FadeIn(
-                          delay: const Duration(milliseconds: 1000),
-                          child: Bounce(
-                            delay: const Duration(milliseconds: 800),
-                            from: 6,
-                            infinite: true,
-                            child: RawMaterialButton(
-                                shape: const CircleBorder(),
-                                onPressed: onPressed,
-                                fillColor: Colors.white,
-                                elevation: 5,
-                                child: iconColorForNewsSave ||
-                                        index == newsListProvider.selectedItem
-                                    ? const FaIcon(
-                                        FontAwesomeIcons.solidHeart,
-                                        color: Colors.red,
-                                      )
-                                    : const FaIcon(
-                                        FontAwesomeIcons.heart,
-                                        color: Colors.black,
-                                      )),
-                          ),
+                          delay: const Duration(milliseconds: 300),
+                          child: RawMaterialButton(
+                              shape: const CircleBorder(),
+                              onPressed: onPressed,
+                              fillColor: Colors.white,
+                              elevation: 5,
+                              child: iconColorForNewsSave ||
+                                      index == newsListProvider.selectedItem
+                                  ? const FaIcon(
+                                      FontAwesomeIcons.solidHeart,
+                                      color: Colors.red,
+                                    )
+                                  : const FaIcon(
+                                      FontAwesomeIcons.heart,
+                                      color: Colors.black,
+                                    )),
                         ),
                       )
                     ],

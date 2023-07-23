@@ -32,7 +32,7 @@ class _LoadingPageState extends State<LoadingPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.data! && geolocatorService.isAllGranted) {
-            return const HomePage();
+            return NewsDesignPage();
           } else {
             return const GpsAccessScreen();
           }
