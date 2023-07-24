@@ -41,26 +41,3 @@ class _LoadingPageState extends State<LoadingPage> {
     );
   }
 }
-
-
-
-
-// (!geolocatiorService.isAllGranted)
-//             ? GpsAccessScreen()
-//             : HomePage());
-
-
-
-// // 
-// StreamBuilder(
-//         stream: geolocatorService.loadingData,
-//         builder: (BuildContext context, AsyncSnapshot snapshot) {
-//           if (snapshot.connectionState == ConnectionState.waiting) {
-//             return Center(child: CircularProgressIndicator());
-//           } else if (snapshot.data!) {
-//             return HomePage();
-//           } else {
-//             return GpsAccessScreen();
-//           }
-//         },
-//       ),

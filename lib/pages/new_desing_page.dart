@@ -101,7 +101,6 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
             Stack(
               children: [
                 _Background(
-                  // forecast: widget.currentCOndition,
                   condition: apiResp.current!.condition.text,
                 ),
                 Column(

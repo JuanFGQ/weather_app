@@ -16,27 +16,27 @@ class InfoTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return FadeInUp(
-      child: Row(
-        children: [
-          RotatedBox(
-            quarterTurns: 3,
-            child: Text(title,
-                style: const TextStyle(
-                    fontStyle: FontStyle.italic, color: Colors.white)),
+    return Row(
+      children: [
+        RotatedBox(
+          quarterTurns: 3,
+          child: Text(title,
+              style: const TextStyle(
+                  fontStyle: FontStyle.italic, color: Colors.white)),
+        ),
+        // SizedBox(w),
+        Container(
+          height: size.height * 0.15,
+          // padding: const EdgeInsets.all(5),
+          width: size.width * 0.15,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: Colors.white,
           ),
-          // SizedBox(w),
-          Container(
-            height: size.height * 0.15,
-            // padding: const EdgeInsets.all(5),
-            width: size.width * 0.15,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: Colors.white,
-            ),
-            child: Column(
-              children: [
-                Expanded(
+          child: Column(
+            children: [
+              Expanded(
+                child: RepaintBoundary(
                   child: Container(
                     margin: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
@@ -51,18 +51,18 @@ class InfoTable extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                    margin: const EdgeInsets.only(
-                        top: 15, bottom: 15, left: 4, right: 5),
-                    child: Text(
-                      percentage,
-                      textAlign: TextAlign.center,
-                    ))
-              ],
-            ),
+              ),
+              Container(
+                  margin: const EdgeInsets.only(
+                      top: 15, bottom: 15, left: 4, right: 5),
+                  child: Text(
+                    percentage,
+                    textAlign: TextAlign.center,
+                  ))
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
