@@ -15,11 +15,11 @@
 
 * TO BE PERFORM 
 
-    -   weather background images 
-        *reduce resolution
+    -   weather background images  
+    - [x] reduce resolution
         
     -   perfom gifs
-        *reduce gift duration
+      [x] reduce gift duration
     -   use cachedNetwork Image to news images loading
 
 
@@ -47,15 +47,15 @@ directamente widgets
 -eliminados
 
 NEWS CARD
--elevation
--animation
--hearth animation
+-[x]elevation
+-[x]animation
+-[x]hearth button animation 
 
 MODALBOTTOM SHEET
 
--all glassmorphism deleted
+-[x] all glassmorphism deleted
 
 
 SearchDelagate Widget
 
--eliminado el metodo widgte y creado un statelessWidget 
+-[x]widget method deleted and changed by a statelessWidget class
