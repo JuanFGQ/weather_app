@@ -82,9 +82,50 @@ class _WeatherWidget extends StatefulWidget {
 }
 
 class _WeatherWidgetState extends State<_WeatherWidget> {
+  final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
+
+  String locationName = '';
+  String feelsLikeData = '';
+  String humidityData = '';
+  String temperatureData = '';
+  String visibilityData = '';
+  String windData = '';
+  String windDirectionData = '';
+  String precipitation = '';
+  String pressure = '';
+  String uvRays = '';
+  String condition = '';
+  String lastUpdated = '';
+  String countryName = '';
+  String regionName = '';
+
+  WeatherApiService? weatherAPI;
+  CitiesListProvider? saveCitiesProvider;
+  @override
+  void initState() {
+    super.initState();
+    weatherAPI = Provider.of<WeatherApiService>(context, listen: false);
+    saveCitiesProvider =
+        Provider.of<CitiesListProvider>(context, listen: false);
+
+    locationName = weatherAPI!.location!.name;
+    countryName = weatherAPI!.location!.country;
+    regionName = weatherAPI!.location!.region;
+    feelsLikeData = '${weatherAPI!.current?.feelslikeC.toString()}º';
+    humidityData = '${weatherAPI!.current?.humidity ?? '?'}%';
+    temperatureData = '${weatherAPI!.current?.tempC ?? '?'} º';
+    visibilityData = '${weatherAPI!.current?.visKm ?? '?'} km/h';
+    windData = '${weatherAPI!.current?.windKph ?? '?'} km/h';
+    windDirectionData = weatherAPI!.current?.windDir ?? '?';
+    precipitation = '${weatherAPI!.current?.precipIn ?? '?'}%';
+    pressure = '${weatherAPI!.current?.pressureMb ?? '?'} mb';
+    uvRays = '${weatherAPI!.current?.uv ?? '?'}';
+    condition = weatherAPI!.current!.condition.text;
+    lastUpdated = weatherAPI!.current!.lastUpdated;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
     final weatherAPI = Provider.of<WeatherApiService>(context);
     final newsService = Provider.of<NewsService>(context);
 
@@ -101,7 +142,7 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
             Stack(
               children: [
                 _Background(
-                  condition: apiResp.current!.condition.text,
+                  condition: condition,
                 ),
                 Column(
                   children: [
@@ -109,14 +150,14 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
                       onpressed: () {
                         _globalKey.currentState!.openDrawer();
                       },
-                      location: apiResp.location!.name,
+                      location: locationName,
                     ),
                     _TemperatureNumber(
-                      tempNumber: '${apiResp.current?.feelslikeC.toString()}º',
+                      tempNumber: feelsLikeData,
                     ),
                     const SizedBox(height: 20),
                     _WeatherState(
-                      weatherState: apiResp.current!.condition.text,
+                      weatherState: condition,
                     ),
                     _ActionButtons(
                       saveLocation: () {
@@ -133,16 +174,15 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
                     ),
                     const SizedBox(height: 20),
                     _InfoTableList(
-                      feelsLikeData:
-                          '${apiResp.current?.feelslikeC.toString()}º',
-                      humidityData: '${apiResp.current?.humidity ?? '?'}%',
-                      temperatureData: '${apiResp.current?.tempC ?? '?'} º',
-                      visibilityData: '${apiResp.current?.visKm ?? '?'} km/h ',
-                      windData: '${apiResp.current?.windKph ?? '?'} km/h',
-                      windDirectionData: apiResp.current?.windDir ?? '?',
-                      precipitation: '${apiResp.current?.precipIn ?? '?'}%',
-                      pressure: '${apiResp.current?.pressureMb ?? '?'}mb',
-                      uvRays: '${apiResp.current?.uv ?? '?'}',
+                      feelsLikeData: feelsLikeData,
+                      humidityData: humidityData,
+                      temperatureData: temperatureData,
+                      visibilityData: visibilityData,
+                      windData: windData,
+                      windDirectionData: windDirectionData,
+                      precipitation: precipitation,
+                      pressure: pressure,
+                      uvRays: uvRays,
                     ),
                   ],
                 ),
@@ -173,58 +213,99 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
         ));
   }
 
+//   void saveInFavouritePlaces(WeatherApiService apiResp) async {
+//     // await saveCitiesProvider!.loadSavedCities();
+
+//     final cityListCopy = List.from(saveCitiesProvider!.cities);
+
+//     final comparisonText = locationName;
+
+//     bool foundMatch = false;
+
+//     for (var element in cityListCopy) {
+//       if (element.title == comparisonText) {
+//         foundMatch = true;
+//         saveCitiesProvider!.isPressedSaveButton = true;
+// // ignore: use_build_context_synchronously
+//         showDialog(
+//           context: context,
+//           builder: (_) => FadeInUp(
+//             child: AlertDialog(
+//               alignment: Alignment.bottomCenter,
+//               title: const Text(
+//                 'Already saved',
+//                 style: TextStyle(color: Colors.white70),
+//               ),
+//               elevation: 24,
+//               backgroundColor: const Color.fromARGB(130, 0, 108, 196),
+//               shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(30)),
+//             ),
+//           ),
+//         );
+//         break;
+//       }
+//     }
+
+//     if (!foundMatch) {
+//       //this variable comes from weatherApi service
+//       final coords = apiResp.coords;
+
+//       await saveCitiesProvider!.saveCity(
+//         feelsLikeData,
+//         locationName,
+//         lastUpdated,
+//         condition,
+//         coords,
+//       );
+
+//       await saveCitiesProvider!.loadSavedCities();
+//     }
+//   }
+
   void saveInFavouritePlaces(WeatherApiService apiResp) async {
-    final geolocatorService =
-        Provider.of<GeolocatorService>(context, listen: false);
-    final saveCitiesProvider =
-        Provider.of<CitiesListProvider>(context, listen: false);
+    final cityListCopy =
+        Set.from(saveCitiesProvider!.cities.map((e) => e.title));
 
-    await saveCitiesProvider.loadSavedCities();
-
-    final cityListCopy = List.from(saveCitiesProvider.cities);
-
-    final comparisonText = apiResp.location?.name ?? '?';
+    final comparisonText = locationName;
 
     bool foundMatch = false;
 
-    for (var element in cityListCopy) {
-      if (element.title == comparisonText) {
-        foundMatch = true;
-        saveCitiesProvider.isPressedSaveButton = true;
-// ignore: use_build_context_synchronously
-        showDialog(
-          context: context,
-          builder: (_) => FadeInUp(
-            child: AlertDialog(
-              alignment: Alignment.bottomCenter,
-              title: const Text(
-                'Already saved',
-                style: TextStyle(color: Colors.white70),
-              ),
-              elevation: 24,
-              backgroundColor: const Color.fromARGB(130, 0, 108, 196),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30)),
+    if (cityListCopy.contains(comparisonText)) {
+      foundMatch = true;
+      saveCitiesProvider!.isPressedSaveButton = true;
+      showDialog(
+        context: context,
+        builder: (_) => FadeInUp(
+          duration: const Duration(milliseconds: 200),
+          child: AlertDialog(
+            alignment: Alignment.bottomCenter,
+            title: const Text(
+              'Already saved',
+              style: TextStyle(color: Colors.white70),
             ),
+            elevation: 24,
+            backgroundColor: const Color.fromARGB(130, 0, 108, 196),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           ),
-        );
-        break;
-      }
+        ),
+      );
     }
 
     if (!foundMatch) {
+      //this variable comes from weatherApi service
       final coords = apiResp.coords;
-      print('COORDS $coords');
 
-      await saveCitiesProvider.saveCity(
-        '${apiResp.current!.feelslikeC}º',
-        apiResp.location!.name,
-        apiResp.current!.lastUpdated,
-        apiResp.current!.condition.text,
+      await saveCitiesProvider!.saveCity(
+        countryName,
+        locationName,
+        regionName,
+        condition,
         coords,
       );
 
-      await saveCitiesProvider.loadSavedCities();
+      await saveCitiesProvider!.loadSavedCities();
     }
   }
 }
@@ -499,10 +580,8 @@ class _ActionButtons extends StatelessWidget {
                   style: const TextStyle(
                       fontStyle: FontStyle.italic, color: Colors.white)),
               infinite: true,
-              icon: Spin(
-                child: const FaIcon(
-                  FontAwesomeIcons.locationDot,
-                ),
+              icon: const FaIcon(
+                FontAwesomeIcons.locationDot,
               ),
               function: saveLocation),
           RoundedButton(
@@ -716,10 +795,14 @@ class _SavedCitiesCard extends StatefulWidget {
 
 class _SavedCitiesCardState extends State<_SavedCitiesCard> {
   CitiesListProvider? citiesListProvider;
+  WeatherApiService? weather;
+  NewsService? newsServ;
   @override
   void initState() {
     citiesListProvider =
         Provider.of<CitiesListProvider>(context, listen: false);
+    weather = Provider.of<WeatherApiService>(context, listen: false);
+    newsServ = Provider.of<NewsService>(context, listen: false);
 
     super.initState();
   }
@@ -728,9 +811,6 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
 
   @override
   Widget build(BuildContext context) {
-    final weather = Provider.of<WeatherApiService>(context);
-    final newsServ = Provider.of<NewsService>(context);
-
     return Container(
       margin: const EdgeInsets.all(6),
       decoration: BoxDecoration(
@@ -745,27 +825,17 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
         // leading: Text(widget.savedCities.temperature),
         title: GestureDetector(
           onTap: () {
-            newsServ.activeSearch = true;
-            weather.coords = widget.savedCities.coords;
+            newsServ!.activeSearch = true;
+            weather!.coords = widget.savedCities.coords;
             Navigator.pushNamed(context, 'ND');
           },
           child: Center(
-            child: Bounce(
-              delay: const Duration(milliseconds: 200),
-              infinite: true,
-              from: 2,
-              child: Text(
-                widget.savedCities.title,
-              ),
+            child: Text(
+              widget.savedCities.title,
             ),
           ),
         ),
-        // subtitle: Column(
-        //   children: [
-        //     Text(widget.savedCities.wind, style: TextStyle(fontSize: 15)),
-        //     Text(widget.savedCities.updated, style: TextStyle(fontSize: 10)),
-        //   ],
-        // ),
+        subtitle: Center(child: Text(widget.savedCities.temperature)),
         trailing: (!deleteNews)
             ? GestureDetector(
                 onTap: () {
@@ -773,14 +843,28 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
                   setState(() {});
                 },
                 child: FadeIn(
-                  delay: const Duration(milliseconds: 200),
+                  delay: const Duration(milliseconds: 100),
                   child: const FaIcon(
                     FontAwesomeIcons.trashCan,
                     size: 20,
                   ),
                 ))
+            // : DeleteBoxWidgetDrawer(
+            //     ontTapCheck: () {
+            //       citiesListProvider!
+            //           .deleteSavedCitiesById(widget.selectedDelete!);
+            //       citiesListProvider!.loadSavedCities();
+            //       deleteNews = false;
+            //       setState(() {});
+            //     },
+            //     ontTapX: () {
+            //       deleteNews = false;
+            //       setState(() {});
+            //     },
+            //   )
+
             : FadeIn(
-                delay: const Duration(milliseconds: 100),
+                // delay: const Duration(milliseconds: 1),
                 child: Container(
                   margin: const EdgeInsets.all(2),
                   padding: const EdgeInsets.all(5),
@@ -798,15 +882,12 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
                             citiesListProvider!
                                 .deleteSavedCitiesById(widget.selectedDelete!);
 
-                            // newsListProvider!.deleteAllSavedNews();
-
                             citiesListProvider!.loadSavedCities();
                             deleteNews = false;
                             setState(() {});
                           },
                           child: FadeInUp(
                             from: 15,
-                            // delay: const Duration(milliseconds: 100),
                             child: const FaIcon(
                               FontAwesomeIcons.check,
                               size: 15,
@@ -821,7 +902,6 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
                           },
                           child: FadeInDown(
                             from: 15,
-                            // delay: const Duration(milliseconds: 100),
                             child: const FaIcon(FontAwesomeIcons.x,
                                 size: 15, color: Colors.white54),
                           ))
@@ -871,93 +951,106 @@ class _SavedNewsCardState extends State<_SavedNewsCard> {
                 color: Colors.grey, offset: Offset(0.0, 1.0), blurRadius: 6.0)
           ]),
       child: ListTile(
-        leading: SizedBox(
-          height: 50,
-          width: 50,
-          child: (widget.saveNews.urlToImage.isNotEmpty &&
-                  widget.saveNews.urlToImage.startsWith('http'))
-              ? ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: FittedBox(
-                    fit: BoxFit.fill,
-                    child: FadeInImage(
-                        placeholder:
-                            const AssetImage('assets/barra_colores.gif'),
-                        image: NetworkImage(widget.saveNews.urlToImage)),
-                  ),
+          leading: SizedBox(
+            height: 50,
+            width: 50,
+            child: (widget.saveNews.urlToImage.isNotEmpty &&
+                    widget.saveNews.urlToImage.startsWith('http'))
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: FittedBox(
+                      fit: BoxFit.fill,
+                      child: FadeInImage(
+                          placeholder:
+                              const AssetImage('assets/barra_colores.gif'),
+                          image: NetworkImage(widget.saveNews.urlToImage)),
+                    ),
+                  )
+                : const Image(image: AssetImage('assets/no-image.png')),
+          ),
+          title: GestureDetector(
+              onTap: () {
+                final newsService =
+                    Provider.of<NewsService>(context, listen: false);
+                newsService.launcherUrlString(context, widget.saveNews.url);
+              },
+              child: Text(widget.saveNews.title)),
+          trailing: (!deleteNews)
+              ? GestureDetector(
+                  onTap: () {
+                    deleteNews = true;
+                    setState(() {});
+                  },
+                  child: FadeIn(
+                    delay: const Duration(milliseconds: 200),
+                    child: const FaIcon(
+                      FontAwesomeIcons.trashCan,
+                      size: 20,
+                    ),
+                  ))
+              : DeleteBoxWidgetDrawer(
+                  ontTapCheck: () {
+                    newsListProvider!.deleteNewsById(widget.selectedDelete!);
+                    newsListProvider!.loadSavedNews();
+                    deleteNews = false;
+                    setState(() {});
+                  },
+                  ontTapX: () {
+                    deleteNews = false;
+                    setState(() {});
+                  },
                 )
-              : const Image(image: AssetImage('assets/no-image.png')),
-        ),
-        title: GestureDetector(
-            onTap: () {
-              final newsService =
-                  Provider.of<NewsService>(context, listen: false);
-              newsService.launcherUrlString(context, widget.saveNews.url);
-            },
-            child: Text(widget.saveNews.title)),
-        trailing: (!deleteNews)
-            ? GestureDetector(
-                onTap: () {
-                  deleteNews = true;
-                  setState(() {});
-                },
-                child: FadeIn(
-                  delay: const Duration(milliseconds: 200),
-                  child: const FaIcon(
-                    FontAwesomeIcons.trashCan,
-                    size: 20,
-                  ),
-                ))
-            : FadeIn(
-                delay: const Duration(milliseconds: 100),
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.blue[200],
-                      boxShadow: const [
-                        BoxShadow(offset: Offset(0.0, 1.0), blurRadius: 3.0)
-                      ]),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      GestureDetector(
-                          onTap: () {
-                            newsListProvider!
-                                .deleteNewsById(widget.selectedDelete!);
 
-                            // newsListProvider!.deleteAllSavedNews();
+          // : FadeIn(
+          //     delay: const Duration(milliseconds: 100),
+          //     child: Container(
+          //       padding: const EdgeInsets.all(5),
+          //       decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(10),
+          //           color: Colors.blue[200],
+          //           boxShadow: const [
+          //             BoxShadow(offset: Offset(0.0, 1.0), blurRadius: 3.0)
+          //           ]),
+          //       child: Column(
+          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //         children: [
+          //           GestureDetector(
+          //               onTap: () {
+          //                 newsListProvider!
+          //                     .deleteNewsById(widget.selectedDelete!);
 
-                            newsListProvider!.loadSavedNews();
-                            deleteNews = false;
-                            setState(() {});
-                          },
-                          child: FadeInUp(
-                            from: 15,
-                            delay: const Duration(milliseconds: 150),
-                            child: const FaIcon(
-                              FontAwesomeIcons.check,
-                              size: 15,
-                              color: Colors.white54,
-                            ),
-                          )),
-                      const SizedBox(height: 6),
-                      GestureDetector(
-                          onTap: () {
-                            deleteNews = false;
-                            setState(() {});
-                          },
-                          child: FadeInDown(
-                            from: 15,
-                            delay: const Duration(milliseconds: 150),
-                            child: const FaIcon(FontAwesomeIcons.x,
-                                size: 15, color: Colors.white54),
-                          ))
-                    ],
-                  ),
-                ),
-              ),
-      ),
+          //                 // newsListProvider!.deleteAllSavedNews();
+
+          //                 newsListProvider!.loadSavedNews();
+          //                 deleteNews = false;
+          //                 setState(() {});
+          //               },
+          //               child: FadeInUp(
+          //                 from: 15,
+          //                 delay: const Duration(milliseconds: 150),
+          //                 child: const FaIcon(
+          //                   FontAwesomeIcons.check,
+          //                   size: 15,
+          //                   color: Colors.white54,
+          //                 ),
+          //               )),
+          //           const SizedBox(height: 6),
+          //           GestureDetector(
+          //               onTap: () {
+          //                 deleteNews = false;
+          //                 setState(() {});
+          //               },
+          //               child: FadeInDown(
+          //                 from: 15,
+          //                 delay: const Duration(milliseconds: 150),
+          //                 child: const FaIcon(FontAwesomeIcons.x,
+          //                     size: 15, color: Colors.white54),
+          //               ))
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          ),
     );
   }
 }

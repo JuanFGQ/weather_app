@@ -21,7 +21,7 @@ class RoundedButton extends StatelessWidget {
     return Column(
       children: [
         FadeIn(
-          delay: const Duration(milliseconds: 1000),
+          delay: const Duration(milliseconds: 200),
           child: RawMaterialButton(
             hoverColor: Colors.white38,
             highlightColor: const Color.fromARGB(188, 96, 125, 139),
@@ -32,7 +32,7 @@ class RoundedButton extends StatelessWidget {
             child: icon,
           ),
         ),
-        ZoomIn(delay: const Duration(milliseconds: 1000), child: text!)
+        ZoomIn(delay: const Duration(milliseconds: 250), child: text!)
       ],
     );
   }

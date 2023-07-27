@@ -28,21 +28,6 @@ class _NewsPageState extends State<NewsPage> {
     weatherServ = Provider.of<WeatherApiService>(context, listen: false);
   }
 
-  // String argumentSelector() {
-/*
-simplemente al iniciar verifica el estado de la variable si es verdadera me retorna el argumento 
-cargado en la pantalla de busqueda . otherwhise carga el argumento de la pantalla home 
-*/
-
-  //   if (!newsService!.activeSearch) {
-  //     final homeArg = weatherServ!.location!.name;
-  //     return homeArg;
-  //   } else {
-  //     final foundArg = weatherServ!.foundLocation!.name;
-  //     return foundArg;
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     print('NEWS PAGE BUILD');
@@ -226,7 +211,7 @@ class _NewsViewerState extends State<_NewsViewer>
   void saveNewsIndex(Article selNews, int i) async {
     final savedNewsProvider =
         Provider.of<NewsListProvider>(context, listen: false);
-    await savedNewsProvider.loadSavedNews();
+    // await savedNewsProvider.loadSavedNews();
 
     final newListCopy = List.from(savedNewsProvider.news);
 
