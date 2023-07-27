@@ -213,7 +213,8 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
     }
 
     if (!foundMatch) {
-      String coords = await geolocatorService.getCurrentLocation();
+      final coords = apiResp.coords;
+      print('COORDS $coords');
 
       await saveCitiesProvider.saveCity(
         '${apiResp.current!.feelslikeC}º',
