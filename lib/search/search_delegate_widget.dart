@@ -140,7 +140,7 @@ class __BuildSuggestionsState extends State<_BuildSuggestions> {
             newsService.activeSearch = true;
             final arg = Preferences.history[index];
             weather.coords = arg;
-            // Navigator.pushNamed(context, 'founded');
+            Navigator.pushNamed(context, 'ND ');
 
             //todo: activeSearch en true para hacer el cambio de argumentos en el NewDesignPage
 
