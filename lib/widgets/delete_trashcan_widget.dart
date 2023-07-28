@@ -2,11 +2,11 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class DeleteBoxWidgetDrawer extends StatelessWidget {
+class DeleteTrashCanWidgetDrawer extends StatelessWidget {
   final void Function()? ontTapX;
   final void Function()? ontTapCheck;
 
-  const DeleteBoxWidgetDrawer({super.key, this.ontTapX, this.ontTapCheck});
+  const DeleteTrashCanWidgetDrawer({super.key, this.ontTapX, this.ontTapCheck});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class DeleteBoxWidgetDrawer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             GestureDetector(
-                onTap: ontTapX,
+                onTap: ontTapCheck,
                 child: FadeInUp(
                   duration: const Duration(milliseconds: 100),
                   from: 15,

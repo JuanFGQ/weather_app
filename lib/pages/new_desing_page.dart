@@ -822,94 +822,46 @@ class _SavedCitiesCardState extends State<_SavedCitiesCard> {
                 color: Colors.grey, offset: Offset(0.0, 1.0), blurRadius: 6.0)
           ]),
       child: ListTile(
-        // leading: Text(widget.savedCities.temperature),
-        title: GestureDetector(
-          onTap: () {
-            newsServ!.activeSearch = true;
-            weather!.coords = widget.savedCities.coords;
-            Navigator.pushNamed(context, 'ND');
-          },
-          child: Center(
-            child: Text(
-              widget.savedCities.title,
+          // leading: Text(widget.savedCities.temperature),
+          title: GestureDetector(
+            onTap: () {
+              newsServ!.activeSearch = true;
+              weather!.coords = widget.savedCities.coords;
+              Navigator.pushNamed(context, 'ND');
+            },
+            child: Center(
+              child: Text(
+                widget.savedCities.title,
+              ),
             ),
           ),
-        ),
-        subtitle: Center(child: Text(widget.savedCities.temperature)),
-        trailing: (!deleteNews)
-            ? GestureDetector(
-                onTap: () {
-                  deleteNews = true;
-                  setState(() {});
-                },
-                child: FadeIn(
-                  delay: const Duration(milliseconds: 100),
-                  child: const FaIcon(
-                    FontAwesomeIcons.trashCan,
-                    size: 20,
-                  ),
-                ))
-            // : DeleteBoxWidgetDrawer(
-            //     ontTapCheck: () {
-            //       citiesListProvider!
-            //           .deleteSavedCitiesById(widget.selectedDelete!);
-            //       citiesListProvider!.loadSavedCities();
-            //       deleteNews = false;
-            //       setState(() {});
-            //     },
-            //     ontTapX: () {
-            //       deleteNews = false;
-            //       setState(() {});
-            //     },
-            //   )
-
-            : FadeIn(
-                // delay: const Duration(milliseconds: 1),
-                child: Container(
-                  margin: const EdgeInsets.all(2),
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.blue[200],
-                      boxShadow: const [
-                        BoxShadow(offset: Offset(0.0, 1.0), blurRadius: 3.0)
-                      ]),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      GestureDetector(
-                          onTap: () {
-                            citiesListProvider!
-                                .deleteSavedCitiesById(widget.selectedDelete!);
-
-                            citiesListProvider!.loadSavedCities();
-                            deleteNews = false;
-                            setState(() {});
-                          },
-                          child: FadeInUp(
-                            from: 15,
-                            child: const FaIcon(
-                              FontAwesomeIcons.check,
-                              size: 15,
-                              color: Colors.white54,
-                            ),
-                          )),
-                      const SizedBox(height: 6),
-                      GestureDetector(
-                          onTap: () {
-                            deleteNews = false;
-                            setState(() {});
-                          },
-                          child: FadeInDown(
-                            from: 15,
-                            child: const FaIcon(FontAwesomeIcons.x,
-                                size: 15, color: Colors.white54),
-                          ))
-                    ],
-                  ),
-                ),
-              ),
-      ),
+          subtitle: Center(child: Text(widget.savedCities.temperature)),
+          trailing: (!deleteNews)
+              ? GestureDetector(
+                  onTap: () {
+                    deleteNews = true;
+                    setState(() {});
+                  },
+                  child: FadeIn(
+                    delay: const Duration(milliseconds: 100),
+                    child: const FaIcon(
+                      FontAwesomeIcons.trashCan,
+                      size: 20,
+                    ),
+                  ))
+              : DeleteTrashCanWidgetDrawer(
+                  ontTapCheck: () {
+                    citiesListProvider!
+                        .deleteSavedCitiesById(widget.selectedDelete!);
+                    citiesListProvider!.loadSavedCities();
+                    deleteNews = false;
+                    setState(() {});
+                  },
+                  ontTapX: () {
+                    deleteNews = false;
+                    setState(() {});
+                  },
+                )),
     );
   }
 }
@@ -988,7 +940,7 @@ class _SavedNewsCardState extends State<_SavedNewsCard> {
                       size: 20,
                     ),
                   ))
-              : DeleteBoxWidgetDrawer(
+              : DeleteTrashCanWidgetDrawer(
                   ontTapCheck: () {
                     newsListProvider!.deleteNewsById(widget.selectedDelete!);
                     newsListProvider!.loadSavedNews();
@@ -999,58 +951,7 @@ class _SavedNewsCardState extends State<_SavedNewsCard> {
                     deleteNews = false;
                     setState(() {});
                   },
-                )
-
-          // : FadeIn(
-          //     delay: const Duration(milliseconds: 100),
-          //     child: Container(
-          //       padding: const EdgeInsets.all(5),
-          //       decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(10),
-          //           color: Colors.blue[200],
-          //           boxShadow: const [
-          //             BoxShadow(offset: Offset(0.0, 1.0), blurRadius: 3.0)
-          //           ]),
-          //       child: Column(
-          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //         children: [
-          //           GestureDetector(
-          //               onTap: () {
-          //                 newsListProvider!
-          //                     .deleteNewsById(widget.selectedDelete!);
-
-          //                 // newsListProvider!.deleteAllSavedNews();
-
-          //                 newsListProvider!.loadSavedNews();
-          //                 deleteNews = false;
-          //                 setState(() {});
-          //               },
-          //               child: FadeInUp(
-          //                 from: 15,
-          //                 delay: const Duration(milliseconds: 150),
-          //                 child: const FaIcon(
-          //                   FontAwesomeIcons.check,
-          //                   size: 15,
-          //                   color: Colors.white54,
-          //                 ),
-          //               )),
-          //           const SizedBox(height: 6),
-          //           GestureDetector(
-          //               onTap: () {
-          //                 deleteNews = false;
-          //                 setState(() {});
-          //               },
-          //               child: FadeInDown(
-          //                 from: 15,
-          //                 delay: const Duration(milliseconds: 150),
-          //                 child: const FaIcon(FontAwesomeIcons.x,
-          //                     size: 15, color: Colors.white54),
-          //               ))
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          ),
+                )),
     );
   }
 }
