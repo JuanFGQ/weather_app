@@ -5,7 +5,6 @@ import 'dart:async';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/pages/loading_page.dart';
 
 import '../models/models.dart';
 import '../providers/providers.dart';
@@ -313,6 +312,7 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
 class _MenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final newsService = Provider.of<NewsService>(context, listen: false);
     final newsListProvider = Provider.of<NewsListProvider>(context);
     final newsListP = newsListProvider.news;
     final citiesListProvider = Provider.of<CitiesListProvider>(context);
@@ -321,6 +321,8 @@ class _MenuDrawer extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
     final weatherApi = Provider.of<WeatherApiService>(context);
+
+    bool deleteNews = false;
 
     return Drawer(
       child: ListView(children: [
@@ -348,10 +350,29 @@ class _MenuDrawer extends StatelessWidget {
                       itemCount: citiesListP.length,
                       itemBuilder: (BuildContext context, int index) {
                         final cityList = citiesListP[index];
-                        return _SavedCitiesCard(
-                          selectedDelete: citiesListP[index].id,
-                          savedCities: cityList,
-                        );
+                      
+                      return SavedCardMenuDrawer(title: cityList.title ,subTitle:cityList.temperature ,ontTapTitle: () {
+              newsService.activeSearch = true;
+              weatherApi.coords = cityList.coords;
+              Navigator.pushNamed(context, 'ND');
+            },
+                      ontTapCheck:() {
+                        
+                            citiesListProvider!
+                        .deleteSavedCitiesById(widget.selectedDelete!);
+                    citiesListProvider!.loadSavedCities();
+                    deleteNews = false;
+                    setState(() {});
+                      }, ,ontTapX: () {
+                        
+                      },
+                      )
+                      
+                      
+                        // return _SavedCitiesCard(
+                        //   selectedDelete: citiesListP[index].id,
+                        //   savedCities: cityList,
+                        // );
                       },
                     ),
                   )
@@ -369,10 +390,49 @@ class _MenuDrawer extends StatelessWidget {
                     itemCount: newsListP.length,
                     itemBuilder: (BuildContext context, int index) {
                       final newsList = newsListP[index];
-                      return _SavedNewsCard(
-                        selectedDelete: newsListP[index].id,
-                        saveNews: newsList,
+                      return SavedCardMenuDrawer(
+                        leading: SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: (newsList.urlToImage.isNotEmpty &&
+                                  newsList.urlToImage.startsWith('http'))
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: FittedBox(
+                                    fit: BoxFit.fill,
+                                    child: FadeInImage(
+                                        placeholder: const AssetImage(
+                                            'assets/barra_colores.gif'),
+                                        image:
+                                            NetworkImage(newsList.urlToImage)),
+                                  ),
+                                )
+                              : const Image(
+                                  image: AssetImage('assets/no-image.png')),
+                        ),
+                        title: newsList.title,
+                        ontTapTitle: () {
+                          newsService.launcherUrlString(context, newsList.url);
+                        },
+                        ontTapCheck: () {
+                          newsListProvider.deleteNewsById(newsListP[index].id!);
+                          newsListProvider.loadSavedNews();
+                          deleteNews = false;
+                          //todo: REVISAR SI FUNCIONA SIN SETSTATE, VER COMO HACER CON VALUE NOTIFIER
+                          // setState(() {});
+                        },
+                        ontTapX: () {
+                          //todo: REVISAR SI FUNCIONA SIN SETSTATE, VER COMO HACER CON VALUE NOTIFIER
+
+                          deleteNews = false;
+                          // setState(() {});
+                        },
                       );
+
+                      // return _SavedNewsCard(
+                      //   selectedDelete: newsListP[index].id,
+                      //   saveNews: newsList,
+                      // );
                     },
                   ),
                 )
