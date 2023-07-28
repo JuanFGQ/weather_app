@@ -4,28 +4,30 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'delete_trashcan_widget.dart';
 
-class SavedCard extends StatefulWidget {
+class SavedCardMenuDrawer extends StatefulWidget {
   final void Function()? goToAction;
   final Widget? leading;
   final String title;
-  final String subTitle;
+  final String? subTitle;
   final VoidCallback? ontTapCheck;
   final VoidCallback? ontTapX;
+  final VoidCallback? ontTapTitle;
 
-  const SavedCard(
+  const SavedCardMenuDrawer(
       {super.key,
       this.goToAction,
       this.leading,
       required this.title,
-      required this.subTitle,
+      this.subTitle,
       this.ontTapCheck,
-      this.ontTapX});
+      this.ontTapX,
+      this.ontTapTitle});
 
   @override
-  State<SavedCard> createState() => _SavedCardState();
+  State<SavedCardMenuDrawer> createState() => _SavedCardMenuDrawerState();
 }
 
-class _SavedCardState extends State<SavedCard> {
+class _SavedCardMenuDrawerState extends State<SavedCardMenuDrawer> {
   bool deleteNews = false;
 
   @override
@@ -48,7 +50,7 @@ class _SavedCardState extends State<SavedCard> {
               child: Text(widget.title),
             ),
           ),
-          subtitle: Center(child: Text(widget.subTitle)),
+          subtitle: Center(child: Text(widget.subTitle!)),
           trailing: (!deleteNews)
               ? GestureDetector(
                   onTap: () {
