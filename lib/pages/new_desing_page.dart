@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/providers/wanted_places_provider.dart';
 
 import '../models/models.dart';
 import '../providers/providers.dart';
@@ -28,6 +29,8 @@ class _NewsDesignPageState extends State<NewsDesignPage>
   WeatherApiService? weatherServ;
   GeolocatorService? geolocatorService;
   CitiesListProvider? citiesListProvider;
+  NewsListProvider? newsListProvider;
+  WantedPlacesProvider? wantedPlaces;
 
   @override
   void initState() {
@@ -37,13 +40,24 @@ class _NewsDesignPageState extends State<NewsDesignPage>
         Provider.of<CitiesListProvider>(context, listen: false);
     weatherServ = Provider.of<WeatherApiService>(context, listen: false);
     geolocatorService = Provider.of<GeolocatorService>(context, listen: false);
+    newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
+    wantedPlaces = Provider.of<WantedPlacesProvider>(context, listen: false);
 
-    final loadNews = Provider.of<NewsListProvider>(context, listen: false);
-    final loadCities = Provider.of<CitiesListProvider>(context, listen: false);
-    loadCities.loadSavedCities();
-    loadNews.loadSavedNews();
-    // _loadData();
+    newsListProvider!.loadSavedNews();
+    citiesListProvider!.loadSavedCities();
+    wantedPlaces!.loadSavedPlaces();
     _superSearchInfo();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    newsServ;
+    weatherServ;
+    geolocatorService;
+    citiesListProvider;
+    newsListProvider;
+    citiesListProvider;
   }
 
   Future _superSearchInfo() async {
@@ -100,12 +114,16 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
 
   WeatherApiService? weatherAPI;
   CitiesListProvider? saveCitiesProvider;
+  NewsService? newService;
+  GeolocatorService? geolocatorService;
   @override
   void initState() {
     super.initState();
     weatherAPI = Provider.of<WeatherApiService>(context, listen: false);
     saveCitiesProvider =
         Provider.of<CitiesListProvider>(context, listen: false);
+    newService = Provider.of<NewsService>(context, listen: false);
+    geolocatorService = Provider.of<GeolocatorService>(context, listen: false);
 
     locationName = weatherAPI!.location!.name;
     countryName = weatherAPI!.location!.country;
@@ -124,14 +142,17 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final weatherAPI = Provider.of<WeatherApiService>(context);
-    final newsService = Provider.of<NewsService>(context);
+  void dispose() {
+    super.dispose();
+    weatherAPI;
+    saveCitiesProvider;
+    newService;
+    geolocatorService;
+  }
 
+  @override
+  Widget build(BuildContext context) {
     final apiResp = weatherAPI;
-    // final newsService = Provider.of<NewsService>(context);
-    final citiesListProvider =
-        Provider.of<CitiesListProvider>(context, listen: false);
 
     return Scaffold(
         key: _globalKey,
@@ -160,14 +181,14 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
                     ),
                     _ActionButtons(
                       saveLocation: () {
-                        saveInFavouritePlaces(apiResp);
-                        citiesListProvider.isPressedSaveButton = true;
+                        saveInFavouritePlaces(apiResp!);
+                        saveCitiesProvider!.isPressedSaveButton = true;
                       },
                       newsButton: () {
                         ShowModalBottomSheet(context);
                       },
                       refreshPage: () {
-                        newsService.activeSearch = false;
+                        newService!.activeSearch = false;
                         Navigator.pushNamed(context, 'ND');
                       },
                     ),
@@ -189,78 +210,28 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
             ),
             Container(
               margin: const EdgeInsets.only(left: 20, right: 20),
-              child: const Row(
+              child: Row(
                 // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    'Weekly Forecast',
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.weekelyforecast,
+                    style: const TextStyle(
                         // decoration: TextDecoration.underline,
                         fontSize: 20,
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold),
                   ),
-                  Spacer(),
-                  FaIcon(FontAwesomeIcons.arrowRight)
+                  const Spacer(),
+                  const FaIcon(FontAwesomeIcons.arrowRight)
                 ],
               ),
             ),
             _ForeCastTable(
-              forecast: weatherAPI.forecast!,
+              forecast: weatherAPI!.forecast!,
             )
           ],
         ));
   }
-
-//   void saveInFavouritePlaces(WeatherApiService apiResp) async {
-//     // await saveCitiesProvider!.loadSavedCities();
-
-//     final cityListCopy = List.from(saveCitiesProvider!.cities);
-
-//     final comparisonText = locationName;
-
-//     bool foundMatch = false;
-
-//     for (var element in cityListCopy) {
-//       if (element.title == comparisonText) {
-//         foundMatch = true;
-//         saveCitiesProvider!.isPressedSaveButton = true;
-// // ignore: use_build_context_synchronously
-//         showDialog(
-//           context: context,
-//           builder: (_) => FadeInUp(
-//             child: AlertDialog(
-//               alignment: Alignment.bottomCenter,
-//               title: const Text(
-//                 'Already saved',
-//                 style: TextStyle(color: Colors.white70),
-//               ),
-//               elevation: 24,
-//               backgroundColor: const Color.fromARGB(130, 0, 108, 196),
-//               shape: RoundedRectangleBorder(
-//                   borderRadius: BorderRadius.circular(30)),
-//             ),
-//           ),
-//         );
-//         break;
-//       }
-//     }
-
-//     if (!foundMatch) {
-//       //this variable comes from weatherApi service
-//       final coords = apiResp.coords;
-
-//       await saveCitiesProvider!.saveCity(
-//         feelsLikeData,
-//         locationName,
-//         lastUpdated,
-//         condition,
-//         coords,
-//       );
-
-//       await saveCitiesProvider!.loadSavedCities();
-//     }
-//   }
 
   void saveInFavouritePlaces(WeatherApiService apiResp) async {
     final cityListCopy =
@@ -279,9 +250,9 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
           duration: const Duration(milliseconds: 200),
           child: AlertDialog(
             alignment: Alignment.bottomCenter,
-            title: const Text(
-              'Already saved',
-              style: TextStyle(color: Colors.white70),
+            title: Text(
+              AppLocalizations.of(context)!.allreadysave,
+              style: const TextStyle(color: Colors.white70),
             ),
             elevation: 24,
             backgroundColor: const Color.fromARGB(130, 0, 108, 196),
@@ -294,14 +265,17 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
 
     if (!foundMatch) {
       //this variable comes from weatherApi service
-      final coords = apiResp.coords;
+      final String currentCoords =
+          await geolocatorService!.getCurrentLocation();
+      final selectedCoord =
+          (!newService!.activeSearch) ? currentCoords : apiResp.coords;
 
       await saveCitiesProvider!.saveCity(
         countryName,
         locationName,
         regionName,
         condition,
-        coords,
+        selectedCoord,
       );
 
       await saveCitiesProvider!.loadSavedCities();
@@ -322,7 +296,12 @@ class _MenuDrawer extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final weatherApi = Provider.of<WeatherApiService>(context);
 
-    bool deleteNews = false;
+    final deleteNewsListItemButton =
+        List.generate(newsListP.length, (index) => ValueNotifier<bool>(false));
+    final deleteCityListItemButton = List.generate(
+        citiesListP.length, (index) => ValueNotifier<bool>(false));
+
+    // final deleteNews = ValueNotifier(false);
 
     return Drawer(
       child: ListView(children: [
@@ -350,29 +329,52 @@ class _MenuDrawer extends StatelessWidget {
                       itemCount: citiesListP.length,
                       itemBuilder: (BuildContext context, int index) {
                         final cityList = citiesListP[index];
-                      
-                      return SavedCardMenuDrawer(title: cityList.title ,subTitle:cityList.temperature ,ontTapTitle: () {
-              newsService.activeSearch = true;
-              weatherApi.coords = cityList.coords;
-              Navigator.pushNamed(context, 'ND');
-            },
-                      ontTapCheck:() {
-                        
-                            citiesListProvider!
-                        .deleteSavedCitiesById(widget.selectedDelete!);
-                    citiesListProvider!.loadSavedCities();
-                    deleteNews = false;
-                    setState(() {});
-                      }, ,ontTapX: () {
-                        
-                      },
-                      )
-                      
-                      
-                        // return _SavedCitiesCard(
-                        //   selectedDelete: citiesListP[index].id,
-                        //   savedCities: cityList,
-                        // );
+
+                        return ValueListenableBuilder(
+                          valueListenable: deleteCityListItemButton[index],
+                          builder: (context, value, _) {
+                            return SavedCardMenuDrawer(
+                              // deleteNews: deleteNews.value = true,
+                              subtitle:
+                                  Center(child: Text(cityList.temperature)),
+                              title: cityList.title,
+                              goToAction: () {
+                                newsService.activeSearch = true;
+                                weatherApi.coords = cityList.coords;
+                                Navigator.pushNamed(context, 'ND');
+                              },
+                              trailing: value
+                                  ? DeleteTrashCanWidgetDrawer(
+                                      ontTapCheck: () {
+                                        citiesListProvider
+                                            .deleteSavedCitiesById(
+                                                citiesListP[index].id!);
+                                        citiesListProvider.loadSavedCities();
+                                        deleteCityListItemButton[index].value =
+                                            false;
+                                      },
+                                      ontTapX: () {
+                                        deleteCityListItemButton[index].value =
+                                            false;
+                                      },
+                                    )
+                                  : GestureDetector(
+                                      onTap: () {
+                                        deleteCityListItemButton[index].value =
+                                            true;
+                                      },
+                                      child: FadeIn(
+                                        delay:
+                                            const Duration(milliseconds: 100),
+                                        child: const FaIcon(
+                                          FontAwesomeIcons.trashCan,
+                                          size: 20,
+                                        ),
+                                      ),
+                                    ),
+                            );
+                          },
+                        );
                       },
                     ),
                   )
@@ -390,49 +392,64 @@ class _MenuDrawer extends StatelessWidget {
                     itemCount: newsListP.length,
                     itemBuilder: (BuildContext context, int index) {
                       final newsList = newsListP[index];
-                      return SavedCardMenuDrawer(
-                        leading: SizedBox(
-                          height: 50,
-                          width: 50,
-                          child: (newsList.urlToImage.isNotEmpty &&
-                                  newsList.urlToImage.startsWith('http'))
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: FittedBox(
-                                    fit: BoxFit.fill,
-                                    child: FadeInImage(
-                                        placeholder: const AssetImage(
-                                            'assets/barra_colores.gif'),
+                      return ValueListenableBuilder(
+                        valueListenable: deleteNewsListItemButton[index],
+                        builder: (context, value, _) {
+                          return SavedCardMenuDrawer(
+                              leading: SizedBox(
+                                height: 50,
+                                width: 50,
+                                child: (newsList.urlToImage.isNotEmpty &&
+                                        newsList.urlToImage.startsWith('http'))
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: FittedBox(
+                                          fit: BoxFit.fill,
+                                          child: FadeInImage(
+                                              placeholder: const AssetImage(
+                                                  'assets/barra_colores.gif'),
+                                              image: NetworkImage(
+                                                  newsList.urlToImage)),
+                                        ),
+                                      )
+                                    : const Image(
                                         image:
-                                            NetworkImage(newsList.urlToImage)),
-                                  ),
-                                )
-                              : const Image(
-                                  image: AssetImage('assets/no-image.png')),
-                        ),
-                        title: newsList.title,
-                        ontTapTitle: () {
-                          newsService.launcherUrlString(context, newsList.url);
-                        },
-                        ontTapCheck: () {
-                          newsListProvider.deleteNewsById(newsListP[index].id!);
-                          newsListProvider.loadSavedNews();
-                          deleteNews = false;
-                          //todo: REVISAR SI FUNCIONA SIN SETSTATE, VER COMO HACER CON VALUE NOTIFIER
-                          // setState(() {});
-                        },
-                        ontTapX: () {
-                          //todo: REVISAR SI FUNCIONA SIN SETSTATE, VER COMO HACER CON VALUE NOTIFIER
-
-                          deleteNews = false;
-                          // setState(() {});
+                                            AssetImage('assets/no-image.png')),
+                              ),
+                              title: newsList.title,
+                              goToAction: () {
+                                newsService.launcherUrlString(
+                                    context, newsList.url);
+                              },
+                              trailing: value
+                                  ? DeleteTrashCanWidgetDrawer(
+                                      ontTapCheck: () {
+                                        newsListProvider.deleteNewsById(
+                                            newsListP[index].id!);
+                                        newsListProvider.loadSavedNews();
+                                        deleteNewsListItemButton[index].value =
+                                            false;
+                                      },
+                                      ontTapX: () {
+                                        deleteNewsListItemButton[index].value =
+                                            false;
+                                      },
+                                    )
+                                  : GestureDetector(
+                                      onTap: () {
+                                        deleteNewsListItemButton[index].value =
+                                            true;
+                                      },
+                                      child: FadeIn(
+                                        delay:
+                                            const Duration(milliseconds: 100),
+                                        child: const FaIcon(
+                                          FontAwesomeIcons.trashCan,
+                                          size: 20,
+                                        ),
+                                      )));
                         },
                       );
-
-                      // return _SavedNewsCard(
-                      //   selectedDelete: newsListP[index].id,
-                      //   saveNews: newsList,
-                      // );
                     },
                   ),
                 )
@@ -497,6 +514,9 @@ class _MenuDrawer extends StatelessWidget {
         ),
       ]),
     );
+
+    // child:
+    // );
   }
 }
 
@@ -654,18 +674,19 @@ class _ActionButtons extends StatelessWidget {
             function: refreshPage,
           ),
           RoundedButton(
-            text: Text(AppLocalizations.of(context)!.searchcity,
-                style: const TextStyle(
-                    fontStyle: FontStyle.italic, color: Colors.white)),
-            infinite: true,
-            // ignore: deprecated_member_use
-            icon: const FaIcon(FontAwesomeIcons.search),
-            function: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        const WeatherSearchCity())),
-          ),
+              text: Text(AppLocalizations.of(context)!.searchcity,
+                  style: const TextStyle(
+                      fontStyle: FontStyle.italic, color: Colors.white)),
+              infinite: true,
+              // ignore: deprecated_member_use
+              icon: const FaIcon(FontAwesomeIcons.search),
+              function: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const WeatherSearchCity()));
+              }),
         ],
       ),
     );
@@ -837,181 +858,6 @@ class _HeaderWidget extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-}
-
-class _SavedCitiesCard extends StatefulWidget {
-  final SavedCitiesModel savedCities;
-  final int? selectedDelete;
-  const _SavedCitiesCard({
-    required this.savedCities,
-    this.selectedDelete,
-  });
-
-  @override
-  State<_SavedCitiesCard> createState() => _SavedCitiesCardState();
-}
-
-class _SavedCitiesCardState extends State<_SavedCitiesCard> {
-  CitiesListProvider? citiesListProvider;
-  WeatherApiService? weather;
-  NewsService? newsServ;
-  @override
-  void initState() {
-    citiesListProvider =
-        Provider.of<CitiesListProvider>(context, listen: false);
-    weather = Provider.of<WeatherApiService>(context, listen: false);
-    newsServ = Provider.of<NewsService>(context, listen: false);
-
-    super.initState();
-  }
-
-  bool deleteNews = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(6),
-      decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          boxShadow: const [
-            BoxShadow(
-                color: Colors.grey, offset: Offset(0.0, 1.0), blurRadius: 6.0)
-          ]),
-      child: ListTile(
-          // leading: Text(widget.savedCities.temperature),
-          title: GestureDetector(
-            onTap: () {
-              newsServ!.activeSearch = true;
-              weather!.coords = widget.savedCities.coords;
-              Navigator.pushNamed(context, 'ND');
-            },
-            child: Center(
-              child: Text(
-                widget.savedCities.title,
-              ),
-            ),
-          ),
-          subtitle: Center(child: Text(widget.savedCities.temperature)),
-          trailing: (!deleteNews)
-              ? GestureDetector(
-                  onTap: () {
-                    deleteNews = true;
-                    setState(() {});
-                  },
-                  child: FadeIn(
-                    delay: const Duration(milliseconds: 100),
-                    child: const FaIcon(
-                      FontAwesomeIcons.trashCan,
-                      size: 20,
-                    ),
-                  ))
-              : DeleteTrashCanWidgetDrawer(
-                  ontTapCheck: () {
-                    citiesListProvider!
-                        .deleteSavedCitiesById(widget.selectedDelete!);
-                    citiesListProvider!.loadSavedCities();
-                    deleteNews = false;
-                    setState(() {});
-                  },
-                  ontTapX: () {
-                    deleteNews = false;
-                    setState(() {});
-                  },
-                )),
-    );
-  }
-}
-
-class _SavedNewsCard extends StatefulWidget {
-  final SavedNewsModel saveNews;
-  final int? selectedDelete;
-
-  const _SavedNewsCard({
-    required this.saveNews,
-    this.selectedDelete,
-  });
-
-  @override
-  State<_SavedNewsCard> createState() => _SavedNewsCardState();
-}
-
-class _SavedNewsCardState extends State<_SavedNewsCard> {
-  NewsListProvider? newsListProvider;
-
-  @override
-  void initState() {
-    super.initState();
-    newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
-  }
-
-  bool deleteNews = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(6),
-      decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          boxShadow: const [
-            BoxShadow(
-                color: Colors.grey, offset: Offset(0.0, 1.0), blurRadius: 6.0)
-          ]),
-      child: ListTile(
-          leading: SizedBox(
-            height: 50,
-            width: 50,
-            child: (widget.saveNews.urlToImage.isNotEmpty &&
-                    widget.saveNews.urlToImage.startsWith('http'))
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: FittedBox(
-                      fit: BoxFit.fill,
-                      child: FadeInImage(
-                          placeholder:
-                              const AssetImage('assets/barra_colores.gif'),
-                          image: NetworkImage(widget.saveNews.urlToImage)),
-                    ),
-                  )
-                : const Image(image: AssetImage('assets/no-image.png')),
-          ),
-          title: GestureDetector(
-              onTap: () {
-                final newsService =
-                    Provider.of<NewsService>(context, listen: false);
-                newsService.launcherUrlString(context, widget.saveNews.url);
-              },
-              child: Text(widget.saveNews.title)),
-          trailing: (!deleteNews)
-              ? GestureDetector(
-                  onTap: () {
-                    deleteNews = true;
-                    setState(() {});
-                  },
-                  child: FadeIn(
-                    delay: const Duration(milliseconds: 200),
-                    child: const FaIcon(
-                      FontAwesomeIcons.trashCan,
-                      size: 20,
-                    ),
-                  ))
-              : DeleteTrashCanWidgetDrawer(
-                  ontTapCheck: () {
-                    newsListProvider!.deleteNewsById(widget.selectedDelete!);
-                    newsListProvider!.loadSavedNews();
-                    deleteNews = false;
-                    setState(() {});
-                  },
-                  ontTapX: () {
-                    deleteNews = false;
-                    setState(() {});
-                  },
-                )),
     );
   }
 }

@@ -1,27 +1,25 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import 'delete_trashcan_widget.dart';
 
 class SavedCardMenuDrawer extends StatefulWidget {
   final void Function()? goToAction;
   final Widget? leading;
-  final String title;
-  final String? subTitle;
-  final VoidCallback? ontTapCheck;
-  final VoidCallback? ontTapX;
-  final VoidCallback? ontTapTitle;
+  final Widget? subtitle;
+  final Widget? trailing;
 
-  const SavedCardMenuDrawer(
-      {super.key,
-      this.goToAction,
-      this.leading,
-      required this.title,
-      this.subTitle,
-      this.ontTapCheck,
-      this.ontTapX,
-      this.ontTapTitle});
+  final String title;
+  final void Function()? ontTapCheck;
+  final void Function()? ontTapX;
+
+  const SavedCardMenuDrawer({
+    super.key,
+    this.goToAction,
+    this.leading,
+    required this.title,
+    this.ontTapCheck,
+    this.ontTapX,
+    this.subtitle,
+    this.trailing,
+  });
 
   @override
   State<SavedCardMenuDrawer> createState() => _SavedCardMenuDrawerState();
@@ -50,24 +48,37 @@ class _SavedCardMenuDrawerState extends State<SavedCardMenuDrawer> {
               child: Text(widget.title),
             ),
           ),
-          subtitle: Center(child: Text(widget.subTitle!)),
-          trailing: (!deleteNews)
-              ? GestureDetector(
-                  onTap: () {
-                    deleteNews = true;
-                    // setState(() {});
-                  },
-                  child: FadeIn(
-                    delay: const Duration(milliseconds: 100),
-                    child: const FaIcon(
-                      FontAwesomeIcons.trashCan,
-                      size: 20,
-                    ),
-                  ))
-              : DeleteTrashCanWidgetDrawer(
-                  ontTapCheck: widget.ontTapCheck,
-                  ontTapX: widget.ontTapX,
-                )),
+          subtitle: widget.subtitle,
+          trailing: widget.trailing
+
+          // (!deleteBox!.deleteBox)
+          //     ? GestureDetector(
+          //         onTap: () {
+          //           deleteBox!.deleteBox = true;
+          //         },
+          //         child: FadeIn(
+          //           delay: const Duration(milliseconds: 100),
+          //           child: const FaIcon(
+          //             FontAwesomeIcons.trashCan,
+          //             size: 20,
+          //           ),
+          //         ))
+          //     : DeleteTrashCanWidgetDrawer(
+          //         ontTapCheck: widget.ontTapCheck,
+          //         ontTapX: widget.ontTapX,
+          //       )
+          ),
     );
+  }
+}
+
+class DeleteBox extends ChangeNotifier {
+  bool _deleteBox = false;
+
+  bool get deleteBox => _deleteBox;
+
+  set deleteBox(bool value) {
+    _deleteBox = value;
+    notifyListeners();
   }
 }

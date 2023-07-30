@@ -16,7 +16,6 @@ class _GpsAccessScreenState extends State<GpsAccessScreen> {
   Widget build(BuildContext context) {
     //aqui tambien deberia tener un stream por que tengo que estar atento a si el usuario desactiva la ubicacion
     //que no este limitado solo cuando la app inicia
-    print('GPS BUILD');
     final locationService = Provider.of<GeolocatorService>(context);
 
     return Scaffold(

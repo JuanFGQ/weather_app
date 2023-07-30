@@ -36,29 +36,24 @@ class DescriptionNewsCard extends StatelessWidget {
       },
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(60),
-            child: Container(
-              margin: const EdgeInsets.only(
-                  top: 10, bottom: 10, left: 10, right: 5),
-              width: size.width * 0.35,
-              height: size.height * 0.18,
-              child: (news.urlToImage != null &&
-                      news.urlToImage!.startsWith('http'))
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: FittedBox(
-                        fit: BoxFit.fill,
+          Container(
+            margin:
+                const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 5),
+            width: size.width * 0.35,
+            height: size.height * 0.18,
+            child:
+                (news.urlToImage != null && news.urlToImage!.startsWith('http'))
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
                         child: FadeInImage(
+                            fit: BoxFit.fill,
                             placeholder:
                                 const AssetImage('assets/barra_colores.gif'),
                             image: NetworkImage(news.urlToImage!)),
-                      ),
-                    )
-                  : const FittedBox(
-                      fit: BoxFit.fill,
-                      child: Image(image: AssetImage('assets/no-image.png'))),
-            ),
+                      )
+                    : const Image(
+                        fit: BoxFit.fill,
+                        image: AssetImage('assets/no-image.png')),
           ),
           Expanded(
             child: Container(
@@ -68,17 +63,20 @@ class DescriptionNewsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(news.author ?? ''),
+                  Text(
+                    news.author ?? '',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
                   const SizedBox(height: 5),
-                  Flexible(
-                    child: Text(
-                      news.title,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          overflow: TextOverflow.visible,
-                          // fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.normal),
+                  Text(
+                    news.title,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 4,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.normal,
                     ),
                   ),
                   const SizedBox(height: 5),
@@ -93,7 +91,7 @@ class DescriptionNewsCard extends StatelessWidget {
                         width: 30,
                         height: 30,
                         child: FadeIn(
-                          delay: const Duration(milliseconds: 300),
+                          delay: const Duration(milliseconds: 200),
                           child: RawMaterialButton(
                               shape: const CircleBorder(),
                               onPressed: onPressed,

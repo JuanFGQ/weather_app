@@ -55,8 +55,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "spanish": MessageLookupByLibrary.simpleMessage("Español"),
         "temperature": MessageLookupByLibrary.simpleMessage("Temperatura"),
         "themes": MessageLookupByLibrary.simpleMessage("Temas"),
+        "therenonews": MessageLookupByLibrary.simpleMessage(
+            "No hay noticias ahora mismo, intenta mas tarde!"),
         "uvrays": MessageLookupByLibrary.simpleMessage("Rayos UV"),
         "visibility": MessageLookupByLibrary.simpleMessage("Visibilidad"),
+        "weekelyforecast":
+            MessageLookupByLibrary.simpleMessage("Pronostico Semanal"),
         "weeklyforecast":
             MessageLookupByLibrary.simpleMessage("Pronostico Semanal"),
         "wind": MessageLookupByLibrary.simpleMessage("Viento"),

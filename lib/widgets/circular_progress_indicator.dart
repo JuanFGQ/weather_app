@@ -12,7 +12,7 @@ class CircularIndicator extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(),
+            RepaintBoundary(child: CircularProgressIndicator()),
             SizedBox(height: 10),
             Text(
               'Loading Data, Please wait...',

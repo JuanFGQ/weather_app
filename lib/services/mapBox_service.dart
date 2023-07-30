@@ -55,10 +55,10 @@ class MapBoxService extends ChangeNotifier {
       final results = await getPlaces(value);
       _suggestedCityStreamController.add(results);
     };
-    final timer = Timer.periodic(const Duration(milliseconds: 200), (_) {
+    final timer = Timer.periodic(const Duration(milliseconds: 50), (_) {
       debouncer.value = searchTerm;
     });
-    Future.delayed(const Duration(milliseconds: 201))
+    Future.delayed(const Duration(milliseconds: 50))
         .then((_) => timer.cancel());
   }
 }

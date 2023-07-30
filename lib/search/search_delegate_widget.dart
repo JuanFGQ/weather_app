@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/providers/wanted_places_provider.dart';
 import 'package:weather/services/mapbox_service.dart';
 import 'package:weather/services/news_service.dart';
 import 'package:weather/services/weather_api_service.dart';
 
 import '../models/mapbox/Feature.dart';
-import '../preferences/share_prefs.dart';
 
 class WeatherSearchCity extends StatefulWidget {
   const WeatherSearchCity({super.key});
@@ -57,6 +57,7 @@ class _BuildResults extends StatelessWidget {
     final mapBoxSearch = Provider.of<MapBoxService>(context, listen: false);
     final weather = Provider.of<WeatherApiService>(context);
     final newsService = Provider.of<NewsService>(context);
+    final savePlace = Provider.of<WantedPlacesProvider>(context);
 
     mapBoxSearch.getSuggestionByQuery(query);
 
@@ -76,7 +77,7 @@ class _BuildResults extends StatelessWidget {
               leading: const FaIcon(FontAwesomeIcons.mountainCity,
                   color: Color.fromARGB(197, 158, 158, 158)),
               title: Text(city.placeName),
-              onTap: () {
+              onTap: () async {
                 newsService.activeSearch = true;
                 final newCoords = city.center;
 
@@ -84,13 +85,12 @@ class _BuildResults extends StatelessWidget {
                 final cord0 = newCoords[0].toString();
 
                 final defCoord = '$cord1,$cord0';
+
                 weather.coords = defCoord;
 
-                Navigator.pushNamed(
-                  context,
-                  'ND',
-                );
-                getInfoSelectedCIty(city);
+                Navigator.pushNamed(context, 'ND');
+
+                await savePlace.newSave(city.placeName, defCoord);
               },
             );
           },
@@ -98,13 +98,6 @@ class _BuildResults extends StatelessWidget {
       },
     );
   }
-}
-
-void getInfoSelectedCIty(Feature item) {
-  //save selected value
-  Preferences.placeName = item.placeName;
-  //insert selected value to the list
-  Preferences.history.insert(0, Preferences.placeName);
 }
 
 class _BuildSuggestions extends StatefulWidget {
@@ -115,36 +108,52 @@ class _BuildSuggestions extends StatefulWidget {
 }
 
 class __BuildSuggestionsState extends State<_BuildSuggestions> {
+  WantedPlacesProvider? wantedPlaces;
+  WeatherApiService? weather;
+  NewsService? newsService;
+  @override
+  void initState() {
+    wantedPlaces = Provider.of(context, listen: false);
+    weather = Provider.of<WeatherApiService>(context, listen: false);
+    newsService = Provider.of<NewsService>(context, listen: false);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    wantedPlaces;
+    weather;
+    newsService;
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (Preferences.history.isEmpty) {
+    final placesList = Provider.of<WantedPlacesProvider>(context);
+//*SHOW SAVED PLACES
+    if (placesList.places.isEmpty) {
       return const EmptyContainer();
     }
     final weather = Provider.of<WeatherApiService>(context);
     final newsService = Provider.of<NewsService>(context);
 
     return ListView.builder(
-      itemCount: Preferences.history.length,
+      itemCount: placesList.places.length,
       itemBuilder: (context, int index) {
-        final placeName = Preferences.history[index];
+        final wantedPlace = placesList.places[index];
         return ListTile(
           leading: const FaIcon(FontAwesomeIcons.clockRotateLeft),
-          title: Text(placeName),
+          title: Text(wantedPlace.placeName),
           trailing: IconButton(
               onPressed: () {
-                Preferences.history.removeAt(index);
-                // setState(() {});
+                placesList.deleteSavePlace(placesList.places[index].id!);
+                placesList.loadSavedPlaces();
               },
               icon: const Icon(Icons.clear)),
           onTap: () {
             newsService.activeSearch = true;
-            final arg = Preferences.history[index];
-            weather.coords = arg;
-            Navigator.pushNamed(context, 'ND ');
-
-            //todo: activeSearch en true para hacer el cambio de argumentos en el NewDesignPage
-
-            //lo que tengo que hacer aqui es hacer otra llamada a la API  enviando el argumento guardado
+            weather.coords = wantedPlace.placeCoords;
+            Navigator.pushNamed(context, 'ND');
           },
         );
       },

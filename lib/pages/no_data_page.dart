@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../search/search_delegate_widget.dart';
 
@@ -17,9 +18,10 @@ class NoDataPage extends StatelessWidget {
             const FaIcon(FontAwesomeIcons.faceSadCry,
                 size: 80, color: Color.fromARGB(220, 158, 158, 158)),
             const SizedBox(height: 30),
-            const Text('There is no news for this city,look for other city.',
+            Text(AppLocalizations.of(context)!.nonews,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 30),
             Pulse(
               delay: const Duration(milliseconds: 600),

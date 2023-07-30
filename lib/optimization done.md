@@ -59,3 +59,35 @@ MODALBOTTOM SHEET
 SearchDelagate Widget
 
 -[x]widget method deleted and changed by a statelessWidget class
+
+
+
+NEW DESIGN PAGE 
+
+-[x] reusing card widget in expansionTile from DRAWER in news and saved cities
+-[x] 
+-[x]
+-[x]
+-[x]
+
+
+
+NEWS PAGE
+
+-[x]delete duplicated widget
+-[x]
+-[x]
+-[x]
+-[x]
+
+
+DESCRIPTION NEWS CARD
+
+
+-[x] deleting unnecesary widgets
+-[x] title text overflow solved
+-[x]
+-[x]
+-[x]
+
+

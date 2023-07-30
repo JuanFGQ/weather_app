@@ -13,12 +13,8 @@ void ShowModalBottomSheet(BuildContext context) {
     builder: (context) {
       return Container(
         decoration: const BoxDecoration(
-          color: Color.fromARGB(250, 255, 255, 255),
+          color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(20)),
-          // border: Border.all(
-          //   color: const Color.fromARGB(246, 0, 0, 0),
-          //   width: 0.5,
-          // ),
         ),
         child: Column(
           children: [

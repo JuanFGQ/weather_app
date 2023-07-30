@@ -369,6 +369,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Pronostico Semanal`
+  String get weekelyforecast {
+    return Intl.message(
+      'Pronostico Semanal',
+      name: 'weekelyforecast',
+      desc: 'Pronostico Semanal',
+      args: [],
+    );
+  }
+
+  /// `No hay noticias ahora mismo, intenta mas tarde!`
+  String get therenonews {
+    return Intl.message(
+      'No hay noticias ahora mismo, intenta mas tarde!',
+      name: 'therenonews',
+      desc: 'Pronostico Semanal',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

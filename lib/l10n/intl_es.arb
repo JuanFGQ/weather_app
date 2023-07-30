@@ -133,7 +133,16 @@
 "ins":"en",
 "@in":{
     "description":"en"
+},
+"weekelyforecast":"Pronostico Semanal",
+"@weekelyforecast":{
+    "description":"Pronostico Semanal"
+},
+"therenonews":"No hay noticias ahora mismo, intenta mas tarde!",
+"@therenonews":{
+    "description":"Pronostico Semanal"
 }
+
 
 
 

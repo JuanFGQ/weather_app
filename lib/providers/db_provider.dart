@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:weather/models/database/saved_news_model.dart';
+import 'package:weather/models/database/wanted_places_model.dart';
 
 import '../models/database/saved_cities_model.dart';
 
@@ -25,13 +26,13 @@ class DBprovider {
 
   Future<Database?> initDB() async {
     Directory documenstDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documenstDirectory.path, '5dModification.db');
+    final path = join(documenstDirectory.path, '8vaModification.db');
 
 //create dataBase
 
     return await openDatabase(
       path,
-      version: 3,
+      version: 5,
       onOpen: (db) {},
       onCreate: (Database db, int version) async {
         await db.execute('''
@@ -51,6 +52,14 @@ CREATE TABLE Cities(
   wind TEXT,
   updated TEXT,
   coords TEXT
+
+)
+''');
+        await db.execute('''
+CREATE TABLE Places(
+  id INTEGER PRIMARY KEY,
+  placeName TEXT,
+  placeCoords TEXT
 
 )
 ''');
@@ -124,5 +133,34 @@ CREATE TABLE Cities(
     );
     return res;
   }
+  //**************************************************** */
+  //*METHOD FOR FINDED PLACES
+
+  Future<int> savedPlace(WantedPlacesModel savePlace) async {
+    final db = await database;
+
+    final res = await db!.insert('Places', savePlace.toJson());
+    return res;
+  }
+
+  Future<List<WantedPlacesModel>?> getAllPlaces() async {
+    final db = await database;
+    final res = await db!.query('Places');
+
+    return res.isNotEmpty
+        ? res.map((e) => WantedPlacesModel.fromJson(e)).toList()
+        : [];
+  }
+
+  Future<int?> deletePlace(int id) async {
+    final db = await database;
+    final res = await db!.delete(
+      'Places',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    return res;
+  }
+
   //**************************************************** */
 }

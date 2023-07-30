@@ -95,6 +95,13 @@ class _NewsViewerState extends State<_NewsViewer>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    newSERV;
+    newsListProvider;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final weatherAPI = Provider.of<WeatherApiService>(context);
@@ -114,31 +121,21 @@ class _NewsViewerState extends State<_NewsViewer>
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                margin: const EdgeInsets.only(left: 10),
-                child: (!newSERV!.activeSearch)
-                    ? SizedBox(
-                        width: size.width * 0.6,
-                        child: Text(
-                          '${AppLocalizations.of(context)!.allnews} ${AppLocalizations.of(context)!.ins} ${apiResp.location?.name}',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              overflow: TextOverflow.visible,
-                              fontWeight: FontWeight.w900),
-                        ),
-                      )
-                    : SizedBox(
-                        width: size.width * 0.6,
-                        child: Text(
-                          '${AppLocalizations.of(context)!.allnews} ${AppLocalizations.of(context)!.ins} ${apiResp.foundLocation?.name}',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                      ),
-              ),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  margin: const EdgeInsets.only(left: 10),
+                  child: SizedBox(
+                    width: size.width * 0.6,
+                    child: Text(
+                      '${AppLocalizations.of(context)!.allnews} ${AppLocalizations.of(context)!.ins} ${apiResp.location?.name}',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          overflow: TextOverflow.visible,
+                          fontWeight: FontWeight.w900),
+                    ),
+                  )),
               FittedBox(
                 fit: BoxFit.fitWidth,
                 child: GestureDetector(
@@ -226,6 +223,7 @@ class _NewsViewerState extends State<_NewsViewer>
         showDialog(
           context: context,
           builder: (_) => FadeInUp(
+            duration: const Duration(milliseconds: 200),
             child: AlertDialog(
               alignment: Alignment.bottomCenter,
               title: Text(

@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
 class InfoTable extends StatelessWidget {
@@ -40,12 +39,12 @@ class InfoTable extends StatelessWidget {
                   child: Container(
                     margin: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(60),
                         border: Border.all(width: 1)),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
+                      borderRadius: BorderRadius.circular(60),
                       child: Image(
+                        fit: BoxFit.fill,
                         image: AssetImage('assets/$image'),
                       ),
                     ),

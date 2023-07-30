@@ -32,7 +32,7 @@ class ForeCastTable extends StatelessWidget {
           BoxShadow(
             color: Colors.grey,
             offset: Offset(1, 1.5),
-            spreadRadius: 1,
+            spreadRadius: 0.5,
             blurRadius: 0.2,
             // blurStyle: BlurStyle.outer,
           )
@@ -41,7 +41,7 @@ class ForeCastTable extends StatelessWidget {
 //
       ),
       child: FittedBox(
-        fit: BoxFit.fitWidth,
+        fit: BoxFit.contain,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -79,11 +79,11 @@ class ForeCastTable extends StatelessWidget {
               children: [
                 Container(
                   // color: Colors.red,
-                  margin: const EdgeInsets.only(left: 20),
+                  // margin: const EdgeInsets.only(left: 20),
                   child: Stack(
                     children: [
                       Container(
-                        margin: const EdgeInsets.all(5),
+                        // margin: const EdgeInsets.all(5),
                         child: const Text(
                           'AVG',
                           style: TextStyle(
@@ -92,6 +92,8 @@ class ForeCastTable extends StatelessWidget {
                               fontStyle: FontStyle.italic),
                         ),
                       ),
+                      const SizedBox(width: 5),
+
                       // const Spacer(),
                       Text(
                         '${forecast.day.avgtempC}º',
@@ -102,11 +104,15 @@ class ForeCastTable extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 15),
-                Container(
-                    width: 45,
-                    height: 45,
-                    margin: const EdgeInsets.only(bottom: 30, right: 10),
-                    child: _buildWeatherIcon())
+                RepaintBoundary(
+                  child: Container(
+                      width: 45,
+                      height: 45,
+                      margin: const EdgeInsets.only(bottom: 30, right: 10),
+                      child: _BuildWeatherIcon(
+                        weatherCondition: forecast.day.condition.text,
+                      )),
+                )
               ],
             ),
             Row(
@@ -134,10 +140,37 @@ class ForeCastTable extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildWeatherIcon() {
-    final weatherCondition = forecast.day.condition.text;
+class _SubIconsInfo extends StatelessWidget {
+  final Widget icon;
+  final String text;
 
+  const _SubIconsInfo({required this.icon, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(5),
+      child: Row(
+        children: [
+          icon,
+          const SizedBox(
+            width: 2,
+          ),
+          Text(text)
+        ],
+      ),
+    );
+  }
+}
+
+class _BuildWeatherIcon extends StatelessWidget {
+  final String weatherCondition;
+  const _BuildWeatherIcon({super.key, required this.weatherCondition});
+
+  @override
+  Widget build(BuildContext context) {
     final Map<String, Image> weatherIcons = {
       'Partly cloudy': const Image(image: AssetImage('assets/clouds (1).gif')),
       'Heavy rain': const Image(image: AssetImage('assets/storm.gif')),
@@ -163,28 +196,5 @@ class ForeCastTable extends StatelessWidget {
     return weatherIcons.containsKey(weatherCondition)
         ? weatherIcons[weatherCondition]!
         : const Image(image: AssetImage('assets/clouds (1).gif'));
-  }
-}
-
-class _SubIconsInfo extends StatelessWidget {
-  final Widget icon;
-  final String text;
-
-  const _SubIconsInfo({required this.icon, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(5),
-      child: Row(
-        children: [
-          icon,
-          const SizedBox(
-            width: 2,
-          ),
-          Text(text)
-        ],
-      ),
-    );
   }
 }

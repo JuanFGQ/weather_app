@@ -30,7 +30,9 @@
     "uvrays":" UV rays",
     "weeklyforecast":"Weekly Forecast",
     "nonews":"Theres no news for this city,look for other city.",
-    "ins":"in"
+    "ins":"in",
+    "weekelyforecast":"Weekly Forecast",
+    "therenonews":"No news, try again later"
   
     
    
