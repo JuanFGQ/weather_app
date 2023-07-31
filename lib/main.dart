@@ -26,7 +26,7 @@ void main() async {
 
   await AwesomeNotifications().initialize('resource://drawable/defaulticon', [
     NotificationChannel(
-        channelKey: 'basic_channel',
+        channelKey: 'scheduled_channel',
         channelName: 'Weather Notifications',
         defaultColor: Colors.amber,
         importance: NotificationImportance.High,

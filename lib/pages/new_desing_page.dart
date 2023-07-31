@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:animate_do/animate_do.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:async';
@@ -47,6 +50,24 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     citiesListProvider!.loadSavedCities();
     wantedPlaces!.loadSavedPlaces();
     _superSearchInfo();
+
+    AwesomeNotifications().createdStream.listen((notifications) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Notification Created on $notifications.channelKey')));
+    });
+
+    AwesomeNotifications().actionStream.listen((notification) {
+      if (notification.channelKey == 'basic_channel' && Platform.isIOS) {
+        AwesomeNotifications().getGlobalBadgeCounter().then(
+              (value) =>
+                  AwesomeNotifications().setGlobalBadgeCounter(value - 1),
+            );
+      }
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => NewsDesignPage()),
+          (route) => route.isFirst);
+    });
   }
 
   @override
@@ -58,6 +79,8 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     citiesListProvider;
     newsListProvider;
     citiesListProvider;
+    AwesomeNotifications().cancel;
+    AwesomeNotifications().createdSink.close();
   }
 
   Future _superSearchInfo() async {
