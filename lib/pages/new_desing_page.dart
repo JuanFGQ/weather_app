@@ -8,6 +8,8 @@ import 'dart:async';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/helpers/utilities_notifications.dart';
+import 'package:weather/notifications/weather_notifications.dart';
 import 'package:weather/providers/wanted_places_provider.dart';
 
 import '../models/models.dart';
@@ -674,7 +676,6 @@ class _ActionButtons extends StatelessWidget {
             text: Text(AppLocalizations.of(context)!.news,
                 style: const TextStyle(
                     fontStyle: FontStyle.italic, color: Colors.white)),
-            infinite: true,
             icon: const FaIcon(FontAwesomeIcons.newspaper),
             function: newsButton,
           ),
@@ -682,7 +683,6 @@ class _ActionButtons extends StatelessWidget {
               text: Text(AppLocalizations.of(context)!.savelocation,
                   style: const TextStyle(
                       fontStyle: FontStyle.italic, color: Colors.white)),
-              infinite: true,
               icon: const FaIcon(
                 FontAwesomeIcons.locationDot,
               ),
@@ -691,7 +691,6 @@ class _ActionButtons extends StatelessWidget {
             text: Text(AppLocalizations.of(context)!.refresh,
                 style: const TextStyle(
                     fontStyle: FontStyle.italic, color: Colors.white)),
-            infinite: true,
             // ignore: deprecated_member_use
             icon: const FaIcon(FontAwesomeIcons.refresh),
             function: refreshPage,
@@ -700,7 +699,6 @@ class _ActionButtons extends StatelessWidget {
               text: Text(AppLocalizations.of(context)!.searchcity,
                   style: const TextStyle(
                       fontStyle: FontStyle.italic, color: Colors.white)),
-              infinite: true,
               // ignore: deprecated_member_use
               icon: const FaIcon(FontAwesomeIcons.search),
               function: () {
@@ -709,6 +707,20 @@ class _ActionButtons extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (BuildContext context) =>
                             const WeatherSearchCity()));
+              }),
+          RoundedButton(
+              text: const Text('Notifications',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic, color: Colors.white)),
+              // ignore: deprecated_member_use
+              icon: const FaIcon(FontAwesomeIcons.bell),
+              function: () async {
+                NotificationWeekAndTime? pickedSchedule =
+                    await pickSchedule(context);
+
+                if (pickedSchedule != null) {
+                  createWeatherNotifications(pickedSchedule);
+                }
               }),
         ],
       ),

@@ -33,8 +33,6 @@ void main() async {
         channelShowBadge: true)
   ]);
 
-  // await initNotifications();
-
   //get data certifycate for secure conexition SSL
 
   ByteData data =

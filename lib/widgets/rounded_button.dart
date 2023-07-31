@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class RoundedButton extends StatelessWidget {
   final void Function()? function;
-  final bool infinite;
   final Widget icon;
   Widget? text;
 
   RoundedButton({
     super.key,
     this.function,
-    required this.infinite,
     required this.icon,
     this.text,
   });
