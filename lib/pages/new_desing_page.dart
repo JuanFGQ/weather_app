@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:animate_do/animate_do.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
+// import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:async';
@@ -9,6 +9,7 @@ import 'dart:async';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/helpers/utilities_notifications.dart';
+import 'package:weather/notifications/flutter_notifications.dart';
 import 'package:weather/notifications/weather_notifications.dart';
 import 'package:weather/providers/wanted_places_provider.dart';
 
@@ -53,23 +54,23 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     wantedPlaces!.loadSavedPlaces();
     _superSearchInfo();
 
-    AwesomeNotifications().createdStream.listen((notifications) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Notification Created on $notifications.channelKey')));
-    });
+    // AwesomeNotifications().createdStream.listen((notifications) {
+    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //       content: Text('Notification Created on $notifications.channelKey')));
+    // });
 
-    AwesomeNotifications().actionStream.listen((notification) {
-      if (notification.channelKey == 'basic_channel' && Platform.isIOS) {
-        AwesomeNotifications().getGlobalBadgeCounter().then(
-              (value) =>
-                  AwesomeNotifications().setGlobalBadgeCounter(value - 1),
-            );
-      }
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (_) => NewsDesignPage()),
-          (route) => route.isFirst);
-    });
+    // AwesomeNotifications().actionStream.listen((notification) {
+    //   if (notification.channelKey == 'basic_channel' && Platform.isIOS) {
+    //     AwesomeNotifications().getGlobalBadgeCounter().then(
+    //           (value) =>
+    //               AwesomeNotifications().setGlobalBadgeCounter(value - 1),
+    //         );
+    //   }
+    //   Navigator.pushAndRemoveUntil(
+    //       context,
+    //       MaterialPageRoute(builder: (_) => const NewsDesignPage()),
+    //       (route) => route.isFirst);
+    // });
   }
 
   @override
@@ -81,8 +82,8 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     citiesListProvider;
     newsListProvider;
     citiesListProvider;
-    AwesomeNotifications().cancel;
-    AwesomeNotifications().createdSink.close();
+    // AwesomeNotifications().cancel;
+    // AwesomeNotifications().createdSink.close();
   }
 
   Future _superSearchInfo() async {
@@ -583,8 +584,7 @@ class _InfoTableList extends StatelessWidget {
   final String uvRays;
 
   const _InfoTableList(
-      {super.key,
-      required this.windData,
+      {required this.windData,
       required this.humidityData,
       required this.visibilityData,
       required this.windDirectionData,
@@ -715,11 +715,13 @@ class _ActionButtons extends StatelessWidget {
               // ignore: deprecated_member_use
               icon: const FaIcon(FontAwesomeIcons.bell),
               function: () async {
+                // showNotifications();
+                // createWeatherNotifications();
                 NotificationWeekAndTime? pickedSchedule =
                     await pickSchedule(context);
 
                 if (pickedSchedule != null) {
-                  createWeatherNotifications(pickedSchedule);
+                  createWeatherScheduleNotifications(pickedSchedule);
                 }
               }),
         ],

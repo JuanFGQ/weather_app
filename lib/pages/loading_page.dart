@@ -1,3 +1,4 @@
+// import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,8 +27,9 @@ class _LoadingPageState extends State<LoadingPage> {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('Allow Notifications'),
-              content: Text('Our app would like to send you notifications'),
+              title: const Text('Allow Notifications'),
+              content:
+                  const Text('Our app would like to send you notifications'),
               actions: [
                 TextButton(
                   onPressed: () {
@@ -39,9 +41,12 @@ class _LoadingPageState extends State<LoadingPage> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () => AwesomeNotifications()
-                      .requestPermissionToSendNotifications()
-                      .then((_) => Navigator.pop(context)),
+                  onPressed: () {
+                    AwesomeNotifications()
+                        .requestPermissionToSendNotifications()
+                        .then((_) => Navigator.pop(context));
+                    // isAllowed = true;
+                  },
                   child: const Text(
                     'Allow',
                     style: TextStyle(
@@ -70,7 +75,7 @@ class _LoadingPageState extends State<LoadingPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.data! && geolocatorService.isAllGranted) {
-            return NewsDesignPage();
+            return const NewsDesignPage();
           } else {
             return const GpsAccessScreen();
           }

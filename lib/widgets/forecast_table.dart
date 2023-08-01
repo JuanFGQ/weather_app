@@ -77,31 +77,24 @@ class ForeCastTable extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
-                  // color: Colors.red,
-                  // margin: const EdgeInsets.only(left: 20),
-                  child: Stack(
-                    children: [
-                      Container(
-                        // margin: const EdgeInsets.all(5),
-                        child: const Text(
-                          'AVG',
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic),
-                        ),
-                      ),
-                      const SizedBox(width: 5),
+                Stack(
+                  children: [
+                    const Text(
+                      'AVG',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic),
+                    ),
+                    const SizedBox(width: 5),
 
-                      // const Spacer(),
-                      Text(
-                        '${forecast.day.avgtempC}º',
-                        style: const TextStyle(
-                            fontSize: 65, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
+                    // const Spacer(),
+                    Text(
+                      '${forecast.day.avgtempC}º',
+                      style: const TextStyle(
+                          fontSize: 65, fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
                 const SizedBox(width: 15),
                 RepaintBoundary(
@@ -167,7 +160,7 @@ class _SubIconsInfo extends StatelessWidget {
 
 class _BuildWeatherIcon extends StatelessWidget {
   final String weatherCondition;
-  const _BuildWeatherIcon({super.key, required this.weatherCondition});
+  const _BuildWeatherIcon({required this.weatherCondition});
 
   @override
   Widget build(BuildContext context) {
