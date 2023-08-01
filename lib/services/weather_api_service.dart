@@ -9,16 +9,15 @@ import '../models/weather/new_weather_response.dart';
 class WeatherApiService extends ChangeNotifier {
   Location? location;
   Current? current;
-  Location? foundLocation;
-  Current? foundCurrent;
+
   List<Forecastday>? forecast;
-  // List<Forecastday>? foundForecast;
 
   final String _baseUrl = 'api.weatherapi.com';
   final String _key = 'a1f73a2fb6cc40c29eb175425232204';
   final String _aqi = 'no';
   final String _days = '7';
 
+//for save coord value of other places and get the info
   String _coords = '';
 
   WeatherApiService(

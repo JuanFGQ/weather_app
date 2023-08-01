@@ -723,6 +723,8 @@ class _ActionButtons extends StatelessWidget {
                 if (pickedSchedule != null) {
                   createWeatherScheduleNotifications(pickedSchedule);
                 }
+
+                // scheduleNotifications();
               }),
         ],
       ),

@@ -21,84 +21,23 @@ void main() async {
   //making sure the process can pass
   WidgetsFlutterBinding.ensureInitialized();
 //initialing notifications
-  print('INITIALIZING NOTIS ');
 
-  // await initNotifications();
-  // AwesomeNotifications().initialize(
-  //   'resource://drawable/defaulticon',
-  //   [
-  //     NotificationChannel(
-  //       channelKey: 'scheduled_channel',
-  //       channelName: 'Weather Notifications',
-  //       defaultColor: Colors.amber,
-  //       importance: NotificationImportance.High,
-  //       channelShowBadge: true,
-  //     )
-  //   ],
-  // );
   AwesomeNotifications().initialize(
       // set the icon to null if you want to use the default app icon
       'resource://drawable/defaulticon',
       [
         NotificationChannel(
           // channelGroupKey: 'basic_channel_group',
-          channelKey: 'basic_channel',
-          channelName: 'Basic notifications',
+          channelKey: 'schedule_notification',
+          channelName: 'Schedule Notification',
           channelDescription: 'Notification channel for basic tests',
           defaultColor: const Color(0xFF9D50DD),
-          locked: true,
+          // locked: true,
           // ledColor: Colors.white,
+          channelShowBadge: true,
           importance: NotificationImportance.High,
         ),
-        // Channel groups are only visual and are not required
-        // channelGroups: [
-        //   NotificationChannelGroup(
-        //     channelGroupkey: 'basic_channel_group',
-        //     channelGroupName: 'Basic group'
-        //   )
-        // ],
-        // debug: true
       ]);
-
-  //      AwesomeNotifications().isNotificationAllowed().then(
-  //   (isAllowed) {
-  //     if (!isAllowed) {
-  //       showDialog(
-  //         context: context,
-  //         builder: (context) => AlertDialog(
-  //           title: const Text('Allow Notifications'),
-  //           content:
-  //               const Text('Our app would like to send you notifications'),
-  //           actions: [
-  //             TextButton(
-  //               onPressed: () {
-  //                 Navigator.pop(context);
-  //               },
-  //               child: const Text(
-  //                 'Don\'t Allow',
-  //                 style: TextStyle(color: Colors.grey, fontSize: 18),
-  //               ),
-  //             ),
-  //             TextButton(
-  //               onPressed: () {},
-  //               // => AwesomeNotifications()
-  //               //     .requestPermissionToSendNotifications(),
-  //               // .then((_) => Navigator.pop(context)),
-  //               child: const Text(
-  //                 'Allow',
-  //                 style: TextStyle(
-  //                   color: Colors.teal,
-  //                   fontSize: 18,
-  //                   fontWeight: FontWeight.bold,
-  //                 ),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     }
-  //   },
-  // );
 
   //get data certifycate for secure conexition SSL
 
