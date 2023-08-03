@@ -28,14 +28,14 @@ class WeatherApiService extends ChangeNotifier {
     notifyListeners();
   }
 
-  // bool _isEnglish = true;
+  bool _isEnglish = false;
 
-  // bool get isEnglish => _isEnglish;
+  bool get isEnglish => _isEnglish;
 
-  // set isEnglish(bool value) {
-  //   _isEnglish = value;
-  //   notifyListeners();
-  // }
+  set isEnglish(bool value) {
+    _isEnglish = value;
+    notifyListeners();
+  }
 
   getInfoWeatherLocation(String coords) async {
     apiParams() {
@@ -43,7 +43,7 @@ class WeatherApiService extends ChangeNotifier {
         'key': _key,
         'q': coords,
         'aqi': _aqi,
-        'lang': (locale!.languageEnglish) ? 'en' : 'es',
+        'lang': (isEnglish) ? 'en' : 'es',
         'days': _days
       };
     }

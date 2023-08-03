@@ -52,24 +52,6 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     citiesListProvider!.loadSavedCities();
     wantedPlaces!.loadSavedPlaces();
     _superSearchInfo();
-
-    // AwesomeNotifications().createdStream.listen((notifications) {
-    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //       content: Text('Notification Created on $notifications.channelKey')));
-    // });
-
-    // AwesomeNotifications().actionStream.listen((notification) {
-    //   if (notification.channelKey == 'basic_channel' && Platform.isIOS) {
-    //     AwesomeNotifications().getGlobalBadgeCounter().then(
-    //           (value) =>
-    //               AwesomeNotifications().setGlobalBadgeCounter(value - 1),
-    //         );
-    //   }
-    //   Navigator.pushAndRemoveUntil(
-    //       context,
-    //       MaterialPageRoute(builder: (_) => const NewsDesignPage()),
-    //       (route) => route.isFirst);
-    // });
   }
 
   @override
@@ -81,8 +63,6 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     citiesListProvider;
     newsListProvider;
     citiesListProvider;
-    // AwesomeNotifications().cancel;
-    // AwesomeNotifications().createdSink.close();
   }
 
   Future _superSearchInfo() async {
@@ -498,8 +478,7 @@ class _MenuDrawer extends StatelessWidget {
                     onChanged: (value) {
                       localeProvider.languageEnglish = value;
                       localeProvider.languageSpanish = false;
-                      // weatherApi.isEnglish = true;
-                      // localeProvider.
+                      weatherApi.isEnglish = true;
 
                       if (!localeProvider.languageEnglish) {
                         localeProvider.languageSpanish = true;
@@ -518,7 +497,7 @@ class _MenuDrawer extends StatelessWidget {
                     value: localeProvider.languageSpanish,
                     onChanged: (value) {
                       localeProvider.languageSpanish = value;
-                      // weatherApi.isEnglish = false;
+                      weatherApi.isEnglish = false;
                       localeProvider.languageEnglish = false;
                       if (!localeProvider.languageSpanish) {
                         localeProvider.languageEnglish = true;

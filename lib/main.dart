@@ -80,22 +80,21 @@ class MyApp extends StatelessWidget {
     final localeProvider = Provider.of<LocalizationProvider>(context);
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: 'loading',
-      routes: {
-        'loading': (_) => const LoadingPage(),
-        'ND': (_) => const NewsDesignPage(),
-      },
-      // theme: appTheme,
-      supportedLocales: L10n.all,
-      locale: (!localeProvider.languageEnglish)
-          ? const Locale('es')
-          : const Locale('en'),
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate
-      ],
-    );
+        debugShowCheckedModeBanner: false,
+        initialRoute: 'loading',
+        routes: {
+          'loading': (_) => const LoadingPage(),
+          'ND': (_) => const NewsDesignPage(),
+        },
+        // theme: appTheme,
+        supportedLocales: L10n.all,
+        locale: (localeProvider.languageEnglish)
+            ? const Locale('en')
+            : const Locale('es'),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ]);
   }
 }
