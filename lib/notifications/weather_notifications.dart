@@ -8,26 +8,6 @@ import 'package:weather/models/models.dart';
 
 import '../services/services.dart';
 
-// Future<void> createWeatherNotifications(
-//     // NotificationWeekAndTime notificationSchedule
-//     ) async {
-//   await AwesomeNotifications().createNotification(
-//     content: NotificationContent(
-//       id: createUniqueId(),
-//       channelKey: 'schedule_notification',
-//       title: '${Emojis.sun + Emojis.sky_cloud} Buy Plant Food!!!',
-//       body: 'Florist at 123 Main St. has 2 in stock. asdasdasdasdasdadadasdsad',
-//     ),
-//   );
-// }
-
-class _ApiData {
-  final GeolocatorService currentCoords;
-  final WeatherApiService prevision;
-
-  _ApiData(this.currentCoords, this.prevision);
-}
-
 Future<Forecastday> notificationData() async {
   final geolocatorService = GeolocatorService();
   final weatherService = WeatherApiService();
@@ -55,10 +35,15 @@ Future<void> createWeatherScheduleNotifications(
         // weekday: notificationSchedule.dayOfTheWeek,
         hour: notificationSchedule.timeOfDay.hour,
         minute: notificationSchedule.timeOfDay.minute,
+
         // repeats: true,
       ),
       content: NotificationContent(
+        displayOnBackground: true,
+        // category: ,
+
         // payload: ,
+
         autoDismissible: true,
         wakeUpScreen: true,
         id: Random().nextInt(100),
@@ -69,37 +54,18 @@ Future<void> createWeatherScheduleNotifications(
             'Water your plant regularly to keep it healthy.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         // notificationLayout: NotificationLayout.BigPicture,
         // bigPicture: 'assets://noti-sun.png',
+        notificationLayout: NotificationLayout.BigText,
       ),
-      // actionButtons: [
-      //   NotificationActionButton(
-      //     key: 'MARK_DONE',
-      //     label: 'Mark Done',
-      //   )
-      // ],
+      actionButtons: [
+        NotificationActionButton(key: 'MARK_DONE', label: 'Mark Done'),
+        NotificationActionButton(key: 'SHOW_WEATHER', label: 'Show Weather')
+      ],
     );
   } catch (e) {}
   ;
 }
 
-// Future<bool> scheduleNotifications() async {
-//   final AwesomeNotifications awesomeNotifications = AwesomeNotifications();
-//   return await awesomeNotifications.createNotification(
-//       schedule: NotificationCalendar(
-//         preciseAlarm: true,
-//         allowWhileIdle: true,
-//         day: 1,
-//         month: 8,
-//         year: 2023,
-//         hour: 16,
-//         minute: 54,
-//       ),
-//       content: NotificationContent(
-//           wakeUpScreen: true,
-//           id: Random().nextInt(100),
-//           title: "la prevision para hoy en Guadalajara España es",
-//           body: "Notificacion programada Funcionando!!!!",
-//           channelKey: "schedule_notification"));
-// }
+
 
 // Future<void> cancelScheduleNotifications() async {
 //   await AwesomeNotifications().cancelAllSchedules();

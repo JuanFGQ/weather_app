@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/weather/new_weather_response.dart';
+import '../providers/localization_provider.dart';
 // import 'package:weather/models/weather/currten_weather_api.dart';
 // import 'package:weather/models/weather/location_weather.dart';
 // import 'package:weather/models/weather/weather_api_response.dart';
@@ -9,6 +10,7 @@ import '../models/weather/new_weather_response.dart';
 class WeatherApiService extends ChangeNotifier {
   Location? location;
   Current? current;
+  LocalizationProvider? locale;
 
   List<Forecastday>? forecast;
 
@@ -20,23 +22,20 @@ class WeatherApiService extends ChangeNotifier {
 //for save coord value of other places and get the info
   String _coords = '';
 
-  WeatherApiService(
-      // this._language
-      );
   String get coords => _coords;
   set coords(String value) {
     _coords = value;
     notifyListeners();
   }
 
-  bool _isEnglish = true;
+  // bool _isEnglish = true;
 
-  bool get isEnglish => _isEnglish;
+  // bool get isEnglish => _isEnglish;
 
-  set isEnglish(bool value) {
-    _isEnglish = value;
-    notifyListeners();
-  }
+  // set isEnglish(bool value) {
+  //   _isEnglish = value;
+  //   notifyListeners();
+  // }
 
   getInfoWeatherLocation(String coords) async {
     apiParams() {
@@ -44,7 +43,7 @@ class WeatherApiService extends ChangeNotifier {
         'key': _key,
         'q': coords,
         'aqi': _aqi,
-        'lang': (isEnglish) ? 'en' : 'es',
+        'lang': (locale!.languageEnglish) ? 'en' : 'es',
         'days': _days
       };
     }

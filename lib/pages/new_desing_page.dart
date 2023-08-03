@@ -9,7 +9,6 @@ import 'dart:async';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/helpers/utilities_notifications.dart';
-import 'package:weather/notifications/flutter_notifications.dart';
 import 'package:weather/notifications/weather_notifications.dart';
 import 'package:weather/providers/wanted_places_provider.dart';
 
@@ -499,7 +498,8 @@ class _MenuDrawer extends StatelessWidget {
                     onChanged: (value) {
                       localeProvider.languageEnglish = value;
                       localeProvider.languageSpanish = false;
-                      weatherApi.isEnglish = true;
+                      // weatherApi.isEnglish = true;
+                      // localeProvider.
 
                       if (!localeProvider.languageEnglish) {
                         localeProvider.languageSpanish = true;
@@ -518,7 +518,7 @@ class _MenuDrawer extends StatelessWidget {
                     value: localeProvider.languageSpanish,
                     onChanged: (value) {
                       localeProvider.languageSpanish = value;
-                      weatherApi.isEnglish = false;
+                      // weatherApi.isEnglish = false;
                       localeProvider.languageEnglish = false;
                       if (!localeProvider.languageSpanish) {
                         localeProvider.languageEnglish = true;

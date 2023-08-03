@@ -88,9 +88,9 @@ class MyApp extends StatelessWidget {
       },
       // theme: appTheme,
       supportedLocales: L10n.all,
-      locale: (localeProvider.languageEnglish)
-          ? const Locale('en')
-          : const Locale('es'),
+      locale: (!localeProvider.languageEnglish)
+          ? const Locale('es')
+          : const Locale('en'),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

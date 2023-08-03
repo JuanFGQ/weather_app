@@ -32,10 +32,11 @@ class _NewsPageState extends State<NewsPage> {
   Widget build(BuildContext context) {
     print('NEWS PAGE BUILD');
     final newsService = Provider.of<NewsService>(context);
+    final localeProvider = Provider.of<LocalizationProvider>(context);
 
     return FutureBuilder(
         future: newsService.getNewsByFoundedPlace(weatherServ!.location!.name,
-            (!weatherServ!.isEnglish) ? 'es' : 'en'),
+            (!localeProvider.languageEnglish) ? 'es' : 'en'),
         builder: (BuildContext context, AsyncSnapshot<NewsResponse> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularIndicator();

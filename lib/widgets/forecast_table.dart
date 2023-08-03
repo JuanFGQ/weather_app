@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/models/weather/new_weather_response.dart';
-import 'package:weather/services/weather_api_service.dart';
+
+import '../models/models.dart';
+import '../providers/providers.dart';
+import '../services/services.dart';
 
 class ForeCastTable extends StatelessWidget {
   final Forecastday forecast;
@@ -12,14 +14,20 @@ class ForeCastTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final weatherLanguage = Provider.of<WeatherApiService>(context);
+    // final weatherLanguage = Provider.of<WeatherApiService>(context);
+    final localeProvider = Provider.of<LocalizationProvider>(context);
+
     final size = MediaQuery.of(context).size;
     final forecastDate = forecast.date;
+    // final dayFormatName =
+    //     DateFormat('EEEE', (weatherLanguage.isEnglish == false) ? 'es' : 'en');
     final dayFormatName =
-        DateFormat('EEEE', (weatherLanguage.isEnglish == false) ? 'es' : 'en');
+        DateFormat('EEEE', (!localeProvider.languageEnglish) ? 'es' : 'en');
     final dayName = dayFormatName.format(forecastDate).toUpperCase();
+    // final dayFormatNumber =
+    //     DateFormat('MMMMd', (weatherLanguage.isEnglish == false) ? 'es' : 'en');
     final dayFormatNumber =
-        DateFormat('MMMMd', (weatherLanguage.isEnglish == false) ? 'es' : 'en');
+        DateFormat('MMMMd', (!localeProvider.languageEnglish) ? 'es' : 'en');
     final dayNumber = dayFormatNumber.format(forecastDate);
 
     return Container(
