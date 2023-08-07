@@ -33,17 +33,7 @@ class ForeCastTable extends StatelessWidget {
         border: Border.all(),
         borderRadius: BorderRadius.circular(30),
         color: Colors.white,
-        // boxShadow: const [
-        //   // BoxShadow(
-        //   //   color: Colors.grey,
-        //   //   offset: Offset(1, 1.5),
-        //   //   spreadRadius: 0.5,
-        //   //   blurRadius: 0.2,
-        //   //   // blurStyle: BlurStyle.outer,
-        //   // )
-        // ],
 
-//
       ),
       child: FittedBox(
         fit: BoxFit.contain,

@@ -32,7 +32,7 @@ class DescriptionNewsCard extends StatelessWidget {
         final urlNewsLauncher =
             Provider.of<NewsService>(context, listen: false);
 
-        urlNewsLauncher.launcherUrl(context, news);
+        urlNewsLauncher.launcherUrl(news);
       },
       child: Row(
         children: [

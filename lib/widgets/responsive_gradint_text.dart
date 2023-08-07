@@ -32,8 +32,7 @@ class ResponsiveText extends StatelessWidget {
   }
 
   double calculateFontSize(double maxWidth) {
-    final scaleFactor =
-        maxWidth / 2000; // Ajusta este valor según tus necesidades
+    final scaleFactor = maxWidth / 2000;
     final fontSize = maxFontSize * scaleFactor;
 
     return fontSize.clamp(minFontSize, maxFontSize);

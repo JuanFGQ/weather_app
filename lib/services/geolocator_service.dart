@@ -7,7 +7,6 @@ import 'package:permission_handler/permission_handler.dart';
 class GeolocatorService extends ChangeNotifier {
   GeolocatorService() {
     _init();
-    // _checkGpsStatus();
   }
 
   bool _isPermissionGranted = false;
@@ -25,7 +24,10 @@ class GeolocatorService extends ChangeNotifier {
     notifyListeners();
   }
 
+<<<<<<< HEAD
 //********************************************* */
+=======
+>>>>>>> 0c39ba7abfbb831e4f73fefa247da17746ed8afa
   final StreamController<bool> _loadingData =
       StreamController<bool>.broadcast();
 
@@ -49,13 +51,11 @@ class GeolocatorService extends ChangeNotifier {
   }
 
   Future<bool> _checkGpsStatus() async {
-    //to enable service
     final isEnabled = await Geolocator.isLocationServiceEnabled();
     final locationServiceEnabled = (isEnabled) ? true : false;
     _gpsEnabled = locationServiceEnabled;
     _loadingData.sink.add(locationServiceEnabled);
 
-//to get the actual status of the locator
     Geolocator.getServiceStatusStream().listen(
       (event) {
         final statusStream = (event.index == 1) ? true : false;
@@ -92,7 +92,6 @@ class GeolocatorService extends ChangeNotifier {
     final isGranted = await Permission.location.isGranted;
     _isPermissionGranted = isGranted;
 
-    // this._loadingData.sink.add(isGranted);
     return isGranted;
   }
 

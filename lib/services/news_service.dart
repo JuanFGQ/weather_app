@@ -12,6 +12,7 @@ class NewsService with ChangeNotifier {
 
   bool _activeSearch = false;
 
+//flag to change search arg
   bool get activeSearch => _activeSearch;
   set activeSearch(bool value) {
     _activeSearch = value;
@@ -21,7 +22,7 @@ class NewsService with ChangeNotifier {
   final String _baseUrl = 'newsapi.org';
   final String _apiKey = '2a9b8b7fb27348e8a959c3d43b8fc3e1';
 
-  Future<void> launcherUrl(BuildContext context, Article news) async {
+  Future<void> launcherUrl(Article news) async {
     final uri = Uri.parse(news.url!);
 
     if (news.url!.startsWith('http')) {
@@ -34,7 +35,7 @@ class NewsService with ChangeNotifier {
     }
   }
 
-  Future<void> launcherUrlString(BuildContext context, String news) async {
+  Future<void> launcherUrlString(String news) async {
     final uri = Uri.parse(news);
 
     if (news.startsWith('http')) {
