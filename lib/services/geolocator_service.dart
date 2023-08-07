@@ -24,12 +24,7 @@ class GeolocatorService extends ChangeNotifier {
     _gpsEnabled = value;
     notifyListeners();
   }
-//********************************************* */
 
-  // final StreamController<bool> _refreshLocation =
-  //     StreamController<bool>.broadcast();
-
-  // Stream get refreshLocation => _refreshLocation.stream;
 //********************************************* */
   final StreamController<bool> _loadingData =
       StreamController<bool>.broadcast();
@@ -38,6 +33,7 @@ class GeolocatorService extends ChangeNotifier {
 
 //********************************************* */
   bool get isAllGranted => gpsEnabled && isPermissionGranted;
+//********************************************* */
 
   Future getCurrentLocation() async {
     if (!gpsEnabled && isPermissionGranted) {
@@ -101,8 +97,7 @@ class GeolocatorService extends ChangeNotifier {
   }
 
   Future<void> _init() async {
-    // ignore: unused_local_variable
-    final generalLocatioState = await Future.wait(
+    await Future.wait(
       [
         _checkGpsStatus(),
         _isPermissionGrant(),

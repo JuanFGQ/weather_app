@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:animate_do/animate_do.dart';
 // import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/helpers/utilities_notifications.dart';
 import 'package:weather/notifications/weather_notifications.dart';
+import 'package:weather/pages/no_data_page.dart';
 import 'package:weather/providers/wanted_places_provider.dart';
 
 import '../models/models.dart';
@@ -59,9 +62,14 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     final coords =
         (!newsServ!.activeSearch) ? actualLocationCoords : searhCityCoords;
 
-    final hasData = await weatherServ!.getInfoWeatherLocation(coords);
-
-    return hasData;
+    try {
+      final hasData = await weatherServ!.getInfoWeatherLocation(coords);
+      return hasData;
+    } on SocketException {
+      throw Exception('No internet connection');
+    } catch (e) {
+      throw Exception('An error occurred: $e');
+    }
   }
 
   @override
@@ -71,7 +79,11 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     return FutureBuilder(
         future: _superSearchInfo(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.hasError) {
+            return NoDataPage(
+              text: 'Error: ${snapshot.error}',
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularIndicator();
           } else {
             return _WeatherWidget();

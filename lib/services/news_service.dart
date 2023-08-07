@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -51,12 +52,21 @@ class NewsService with ChangeNotifier {
       return {'apiKey': _apiKey, 'q': city, 'language': language};
     }
 
-    final uri = Uri.https(_baseUrl, '/v2/everything', apiParams());
+    try {
+      final uri = Uri.https(_baseUrl, '/v2/everything', apiParams());
 
-    final resp = await http.get(uri);
+      final resp = await http.get(uri);
 
-    final newsResp = newsResponseFromJson(resp.body);
-
-    return newsResp;
+      if (resp.statusCode == 200) {
+        final newsResp = newsResponseFromJson(resp.body);
+        return newsResp;
+      } else {
+        throw Exception('Failed to load data,try again later');
+      }
+    } on SocketException {
+      throw Exception('No internet connection');
+    } catch (e) {
+      throw Exception('An error occurred: $e');
+    }
   }
 }

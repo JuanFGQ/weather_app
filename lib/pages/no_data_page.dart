@@ -6,7 +6,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../search/search_delegate_widget.dart';
 
 class NoDataPage extends StatelessWidget {
-  const NoDataPage({super.key});
+  final String text;
+  const NoDataPage({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class NoDataPage extends StatelessWidget {
             const FaIcon(FontAwesomeIcons.faceSadCry,
                 size: 80, color: Color.fromARGB(220, 158, 158, 158)),
             const SizedBox(height: 30),
-            Text(AppLocalizations.of(context)!.nonews,
+            Text(text,
                 textAlign: TextAlign.center,
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),

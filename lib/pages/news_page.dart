@@ -18,8 +18,8 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
-  NewsService? newsService;
-  WeatherApiService? weatherServ;
+  late NewsService newsService;
+  late WeatherApiService weatherServ;
 
   @override
   void initState() {
@@ -31,17 +31,18 @@ class _NewsPageState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
     print('NEWS PAGE BUILD');
-    final newsService = Provider.of<NewsService>(context);
     final localeProvider = Provider.of<LocalizationProvider>(context);
 
     return FutureBuilder(
-        future: newsService.getNewsByFoundedPlace(weatherServ!.location!.name,
+        future: newsService.getNewsByFoundedPlace(weatherServ.location!.name,
             (!localeProvider.languageEnglish) ? 'es' : 'en'),
         builder: (BuildContext context, AsyncSnapshot<NewsResponse> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularIndicator();
           } else if (snapshot.hasData && snapshot.data!.articles.isEmpty) {
-            return const NoDataPage();
+            return NoDataPage(
+              text: AppLocalizations.of(context)!.nonews,
+            );
           } else {
             return _NewsViewer(snapshot.data!.articles);
           }
