@@ -33,13 +33,11 @@ class _SavedCardMenuDrawerState extends State<SavedCardMenuDrawer> {
     return Container(
       margin: const EdgeInsets.all(6),
       decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          boxShadow: const [
-            BoxShadow(
-                color: Colors.grey, offset: Offset(0.0, 1.0), blurRadius: 6.0)
-          ]),
+        shape: BoxShape.rectangle,
+        border: Border.all(),
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+      ),
       child: ListTile(
           leading: widget.leading,
           title: GestureDetector(
@@ -49,25 +47,7 @@ class _SavedCardMenuDrawerState extends State<SavedCardMenuDrawer> {
             ),
           ),
           subtitle: widget.subtitle,
-          trailing: widget.trailing
-
-          // (!deleteBox!.deleteBox)
-          //     ? GestureDetector(
-          //         onTap: () {
-          //           deleteBox!.deleteBox = true;
-          //         },
-          //         child: FadeIn(
-          //           delay: const Duration(milliseconds: 100),
-          //           child: const FaIcon(
-          //             FontAwesomeIcons.trashCan,
-          //             size: 20,
-          //           ),
-          //         ))
-          //     : DeleteTrashCanWidgetDrawer(
-          //         ontTapCheck: widget.ontTapCheck,
-          //         ontTapX: widget.ontTapX,
-          //       )
-          ),
+          trailing: widget.trailing),
     );
   }
 }

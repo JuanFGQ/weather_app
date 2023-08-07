@@ -1,8 +1,7 @@
 import 'dart:math';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:provider/provider.dart';
+
 import 'package:weather/helpers/utilities_notifications.dart';
 import 'package:weather/models/models.dart';
 

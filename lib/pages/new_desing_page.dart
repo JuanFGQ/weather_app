@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:animate_do/animate_do.dart';
 // import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
@@ -33,24 +31,16 @@ class _NewsDesignPageState extends State<NewsDesignPage>
   NewsService? newsServ;
   WeatherApiService? weatherServ;
   GeolocatorService? geolocatorService;
-  CitiesListProvider? citiesListProvider;
   NewsListProvider? newsListProvider;
-  WantedPlacesProvider? wantedPlaces;
 
   @override
   void initState() {
     super.initState();
     newsServ = Provider.of<NewsService>(context, listen: false);
-    citiesListProvider =
-        Provider.of<CitiesListProvider>(context, listen: false);
     weatherServ = Provider.of<WeatherApiService>(context, listen: false);
     geolocatorService = Provider.of<GeolocatorService>(context, listen: false);
     newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
-    wantedPlaces = Provider.of<WantedPlacesProvider>(context, listen: false);
 
-    newsListProvider!.loadSavedNews();
-    citiesListProvider!.loadSavedCities();
-    wantedPlaces!.loadSavedPlaces();
     _superSearchInfo();
   }
 
@@ -60,16 +50,12 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     newsServ;
     weatherServ;
     geolocatorService;
-    citiesListProvider;
     newsListProvider;
-    citiesListProvider;
   }
 
   Future _superSearchInfo() async {
-    String actualLocationCoords = await geolocatorService!.getCurrentLocation();
-
+    final actualLocationCoords = await geolocatorService!.getCurrentLocation();
     final searhCityCoords = weatherServ!.coords;
-
     final coords =
         (!newsServ!.activeSearch) ? actualLocationCoords : searhCityCoords;
 
@@ -102,6 +88,14 @@ class _WeatherWidget extends StatefulWidget {
 class _WeatherWidgetState extends State<_WeatherWidget> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
 
+  WeatherApiService? weatherAPI;
+  CitiesListProvider? saveCitiesProvider;
+  NewsListProvider? newsListProvider;
+  NewsService? newService;
+  GeolocatorService? geolocatorService;
+  LocalizationProvider? localizationProvider;
+  WantedPlacesProvider? wantedPlaces;
+
   String locationName = '';
   String feelsLikeData = '';
   String humidityData = '';
@@ -117,18 +111,24 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
   String countryName = '';
   String regionName = '';
 
-  WeatherApiService? weatherAPI;
-  CitiesListProvider? saveCitiesProvider;
-  NewsService? newService;
-  GeolocatorService? geolocatorService;
   @override
   void initState() {
     super.initState();
+
     weatherAPI = Provider.of<WeatherApiService>(context, listen: false);
+    wantedPlaces = Provider.of<WantedPlacesProvider>(context, listen: false);
     saveCitiesProvider =
         Provider.of<CitiesListProvider>(context, listen: false);
+    newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
+
     newService = Provider.of<NewsService>(context, listen: false);
     geolocatorService = Provider.of<GeolocatorService>(context, listen: false);
+    localizationProvider =
+        Provider.of<LocalizationProvider>(context, listen: false);
+
+    newsListProvider!.loadSavedNews();
+    saveCitiesProvider!.loadSavedCities();
+    wantedPlaces!.loadSavedPlaces();
 
     locationName = weatherAPI!.location!.name;
     countryName = weatherAPI!.location!.country;
@@ -136,7 +136,7 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
     feelsLikeData = '${weatherAPI!.current?.feelslikeC.toString()}º';
     humidityData = '${weatherAPI!.current?.humidity ?? '?'}%';
     temperatureData = '${weatherAPI!.current?.tempC ?? '?'} º';
-    visibilityData = '${weatherAPI!.current?.visKm ?? '?'} km/h';
+    visibilityData = '${weatherAPI!.current?.visKm ?? '?'} km';
     windData = '${weatherAPI!.current?.windKph ?? '?'} km/h';
     windDirectionData = weatherAPI!.current?.windDir ?? '?';
     precipitation = '${weatherAPI!.current?.precipIn ?? '?'}%';
@@ -153,21 +153,31 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
     saveCitiesProvider;
     newService;
     geolocatorService;
+    newsListProvider;
+    localizationProvider;
   }
 
   @override
   Widget build(BuildContext context) {
+    print('WEATHER WIDGET');
     final apiResp = weatherAPI;
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
         key: _globalKey,
-        drawer: _MenuDrawer(),
+        drawer: _MenuDrawer(
+          localeProvider: localizationProvider!,
+          newsService: newService!,
+          weatherApi: weatherAPI!,
+          size: size,
+        ),
         body: Column(
           children: [
             Stack(
               children: [
                 _Background(
                   condition: condition,
+                  size: size,
                 ),
                 Column(
                   children: [
@@ -176,6 +186,7 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
                         _globalKey.currentState!.openDrawer();
                       },
                       location: locationName,
+                      size: size,
                     ),
                     _TemperatureNumber(
                       tempNumber: feelsLikeData,
@@ -208,6 +219,7 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
                       precipitation: precipitation,
                       pressure: pressure,
                       uvRays: uvRays,
+                      size: size,
                     ),
                   ],
                 ),
@@ -233,6 +245,8 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
             ),
             _ForeCastTable(
               forecast: weatherAPI!.forecast!,
+              locale: localizationProvider!,
+              size: size,
             )
           ],
         ));
@@ -269,7 +283,6 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
     }
 
     if (!foundMatch) {
-      //this variable comes from weatherApi service
       final String currentCoords =
           await geolocatorService!.getCurrentLocation();
       final selectedCoord =
@@ -289,14 +302,27 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
 }
 
 class _MenuDrawer extends StatelessWidget {
+  final NewsService newsService;
+
+  final LocalizationProvider localeProvider;
+  final WeatherApiService weatherApi;
+  final Size size;
+
+  const _MenuDrawer({
+    super.key,
+    required this.newsService,
+    required this.localeProvider,
+    required this.weatherApi,
+    required this.size,
+  });
   @override
   Widget build(BuildContext context) {
-    final newsService = Provider.of<NewsService>(context, listen: false);
+    print('BUILD MENU DRAWE');
+
     final newsListProvider = Provider.of<NewsListProvider>(context);
     final newsListP = newsListProvider.news;
     final citiesListProvider = Provider.of<CitiesListProvider>(context);
     final citiesListP = citiesListProvider.cities;
-    final localeProvider = Provider.of<LocalizationProvider>(context);
 
     final size = MediaQuery.of(context).size;
     final weatherApi = Provider.of<WeatherApiService>(context);
@@ -305,8 +331,6 @@ class _MenuDrawer extends StatelessWidget {
         List.generate(newsListP.length, (index) => ValueNotifier<bool>(false));
     final deleteCityListItemButton = List.generate(
         citiesListP.length, (index) => ValueNotifier<bool>(false));
-
-    // final deleteNews = ValueNotifier(false);
 
     return Drawer(
       child: ListView(children: [
@@ -345,6 +369,7 @@ class _MenuDrawer extends StatelessWidget {
                               title: cityList.title,
                               goToAction: () {
                                 newsService.activeSearch = true;
+
                                 weatherApi.coords = cityList.coords;
                                 Navigator.pushNamed(context, 'ND');
                               },
@@ -502,7 +527,6 @@ class _MenuDrawer extends StatelessWidget {
                       if (!localeProvider.languageSpanish) {
                         localeProvider.languageEnglish = true;
                       }
-                      Navigator.pushNamed(context, 'ND');
                     },
                   ),
                 ),
@@ -527,10 +551,14 @@ class _MenuDrawer extends StatelessWidget {
 
 class _ForeCastTable extends StatelessWidget {
   final List<Forecastday> forecast;
-  const _ForeCastTable({required this.forecast});
+  final LocalizationProvider locale;
+  final Size size;
+  const _ForeCastTable(
+      {required this.forecast, required this.locale, required this.size});
 
   @override
   Widget build(BuildContext context) {
+    print('BUILD FORECASTABLE');
     return Expanded(
       child: Container(
         margin: const EdgeInsets.only(top: 2, left: 10, right: 10, bottom: 10),
@@ -541,6 +569,8 @@ class _ForeCastTable extends StatelessWidget {
             final fore = forecast[index];
             return ForeCastTable(
               forecast: fore,
+              localeProvider: locale,
+              size: size,
             );
           },
           // children: const [
@@ -561,6 +591,7 @@ class _InfoTableList extends StatelessWidget {
   final String precipitation;
   final String pressure;
   final String uvRays;
+  final Size size;
 
   const _InfoTableList(
       {required this.windData,
@@ -571,11 +602,12 @@ class _InfoTableList extends StatelessWidget {
       required this.feelsLikeData,
       required this.precipitation,
       required this.pressure,
-      required this.uvRays});
+      required this.uvRays,
+      required this.size});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    print('BUILD INFOTABLE LIST ');
 
     return Container(
       margin: const EdgeInsets.all(10),
@@ -646,6 +678,7 @@ class _ActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('ACTION BUTTONS');
     return FittedBox(
       fit: BoxFit.contain,
       child: Row(
@@ -719,6 +752,7 @@ class _WeatherState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('BUILD WEATHER STATE');
     return Container(
         margin: const EdgeInsets.only(left: 20),
         alignment: Alignment.centerLeft,
@@ -736,6 +770,7 @@ class _TemperatureNumber extends StatelessWidget {
   const _TemperatureNumber({required this.tempNumber});
   @override
   Widget build(BuildContext context) {
+    print('BUILD TEMPERATURE NUMBER');
     return Container(
       alignment: Alignment.centerLeft,
       margin: const EdgeInsets.only(left: 20),
@@ -749,7 +784,7 @@ class _TemperatureNumber extends StatelessWidget {
           if (screenWidth < 768) {
             fontSize = 115;
           } else if (screenWidth < 1024) {
-            fontSize = 1;
+            fontSize = 145;
           }
           return GradientText(tempNumber,
               style: TextStyle(fontSize: fontSize),
@@ -765,48 +800,48 @@ class _TemperatureNumber extends StatelessWidget {
 
 class _Background extends StatelessWidget {
   final String condition;
-  const _Background({required this.condition});
+  final Size size;
+
+  const _Background({required this.condition, required this.size});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Stack(children: [
-      ClipRRect(
-        borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
-        child: ShaderMask(
-          shaderCallback: (Rect bounds) {
-            return const LinearGradient(
-              // transform: GradientTransform,
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.transparent,
-                Color.fromARGB(127, 0, 0, 0),
-              ],
-              stops: [
-                0.0,
-                1.0,
-              ],
-              tileMode: TileMode.repeated,
-            ).createShader(bounds);
-          },
-          blendMode: BlendMode.darken,
-          child: Container(
-            height: size.height * 0.75,
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30)),
-                image: DecorationImage(
-                    image: AssetImage(_builBackGroundImage()
-                        // _builBackGroundImage()
-                        ),
-                    fit: BoxFit.fill)),
-          ),
+    print('BUILD BACKGROUND');
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+      child: ShaderMask(
+        shaderCallback: (Rect bounds) {
+          return const LinearGradient(
+            // transform: GradientTransform,
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.transparent,
+              Color.fromARGB(127, 0, 0, 0),
+            ],
+            stops: [
+              0.0,
+              1.0,
+            ],
+            tileMode: TileMode.repeated,
+          ).createShader(bounds);
+        },
+        blendMode: BlendMode.darken,
+        child: Container(
+          height: size.height * 0.75,
+          decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30)),
+              image: DecorationImage(
+                  image: AssetImage(_builBackGroundImage()
+                      // _builBackGroundImage()
+                      ),
+                  fit: BoxFit.fill)),
         ),
       ),
-    ]);
+    );
   }
 
   String _builBackGroundImage() {
@@ -840,14 +875,16 @@ class _Background extends StatelessWidget {
 
 class _HeaderWidget extends StatelessWidget {
   final String location;
+  final Size size;
 
   final void Function()? onpressed;
 
-  const _HeaderWidget({this.onpressed, required this.location});
+  const _HeaderWidget(
+      {this.onpressed, required this.location, required this.size});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    print('BUILD HEADER WIDGET');
     return Container(
       margin: const EdgeInsets.only(top: 60, left: 20, right: 20),
       child: Row(

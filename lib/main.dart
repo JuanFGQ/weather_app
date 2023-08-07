@@ -5,13 +5,13 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/pages/header_test.dart';
 import 'package:weather/providers/wanted_places_provider.dart';
 
 import 'l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:weather/notifications/flutter_notifications.dart';
 
 import 'pages/pages.dart';
 import 'providers/providers.dart';
@@ -58,14 +58,17 @@ class AppState extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => MapBoxService()),
+        ChangeNotifierProvider(create: (_) => MapBoxService(), lazy: false),
         ChangeNotifierProvider(create: (_) => GeolocatorService(), lazy: false),
-        ChangeNotifierProvider(create: (_) => WeatherApiService()),
+        ChangeNotifierProvider(create: (_) => WeatherApiService(), lazy: false),
         ChangeNotifierProvider(create: (_) => NewsService(), lazy: false),
-        ChangeNotifierProvider(create: (_) => NewsListProvider()),
-        ChangeNotifierProvider(create: (_) => CitiesListProvider()),
-        ChangeNotifierProvider(create: (_) => WantedPlacesProvider()),
-        ChangeNotifierProvider(create: (_) => LocalizationProvider()),
+        ChangeNotifierProvider(create: (_) => NewsListProvider(), lazy: false),
+        ChangeNotifierProvider(
+            create: (_) => CitiesListProvider(), lazy: false),
+        ChangeNotifierProvider(
+            create: (_) => WantedPlacesProvider(), lazy: false),
+        ChangeNotifierProvider(
+            create: (_) => LocalizationProvider(), lazy: false),
       ],
       child: const MyApp(),
     );
@@ -85,12 +88,13 @@ class MyApp extends StatelessWidget {
         routes: {
           'loading': (_) => const LoadingPage(),
           'ND': (_) => const NewsDesignPage(),
+          'HT': (_) => HeaderTest(),
         },
         // theme: appTheme,
         supportedLocales: L10n.all,
-        locale: (localeProvider.languageEnglish)
-            ? const Locale('en')
-            : const Locale('es'),
+        locale: (!localeProvider.languageEnglish)
+            ? const Locale('es')
+            : const Locale('en'),
         localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,

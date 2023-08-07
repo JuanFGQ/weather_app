@@ -68,19 +68,18 @@ class _LoadingPageState extends State<LoadingPage> {
   Widget build(BuildContext context) {
     final geolocatorService = Provider.of<GeolocatorService>(context);
 
-    return Scaffold(
-      body: StreamBuilder(
-        stream: geolocatorService.loadingData,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.data! && geolocatorService.isAllGranted) {
-            return const NewsDesignPage();
-          } else {
-            return const GpsAccessScreen();
-          }
-        },
-      ),
+// scaffold delete
+    return StreamBuilder(
+      stream: geolocatorService.loadingData,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.data! && geolocatorService.isAllGranted) {
+          return const NewsDesignPage();
+        } else {
+          return const GpsAccessScreen();
+        }
+      },
     );
   }
 }

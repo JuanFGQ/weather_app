@@ -67,8 +67,6 @@ class _NewsViewerState extends State<_NewsViewer>
   bool iconColorForNewsSave =
       false; //save the state of button if news is already saved
 
-  bool equalNewsTitle = false;
-
   NewsService? newSERV;
 
   @override
@@ -112,12 +110,11 @@ class _NewsViewerState extends State<_NewsViewer>
       children: [
         Container(
           margin: const EdgeInsets.all(15),
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(offset: Offset(0.0, 1.0), blurRadius: 3.0)
-              ]),
+          decoration: BoxDecoration(
+            border: Border.all(),
+            borderRadius: const BorderRadius.all(Radius.circular(30)),
+            color: Colors.white,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -149,14 +146,13 @@ class _NewsViewerState extends State<_NewsViewer>
                       height: 35,
                       width: 60,
                       decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(100),
-                              bottomRight: Radius.circular(100)),
-                          // color: Colors.white,
-                          color: Colors.blue[200],
-                          boxShadow: const [
-                            BoxShadow(offset: Offset(0.0, 1.0), blurRadius: 3.0)
-                          ]),
+                        border: Border.all(),
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(100),
+                            bottomRight: Radius.circular(100)),
+                        // color: Colors.white,
+                        color: Colors.blue[200],
+                      ),
                       child: (descAsc)
                           ? const _DescAscButton(
                               icon: Icons.arrow_upward, text: 'Desc')
@@ -175,14 +171,12 @@ class _NewsViewerState extends State<_NewsViewer>
               itemCount: orderedNews.length,
               itemBuilder: (_, i) {
                 final selNews = orderedNews[i];
-                final newListCopy = List.from(newsListProvider.news);
+                final newListCopy =
+                    Set.from(newsListProvider.news.map((e) => e.title));
                 bool isNewSaved = false;
 
-                for (var element in newListCopy) {
-                  if (element.title == selNews.title) {
-                    isNewSaved = true;
-                    break;
-                  }
+                if (newListCopy.contains(selNews.title)) {
+                  isNewSaved = true;
                 }
 
                 return DescriptionNewsCard(
@@ -191,7 +185,7 @@ class _NewsViewerState extends State<_NewsViewer>
                   index: i,
                   onPressed: () {
                     newsListProvider.selectedItem = i;
-                    saveNewsIndex(selNews, i);
+                    saveNewsIndex(selNews, i, newsListProvider);
                     setState(() {});
                   },
                 );
@@ -201,45 +195,33 @@ class _NewsViewerState extends State<_NewsViewer>
         )
       ],
     );
-    // ),
-
-    // );
   }
 
-  void saveNewsIndex(Article selNews, int i) async {
-    final savedNewsProvider =
-        Provider.of<NewsListProvider>(context, listen: false);
-    // await savedNewsProvider.loadSavedNews();
-
-    final newListCopy = List.from(savedNewsProvider.news);
-
-    final text = selNews.title;
+  void saveNewsIndex(
+      Article selNews, int i, NewsListProvider savedNewsProvider) async {
+    final newListCopy = Set.from(savedNewsProvider.news.map((e) => e.title));
 
     bool foundMatch = false;
 
-    for (var element in newListCopy) {
-      if (element.title == text) {
-        foundMatch = true;
-        // ignore: use_build_context_synchronously
-        showDialog(
-          context: context,
-          builder: (_) => FadeInUp(
-            duration: const Duration(milliseconds: 200),
-            child: AlertDialog(
-              alignment: Alignment.bottomCenter,
-              title: Text(
-                AppLocalizations.of(context)!.allreadysave,
-                style: const TextStyle(color: Colors.white70),
-              ),
-              elevation: 24,
-              backgroundColor: const Color.fromARGB(130, 0, 108, 196),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30)),
+    if (newListCopy.contains(selNews.title)) {
+      foundMatch = true;
+      showDialog(
+        context: context,
+        builder: (_) => FadeInUp(
+          duration: const Duration(milliseconds: 200),
+          child: AlertDialog(
+            alignment: Alignment.bottomCenter,
+            title: Text(
+              AppLocalizations.of(context)!.allreadysave,
+              style: const TextStyle(color: Colors.white70),
             ),
+            elevation: 24,
+            backgroundColor: const Color.fromARGB(130, 0, 108, 196),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           ),
-        );
-        break;
-      }
+        ),
+      );
     }
     if (!foundMatch) {
       await savedNewsProvider.newSave(

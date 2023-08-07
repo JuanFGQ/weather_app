@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LocalizationProvider extends ChangeNotifier {
-  bool _languageEnglish = true;
+  bool _languageEnglish = false;
 
   bool get languageEnglish => _languageEnglish;
 
@@ -10,7 +10,7 @@ class LocalizationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _languageSpanish = false;
+  bool _languageSpanish = true;
 
   bool get languageSpanish => _languageSpanish;
 
