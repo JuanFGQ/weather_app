@@ -18,7 +18,6 @@ class MapBoxService extends ChangeNotifier {
 
   final debouncer = Debouncer(
     duration: const Duration(milliseconds: 500),
-    // onValue:  ()
   );
 
   final StreamController<List<Feature>> _suggestedCityStreamController =
@@ -50,8 +49,6 @@ class MapBoxService extends ChangeNotifier {
   void getSuggestionByQuery(String searchTerm) {
     debouncer.value = '';
     debouncer.onValue = (value) async {
-      // print('Hay valor : $value');
-
       final results = await getPlaces(value);
       _suggestedCityStreamController.add(results);
     };

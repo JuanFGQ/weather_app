@@ -448,8 +448,7 @@ class _MenuDrawer extends StatelessWidget {
                               ),
                               title: newsList.title,
                               goToAction: () {
-                                newsService.launcherUrlString(
-                                    context, newsList.url);
+                                newsService.launcherUrlString(newsList.url);
                               },
                               trailing: value
                                   ? DeleteTrashCanWidgetDrawer(

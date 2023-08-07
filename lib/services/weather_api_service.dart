@@ -3,9 +3,6 @@ import 'package:http/http.dart' as http;
 
 import '../models/weather/new_weather_response.dart';
 import '../providers/localization_provider.dart';
-// import 'package:weather/models/weather/currten_weather_api.dart';
-// import 'package:weather/models/weather/location_weather.dart';
-// import 'package:weather/models/weather/weather_api_response.dart';
 
 class WeatherApiService extends ChangeNotifier {
   Location? location;
@@ -19,7 +16,7 @@ class WeatherApiService extends ChangeNotifier {
   final String _aqi = 'no';
   final String _days = '7';
 
-//for save coord value of other places and get the info
+//save coord value of other places and get the info
   String _coords = '';
 
   String get coords => _coords;

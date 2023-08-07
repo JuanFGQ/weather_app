@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RefreshPage extends StatelessWidget {
   final void Function()? refreshPage;
@@ -14,7 +15,7 @@ class RefreshPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            const Text('There`s no news righ now. try later please'),
+            Text(AppLocalizations.of(context)!.therenonews),
             RawMaterialButton(
               onPressed: refreshPage,
               shape: const CircleBorder(),

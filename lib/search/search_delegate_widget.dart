@@ -80,11 +80,8 @@ class _BuildResults extends StatelessWidget {
               onTap: () async {
                 newsService.activeSearch = true;
                 final newCoords = city.center;
-
-                final cord1 = newCoords[1].toString();
-                final cord0 = newCoords[0].toString();
-
-                final defCoord = '$cord1,$cord0';
+                final defCoord =
+                    '${newCoords[1].toString()},${newCoords[0].toString()}';
 
                 weather.coords = defCoord;
 
