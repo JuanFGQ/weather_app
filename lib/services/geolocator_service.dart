@@ -24,10 +24,7 @@ class GeolocatorService extends ChangeNotifier {
     notifyListeners();
   }
 
-<<<<<<< HEAD
 //********************************************* */
-=======
->>>>>>> 0c39ba7abfbb831e4f73fefa247da17746ed8afa
   final StreamController<bool> _loadingData =
       StreamController<bool>.broadcast();
 

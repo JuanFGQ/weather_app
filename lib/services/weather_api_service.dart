@@ -45,21 +45,40 @@ class WeatherApiService extends ChangeNotifier {
       };
     }
 
-    final uri = Uri.https(_baseUrl, 'v1/forecast.json', apiParams());
+    try {
+      final uri = Uri.https(_baseUrl, 'v1/forecast.json', apiParams());
 
-    final resp = await http.get(uri);
+      final resp = await http.get(uri);
 
-    if (resp.statusCode == 200) {
-      final weatherResp = weatherResponseFromJson(resp.body);
+      if (resp.statusCode == 200) {
+        final weatherResp = weatherResponseFromJson(resp.body);
 
-      location = weatherResp.location;
-      current = weatherResp.current;
+        location = weatherResp.location;
+        current = weatherResp.current;
 
-      forecast = weatherResp.forecast.forecastday;
+        forecast = weatherResp.forecast.forecastday;
 
-      return true;
-    } else {
+        return true;
+      }
+    } catch (e) {
       return false;
     }
+
+    // final uri = Uri.https(_baseUrl, 'v1/forecast.json', apiParams());
+
+    // final resp = await http.get(uri);
+
+    // if (resp.statusCode == 200) {
+    //   final weatherResp = weatherResponseFromJson(resp.body);
+
+    //   location = weatherResp.location;
+    //   current = weatherResp.current;
+
+    //   forecast = weatherResp.forecast.forecastday;
+
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   }
 }

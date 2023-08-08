@@ -1,13 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../search/search_delegate_widget.dart';
 
 class NoDataPage extends StatelessWidget {
   final String text;
-  const NoDataPage({super.key, required this.text});
+  final void Function()? function;
+  const NoDataPage({super.key, required this.text, this.function});
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +33,17 @@ class NoDataPage extends StatelessWidget {
                   fillColor: Colors.yellow,
                   shape: const CircleBorder(),
                   child: const FaIcon(FontAwesomeIcons.magnifyingGlassLocation),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const WeatherSearchCity()));
-                  }),
+                  onPressed: function
+
+                  // () {
+                  //   Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //           builder: (BuildContext context) =>
+                  //               const WeatherSearchCity()));
+                  // }
+
+                  ),
             )
           ],
         ),

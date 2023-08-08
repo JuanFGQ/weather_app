@@ -5,7 +5,6 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/pages/header_test.dart';
 import 'package:weather/providers/wanted_places_provider.dart';
 
 import 'l10n/l10n.dart';
@@ -88,7 +87,6 @@ class MyApp extends StatelessWidget {
         routes: {
           'loading': (_) => const LoadingPage(),
           'ND': (_) => const NewsDesignPage(),
-          'HT': (_) => HeaderTest(),
         },
         // theme: appTheme,
         supportedLocales: L10n.all,

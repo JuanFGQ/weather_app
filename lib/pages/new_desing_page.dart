@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:animate_do/animate_do.dart';
 // import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
@@ -62,14 +60,9 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     final coords =
         (!newsServ!.activeSearch) ? actualLocationCoords : searhCityCoords;
 
-    try {
-      final hasData = await weatherServ!.getInfoWeatherLocation(coords);
-      return hasData;
-    } on SocketException {
-      throw Exception('No internet connection');
-    } catch (e) {
-      throw Exception('An error occurred: $e');
-    }
+    final hasData = await weatherServ!.getInfoWeatherLocation(coords);
+
+    return hasData;
   }
 
   @override
@@ -79,12 +72,12 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     return FutureBuilder(
         future: _superSearchInfo(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasError) {
-            return NoDataPage(
-              text: 'Error: ${snapshot.error}',
-            );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularIndicator();
+          } else if (!snapshot.hasError) {
+            return NoDataPage(
+                text:
+                    'no data try again later, or check your internet conection');
           } else {
             return _WeatherWidget();
           }
