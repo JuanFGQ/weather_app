@@ -62,7 +62,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
 
     final hasData = await weatherServ!.getInfoWeatherLocation(coords);
 
-    return hasData;
+    return (weatherServ!.isData) ? hasData : null;
   }
 
   @override

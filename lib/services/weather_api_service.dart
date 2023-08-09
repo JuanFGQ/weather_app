@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -34,6 +36,20 @@ class WeatherApiService extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isData = false;
+
+  bool get isData => _isData;
+
+  set isData(bool value) {
+    _isData = value;
+    notifyListeners();
+  }
+
+  final StreamController<bool> _isLoadingData =
+      StreamController<bool>.broadcast();
+
+  Stream get isLoadingData => _isLoadingData.stream;
+
   getInfoWeatherLocation(String coords) async {
     apiParams() {
       return {
@@ -58,27 +74,10 @@ class WeatherApiService extends ChangeNotifier {
 
         forecast = weatherResp.forecast.forecastday;
 
-        return true;
+        return isData = true;
       }
     } catch (e) {
-      return false;
+      return isData = false;
     }
-
-    // final uri = Uri.https(_baseUrl, 'v1/forecast.json', apiParams());
-
-    // final resp = await http.get(uri);
-
-    // if (resp.statusCode == 200) {
-    //   final weatherResp = weatherResponseFromJson(resp.body);
-
-    //   location = weatherResp.location;
-    //   current = weatherResp.current;
-
-    //   forecast = weatherResp.forecast.forecastday;
-
-    //   return true;
-    // } else {
-    //   return false;
-    // }
   }
 }
