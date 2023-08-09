@@ -78,6 +78,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
             return _WeatherWidget();
           } else {
             return NoDataPage(
+              icon: const Icon(FontAwesomeIcons.refresh),
               text: 'Something went wrong, check your conection an trya again.',
               function: () {
                 Navigator.pushNamed(context, 'ND');

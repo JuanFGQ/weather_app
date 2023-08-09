@@ -7,7 +7,9 @@ import '../search/search_delegate_widget.dart';
 class NoDataPage extends StatelessWidget {
   final String text;
   final void Function()? function;
-  const NoDataPage({super.key, required this.text, this.function});
+  final Icon icon;
+  const NoDataPage(
+      {super.key, required this.text, this.function, required this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -29,21 +31,12 @@ class NoDataPage extends StatelessWidget {
               duration: const Duration(milliseconds: 2000),
               infinite: true,
               child: RawMaterialButton(
-                  elevation: 10,
-                  fillColor: Colors.yellow,
-                  shape: const CircleBorder(),
-                  child: const FaIcon(FontAwesomeIcons.magnifyingGlassLocation),
-                  onPressed: function
-
-                  // () {
-                  //   Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //           builder: (BuildContext context) =>
-                  //               const WeatherSearchCity()));
-                  // }
-
-                  ),
+                elevation: 10,
+                fillColor: Colors.yellow,
+                shape: const CircleBorder(),
+                onPressed: function,
+                child: icon,
+              ),
             )
           ],
         ),

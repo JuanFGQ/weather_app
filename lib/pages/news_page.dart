@@ -1,11 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../models/models.dart';
 import '../providers/providers.dart';
+import '../search/search_delegate_widget.dart';
 import '../services/services.dart';
 import '../widgets/widgets.dart';
 import 'pages.dart';
@@ -41,6 +43,14 @@ class _NewsPageState extends State<NewsPage> {
             return const CircularIndicator();
           } else if (snapshot.hasData && snapshot.data!.articles.isEmpty) {
             return NoDataPage(
+              function: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const WeatherSearchCity()));
+              },
+              icon: const Icon(FontAwesomeIcons.magnifyingGlassLocation),
               text: AppLocalizations.of(context)!.nonews,
             );
           } else {

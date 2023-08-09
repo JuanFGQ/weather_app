@@ -31,7 +31,7 @@ class GeolocatorService extends ChangeNotifier {
   Stream get loadingData => _loadingData.stream;
 
 //********************************************* */
-  // bool get isAllGranted => gpsEnabled && isPermissionGranted;
+  bool get isAllGranted => gpsEnabled && isPermissionGranted;
 //********************************************* */
 
   Future getCurrentLocation() async {
