@@ -41,8 +41,6 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     weatherServ = Provider.of<WeatherApiService>(context, listen: false);
     geolocatorService = Provider.of<GeolocatorService>(context, listen: false);
     newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
-
-    _superSearchInfo();
   }
 
   @override
@@ -74,12 +72,13 @@ class _NewsDesignPageState extends State<NewsDesignPage>
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularIndicator();
-          } else if (snapshot.data! && weatherServ!.isData) {
+          } else if (snapshot.data! && weatherServ!.isConected) {
             return _WeatherWidget();
           } else {
             return NoDataPage(
               icon: const Icon(FontAwesomeIcons.refresh),
-              text: 'Something went wrong, check your conection an trya again.',
+              text:
+                  'Something went wrong, check your internet conection and try again.',
               function: () {
                 Navigator.pushNamed(context, 'ND');
               },
@@ -535,6 +534,7 @@ class _MenuDrawer extends StatelessWidget {
                       if (!localeProvider.languageSpanish) {
                         localeProvider.languageEnglish = true;
                       }
+                      Navigator.pushNamed(context, 'ND');
                     },
                   ),
                 ),

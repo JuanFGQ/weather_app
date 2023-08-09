@@ -10,6 +10,15 @@ import '../models/mapbox/Feature.dart';
 class MapBoxService extends ChangeNotifier {
   Feature? feature;
 
+  bool _isConnected = false;
+
+  bool get isConnected => _isConnected;
+
+  set isConnected(bool value) {
+    _isConnected = value;
+    notifyListeners();
+  }
+
   final String _apiKey =
       'pk.eyJ1IjoianVhbmZncSIsImEiOiJjbGVsMzN2cTUwcmR3M3JucHlzcXk2OXMyIn0.OQG_aEvEIl2zT9pQ50OEHg';
   final String _baseUrl = 'api.mapbox.com';
@@ -36,14 +45,20 @@ class MapBoxService extends ChangeNotifier {
   }
 
   Future<List<Feature>> getPlaces(String cityName) async {
-    final uri = Uri.https(_baseUrl,
-        '/geocoding/v5/mapbox.places/$cityName.json', weatherHeader());
+    try {
+      final uri = Uri.https(_baseUrl,
+          '/geocoding/v5/mapbox.places/$cityName.json', weatherHeader());
 //
-    final resp = await http.get(uri);
+      final resp = await http.get(uri);
 
-    final mapBoxResp = mapBoxResponseFromMap(resp.body);
+      final mapBoxResp = mapBoxResponseFromMap(resp.body);
+      isConnected = true;
 
-    return mapBoxResp.features;
+      return mapBoxResp.features;
+    } catch (e) {
+      isConnected = false;
+      return [];
+    }
   }
 
   void getSuggestionByQuery(String searchTerm) {

@@ -22,26 +22,35 @@ class NewsPage extends StatefulWidget {
 class _NewsPageState extends State<NewsPage> {
   late NewsService newsService;
   late WeatherApiService weatherServ;
+  late LocalizationProvider localizationProvider;
 
   @override
   void initState() {
     super.initState();
     newsService = Provider.of<NewsService>(context, listen: false);
     weatherServ = Provider.of<WeatherApiService>(context, listen: false);
+    localizationProvider =
+        Provider.of<LocalizationProvider>(context, listen: false);
+  }
+
+  Future _getNews() async {
+    final newsData = await newsService.getNewsByFoundedPlace(
+        weatherServ.location!.name,
+        (!localizationProvider.languageEnglish) ? 'es' : 'en');
+
+    return newsData;
   }
 
   @override
   Widget build(BuildContext context) {
     print('NEWS PAGE BUILD');
-    final localeProvider = Provider.of<LocalizationProvider>(context);
 
     return FutureBuilder(
-        future: newsService.getNewsByFoundedPlace(weatherServ.location!.name,
-            (!localeProvider.languageEnglish) ? 'es' : 'en'),
-        builder: (BuildContext context, AsyncSnapshot<NewsResponse> snapshot) {
+        future: _getNews(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularIndicator();
-          } else if (snapshot.hasData && snapshot.data!.articles.isEmpty) {
+          } else if (snapshot.data.isEmpty) {
             return NoDataPage(
               function: () {
                 Navigator.push(
@@ -53,8 +62,22 @@ class _NewsPageState extends State<NewsPage> {
               icon: const Icon(FontAwesomeIcons.magnifyingGlassLocation),
               text: AppLocalizations.of(context)!.nonews,
             );
+          } else if (!newsService.isConnected) {
+            return NoDataPage(
+              function: () {
+                Navigator.pushNamed(context, 'ND');
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (BuildContext context) =>
+                //             const NewsDesignPage()));
+              },
+              icon: const Icon(FontAwesomeIcons.refresh),
+              text:
+                  'Something went wrong, check your internet conection and try again.',
+            );
           } else {
-            return _NewsViewer(snapshot.data!.articles);
+            return _NewsViewer(snapshot.data);
           }
         });
   }

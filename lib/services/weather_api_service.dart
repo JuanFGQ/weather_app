@@ -36,12 +36,12 @@ class WeatherApiService extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _isData = false;
+  bool _isConected = false;
 
-  bool get isData => _isData;
+  bool get isConected => _isConected;
 
-  set isData(bool value) {
-    _isData = value;
+  set isConected(bool value) {
+    _isConected = value;
     notifyListeners();
   }
 
@@ -74,10 +74,10 @@ class WeatherApiService extends ChangeNotifier {
 
         forecast = weatherResp.forecast.forecastday;
 
-        return isData = true;
+        return isConected = true;
       }
     } catch (e) {
-      return isData = false;
+      return isConected = false;
     }
   }
 }

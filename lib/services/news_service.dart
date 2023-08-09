@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -16,6 +15,15 @@ class NewsService with ChangeNotifier {
   bool get activeSearch => _activeSearch;
   set activeSearch(bool value) {
     _activeSearch = value;
+    notifyListeners();
+  }
+
+  bool _isConnected = false;
+
+  bool get isConnected => _isConnected;
+
+  set isConnected(bool value) {
+    _isConnected = value;
     notifyListeners();
   }
 
@@ -48,7 +56,7 @@ class NewsService with ChangeNotifier {
     }
   }
 
-  Future<NewsResponse> getNewsByFoundedPlace(String city, language) async {
+  getNewsByFoundedPlace(String city, language) async {
     apiParams() {
       return {'apiKey': _apiKey, 'q': city, 'language': language};
     }
@@ -58,16 +66,11 @@ class NewsService with ChangeNotifier {
 
       final resp = await http.get(uri);
 
-      if (resp.statusCode == 200) {
-        final newsResp = newsResponseFromJson(resp.body);
-        return newsResp;
-      } else {
-        throw Exception('Failed to load data,try again later');
-      }
-    } on SocketException {
-      throw Exception('No internet connection');
+      final newsResp = newsResponseFromJson(resp.body);
+      isConnected = true;
+      return newsResp.articles;
     } catch (e) {
-      throw Exception('An error occurred: $e');
+      return isConnected = false;
     }
   }
 }
