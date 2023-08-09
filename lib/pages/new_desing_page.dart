@@ -62,7 +62,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
 
     final hasData = await weatherServ!.getInfoWeatherLocation(coords);
 
-    return (weatherServ!.isData) ? hasData : null;
+    return hasData;
   }
 
   @override
@@ -74,12 +74,15 @@ class _NewsDesignPageState extends State<NewsDesignPage>
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularIndicator();
-          } else if (!snapshot.hasError) {
-            return NoDataPage(
-                text:
-                    'no data try again later, or check your internet conection');
-          } else {
+          } else if (snapshot.data! && weatherServ!.isData) {
             return _WeatherWidget();
+          } else {
+            return NoDataPage(
+              text: 'Something went wrong, check your conection an trya again.',
+              function: () {
+                Navigator.pushNamed(context, 'ND');
+              },
+            );
           }
         });
   }
