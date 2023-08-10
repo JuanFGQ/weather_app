@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -52,18 +50,6 @@ class _NewsPageState extends State<NewsPage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularIndicator();
-          } else if (snapshot.isNull) {
-            return NoDataPage(
-              function: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const WeatherSearchCity()));
-              },
-              icon: const Icon(FontAwesomeIcons.magnifyingGlassLocation),
-              text: AppLocalizations.of(context)!.nonews,
-            );
           } else if (!newsService.isConnected) {
             return NoDataPage(
               function: () {
