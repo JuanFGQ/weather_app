@@ -18,12 +18,12 @@ class NewsService with ChangeNotifier {
     notifyListeners();
   }
 
-  bool _isConnected = false;
+  bool _isDisconnected = false;
 
-  bool get isConnected => _isConnected;
+  bool get isDisconnected => _isDisconnected;
 
-  set isConnected(bool value) {
-    _isConnected = value;
+  set isDisconnected(bool value) {
+    _isDisconnected = value;
     notifyListeners();
   }
 
@@ -67,11 +67,11 @@ class NewsService with ChangeNotifier {
       final resp = await http.get(uri);
 
       final newsResp = newsResponseFromJson(resp.body);
-      isConnected = true;
+
       return newsResp;
     } catch (e) {
-      isConnected = false;
-      return NewsResponse(status: 'erro', totalResults: 0, articles: []);
+      isDisconnected = true;
+      return NewsResponse(status: 'error', totalResults: 0, articles: []);
     }
   }
 }

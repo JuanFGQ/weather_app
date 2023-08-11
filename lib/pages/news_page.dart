@@ -51,15 +51,6 @@ class _NewsPageState extends State<NewsPage> {
         builder: (BuildContext context, AsyncSnapshot<NewsResponse> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularIndicator();
-          } else if (!newsService.isConnected) {
-            return NoDataPage(
-              function: () {
-                Navigator.pushNamed(context, 'ND');
-              },
-              icon: const Icon(FontAwesomeIcons.refresh),
-              text:
-                  'Something went wrong, check your internet conection and try again.',
-            );
           } else if (snapshot.hasData && snapshot.data!.articles.isEmpty) {
             return NoDataPage(
               function: () {
@@ -67,7 +58,15 @@ class _NewsPageState extends State<NewsPage> {
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            const NewsDesignPage()));
+                            const WeatherSearchCity()));
+              },
+              icon: const Icon(FontAwesomeIcons.search),
+              text: AppLocalizations.of(context)!.nonews,
+            );
+          } else if (newsService.isDisconnected) {
+            return NoDataPage(
+              function: () {
+                Navigator.pushNamed(context, 'ND');
               },
               icon: const Icon(FontAwesomeIcons.refresh),
               text:
