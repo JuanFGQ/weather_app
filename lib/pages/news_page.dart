@@ -46,26 +46,35 @@ class _NewsPageState extends State<NewsPage> {
     print('NEWS PAGE BUILD');
 
     return FutureBuilder(
-        future: _getNews(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
+        future: newsService.getNewsByFoundedPlace(weatherServ.location!.name,
+            (!localizationProvider.languageEnglish) ? 'es' : 'en'),
+        builder: (BuildContext context, AsyncSnapshot<NewsResponse> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularIndicator();
           } else if (!newsService.isConnected) {
             return NoDataPage(
               function: () {
                 Navigator.pushNamed(context, 'ND');
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (BuildContext context) =>
-                //             const NewsDesignPage()));
+              },
+              icon: const Icon(FontAwesomeIcons.refresh),
+              text:
+                  'Something went wrong, check your internet conection and try again.',
+            );
+          } else if (snapshot.hasData && snapshot.data!.articles.isEmpty) {
+            return NoDataPage(
+              function: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const NewsDesignPage()));
               },
               icon: const Icon(FontAwesomeIcons.refresh),
               text:
                   'Something went wrong, check your internet conection and try again.',
             );
           } else {
-            return _NewsViewer(snapshot.data);
+            return _NewsViewer(snapshot.data!.articles);
           }
         });
   }

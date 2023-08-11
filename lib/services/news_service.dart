@@ -56,7 +56,7 @@ class NewsService with ChangeNotifier {
     }
   }
 
-  getNewsByFoundedPlace(String city, language) async {
+  Future<NewsResponse> getNewsByFoundedPlace(String city, language) async {
     apiParams() {
       return {'apiKey': _apiKey, 'q': city, 'language': language};
     }
@@ -68,9 +68,10 @@ class NewsService with ChangeNotifier {
 
       final newsResp = newsResponseFromJson(resp.body);
       isConnected = true;
-      return newsResp.articles;
+      return newsResp;
     } catch (e) {
-      return isConnected = false;
+      isConnected = false;
+      return NewsResponse(status: 'erro', totalResults: 0, articles: []);
     }
   }
 }
