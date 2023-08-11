@@ -60,6 +60,9 @@ class _NewsDesignPageState extends State<NewsDesignPage>
 
     final hasData = await weatherServ!.getInfoWeatherLocation(coords);
 
+    //si las coordenadas estan nulas o vacias: podria ir a la pagina de check gps
+    //o podria atrapar el error y cambia el valo de alguna variable en GEOLOCATOR SERVICE.
+
     return hasData;
   }
 
@@ -134,9 +137,12 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
     localizationProvider =
         Provider.of<LocalizationProvider>(context, listen: false);
 
-    newsListProvider!.loadSavedNews();
-    saveCitiesProvider!.loadSavedCities();
-    wantedPlaces!.loadSavedPlaces();
+    newsListProvider!
+        .loadSavedNews(); //esto se podria inicializar cuando se abre el menuDrawer?
+    saveCitiesProvider!
+        .loadSavedCities(); //esto se podria inicializar cuando se abre el menuDrawer?
+    wantedPlaces!
+        .loadSavedPlaces(); //esto se puede inicializar  cuando entro en la pagina de busquedas
 
     locationName = weatherAPI!.location!.name;
     countryName = weatherAPI!.location!.country;
