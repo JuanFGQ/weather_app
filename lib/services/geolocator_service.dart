@@ -51,12 +51,14 @@ class GeolocatorService extends ChangeNotifier {
     final isEnabled = await Geolocator.isLocationServiceEnabled();
     final locationServiceEnabled = (isEnabled) ? true : false;
     _gpsEnabled = locationServiceEnabled;
+    print('LOCATION IS ENABLED STREAM $locationServiceEnabled');
     _loadingData.sink.add(locationServiceEnabled);
 
     Geolocator.getServiceStatusStream().listen(
       (event) {
         final statusStream = (event.index == 1) ? true : false;
         gpsEnabled = statusStream;
+        print('STATUS STREAM $statusStream');
 
         _loadingData.sink.add(statusStream);
       },
