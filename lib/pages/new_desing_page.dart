@@ -59,10 +59,6 @@ class _NewsDesignPageState extends State<NewsDesignPage>
         (!newsServ!.activeSearch) ? actualLocationCoords : searhCityCoords;
 
     final hasData = await weatherServ!.getInfoWeatherLocation(coords);
-
-    //si las coordenadas estan nulas o vacias: podria ir a la pagina de check gps
-    //o podria atrapar el error y cambia el valo de alguna variable en GEOLOCATOR SERVICE.
-
     return hasData;
   }
 

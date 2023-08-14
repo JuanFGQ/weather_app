@@ -72,6 +72,7 @@ class _LoadingPageState extends State<LoadingPage> {
     return StreamBuilder(
       stream: geolocatorService.loadingData,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
+        print('STREAM entrada de datos loading page');
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.data! && geolocatorService.isAllGranted) {
