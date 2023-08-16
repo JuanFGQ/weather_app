@@ -45,10 +45,10 @@ class WeatherApiService extends ChangeNotifier {
     notifyListeners();
   }
 
-  final StreamController<bool> _isLoadingData =
-      StreamController<bool>.broadcast();
+  // final StreamController<bool> _isLoadingData =
+  //     StreamController<bool>.broadcast();
 
-  Stream get isLoadingData => _isLoadingData.stream;
+  // Stream get isLoadingData => _isLoadingData.stream;
 
   getInfoWeatherLocation(String coords) async {
     apiParams() {

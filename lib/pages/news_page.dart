@@ -44,7 +44,7 @@ class _NewsPageState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
     print('NEWS PAGE BUILD');
-
+//
     return FutureBuilder(
         future: newsService.getNewsByFoundedPlace(weatherServ.location!.name,
             (!localizationProvider.languageEnglish) ? 'es' : 'en'),

@@ -3,7 +3,6 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/providers.dart';
 import '../services/services.dart';
 import 'pages.dart';
 
@@ -15,11 +14,12 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
-  NewsListProvider? newsListProvider;
-
+  late GeolocatorService geolocatorService;
   @override
   void initState() {
     super.initState();
+
+    geolocatorService = Provider.of<GeolocatorService>(context, listen: false);
 
     AwesomeNotifications().isNotificationAllowed().then(
       (isAllowed) {
@@ -66,20 +66,30 @@ class _LoadingPageState extends State<LoadingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final geolocatorService = Provider.of<GeolocatorService>(context);
-
 // scaffold delete
     return StreamBuilder(
       stream: geolocatorService.loadingData,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
+        print('STREAM LOADING PAGE');
         if (snapshot.connectionState == ConnectionState.waiting) {
+          print('STREAM WAINTING');
+
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.data! && geolocatorService.isAllGranted) {
+          print('STREAM SNAPSHOT');
           return const NewsDesignPage();
         } else {
+          print('STREAM GPSACCESS');
+
           return const GpsAccessScreen();
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    geolocatorService.loadingData;
+    super.dispose();
   }
 }

@@ -32,7 +32,6 @@ class _NewsDesignPageState extends State<NewsDesignPage>
   NewsService? newsServ;
   WeatherApiService? weatherServ;
   GeolocatorService? geolocatorService;
-  NewsListProvider? newsListProvider;
 
   @override
   void initState() {
@@ -40,7 +39,6 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     newsServ = Provider.of<NewsService>(context, listen: false);
     weatherServ = Provider.of<WeatherApiService>(context, listen: false);
     geolocatorService = Provider.of<GeolocatorService>(context, listen: false);
-    newsListProvider = Provider.of<NewsListProvider>(context, listen: false);
   }
 
   @override
@@ -49,21 +47,24 @@ class _NewsDesignPageState extends State<NewsDesignPage>
     newsServ;
     weatherServ;
     geolocatorService;
-    newsListProvider;
   }
 
   Future _superSearchInfo() async {
-    final actualLocationCoords = await geolocatorService!.getCurrentLocation();
-    final searhCityCoords = weatherServ!.coords;
-    final coords =
-        (!newsServ!.activeSearch) ? actualLocationCoords : searhCityCoords;
-
-    final hasData = await weatherServ!.getInfoWeatherLocation(coords);
-
-    //si las coordenadas estan nulas o vacias: podria ir a la pagina de check gps
-    //o podria atrapar el error y cambia el valo de alguna variable en GEOLOCATOR SERVICE.
-
-    return hasData;
+    try {
+      final actualLocationCoords =
+          await geolocatorService!.getCurrentLocation();
+      final searhCityCoords = weatherServ!.coords;
+      final coords =
+          (!newsServ!.activeSearch) ? actualLocationCoords : searhCityCoords;
+      final hasData = await weatherServ!.getInfoWeatherLocation(coords);
+      return hasData;
+    } catch (e) {
+      return const NoDataPage(
+          text: 'Revisa la ubicacion de tu telefono',
+          icon: Icon(Icons.location_off_rounded));
+      // return Navigator.pushNamed(context, 'loading');
+      //
+    }
   }
 
   @override
@@ -824,36 +825,17 @@ class _Background extends StatelessWidget {
     return ClipRRect(
       borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
-      child: ShaderMask(
-        shaderCallback: (Rect bounds) {
-          return const LinearGradient(
-            // transform: GradientTransform,
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.transparent,
-              Color.fromARGB(127, 0, 0, 0),
-            ],
-            stops: [
-              0.0,
-              1.0,
-            ],
-            tileMode: TileMode.repeated,
-          ).createShader(bounds);
-        },
-        blendMode: BlendMode.darken,
-        child: Container(
-          height: size.height * 0.75,
-          decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30)),
-              image: DecorationImage(
-                  image: AssetImage(_builBackGroundImage()
-                      // _builBackGroundImage()
-                      ),
-                  fit: BoxFit.fill)),
-        ),
+      child: Container(
+        height: size.height * 0.75,
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30)),
+            image: DecorationImage(
+                image: AssetImage(_builBackGroundImage()
+                    // _builBackGroundImage()
+                    ),
+                fit: BoxFit.fill)),
       ),
     );
   }

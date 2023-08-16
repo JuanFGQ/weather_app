@@ -47,18 +47,22 @@ class GeolocatorService extends ChangeNotifier {
     }
   }
 
-  Future<bool> _checkGpsStatus() async {
+  Future<bool> checkGpsStatus() async {
     final isEnabled = await Geolocator.isLocationServiceEnabled();
     final locationServiceEnabled = (isEnabled) ? true : false;
+    print('GEO ISENABLED');
     _gpsEnabled = locationServiceEnabled;
     _loadingData.sink.add(locationServiceEnabled);
+    print('LOADING DATA 1$_loadingData');
 
     Geolocator.getServiceStatusStream().listen(
       (event) {
         final statusStream = (event.index == 1) ? true : false;
+        print('GEO STREAM LISTEN $statusStream');
         gpsEnabled = statusStream;
 
         _loadingData.sink.add(statusStream);
+        print('LOADING DATA 2$_loadingData');
       },
     );
 
@@ -95,9 +99,15 @@ class GeolocatorService extends ChangeNotifier {
   Future<void> _init() async {
     await Future.wait(
       [
-        _checkGpsStatus(),
+        checkGpsStatus(),
         _isPermissionGrant(),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _loadingData.close();
+    super.dispose();
   }
 }

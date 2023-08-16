@@ -17,6 +17,7 @@ import 'providers/providers.dart';
 import 'services/services.dart';
 
 void main() async {
+  Provider.debugCheckInvalidValueType = null;
   //making sure the process can pass
   WidgetsFlutterBinding.ensureInitialized();
 //initialing notifications
@@ -57,17 +58,14 @@ class AppState extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => MapBoxService(), lazy: false),
-        ChangeNotifierProvider(create: (_) => GeolocatorService(), lazy: false),
-        ChangeNotifierProvider(create: (_) => WeatherApiService(), lazy: false),
-        ChangeNotifierProvider(create: (_) => NewsService(), lazy: false),
-        ChangeNotifierProvider(create: (_) => NewsListProvider(), lazy: false),
-        ChangeNotifierProvider(
-            create: (_) => CitiesListProvider(), lazy: false),
-        ChangeNotifierProvider(
-            create: (_) => WantedPlacesProvider(), lazy: false),
-        ChangeNotifierProvider(
-            create: (_) => LocalizationProvider(), lazy: false),
+        ChangeNotifierProvider(create: (_) => GeolocatorService()),
+        ChangeNotifierProvider(create: (_) => MapBoxService()),
+        ChangeNotifierProvider(create: (_) => WeatherApiService()),
+        ChangeNotifierProvider(create: (_) => NewsService()),
+        ChangeNotifierProvider(create: (_) => NewsListProvider()),
+        ChangeNotifierProvider(create: (_) => CitiesListProvider()),
+        ChangeNotifierProvider(create: (_) => WantedPlacesProvider()),
+        ChangeNotifierProvider(create: (_) => LocalizationProvider()),
       ],
       child: const MyApp(),
     );

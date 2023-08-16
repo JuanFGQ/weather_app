@@ -7,24 +7,26 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
 
-import 'package:weather/main.dart';
+import 'package:weather/pages/new_desing_page.dart';
+import 'package:weather/services/services.dart';
+import 'package:weather/widgets/circular_progress_indicator.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets(
+    'description',
+    (tester) async {
+      await tester.pumpWidget(MultiProvider(
+        providers: [
+          Provider<NewsService>(create: (context) => NewsService()),
+          Provider<GeolocatorService>(create: (context) => GeolocatorService()),
+          Provider<WeatherApiService>(create: (context) => WeatherApiService()),
+        ],
+        child: NewsDesignPage(),
+      ));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
-  });
+      expect(find.byWidget(const CircularIndicator()), findsOneWidget);
+    },
+  );
 }
