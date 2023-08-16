@@ -52,6 +52,7 @@ class GeolocatorService extends ChangeNotifier {
     final locationServiceEnabled = (isEnabled) ? true : false;
     print('GEO ISENABLED');
     _gpsEnabled = locationServiceEnabled;
+    print('LOCATION IS ENABLED STREAM $locationServiceEnabled');
     _loadingData.sink.add(locationServiceEnabled);
     print('LOADING DATA 1$_loadingData');
 
@@ -60,6 +61,7 @@ class GeolocatorService extends ChangeNotifier {
         final statusStream = (event.index == 1) ? true : false;
         print('GEO STREAM LISTEN $statusStream');
         gpsEnabled = statusStream;
+        print('STATUS STREAM $statusStream');
 
         _loadingData.sink.add(statusStream);
         print('LOADING DATA 2$_loadingData');
