@@ -13,8 +13,13 @@ void main() {
     (WidgetTester tester) async {
       final mockGeolocator = MockGeolocatorService();
 
+      mockGeolocator.gpsEnabled = true;
+      mockGeolocator.isPermissionGranted = true;
+
+      // mockGeolocator.isAllGranted = true;
+
       when(mockGeolocator.loadingData)
-          .thenAnswer((_) => Stream<bool>.value(true));
+          .thenAnswer((_) => Stream<dynamic>.value(true));
 
       await tester.pumpWidget(
         MaterialApp(
@@ -24,7 +29,7 @@ void main() {
           ),
         ),
       );
-      await tester.pump();
+      await tester.pump(Duration.zero);
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     },
