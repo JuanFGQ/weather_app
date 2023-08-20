@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: 'loading',
         routes: {
-          'loading': (_) => const LoadingPage(),
+          // 'loading': (_) => const LoadingPage(),
           'ND': (_) => const NewsDesignPage(),
         },
         // theme: appTheme,

@@ -2,25 +2,38 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/pages/pages.dart';
 import 'package:weather/services/services.dart';
 import 'package:weather/widgets/widgets.dart';
 
 class MockGeolocatorService extends Mock implements GeolocatorService {
-  // final StreamController<bool> _loadingData = StreamController.broadcast();
+  final StreamController<bool> _loadingData =
+      StreamController<bool>.broadcast();
 
-  // @override
-  // Stream get loadingData => _loadingData.stream;
+  @override
+  Stream get loadingData => _loadingData.stream;
 
-  // @override
-  // Future<bool> checkGpsStatus() {
-  //   final isLocationEnabled = true;
+  @override
+  bool get isAllGranted => gpsEnabled && isPermissionGranted;
 
-  //   _loadingData.sink.add(isLocationEnabled);
-  //   return isLocationEnabled;
-  // }
+  @override
+  Future<bool> checkGpsStatus() async {
+    var isLocationEnabled = true;
+    gpsEnabled = isLocationEnabled;
+
+    _loadingData.sink.add(true);
+
+    return isLocationEnabled;
+  }
+
+  @override
+  Future askGpsAccess() async {
+    isPermissionGranted = true;
+
+    return;
+  }
 }
 
 class StreamBuilderWidget extends StatelessWidget {
@@ -44,66 +57,11 @@ class StreamBuilderWidget extends StatelessWidget {
 }
 
 void main() {
-  group('interact with the widgets on screen ', () {
-    testWidgets('find Circular Progress Indicator', (teste) async {
-      await teste.pumpWidget(MultiProvider(
-        providers: [
-          // Provider<GeolocatorService>(create: (context) => GeolocatorService())
-          ChangeNotifierProvider<GeolocatorService>(
-              create: (context) => GeolocatorService())
-        ],
-        child: Builder(builder: (BuildContext context) {
-          return const MaterialApp(
-            home: LoadingPage(),
-          );
-        }),
-      ));
-      await teste.pump();
+  // late MockGeolocatorService mockGeolocatorService;
 
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    });
-
-// ********************************************************************************
-
-    testWidgets('find Circular Progress Indicator', (teste) async {
-      StreamController<bool> loadingData = StreamController<bool>();
-      loadingData.add(true);
-
-      await teste.pumpWidget(MultiProvider(
-        providers: [
-          // Provider<GeolocatorService>(create: (context) => GeolocatorService())
-          ChangeNotifierProvider<GeolocatorService>(
-              create: (context) => GeolocatorService())
-        ],
-        child: Builder(builder: (BuildContext context) {
-          return const MaterialApp(
-            home: LoadingPage(),
-          );
-        }),
-      ));
-
-      await teste.pump(Duration.zero);
-      // await teste.pumpAndSettle();
-
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    });
-
-// ********************************************************************************
-  });
-
-  group('test user interaction in the screen  ', () {
-    testWidgets('findind circular', (widgetTester) async {
-      await widgetTester.pumpWidget(MaterialApp(home: CircularIndicator()));
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    });
-
-    testWidgets('find loading text', (widgetTester) async {
-      await widgetTester.pumpWidget(MaterialApp(home: CircularIndicator()));
-      expect(find.byType(Text), findsOneWidget);
-    });
-  });
-
-// El widget que contiene el StreamBuilder
+  // setUp(() {
+  //   mockGeolocatorService = MockGeolocatorService();
+  // });
 
   testWidgets('StreamBuilder should display data', (WidgetTester tester) async {
     final StreamController<int> streamController = StreamController<int>();
@@ -127,21 +85,41 @@ void main() {
     // Cerrar el stream cuando las pruebas hayan terminado
     streamController.close();
   });
+  group('loadin page TEST', () {
+    testWidgets(
+        'simulating LoadingPage StreamBuilder Flow with fake LoadingPage and without Geolocator service stream data  ',
+        (WidgetTester tester) async {
+      final StreamController<bool> streamController = StreamController<bool>();
 
-  testWidgets('find New desing page', (widgetTester) async {
-    final mockGeo = MockGeolocatorService();
-    //
+      final loadingPage = LoadingPage(stream: streamController.stream);
 
-    await widgetTester.pumpWidget(
-      MaterialApp(
-        home: ChangeNotifierProvider<GeolocatorService>(
-          create: (_) => mockGeo,
-          child: const LoadingPage(),
-        ),
-      ),
-    );
-    when(mockGeo._loadingData).thenAnswer((_) => isTrue);
-//
-    // expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      await tester.pumpWidget(MaterialApp(
+          home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => GeolocatorService()),
+          ChangeNotifierProvider(create: (_) => NewsService()),
+          ChangeNotifierProvider(create: (_) => WeatherApiService())
+        ],
+        child: loadingPage,
+      )));
+
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(find.byType(NewsDesignPage), findsNothing);
+      expect(find.byType(GpsAccessScreen), findsNothing);
+
+      streamController.add(false);
+      await tester.pump();
+
+      expect(find.byType(CircularProgressIndicator), findsNothing);
+      expect(find.byType(NewsDesignPage), findsNothing);
+      expect(find.byType(GpsAccessScreen), findsOneWidget);
+
+      streamController.add(true);
+      await tester.pump();
+
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(find.byType(NewsDesignPage), findsOneWidget);
+      expect(find.byType(GpsAccessScreen), findsNothing);
+    });
   });
 }

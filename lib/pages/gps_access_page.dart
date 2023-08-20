@@ -4,14 +4,11 @@ import 'package:provider/provider.dart';
 import '../services/services.dart';
 import 'pages.dart';
 
-class GpsAccessScreen extends StatefulWidget {
+class GpsAccessScreen extends StatelessWidget {
   const GpsAccessScreen({super.key});
 
-  @override
-  State<GpsAccessScreen> createState() => _GpsAccessScreenState();
-}
+  //converte to stless widget
 
-class _GpsAccessScreenState extends State<GpsAccessScreen> {
   @override
   Widget build(BuildContext context) {
     //aqui tambien deberia tener un stream por que tengo que estar atento a si el usuario desactiva la ubicacion

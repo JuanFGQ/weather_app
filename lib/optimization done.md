@@ -91,3 +91,9 @@ DESCRIPTION NEWS CARD
 -[x]
 
 
+
+
+cambios a realizar 
+
+
+verficair si quitando el Future de CheckGpsStatus y convirtiendolo en una funcion que no retorna nada, afectaria el codigo
