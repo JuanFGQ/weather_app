@@ -44,7 +44,7 @@ class WeatherApiService extends ChangeNotifier {
     notifyListeners();
   }
 
-  getInfoWeatherLocation(String coords, http.Client http) async {
+  getInfoWeatherLocation(String coords) async {
     apiParams() {
       return {
         'key': _key,
