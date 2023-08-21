@@ -56,7 +56,8 @@ class _NewsDesignPageState extends State<NewsDesignPage>
       final searhCityCoords = weatherServ!.coords;
       final coords =
           (!newsServ!.activeSearch) ? actualLocationCoords : searhCityCoords;
-      final hasData = await weatherServ!.getInfoWeatherLocation(coords);
+      final hasData =
+          await weatherServ!.getInfoWeatherLocation(coords, http.Client);
       return hasData;
     } catch (e) {
       return const NoDataPage(
