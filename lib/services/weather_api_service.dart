@@ -10,7 +10,6 @@ class WeatherApiService extends ChangeNotifier {
   Location? location;
   Current? current;
   LocalizationProvider? locale;
-
   List<Forecastday>? forecast;
 
   final String _baseUrl = 'api.weatherapi.com';
@@ -45,12 +44,7 @@ class WeatherApiService extends ChangeNotifier {
     notifyListeners();
   }
 
-  // final StreamController<bool> _isLoadingData =
-  //     StreamController<bool>.broadcast();
-
-  // Stream get isLoadingData => _isLoadingData.stream;
-
-  getInfoWeatherLocation(String coords) async {
+  getInfoWeatherLocation(String coords, http.Client http) async {
     apiParams() {
       return {
         'key': _key,

@@ -2,39 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/pages/pages.dart';
 import 'package:weather/services/services.dart';
 import 'package:weather/widgets/widgets.dart';
-
-class MockGeolocatorService extends Mock implements GeolocatorService {
-  final StreamController<bool> _loadingData =
-      StreamController<bool>.broadcast();
-
-  @override
-  Stream get loadingData => _loadingData.stream;
-
-  @override
-  bool get isAllGranted => gpsEnabled && isPermissionGranted;
-
-  @override
-  Future<bool> checkGpsStatus() async {
-    var isLocationEnabled = true;
-    gpsEnabled = isLocationEnabled;
-
-    _loadingData.sink.add(true);
-
-    return isLocationEnabled;
-  }
-
-  @override
-  Future askGpsAccess() async {
-    isPermissionGranted = true;
-
-    return;
-  }
-}
 
 class StreamBuilderWidget extends StatelessWidget {
   final Stream<int> stream;
@@ -57,12 +28,6 @@ class StreamBuilderWidget extends StatelessWidget {
 }
 
 void main() {
-  // late MockGeolocatorService mockGeolocatorService;
-
-  // setUp(() {
-  //   mockGeolocatorService = MockGeolocatorService();
-  // });
-
   testWidgets('StreamBuilder should display data', (WidgetTester tester) async {
     final StreamController<int> streamController = StreamController<int>();
     final streamBuilderWidget =

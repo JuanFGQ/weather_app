@@ -42,11 +42,4 @@ void main() {
 
     expect(isLocationEnabled, isTrue);
   });
-
-  // test('AskGpsAccess ', () async {
-  //   when(() => mockGeolocator.askGpsAccess()).thenAnswer((_) async => true);
-
-  //   expect(mockGeolocator.askGpsAccess(), true);
-  //   // verifyNever(() => mockGeolocator.openAppSettings());
-  // });
 }
