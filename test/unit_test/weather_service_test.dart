@@ -10,7 +10,7 @@ class MockWeatherService extends Mock implements WeatherApiService {
   final String _baseUrl = 'api.weatherapi.com';
   final String _key = 'a1f73a2fb6cc40c29eb17542523220';
 
-  getInfoWeatherLocation(String coords, http.Client http) async {
+  getInfoWeatherLocation(String coords) async {
     apiParams() {
       return {
         'q': coords,
