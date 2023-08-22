@@ -8,10 +8,9 @@ import 'package:http/http.dart' as http;
 
 class MockWeatherService extends Mock implements WeatherApiService {
   final String _baseUrl = 'api.weatherapi.com';
-  final String _key = 'a1f73a2fb6cc40c29eb175425232204';
+  final String _key = 'a1f73a2fb6cc40c29eb17542523220';
 
-  @override
-  getInfoWeatherLocation(String coords) async {
+  getInfoWeatherLocation(String coords, http.Client http) async {
     apiParams() {
       return {
         'q': coords,
@@ -45,14 +44,45 @@ class MockClient extends Mock implements HttpClient {}
 void main() {
   // final mockWeatherApi = MockWeatherService();
 
-  late WeatherApiService weatherApiService;
+  late MockWeatherService mockWeatherApiService;
   late MockClient mockClient;
 
   setUp(() {
     mockClient = MockClient();
-    weatherApiService = WeatherApiService();
-    weatherApiService = MockClient() as WeatherApiService;
+    mockWeatherApiService = MockWeatherService();
+    // weatherApiService = MockClient() as WeatherApiService;
   });
 
-  test('getInfoWeatherLocation', () {});
+  group('Get Info Weather Location', () {
+    test(
+        'getInfoWeatherLocation, internet conection OK and Api response testing Try',
+        () async {
+      // when(() =>
+      //     mockWeatherApiService.getInf oWeatherLocation('-3.1618500,40.6286200'));
+
+      final result = await mockWeatherApiService
+          .getInfoWeatherLocation('-3.1618500,40.6286200');
+
+      expect(result, true);
+    });
+    test('getInfoWeatherLocation, failed internet conection,testing Catch',
+        () async {
+      // when(() =>
+      //     mockWeatherApiService.getInf oWeatherLocation('-3.1618500,40.6286200'));
+
+      final result = await mockWeatherApiService
+          .getInfoWeatherLocation('-3.1618500,40.6286200');
+
+      expect(result, false);
+    });
+    test('getInfoWeatherLocation, status code != 200', () async {
+      // when(() =>
+      //     mockWeatherApiService.getInf oWeatherLocation('-3.1618500,40.6286200'));
+
+      final result = await mockWeatherApiService
+          .getInfoWeatherLocation('-3.1618500,40.6286200');
+
+      expect(result, null);
+    });
+  });
 }
