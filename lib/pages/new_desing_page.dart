@@ -59,9 +59,11 @@ class _NewsDesignPageState extends State<NewsDesignPage>
       final hasData = await weatherServ!.getInfoWeatherLocation(coords);
       return hasData;
     } catch (e) {
-      return const NoDataPage(
-          text: 'Revisa la ubicacion de tu telefono',
-          icon: Icon(Icons.location_off_rounded));
+      return;
+      // const NoDataPage(
+      //     text: 'Revisa la ubicacion de tu telefono',
+      //     icon: Icon(Icons.location_off_rounded)
+      //     );
       // return Navigator.pushNamed(context, 'loading');
       //
     }
@@ -159,6 +161,54 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
     uvRays = '${weatherAPI!.current?.uv ?? '?'}';
     condition = weatherAPI!.current!.condition.text;
     lastUpdated = weatherAPI!.current!.lastUpdated;
+  }
+
+  void saveInFavouritePlaces(WeatherApiService apiResp) async {
+    final cityListCopy =
+        Set.from(saveCitiesProvider!.cities.map((e) => e.title));
+
+    final comparisonText = locationName;
+
+    bool foundMatch = false;
+
+    if (cityListCopy.contains(comparisonText)) {
+      foundMatch = true;
+      saveCitiesProvider!.isPressedSaveButton = true;
+      showDialog(
+        context: context,
+        builder: (_) => FadeInUp(
+          duration: const Duration(milliseconds: 200),
+          child: AlertDialog(
+            alignment: Alignment.bottomCenter,
+            title: Text(
+              AppLocalizations.of(context)!.allreadysave,
+              style: const TextStyle(color: Colors.white70),
+            ),
+            elevation: 24,
+            backgroundColor: const Color.fromARGB(130, 0, 108, 196),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          ),
+        ),
+      );
+    }
+
+    if (!foundMatch) {
+      final String currentCoords =
+          await geolocatorService!.getCurrentLocation();
+      final selectedCoord =
+          (!newService!.activeSearch) ? currentCoords : apiResp.coords;
+
+      await saveCitiesProvider!.saveCity(
+        countryName,
+        locationName,
+        regionName,
+        condition,
+        selectedCoord,
+      );
+
+      await saveCitiesProvider!.loadSavedCities();
+    }
   }
 
   @override
@@ -266,59 +316,10 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
           ],
         ));
   }
-
-  void saveInFavouritePlaces(WeatherApiService apiResp) async {
-    final cityListCopy =
-        Set.from(saveCitiesProvider!.cities.map((e) => e.title));
-
-    final comparisonText = locationName;
-
-    bool foundMatch = false;
-
-    if (cityListCopy.contains(comparisonText)) {
-      foundMatch = true;
-      saveCitiesProvider!.isPressedSaveButton = true;
-      showDialog(
-        context: context,
-        builder: (_) => FadeInUp(
-          duration: const Duration(milliseconds: 200),
-          child: AlertDialog(
-            alignment: Alignment.bottomCenter,
-            title: Text(
-              AppLocalizations.of(context)!.allreadysave,
-              style: const TextStyle(color: Colors.white70),
-            ),
-            elevation: 24,
-            backgroundColor: const Color.fromARGB(130, 0, 108, 196),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          ),
-        ),
-      );
-    }
-
-    if (!foundMatch) {
-      final String currentCoords =
-          await geolocatorService!.getCurrentLocation();
-      final selectedCoord =
-          (!newService!.activeSearch) ? currentCoords : apiResp.coords;
-
-      await saveCitiesProvider!.saveCity(
-        countryName,
-        locationName,
-        regionName,
-        condition,
-        selectedCoord,
-      );
-
-      await saveCitiesProvider!.loadSavedCities();
-    }
-  }
 }
 
 class _MenuDrawer extends StatelessWidget {
   final NewsService newsService;
-
   final LocalizationProvider localeProvider;
   final WeatherApiService weatherApi;
   final Size size;

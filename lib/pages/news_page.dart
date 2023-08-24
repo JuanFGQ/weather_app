@@ -123,6 +123,40 @@ class _NewsViewerState extends State<_NewsViewer>
     });
   }
 
+  void saveNewsIndex(
+      Article selNews, int i, NewsListProvider savedNewsProvider) async {
+    final newListCopy = Set.from(savedNewsProvider.news.map((e) => e.title));
+
+    bool foundMatch = false;
+
+    if (newListCopy.contains(selNews.title)) {
+      foundMatch = true;
+      showDialog(
+        context: context,
+        builder: (_) => FadeInUp(
+          duration: const Duration(milliseconds: 200),
+          child: AlertDialog(
+            alignment: Alignment.bottomCenter,
+            title: Text(
+              AppLocalizations.of(context)!.allreadysave,
+              style: const TextStyle(color: Colors.white70),
+            ),
+            elevation: 24,
+            backgroundColor: const Color.fromARGB(130, 0, 108, 196),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          ),
+        ),
+      );
+    }
+    if (!foundMatch) {
+      await savedNewsProvider.newSave(
+          selNews.url!, selNews.title, selNews.urlToImage, true);
+
+      await savedNewsProvider.loadSavedNews();
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -225,40 +259,6 @@ class _NewsViewerState extends State<_NewsViewer>
         )
       ],
     );
-  }
-
-  void saveNewsIndex(
-      Article selNews, int i, NewsListProvider savedNewsProvider) async {
-    final newListCopy = Set.from(savedNewsProvider.news.map((e) => e.title));
-
-    bool foundMatch = false;
-
-    if (newListCopy.contains(selNews.title)) {
-      foundMatch = true;
-      showDialog(
-        context: context,
-        builder: (_) => FadeInUp(
-          duration: const Duration(milliseconds: 200),
-          child: AlertDialog(
-            alignment: Alignment.bottomCenter,
-            title: Text(
-              AppLocalizations.of(context)!.allreadysave,
-              style: const TextStyle(color: Colors.white70),
-            ),
-            elevation: 24,
-            backgroundColor: const Color.fromARGB(130, 0, 108, 196),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          ),
-        ),
-      );
-    }
-    if (!foundMatch) {
-      await savedNewsProvider.newSave(
-          selNews.url!, selNews.title, selNews.urlToImage, true);
-
-      await savedNewsProvider.loadSavedNews();
-    }
   }
 }
 
