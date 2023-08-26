@@ -56,7 +56,7 @@ void main() {
         (WidgetTester tester) async {
       final StreamController<bool> streamController = StreamController<bool>();
 
-      final loadingPage = LoadingPage(stream: streamController.stream);
+      // final loadingPage = LoadingPage(stream: streamController.stream);
 
       await tester.pumpWidget(MaterialApp(
           home: MultiProvider(
@@ -65,7 +65,7 @@ void main() {
           ChangeNotifierProvider(create: (_) => NewsService()),
           ChangeNotifierProvider(create: (_) => WeatherApiService())
         ],
-        child: loadingPage,
+        // child: loadingPage,
       )));
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);

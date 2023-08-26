@@ -59,11 +59,9 @@ class _NewsDesignPageState extends State<NewsDesignPage>
       final hasData = await weatherServ!.getInfoWeatherLocation(coords);
       return hasData;
     } catch (e) {
-      return;
-      // const NoDataPage(
+      // return const NoDataPage(
       //     text: 'Revisa la ubicacion de tu telefono',
-      //     icon: Icon(Icons.location_off_rounded)
-      //     );
+      //     icon: Icon(Icons.location_off_rounded));
       // return Navigator.pushNamed(context, 'loading');
       //
     }
@@ -71,14 +69,12 @@ class _NewsDesignPageState extends State<NewsDesignPage>
 
   @override
   Widget build(BuildContext context) {
-    print('NEW DESIGN PAGE BUILD');
-
     return FutureBuilder(
         future: _superSearchInfo(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularIndicator();
-          } else if (snapshot.data! && weatherServ!.isConected) {
+          } else if (snapshot.data && weatherServ!.isConected) {
             return _WeatherWidget();
           } else {
             return NoDataPage(
@@ -140,13 +136,9 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
     localizationProvider =
         Provider.of<LocalizationProvider>(context, listen: false);
 
-    newsListProvider!
-        .loadSavedNews(); //esto se podria inicializar cuando se abre el menuDrawer?
-    saveCitiesProvider!
-        .loadSavedCities(); //esto se podria inicializar cuando se abre el menuDrawer?
-    wantedPlaces!
-        .loadSavedPlaces(); //esto se puede inicializar  cuando entro en la pagina de busquedas
-
+    newsListProvider!.loadSavedNews();
+    saveCitiesProvider!.loadSavedCities();
+    wantedPlaces!.loadSavedPlaces();
     locationName = weatherAPI!.location!.name;
     countryName = weatherAPI!.location!.country;
     regionName = weatherAPI!.location!.region;
@@ -163,68 +155,8 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
     lastUpdated = weatherAPI!.current!.lastUpdated;
   }
 
-  void saveInFavouritePlaces(WeatherApiService apiResp) async {
-    final cityListCopy =
-        Set.from(saveCitiesProvider!.cities.map((e) => e.title));
-
-    final comparisonText = locationName;
-
-    bool foundMatch = false;
-
-    if (cityListCopy.contains(comparisonText)) {
-      foundMatch = true;
-      saveCitiesProvider!.isPressedSaveButton = true;
-      showDialog(
-        context: context,
-        builder: (_) => FadeInUp(
-          duration: const Duration(milliseconds: 200),
-          child: AlertDialog(
-            alignment: Alignment.bottomCenter,
-            title: Text(
-              AppLocalizations.of(context)!.allreadysave,
-              style: const TextStyle(color: Colors.white70),
-            ),
-            elevation: 24,
-            backgroundColor: const Color.fromARGB(130, 0, 108, 196),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          ),
-        ),
-      );
-    }
-
-    if (!foundMatch) {
-      final String currentCoords =
-          await geolocatorService!.getCurrentLocation();
-      final selectedCoord =
-          (!newService!.activeSearch) ? currentCoords : apiResp.coords;
-
-      await saveCitiesProvider!.saveCity(
-        countryName,
-        locationName,
-        regionName,
-        condition,
-        selectedCoord,
-      );
-
-      await saveCitiesProvider!.loadSavedCities();
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    weatherAPI;
-    saveCitiesProvider;
-    newService;
-    geolocatorService;
-    newsListProvider;
-    localizationProvider;
-  }
-
   @override
   Widget build(BuildContext context) {
-    print('WEATHER WIDGET');
     final apiResp = weatherAPI;
     final size = MediaQuery.of(context).size;
 
@@ -293,12 +225,10 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
             Container(
               margin: const EdgeInsets.only(left: 20, right: 20),
               child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
                     AppLocalizations.of(context)!.weekelyforecast,
                     style: const TextStyle(
-                        // decoration: TextDecoration.underline,
                         fontSize: 20,
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold),
@@ -315,6 +245,63 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
             )
           ],
         ));
+  }
+
+  void saveInFavouritePlaces(WeatherApiService apiResp) async {
+    final cityListCopy =
+        Set.from(saveCitiesProvider!.cities.map((e) => e.title));
+
+    bool foundMatch = false;
+
+    if (cityListCopy.contains(locationName)) {
+      foundMatch = true;
+      saveCitiesProvider!.isPressedSaveButton = true;
+      showDialog(
+        context: context,
+        builder: (_) => FadeInUp(
+          duration: const Duration(milliseconds: 200),
+          child: AlertDialog(
+            alignment: Alignment.bottomCenter,
+            title: Text(
+              AppLocalizations.of(context)!.allreadysave,
+              style: const TextStyle(color: Colors.white70),
+            ),
+            elevation: 24,
+            backgroundColor: const Color.fromARGB(130, 0, 108, 196),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          ),
+        ),
+      );
+    }
+
+    if (!foundMatch) {
+      final String currentCoords =
+          await geolocatorService!.getCurrentLocation();
+      final selectedCoord =
+          (!newService!.activeSearch) ? currentCoords : apiResp.coords;
+
+      await saveCitiesProvider!.saveCity(
+        countryName,
+        locationName,
+        regionName,
+        condition,
+        selectedCoord,
+      );
+
+      await saveCitiesProvider!.loadSavedCities();
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    weatherAPI;
+    saveCitiesProvider;
+    newService;
+    geolocatorService;
+    newsListProvider;
+    localizationProvider;
   }
 }
 
@@ -694,7 +681,6 @@ class _ActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('ACTION BUTTONS');
     return FittedBox(
       fit: BoxFit.contain,
       child: Row(
@@ -768,7 +754,6 @@ class _WeatherState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('BUILD WEATHER STATE');
     return Container(
         margin: const EdgeInsets.only(left: 20),
         alignment: Alignment.centerLeft,
@@ -786,14 +771,12 @@ class _TemperatureNumber extends StatelessWidget {
   const _TemperatureNumber({required this.tempNumber});
   @override
   Widget build(BuildContext context) {
-    print('BUILD TEMPERATURE NUMBER');
     return Container(
       alignment: Alignment.centerLeft,
       margin: const EdgeInsets.only(left: 20),
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           final screenWidth = constraints.maxWidth;
-          // final screenHeight = constraints.maxHeight;
 
           double? fontSize;
 
@@ -802,12 +785,20 @@ class _TemperatureNumber extends StatelessWidget {
           } else if (screenWidth < 1024) {
             fontSize = 145;
           }
-          return GradientText(tempNumber,
-              style: TextStyle(fontSize: fontSize),
-              gradient: LinearGradient(
-                  colors: [Colors.white, Colors.white.withOpacity(0.5)],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter));
+          return GradientText(
+            tempNumber,
+            style: TextStyle(
+                fontSize: fontSize,
+                color: const Color.fromARGB(157, 255, 255, 255)),
+            // gradient: const LinearGradient(
+            //   colors: [
+            //     Colors.white,
+            //     Color.fromARGB(6, 255, 255, 255),
+            //   ],
+            //   begin: Alignment.topCenter,
+            //   end: Alignment.bottomCenter,
+            // )
+          );
         },
       ),
     );
@@ -822,52 +813,46 @@ class _Background extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('BUILD BACKGROUND');
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
-      child: Container(
-        height: size.height * 0.75,
-        decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30)),
-            image: DecorationImage(
-                image: AssetImage(_builBackGroundImage()
-                    // _builBackGroundImage()
-                    ),
-                fit: BoxFit.fill)),
-      ),
+    return Container(
+      height: size.height * 0.75,
+      decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30)),
+          image: DecorationImage(
+              filterQuality: FilterQuality.medium,
+              image: AssetImage(_builBackGroundImage(condition)),
+              fit: BoxFit.fill)),
     );
   }
+}
 
-  String _builBackGroundImage() {
-    final weatherCondition = condition;
+String _builBackGroundImage(String condition) {
+  final weatherCondition = condition;
 
-    final Map<String, String> backGrounds = {
-      'Partly cloudy': 'assets/red-lighthouse-g1933290b4_640.jpg',
-      'Parcialmente nublado': 'assets/red-lighthouse-g1933290b4_640.jpg',
-      'niebla moderada': 'assets/fog-g23cb2c869_640.jpg',
-      'Heavy rain': 'assets/mountains-g809c71b53_640.jpg',
-      'Overcast': 'assets/red-lighthouse-g1933290b4_640.jpg',
-      'Fuertes lluvias': 'assets/mountains-g809c71b53_640.jpg',
-      'Light rain shower': 'assets/railing-g65bea1cfd_640.jpg',
-      'Light rain': 'assets/railing-g65bea1cfd_640.jpg',
-      'Lluvia ligera': 'assets/railing-g65bea1cfd_640.jpg',
-      'Patchy rain possible': 'assets/railing-g65bea1cfd_640.jpg',
-      'Moderate rain': 'assets/railing-g65bea1cfd_640.jpg',
-      'Moderate or heavy rain shower': 'assets/mountains-g809c71b53_640.jpg',
-      'Lluvia moderada a intervalos': 'assets/heavy-rain-g4ec8672ac_1280.jpg',
-      'Lluvia fuerte o moderada': 'assets/railing-g65bea1cfd_640.jpg',
-      'Sunny': 'assets/ocean-g87e883915_640.jpg',
-      'Soleado': 'assets/ocean-g87e883915_640.jpg',
-      'Clear': 'assets/phang-nga-bay-g3332dcc82_640.jpg',
-      'Despejado': 'assets/phang-nga-bay-g3332dcc82_640.jpg',
-    };
-    return backGrounds.containsKey(weatherCondition)
-        ? backGrounds[weatherCondition]!
-        : 'assets/phang-nga-bay-g3332dcc82_640.jpg';
-  }
+  final Map<String, String> backGrounds = {
+    'Partly cloudy': 'assets/red-lighthouse-g1933290b4_640.jpg',
+    'Parcialmente nublado': 'assets/red-lighthouse-g1933290b4_640.jpg',
+    'niebla moderada': 'assets/fog-g23cb2c869_640.jpg',
+    'Heavy rain': 'assets/mountains-g809c71b53_640.jpg',
+    'Overcast': 'assets/red-lighthouse-g1933290b4_640.jpg',
+    'Fuertes lluvias': 'assets/mountains-g809c71b53_640.jpg',
+    'Light rain shower': 'assets/railing-g65bea1cfd_640.jpg',
+    'Light rain': 'assets/railing-g65bea1cfd_640.jpg',
+    'Lluvia ligera': 'assets/railing-g65bea1cfd_640.jpg',
+    'Patchy rain possible': 'assets/railing-g65bea1cfd_640.jpg',
+    'Moderate rain': 'assets/railing-g65bea1cfd_640.jpg',
+    'Moderate or heavy rain shower': 'assets/mountains-g809c71b53_640.jpg',
+    'Lluvia moderada a intervalos': 'assets/heavy-rain-g4ec8672ac_1280.jpg',
+    'Lluvia fuerte o moderada': 'assets/railing-g65bea1cfd_640.jpg',
+    'Sunny': 'assets/ocean-g87e883915_640.jpg',
+    'Soleado': 'assets/ocean-g87e883915_640.jpg',
+    'Clear': 'assets/phang-nga-bay-g3332dcc82_640.jpg',
+    'Despejado': 'assets/phang-nga-bay-g3332dcc82_640.jpg',
+  };
+  return backGrounds.containsKey(weatherCondition)
+      ? backGrounds[weatherCondition]!
+      : 'assets/phang-nga-bay-g3332dcc82_640.jpg';
 }
 
 class _HeaderWidget extends StatelessWidget {

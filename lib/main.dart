@@ -3,6 +3,7 @@ import 'dart:io';
 // import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/providers/wanted_places_provider.dart';
@@ -17,7 +18,10 @@ import 'providers/providers.dart';
 import 'services/services.dart';
 
 void main() async {
-  Provider.debugCheckInvalidValueType = null;
+  // debugInvertOversizedImages = true;
+  // debugRepaintRainbowEnabled = true;
+
+  // Provider.debugCheckInvalidValueType = null;
   //making sure the process can pass
   WidgetsFlutterBinding.ensureInitialized();
 //initialing notifications
@@ -80,10 +84,16 @@ class MyApp extends StatelessWidget {
     final localeProvider = Provider.of<LocalizationProvider>(context);
 
     return MaterialApp(
+        // checkerboardRasterCacheImages: true,
         debugShowCheckedModeBanner: false,
+        // debugShowMaterialGrid: true,
+        // showPerformanceOverlay: true,
+        // showSemanticsDebugger: true,
+        // checkerboardOffscreenLayers: true,
+        //
         initialRoute: 'loading',
         routes: {
-          // 'loading': (_) => const LoadingPage(),
+          'loading': (_) => const LoadingPage(),
           'ND': (_) => const NewsDesignPage(),
         },
         // theme: appTheme,

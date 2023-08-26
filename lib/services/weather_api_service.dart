@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -44,7 +42,7 @@ class WeatherApiService extends ChangeNotifier {
     notifyListeners();
   }
 
-  getInfoWeatherLocation(String coordsc) async {
+  getInfoWeatherLocation(String coords) async {
     apiParams() {
       return {
         'key': _key,
