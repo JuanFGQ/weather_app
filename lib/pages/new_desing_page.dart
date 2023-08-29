@@ -697,22 +697,26 @@ class _ActionButtons extends StatelessWidget {
           RoundedButton(
             text: Text(AppLocalizations.of(context)!.news,
                 style: const TextStyle(
-                    fontStyle: FontStyle.italic, color: Colors.white)),
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold)),
             icon: const FaIcon(FontAwesomeIcons.newspaper),
             function: newsButton,
           ),
           RoundedButton(
               text: Text(AppLocalizations.of(context)!.savelocation,
                   style: const TextStyle(
-                      fontStyle: FontStyle.italic, color: Colors.white)),
-              icon: const FaIcon(
-                FontAwesomeIcons.locationDot,
-              ),
+                      fontStyle: FontStyle.italic,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold)),
+              icon: const FaIcon(FontAwesomeIcons.locationDot),
               function: saveLocation),
           RoundedButton(
             text: Text(AppLocalizations.of(context)!.refresh,
                 style: const TextStyle(
-                    fontStyle: FontStyle.italic, color: Colors.white)),
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold)),
             // ignore: deprecated_member_use
             icon: const FaIcon(FontAwesomeIcons.refresh),
             function: refreshPage,
@@ -720,7 +724,9 @@ class _ActionButtons extends StatelessWidget {
           RoundedButton(
               text: Text(AppLocalizations.of(context)!.searchcity,
                   style: const TextStyle(
-                      fontStyle: FontStyle.italic, color: Colors.white)),
+                      fontStyle: FontStyle.italic,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold)),
               // ignore: deprecated_member_use
               icon: const FaIcon(FontAwesomeIcons.search),
               function: () {
@@ -733,7 +739,9 @@ class _ActionButtons extends StatelessWidget {
           RoundedButton(
               text: Text(AppLocalizations.of(context)!.notificationicon,
                   style: const TextStyle(
-                      fontStyle: FontStyle.italic, color: Colors.white)),
+                      fontStyle: FontStyle.italic,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold)),
               // ignore: deprecated_member_use
               icon: const FaIcon(FontAwesomeIcons.bell),
               function: () async {

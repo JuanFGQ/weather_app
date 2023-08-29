@@ -18,7 +18,7 @@ class RoundedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepaintBoundary(
       child: Container(
-        margin: const EdgeInsets.only(right: 20),
+        margin: const EdgeInsets.only(right: 10),
         child: Column(
           children: [
             FadeIn(
@@ -32,7 +32,10 @@ class RoundedButton extends StatelessWidget {
                 child: icon,
               ),
             ),
-            ZoomIn(delay: const Duration(milliseconds: 250), child: text!)
+            ZoomIn(
+              delay: const Duration(milliseconds: 250),
+              child: text!,
+            )
           ],
         ),
       ),
