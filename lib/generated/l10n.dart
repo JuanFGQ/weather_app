@@ -70,12 +70,12 @@ class S {
     );
   }
 
-  /// `Guardar ubicacion`
+  /// `Guardar lugar`
   String get savelocation {
     return Intl.message(
-      'Guardar ubicacion',
+      'Guardar lugar',
       name: 'savelocation',
-      desc: 'Guardar ubicacion',
+      desc: 'Guardar lugar',
       args: [],
     );
   }
@@ -446,6 +446,56 @@ class S {
       'notificaciones',
       name: 'notificationicon',
       desc: 'notificaciones',
+      args: [],
+    );
+  }
+
+  /// `Algo esta mal, revisa tu conexion a internet`
+  String get interneterror {
+    return Intl.message(
+      'Algo esta mal, revisa tu conexion a internet',
+      name: 'interneterror',
+      desc: 'Algo esta mal, revisa tu conexion a internet',
+      args: [],
+    );
+  }
+
+  /// `Algo esta mal, revisa que la ubicacion este activada`
+  String get locationerror {
+    return Intl.message(
+      'Algo esta mal, revisa que la ubicacion este activada',
+      name: 'locationerror',
+      desc: 'Algo esta mal, revisa que la ubicacion este activada',
+      args: [],
+    );
+  }
+
+  /// `Es necesario el acceso al gps`
+  String get activegps {
+    return Intl.message(
+      'Es necesario el acceso al gps',
+      name: 'activegps',
+      desc: 'Es necesario el acceso al gps',
+      args: [],
+    );
+  }
+
+  /// `Solicitar acceso`
+  String get requestaccess {
+    return Intl.message(
+      'Solicitar acceso',
+      name: 'requestaccess',
+      desc: 'Solicitar acceso',
+      args: [],
+    );
+  }
+
+  /// `Debe habilitar la ubicacion`
+  String get mustEnbledlocation {
+    return Intl.message(
+      'Debe habilitar la ubicacion',
+      name: 'mustEnbledlocation',
+      desc: 'Debe habilitar la ubicacion',
       args: [],
     );
   }
