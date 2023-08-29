@@ -141,11 +141,37 @@
 "therenonews":"No hay noticias ahora mismo, intenta mas tarde!",
 "@therenonews":{
     "description":"Pronostico Semanal"
+},
+
+"loadingdata":"Cargando,Espere por favor...",
+"@loadingdata":{
+    "description":"Cargando,Espere por favor."
+},
+
+
+"allowNotifications":"¿Permitir notificaciones?",
+"@allowNotifications":{
+    "description":"¿Permitir notificaciones?"
+},
+
+"notificationsMessage":"Nuestra aplicacion quisiera mandarte notificaciones.",
+"@notificationsMessage":{
+    "description":"Nuestra aplicacion quisiera mandarte notificaciones."
 }
+,
+"allow": "Permitir",
+"@allow":{
+    "description":"Permitir"
+},
+"dontallow": "No permitir",
+"@dontallow":{
+    "description":"No permitir"
+},
 
-
-
-
+"notificationicon":"notificaciones",
+"@notificationicon":{
+    "description":"notificaciones"
+}
     }
 
 

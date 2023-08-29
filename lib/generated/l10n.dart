@@ -389,6 +389,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Cargando,Espere por favor...`
+  String get loadingdata {
+    return Intl.message(
+      'Cargando,Espere por favor...',
+      name: 'loadingdata',
+      desc: 'Cargando,Espere por favor.',
+      args: [],
+    );
+  }
+
+  /// `¿Permitir notificaciones?`
+  String get allowNotifications {
+    return Intl.message(
+      '¿Permitir notificaciones?',
+      name: 'allowNotifications',
+      desc: '¿Permitir notificaciones?',
+      args: [],
+    );
+  }
+
+  /// `Nuestra aplicacion quisiera mandarte notificaciones.`
+  String get notificationsMessage {
+    return Intl.message(
+      'Nuestra aplicacion quisiera mandarte notificaciones.',
+      name: 'notificationsMessage',
+      desc: 'Nuestra aplicacion quisiera mandarte notificaciones.',
+      args: [],
+    );
+  }
+
+  /// `Permitir`
+  String get allow {
+    return Intl.message(
+      'Permitir',
+      name: 'allow',
+      desc: 'Permitir',
+      args: [],
+    );
+  }
+
+  /// `No permitir`
+  String get dontallow {
+    return Intl.message(
+      'No permitir',
+      name: 'dontallow',
+      desc: 'No permitir',
+      args: [],
+    );
+  }
+
+  /// `notificaciones`
+  String get notificationicon {
+    return Intl.message(
+      'notificaciones',
+      name: 'notificationicon',
+      desc: 'notificaciones',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

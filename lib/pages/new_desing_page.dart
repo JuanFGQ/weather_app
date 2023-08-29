@@ -320,8 +320,6 @@ class _MenuDrawer extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    print('BUILD MENU DRAWE');
-
     final newsListProvider = Provider.of<NewsListProvider>(context);
     final newsListP = newsListProvider.news;
     final citiesListProvider = Provider.of<CitiesListProvider>(context);
@@ -723,8 +721,8 @@ class _ActionButtons extends StatelessWidget {
                             const WeatherSearchCity()));
               }),
           RoundedButton(
-              text: const Text('Notifications',
-                  style: TextStyle(
+              text: Text(AppLocalizations.of(context)!.notificationicon,
+                  style: const TextStyle(
                       fontStyle: FontStyle.italic, color: Colors.white)),
               // ignore: deprecated_member_use
               icon: const FaIcon(FontAwesomeIcons.bell),

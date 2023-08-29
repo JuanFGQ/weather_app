@@ -23,11 +23,15 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "allnews": MessageLookupByLibrary.simpleMessage("All news"),
+        "allow": MessageLookupByLibrary.simpleMessage("Allow"),
+        "allowNotifications":
+            MessageLookupByLibrary.simpleMessage("Allow Notifications?"),
         "allreadysave": MessageLookupByLibrary.simpleMessage("All ready saved"),
         "ascending": MessageLookupByLibrary.simpleMessage("Ascendente"),
         "cloud": MessageLookupByLibrary.simpleMessage("Cloud"),
         "darktheme": MessageLookupByLibrary.simpleMessage("Dark theme"),
         "descending": MessageLookupByLibrary.simpleMessage("Descending"),
+        "dontallow": MessageLookupByLibrary.simpleMessage("Dont allow"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
         "favouriteplaces":
             MessageLookupByLibrary.simpleMessage("Favourite places"),
@@ -37,10 +41,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "ins": MessageLookupByLibrary.simpleMessage("in"),
         "language": MessageLookupByLibrary.simpleMessage("English"),
         "lighttheme": MessageLookupByLibrary.simpleMessage("Light theme"),
+        "loadingdata": MessageLookupByLibrary.simpleMessage(
+            "Loading data, please wait..."),
         "news": MessageLookupByLibrary.simpleMessage("News "),
         "newsforread": MessageLookupByLibrary.simpleMessage("News for read"),
         "nonews": MessageLookupByLibrary.simpleMessage(
             "Theres no news for this city,look for other city."),
+        "notificationicon":
+            MessageLookupByLibrary.simpleMessage("notifications"),
+        "notificationsMessage": MessageLookupByLibrary.simpleMessage(
+            "Our app would like to send you notifications"),
         "oldnews": MessageLookupByLibrary.simpleMessage("Old news"),
         "precipitation": MessageLookupByLibrary.simpleMessage("Precipitation"),
         "pressure": MessageLookupByLibrary.simpleMessage("Pressure"),

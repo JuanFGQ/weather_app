@@ -51,14 +51,3 @@ class _SavedCardMenuDrawerState extends State<SavedCardMenuDrawer> {
     );
   }
 }
-
-class DeleteBox extends ChangeNotifier {
-  bool _deleteBox = false;
-
-  bool get deleteBox => _deleteBox;
-
-  set deleteBox(bool value) {
-    _deleteBox = value;
-    notifyListeners();
-  }
-}

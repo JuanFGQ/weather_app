@@ -2,6 +2,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../services/services.dart';
 import 'pages.dart';
@@ -26,17 +27,16 @@ class _LoadingPageState extends State<LoadingPage> {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: const Text('Allow Notifications'),
-              content:
-                  const Text('Our app would like to send you notifications'),
+              title: Text(AppLocalizations.of(context)!.allowNotifications),
+              content: Text(AppLocalizations.of(context)!.notificationsMessage),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text(
-                    'Don\'t Allow',
-                    style: TextStyle(color: Colors.grey, fontSize: 18),
+                  child: Text(
+                    AppLocalizations.of(context)!.dontallow,
+                    style: const TextStyle(color: Colors.grey, fontSize: 18),
                   ),
                 ),
                 TextButton(
@@ -46,9 +46,9 @@ class _LoadingPageState extends State<LoadingPage> {
                         .then((_) => Navigator.pop(context));
                     // isAllowed = true;
                   },
-                  child: const Text(
-                    'Allow',
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context)!.allow,
+                    style: const TextStyle(
                       color: Colors.teal,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -86,35 +86,3 @@ class _LoadingPageState extends State<LoadingPage> {
     super.dispose();
   }
 }
-
-// import 'package:flutter/material.dart';
-
-// import 'pages.dart';
-
-// class LoadingPage extends StatelessWidget {
-//   final Stream<bool> stream;
-
-//   const LoadingPage({super.key, required this.stream});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder<bool>(
-//       stream: stream,
-//       builder: (BuildContext context, AsyncSnapshot snapshot) {
-//         print('STREAM LOADING PAGE');
-//         if (snapshot.connectionState == ConnectionState.waiting) {
-//           print('STREAM WAINTING');
-
-//           return const Center(child: CircularProgressIndicator());
-//         } else if (snapshot.data) {
-//           print('STREAM SNAPSHOT');
-//           return const NewsDesignPage();
-//         } else {
-//           print('STREAM GPSACCESS');
-
-//           return const GpsAccessScreen();
-//         }
-//       },
-//     );
-//   }
-// }

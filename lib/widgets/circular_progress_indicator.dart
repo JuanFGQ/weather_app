@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CircularIndicator extends StatelessWidget {
   const CircularIndicator({
@@ -7,16 +8,16 @@ class CircularIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RepaintBoundary(child: CircularProgressIndicator()),
-            SizedBox(height: 10),
+            const RepaintBoundary(child: CircularProgressIndicator()),
+            const SizedBox(height: 10),
             Text(
-              'Loading Data, Please wait...',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              AppLocalizations.of(context)!.loadingdata,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             )
           ],
         ),

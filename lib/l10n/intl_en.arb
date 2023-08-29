@@ -32,8 +32,13 @@
     "nonews":"Theres no news for this city,look for other city.",
     "ins":"in",
     "weekelyforecast":"Weekly Forecast",
-    "therenonews":"No news, try again later"
-  
+    "therenonews":"No news, try again later",
+    "loadingdata":"Loading data, please wait...",
+    "allowNotifications" :"Allow Notifications?",
+    "notificationsMessage":"Our app would like to send you notifications"
+    ,"allow":"Allow",
+    "dontallow":"Dont allow",
+    "notificationicon":"notifications"
     
    
 
