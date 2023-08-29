@@ -32,6 +32,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
   NewsService? newsServ;
   WeatherApiService? weatherServ;
   GeolocatorService? geolocatorService;
+  bool locationError = false;
 
   @override
   void initState() {
@@ -59,10 +60,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
       final hasData = await weatherServ!.getInfoWeatherLocation(coords);
       return hasData;
     } catch (e) {
-      // return const NoDataPage(
-      //     text: 'Revisa la ubicacion de tu telefono',
-      //     icon: Icon(Icons.location_off_rounded));
-      // return Navigator.pushNamed(context, 'loading');
+      return locationError = true;
       //
     }
   }
@@ -74,13 +72,24 @@ class _NewsDesignPageState extends State<NewsDesignPage>
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularIndicator();
+          } else if (locationError) {
+            return NoDataPage(
+              bigIcon: const Icon(FontAwesomeIcons.locationDot,
+                  size: 80, color: Color.fromARGB(220, 158, 158, 158)),
+              icon: const Icon(FontAwesomeIcons.refresh),
+              text: AppLocalizations.of(context)!.locationerror,
+              function: () {
+                Navigator.pushNamed(context, 'ND');
+              },
+            );
           } else if (snapshot.data && weatherServ!.isConected) {
             return _WeatherWidget();
           } else {
             return NoDataPage(
+              bigIcon: const Icon(FontAwesomeIcons.wifiStrong,
+                  size: 80, color: Color.fromARGB(220, 158, 158, 158)),
               icon: const Icon(FontAwesomeIcons.refresh),
-              text:
-                  'Something went wrong, check your internet conection and try again.',
+              text: AppLocalizations.of(context)!.interneterror,
               function: () {
                 Navigator.pushNamed(context, 'ND');
               },
@@ -683,7 +692,7 @@ class _ActionButtons extends StatelessWidget {
     return FittedBox(
       fit: BoxFit.contain,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           RoundedButton(
             text: Text(AppLocalizations.of(context)!.news,

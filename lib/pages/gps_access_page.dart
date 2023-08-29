@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../services/services.dart';
 import 'pages.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GpsAccessScreen extends StatelessWidget {
   const GpsAccessScreen({super.key});
@@ -33,7 +34,7 @@ class _AccessButton extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('Es necesario el acceso a gps'),
+          Text(AppLocalizations.of(context)!.activegps),
           MaterialButton(
             onPressed: () {
               final gpsAccess =
@@ -43,7 +44,7 @@ class _AccessButton extends StatelessWidget {
             elevation: 5,
             color: Colors.amber[100],
             splashColor: Colors.amber[200],
-            child: const Text('Solicitar acceso'),
+            child: Text(AppLocalizations.of(context)!.requestaccess),
           )
         ],
       ),
@@ -56,6 +57,7 @@ class _EnableGpsMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Debe habilitar la ubicacion'));
+    return Center(
+        child: Text(AppLocalizations.of(context)!.mustEnbledlocation));
   }
 }

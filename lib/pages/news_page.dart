@@ -33,24 +33,13 @@ class _NewsPageState extends State<NewsPage> {
         Provider.of<LocalizationProvider>(context, listen: false);
   }
 
-  // Future _getNews() async {
-  //   final newsData = await newsService.getNewsByFoundedPlace(
-  //       weatherServ.location!.name,
-  //       (!localizationProvider.languageEnglish) ? 'es' : 'en');
-
-  //   return newsData;
-  // }
-
   @override
   Widget build(BuildContext context) {
-    print('NEWS PAGE BUILD');
-//
     return WillPopScope(
       onWillPop: () async {
         final newList = Provider.of<NewsListProvider>(context, listen: false);
 
         newList.selectedItem = -1;
-        print('SALIENDO DE LAS NOTICIAS ${newList.selectedItem}');
 
         return true;
       },
@@ -63,6 +52,8 @@ class _NewsPageState extends State<NewsPage> {
               return const CircularIndicator();
             } else if (snapshot.hasData && snapshot.data!.articles.isEmpty) {
               return NoDataPage(
+                bigIcon: const Icon(FontAwesomeIcons.newspaper,
+                    size: 80, color: Color.fromARGB(220, 158, 158, 158)),
                 function: () {
                   Navigator.push(
                       context,
@@ -75,12 +66,13 @@ class _NewsPageState extends State<NewsPage> {
               );
             } else if (newsService.isDisconnected) {
               return NoDataPage(
+                bigIcon: const Icon(FontAwesomeIcons.wifiStrong,
+                    size: 80, color: Color.fromARGB(220, 158, 158, 158)),
                 function: () {
                   Navigator.pushNamed(context, 'ND');
                 },
                 icon: const Icon(FontAwesomeIcons.refresh),
-                text:
-                    'Something went wrong, check your internet conection and try again.',
+                text: AppLocalizations.of(context)!.interneterror,
               );
             } else {
               return _NewsViewer(snapshot.data!.articles);
