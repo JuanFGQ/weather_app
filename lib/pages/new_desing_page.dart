@@ -157,6 +157,7 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print('BUILD NEW DESING PAGE ');
     final apiResp = weatherAPI;
     final size = MediaQuery.of(context).size;
 
