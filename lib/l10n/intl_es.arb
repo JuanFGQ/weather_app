@@ -7,9 +7,9 @@
     "@news":{
         "description":"Noticias"
     },
-    "savelocation": "Guardar ubicacion",
+    "savelocation": "Guardar lugar",
     "@savelocation":{
-        "description":"Guardar ubicacion"
+        "description":"Guardar lugar"
     },
     "refresh": "Refrescar",
     "@refresh":{
@@ -171,6 +171,28 @@
 "notificationicon":"notificaciones",
 "@notificationicon":{
     "description":"notificaciones"
+},
+"interneterror":"Algo esta mal, revisa tu conexion a internet",
+"@interneterror":{
+    "description":"Algo esta mal, revisa tu conexion a internet"
+},
+
+"locationerror":"Algo esta mal, revisa que la ubicacion este activada",
+"@locationerror":{
+    "description":"Algo esta mal, revisa que la ubicacion este activada"
+},
+
+"activegps":"Es necesario el acceso al gps",
+"@activegps":{
+    "description":"Es necesario el acceso al gps"
+},
+"requestaccess":"Solicitar acceso",
+"@requestaccess":{
+    "description":"Solicitar acceso"
+},
+"mustEnbledlocation":"Debe habilitar la ubicacion",
+"@mustEnbledlocation":{
+    "description":"Debe habilitar la ubicacion"
 }
     }
 

@@ -33,49 +33,52 @@ class _NewsPageState extends State<NewsPage> {
         Provider.of<LocalizationProvider>(context, listen: false);
   }
 
-  Future _getNews() async {
-    final newsData = await newsService.getNewsByFoundedPlace(
-        weatherServ.location!.name,
-        (!localizationProvider.languageEnglish) ? 'es' : 'en');
-
-    return newsData;
-  }
-
   @override
   Widget build(BuildContext context) {
-    print('NEWS PAGE BUILD');
-//
-    return FutureBuilder(
-        future: newsService.getNewsByFoundedPlace(weatherServ.location!.name,
-            (!localizationProvider.languageEnglish) ? 'es' : 'en'),
-        builder: (BuildContext context, AsyncSnapshot<NewsResponse> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularIndicator();
-          } else if (snapshot.hasData && snapshot.data!.articles.isEmpty) {
-            return NoDataPage(
-              function: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const WeatherSearchCity()));
-              },
-              icon: const Icon(FontAwesomeIcons.search),
-              text: AppLocalizations.of(context)!.nonews,
-            );
-          } else if (newsService.isDisconnected) {
-            return NoDataPage(
-              function: () {
-                Navigator.pushNamed(context, 'ND');
-              },
-              icon: const Icon(FontAwesomeIcons.refresh),
-              text:
-                  'Something went wrong, check your internet conection and try again.',
-            );
-          } else {
-            return _NewsViewer(snapshot.data!.articles);
-          }
-        });
+    return WillPopScope(
+      onWillPop: () async {
+        final newList = Provider.of<NewsListProvider>(context, listen: false);
+
+        newList.selectedItem = -1;
+
+        return true;
+      },
+      child: FutureBuilder(
+          future: newsService.getNewsByFoundedPlace(weatherServ.location!.name,
+              (!localizationProvider.languageEnglish) ? 'es' : 'en'),
+          builder:
+              (BuildContext context, AsyncSnapshot<NewsResponse> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularIndicator();
+            } else if (snapshot.hasData && snapshot.data!.articles.isEmpty) {
+              return NoDataPage(
+                bigIcon: const Icon(FontAwesomeIcons.newspaper,
+                    size: 80, color: Color.fromARGB(220, 158, 158, 158)),
+                function: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const WeatherSearchCity()));
+                },
+                icon: const Icon(FontAwesomeIcons.search),
+                text: AppLocalizations.of(context)!.nonews,
+              );
+            } else if (newsService.isDisconnected) {
+              return NoDataPage(
+                bigIcon: const Icon(FontAwesomeIcons.wifiStrong,
+                    size: 80, color: Color.fromARGB(220, 158, 158, 158)),
+                function: () {
+                  Navigator.pushNamed(context, 'ND');
+                },
+                icon: const Icon(FontAwesomeIcons.refresh),
+                text: AppLocalizations.of(context)!.interneterror,
+              );
+            } else {
+              return _NewsViewer(snapshot.data!.articles);
+            }
+          }),
+    );
   }
 }
 
@@ -201,6 +204,7 @@ class _NewsViewerState extends State<_NewsViewer>
               itemCount: orderedNews.length,
               itemBuilder: (_, i) {
                 final selNews = orderedNews[i];
+                // newsListProvider.selectedItem = -1;
                 final newListCopy =
                     Set.from(newsListProvider.news.map((e) => e.title));
                 bool isNewSaved = false;

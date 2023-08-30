@@ -32,6 +32,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
   NewsService? newsServ;
   WeatherApiService? weatherServ;
   GeolocatorService? geolocatorService;
+  bool locationError = false;
 
   @override
   void initState() {
@@ -59,10 +60,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
       final hasData = await weatherServ!.getInfoWeatherLocation(coords);
       return hasData;
     } catch (e) {
-      // return const NoDataPage(
-      //     text: 'Revisa la ubicacion de tu telefono',
-      //     icon: Icon(Icons.location_off_rounded));
-      // return Navigator.pushNamed(context, 'loading');
+      return locationError = true;
       //
     }
   }
@@ -74,13 +72,24 @@ class _NewsDesignPageState extends State<NewsDesignPage>
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularIndicator();
+          } else if (locationError) {
+            return NoDataPage(
+              bigIcon: const Icon(FontAwesomeIcons.locationDot,
+                  size: 80, color: Color.fromARGB(220, 158, 158, 158)),
+              icon: const Icon(FontAwesomeIcons.refresh),
+              text: AppLocalizations.of(context)!.locationerror,
+              function: () {
+                Navigator.pushNamed(context, 'ND');
+              },
+            );
           } else if (snapshot.data && weatherServ!.isConected) {
             return _WeatherWidget();
           } else {
             return NoDataPage(
+              bigIcon: const Icon(FontAwesomeIcons.wifiStrong,
+                  size: 80, color: Color.fromARGB(220, 158, 158, 158)),
               icon: const Icon(FontAwesomeIcons.refresh),
-              text:
-                  'Something went wrong, check your internet conection and try again.',
+              text: AppLocalizations.of(context)!.interneterror,
               function: () {
                 Navigator.pushNamed(context, 'ND');
               },
@@ -157,6 +166,7 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print('BUILD NEW DESING PAGE ');
     final apiResp = weatherAPI;
     final size = MediaQuery.of(context).size;
 
@@ -682,27 +692,31 @@ class _ActionButtons extends StatelessWidget {
     return FittedBox(
       fit: BoxFit.contain,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           RoundedButton(
             text: Text(AppLocalizations.of(context)!.news,
                 style: const TextStyle(
-                    fontStyle: FontStyle.italic, color: Colors.white)),
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold)),
             icon: const FaIcon(FontAwesomeIcons.newspaper),
             function: newsButton,
           ),
           RoundedButton(
               text: Text(AppLocalizations.of(context)!.savelocation,
                   style: const TextStyle(
-                      fontStyle: FontStyle.italic, color: Colors.white)),
-              icon: const FaIcon(
-                FontAwesomeIcons.locationDot,
-              ),
+                      fontStyle: FontStyle.italic,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold)),
+              icon: const FaIcon(FontAwesomeIcons.locationDot),
               function: saveLocation),
           RoundedButton(
             text: Text(AppLocalizations.of(context)!.refresh,
                 style: const TextStyle(
-                    fontStyle: FontStyle.italic, color: Colors.white)),
+                    fontStyle: FontStyle.italic,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold)),
             // ignore: deprecated_member_use
             icon: const FaIcon(FontAwesomeIcons.refresh),
             function: refreshPage,
@@ -710,7 +724,9 @@ class _ActionButtons extends StatelessWidget {
           RoundedButton(
               text: Text(AppLocalizations.of(context)!.searchcity,
                   style: const TextStyle(
-                      fontStyle: FontStyle.italic, color: Colors.white)),
+                      fontStyle: FontStyle.italic,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold)),
               // ignore: deprecated_member_use
               icon: const FaIcon(FontAwesomeIcons.search),
               function: () {
@@ -723,7 +739,9 @@ class _ActionButtons extends StatelessWidget {
           RoundedButton(
               text: Text(AppLocalizations.of(context)!.notificationicon,
                   style: const TextStyle(
-                      fontStyle: FontStyle.italic, color: Colors.white)),
+                      fontStyle: FontStyle.italic,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold)),
               // ignore: deprecated_member_use
               icon: const FaIcon(FontAwesomeIcons.bell),
               function: () async {

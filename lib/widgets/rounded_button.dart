@@ -17,21 +17,27 @@ class RoundedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      child: Column(
-        children: [
-          FadeIn(
-            delay: const Duration(milliseconds: 200),
-            child: RawMaterialButton(
-              highlightColor: const Color.fromARGB(188, 96, 125, 139),
-              shape: const CircleBorder(),
-              onPressed: function,
-              fillColor: Colors.white,
-              // elevation: 1 ,
-              child: icon,
+      child: Container(
+        margin: const EdgeInsets.only(right: 10),
+        child: Column(
+          children: [
+            FadeIn(
+              delay: const Duration(milliseconds: 200),
+              child: RawMaterialButton(
+                highlightColor: const Color.fromARGB(188, 96, 125, 139),
+                shape: const CircleBorder(),
+                onPressed: function,
+                fillColor: Colors.white,
+                // elevation: 1 ,
+                child: icon,
+              ),
             ),
-          ),
-          ZoomIn(delay: const Duration(milliseconds: 250), child: text!)
-        ],
+            ZoomIn(
+              delay: const Duration(milliseconds: 250),
+              child: text!,
+            )
+          ],
+        ),
       ),
     );
   }

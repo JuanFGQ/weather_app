@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "activegps": MessageLookupByLibrary.simpleMessage(
+            "Es necesario el acceso al gps"),
         "allnews": MessageLookupByLibrary.simpleMessage("Todas las noticias"),
         "allow": MessageLookupByLibrary.simpleMessage("Permitir"),
         "allowNotifications":
@@ -40,10 +42,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "home": MessageLookupByLibrary.simpleMessage("Pagina principal"),
         "humidity": MessageLookupByLibrary.simpleMessage("Humedad"),
         "ins": MessageLookupByLibrary.simpleMessage("en"),
+        "interneterror": MessageLookupByLibrary.simpleMessage(
+            "Algo esta mal, revisa tu conexion a internet"),
         "language": MessageLookupByLibrary.simpleMessage("Español"),
         "lighttheme": MessageLookupByLibrary.simpleMessage("Tema ligero"),
         "loadingdata": MessageLookupByLibrary.simpleMessage(
             "Cargando,Espere por favor..."),
+        "locationerror": MessageLookupByLibrary.simpleMessage(
+            "Algo esta mal, revisa que la ubicacion este activada"),
+        "mustEnbledlocation":
+            MessageLookupByLibrary.simpleMessage("Debe habilitar la ubicacion"),
         "news": MessageLookupByLibrary.simpleMessage("Noticias"),
         "newsforread":
             MessageLookupByLibrary.simpleMessage("Noticias por leer"),
@@ -59,8 +67,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "recentsnews":
             MessageLookupByLibrary.simpleMessage("Noticias recientes"),
         "refresh": MessageLookupByLibrary.simpleMessage("Refrescar"),
-        "savelocation":
-            MessageLookupByLibrary.simpleMessage("Guardar ubicacion"),
+        "requestaccess":
+            MessageLookupByLibrary.simpleMessage("Solicitar acceso"),
+        "savelocation": MessageLookupByLibrary.simpleMessage("Guardar lugar"),
         "searchcity": MessageLookupByLibrary.simpleMessage("Buscar ciudad"),
         "spanish": MessageLookupByLibrary.simpleMessage("Español"),
         "temperature": MessageLookupByLibrary.simpleMessage("Temperatura"),

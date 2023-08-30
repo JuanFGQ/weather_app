@@ -1,7 +1,7 @@
 {
     "language": "English",
     "news": "News ",
-    "savelocation":"Save location",
+    "savelocation":"Save places",
     "refresh":"Refresh",
     "searchcity":"Search city",
     "newsforread":"News for read",
@@ -38,7 +38,12 @@
     "notificationsMessage":"Our app would like to send you notifications"
     ,"allow":"Allow",
     "dontallow":"Dont allow",
-    "notificationicon":"notifications"
+    "notificationicon":"notifications",
+    "interneterror": "Something went wrong, check your internet conection and try again",
+    "locationerror":"Something went wrong,check your location service is activated",
+    "activegps":"Gps access is required",
+    "requestaccess": "Request access",
+    "mustEnbledlocation":"you must enable the location"
     
    
 

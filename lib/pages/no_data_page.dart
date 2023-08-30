@@ -1,15 +1,18 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../search/search_delegate_widget.dart';
 
 class NoDataPage extends StatelessWidget {
   final String text;
   final void Function()? function;
   final Icon icon;
+  final Icon bigIcon;
+
   const NoDataPage(
-      {super.key, required this.text, this.function, required this.icon});
+      {super.key,
+      required this.text,
+      this.function,
+      required this.icon,
+      required this.bigIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +21,7 @@ class NoDataPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const FaIcon(FontAwesomeIcons.faceSadCry,
-                size: 80, color: Color.fromARGB(220, 158, 158, 158)),
+            bigIcon,
             const SizedBox(height: 30),
             Text(text,
                 textAlign: TextAlign.center,

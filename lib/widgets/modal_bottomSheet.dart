@@ -1,12 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:weather/providers/news_list_provider.dart';
 
 import '../pages/news_page.dart';
 
-// ignore: non_constant_identifier_names
 void ShowModalBottomSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
