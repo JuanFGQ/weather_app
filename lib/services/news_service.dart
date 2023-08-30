@@ -67,6 +67,7 @@ class NewsService with ChangeNotifier {
       final resp = await http.get(uri);
 
       final newsResp = newsResponseFromJson(resp.body);
+      isDisconnected = false;
 
       return newsResp;
     } catch (e) {
