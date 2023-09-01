@@ -11,7 +11,7 @@ class NewsService with ChangeNotifier {
 
   bool _activeSearch = false;
 
-//flag to change search arg
+//flag to change search argument
   bool get activeSearch => _activeSearch;
   set activeSearch(bool value) {
     _activeSearch = value;
@@ -65,6 +65,8 @@ class NewsService with ChangeNotifier {
       final uri = Uri.https(_baseUrl, '/v2/everything', apiParams());
 
       final resp = await http.get(uri);
+
+      isDisconnected = false;
 
       final newsResp = newsResponseFromJson(resp.body);
 
