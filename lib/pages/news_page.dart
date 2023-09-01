@@ -66,7 +66,7 @@ class _NewsPageState extends State<NewsPage> {
               );
             } else if (newsService.isDisconnected) {
               return NoDataPage(
-                bigIcon: const Icon(FontAwesomeIcons.wifiStrong,
+                bigIcon: const Icon(Icons.wifi_off_outlined,
                     size: 80, color: Color.fromARGB(220, 158, 158, 158)),
                 function: () {
                   Navigator.pushNamed(context, 'ND');
