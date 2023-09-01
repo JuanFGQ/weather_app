@@ -74,8 +74,8 @@ class _NewsDesignPageState extends State<NewsDesignPage>
             return const CircularIndicator();
           } else if (locationError) {
             return NoDataPage(
-              bigIcon: const Icon(FontAwesomeIcons.locationDot,
-                  size: 80, color: Color.fromARGB(220, 158, 158, 158)),
+              bigIcon: const Icon(Icons.location_off_sharp,
+                  size: 70, color: Color.fromARGB(220, 158, 158, 158)),
               icon: const Icon(FontAwesomeIcons.refresh),
               text: AppLocalizations.of(context)!.locationerror,
               function: () {
@@ -86,7 +86,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
             return _WeatherWidget();
           } else {
             return NoDataPage(
-              bigIcon: const Icon(FontAwesomeIcons.wifiStrong,
+              bigIcon: const Icon(Icons.wifi_off_outlined,
                   size: 80, color: Color.fromARGB(220, 158, 158, 158)),
               icon: const Icon(FontAwesomeIcons.refresh),
               text: AppLocalizations.of(context)!.interneterror,
@@ -166,7 +166,6 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('BUILD NEW DESING PAGE ');
     final apiResp = weatherAPI;
     final size = MediaQuery.of(context).size;
 
@@ -182,19 +181,16 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
           children: [
             Stack(
               children: [
-                _Background(
-                  condition: condition,
-                  size: size,
-                ),
+                _Background(condition: condition, size: size),
                 Column(
                   children: [
                     _HeaderWidget(
-                      onpressed: () {
-                        _globalKey.currentState!.openDrawer();
-                      },
-                      location: locationName,
-                      size: size,
-                    ),
+                        onpressed: () {
+                          _globalKey.currentState!.openDrawer();
+                        },
+                        location: locationName,
+                        country: countryName,
+                        size: size),
                     _TemperatureNumber(
                       tempNumber: feelsLikeData,
                     ),
@@ -217,17 +213,16 @@ class _WeatherWidgetState extends State<_WeatherWidget> {
                     ),
                     const SizedBox(height: 20),
                     _InfoTableList(
-                      feelsLikeData: feelsLikeData,
-                      humidityData: humidityData,
-                      temperatureData: temperatureData,
-                      visibilityData: visibilityData,
-                      windData: windData,
-                      windDirectionData: windDirectionData,
-                      precipitation: precipitation,
-                      pressure: pressure,
-                      uvRays: uvRays,
-                      size: size,
-                    ),
+                        feelsLikeData: feelsLikeData,
+                        humidityData: humidityData,
+                        temperatureData: temperatureData,
+                        visibilityData: visibilityData,
+                        windData: windData,
+                        windDirectionData: windDirectionData,
+                        precipitation: precipitation,
+                        pressure: pressure,
+                        uvRays: uvRays,
+                        size: size),
                   ],
                 ),
               ],
@@ -696,6 +691,7 @@ class _ActionButtons extends StatelessWidget {
         children: [
           RoundedButton(
             text: Text(AppLocalizations.of(context)!.news,
+                textScaleFactor: 1,
                 style: const TextStyle(
                     fontStyle: FontStyle.italic,
                     color: Colors.white,
@@ -705,6 +701,7 @@ class _ActionButtons extends StatelessWidget {
           ),
           RoundedButton(
               text: Text(AppLocalizations.of(context)!.savelocation,
+                  textScaleFactor: 1,
                   style: const TextStyle(
                       fontStyle: FontStyle.italic,
                       color: Colors.white,
@@ -713,6 +710,7 @@ class _ActionButtons extends StatelessWidget {
               function: saveLocation),
           RoundedButton(
             text: Text(AppLocalizations.of(context)!.refresh,
+                textScaleFactor: 1,
                 style: const TextStyle(
                     fontStyle: FontStyle.italic,
                     color: Colors.white,
@@ -723,6 +721,7 @@ class _ActionButtons extends StatelessWidget {
           ),
           RoundedButton(
               text: Text(AppLocalizations.of(context)!.searchcity,
+                  textScaleFactor: 1,
                   style: const TextStyle(
                       fontStyle: FontStyle.italic,
                       color: Colors.white,
@@ -738,6 +737,7 @@ class _ActionButtons extends StatelessWidget {
               }),
           RoundedButton(
               text: Text(AppLocalizations.of(context)!.notificationicon,
+                  textScaleFactor: 1,
                   style: const TextStyle(
                       fontStyle: FontStyle.italic,
                       color: Colors.white,
@@ -745,8 +745,6 @@ class _ActionButtons extends StatelessWidget {
               // ignore: deprecated_member_use
               icon: const FaIcon(FontAwesomeIcons.bell),
               function: () async {
-                // showNotifications();
-                // createWeatherNotifications();
                 NotificationWeekAndTime? pickedSchedule =
                     await pickSchedule(context);
 
@@ -872,34 +870,46 @@ String _builBackGroundImage(String condition) {
 }
 
 class _HeaderWidget extends StatelessWidget {
+  final String country;
   final String location;
   final Size size;
 
   final void Function()? onpressed;
 
   const _HeaderWidget(
-      {this.onpressed, required this.location, required this.size});
+      {this.onpressed,
+      required this.location,
+      required this.size,
+      required this.country});
 
   @override
   Widget build(BuildContext context) {
-    print('BUILD HEADER WIDGET');
     return Container(
       margin: const EdgeInsets.only(top: 60, left: 20, right: 20),
       child: Row(
         children: [
           const FaIcon(FontAwesomeIcons.locationDot, color: Colors.white),
           const SizedBox(width: 18),
-          SizedBox(
-            width: size.width * 0.65,
-            child: Text(location,
-                textScaleFactor: 1,
-                overflow: TextOverflow.visible,
-                style: const TextStyle(
-                    fontStyle: FontStyle.italic,
-                    decoration: TextDecoration.underline,
-                    // textBaseline: TextBaseline.alphabetic,
-                    fontSize: 25,
-                    color: Colors.white)),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(location,
+                  textScaleFactor: 1,
+                  overflow: TextOverflow.visible,
+                  style: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      decoration: TextDecoration.underline,
+                      fontSize: 25,
+                      color: Colors.white)),
+              Text(country,
+                  textScaleFactor: 1,
+                  overflow: TextOverflow.visible,
+                  style: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      // decoration: TextDecoration.underline,
+                      fontSize: 15,
+                      color: Colors.white)),
+            ],
           ),
           const Spacer(),
           IconButton(
