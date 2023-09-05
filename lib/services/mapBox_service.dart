@@ -19,8 +19,7 @@ class MapBoxService extends ChangeNotifier {
     notifyListeners();
   }
 
-  final String _apiKey =
-      'pk.eyJ1IjoianVhbmZncSIsImEiOiJjbGVsMzN2cTUwcmR3M3JucHlzcXk2OXMyIn0.OQG_aEvEIl2zT9pQ50OEHg';
+  final String _apiKey = '';
   final String _baseUrl = 'api.mapbox.com';
   final String _language = 'es';
   final String _limit = '8';
