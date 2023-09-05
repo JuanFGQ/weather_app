@@ -28,7 +28,7 @@ class NewsService with ChangeNotifier {
   }
 
   final String _baseUrl = 'newsapi.org';
-  final String _apiKey = '2a9b8b7fb27348e8a959c3d43b8fc3e1';
+  final String _apiKey = '';
 
   Future<void> launcherUrl(Article news) async {
     final uri = Uri.parse(news.url!);
