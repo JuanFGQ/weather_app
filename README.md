@@ -16,11 +16,11 @@
 | :satellite: Location Permission | :bell: Notification Permission |
 |-----------------|--------------|
 |handleled with Geolocator and Permission Handler Package| Handleled with Awesome_notification Package|
-<img  src="https://github.com/JuanFGQ/weather_app/assets/97085649/7935166b-2827-4fe2-bf3c-c600a1b4321a" width="200px" height="350px"> |  <img src="https://github.com/JuanFGQ/weather_app/assets/97085649/0a400742-035d-4b61-8a00-0542afab9d2a" width="200px" height="350px">
+<img  src="https://github.com/JuanFGQ/weather_app/assets/97085649/b09fd467-8152-4b44-907b-acc18d7b06d5" width="200px" height="350px"> |  <img src="https://github.com/JuanFGQ/weather_app/assets/97085649/8afe07f6-7b6d-41fc-82d5-66f193672024" width="200px" height="350px">
 
 
   ## :house: Home Page
-  <img align="right" src="https://github.com/JuanFGQ/weather_app/assets/97085649/d4e84264-583c-4945-abc3-24d606d88df6" width="150px" height="300px">
+  <img align="right" src="https://github.com/JuanFGQ/weather_app/assets/97085649/6de4f7d5-2a38-4be4-a2b8-5d6371f8db96" width="150px" height="300px">
 
   ## ***Features***
   * Dynamic background image, depending on the weather.
@@ -36,10 +36,13 @@
 
 --------------------------------------------------------
 
+![screen-recording-20230904-200322_gxtVqK3m]()
+
 ## :newspaper: News Page
-  <img  align ="right" src="https://github.com/JuanFGQ/weather_app/assets/97085649/226a9714-655c-4ee2-ae43-b94c805f477e" width="150px" height="300px">
-  <img  align ="right" src="https://github.com/JuanFGQ/weather_app/assets/97085649/5fe769c1-1585-450c-9b6f-cc008a9bfbff" width="150px" height="300px">
+  <img  align ="right" src="https://github.com/JuanFGQ/weather_app/assets/97085649/9a1f337c-f534-43f0-881c-c009db9ef7d0" width="150px" height="300px">
+  <img  align ="right" src="https://github.com/JuanFGQ/weather_app/assets/97085649/daf9d4a8-ffd5-45cf-ab26-c2d965818a46" width="150px" height="300px">
   
+
 ## ***Features***
   * Sort news from newest to older.
   * Tap on for go to the news web.
@@ -49,9 +52,9 @@
 --------------------------------------------------------
 
 ## :mag: Search Page
-  <img  align ="right" src="https://github.com/JuanFGQ/weather_app/assets/97085649/b84b6dbb-d68f-4ffe-a6be-dd1d2d5abb75" width="150px" height="300px">
-  <img  align ="right" src="https://github.com/JuanFGQ/weather_app/assets/97085649/f3c2f1a5-b941-45fd-aa96-e03725f47bec" width="150px" height="300px">
-  
+  <img  align ="right" src="https://github.com/JuanFGQ/weather_app/assets/97085649/70f7b653-27e9-4f4d-a7ca-3b68b60f1e89" width="150px" height="300px">
+  <img  align ="right" src="https://github.com/JuanFGQ/weather_app/assets/97085649/1a1b5850-1e7b-4f33-8c72-48058b32ec30" width="150px" height="300px">
+
 
 ## ***Features***
   -  This page use MapBox Search Api to get all the suggested places according to search argument
@@ -61,8 +64,8 @@
 --------------------------------------------------------
 
 ## :iphone: App Tools
-  <img    src="https://github.com/JuanFGQ/weather_app/assets/97085649/2899382c-c031-4d77-b75f-0c693bfcf769" width="150px" height="300px">
-  <img    src="https://github.com/JuanFGQ/weather_app/assets/97085649/1659dcbf-7129-4c3d-b4e8-aeebd248ef32" width="150px" height="300px">
+  <img    src="https://github.com/JuanFGQ/weather_app/assets/97085649/81002a41-876c-40c0-acb4-31a9f257b21e" width="150px" height="300px">
+  <img    src="https://github.com/JuanFGQ/weather_app/assets/97085649/6ecb0c39-64a4-47f1-85ab-2d7df8a357fb" width="150px" height="300px">
 
 
 ## ***Features***
@@ -79,16 +82,15 @@
       * _to solve this_: remove some unnecessary effects, like shadowLayers and elevation effects.
          * resize and optimize assets like images and gift, reducing image size , resolution and weight.
   
-     
-![shadeCompilation](https://github.com/JuanFGQ/weather_app/assets/97085649/7df5dd7a-73c8-4466-bbde-5a19673964d2)
+
+![shadeCompilation](https://github.com/JuanFGQ/weather_app/assets/97085649/983ef339-66c1-4b4f-ade3-17ce043e133f)
 
 * once these modifications have been applied this was the result
   * the remaining janks are imperceptible when app is working.
   
-![performance improvement](https://github.com/JuanFGQ/weather_app/assets/97085649/795fd911-7d7b-4862-b38b-663e922d22dc)
+![performance improvement](https://github.com/JuanFGQ/weather_app/assets/97085649/354a7928-61d3-4f41-8176-c5f65a80ae34)
 
 
  
-
 
 
