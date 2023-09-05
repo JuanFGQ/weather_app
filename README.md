@@ -60,6 +60,8 @@
   -  This page use MapBox Search Api to get all the suggested places according to search argument
       - Get a list of places only with one letter on search bar
       - Can save and delete places you´ve search before even if app was close previosuly,the history will persist.
+   
+        
 
 --------------------------------------------------------
 
@@ -72,6 +74,7 @@
   - List of all saved news and places
   - Manage news or places you want into the list deleting whatever you want
   - Language change to Spanish or English
+
 --------------------------------------------------------
 
 # :bar_chart: ***App Optimization***
