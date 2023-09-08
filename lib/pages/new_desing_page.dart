@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/helpers/background_image_builder.dart';
 import 'package:weather/helpers/utilities_notifications.dart';
 import 'package:weather/notifications/weather_notifications.dart';
 import 'package:weather/pages/no_data_page.dart';
@@ -835,38 +836,12 @@ class _Background extends StatelessWidget {
               bottomRight: Radius.circular(30)),
           image: DecorationImage(
               filterQuality: FilterQuality.medium,
-              image: AssetImage(_builBackGroundImage(condition)),
+              image: AssetImage(
+                BackGroundImageBuilder(condition).toString(),
+              ),
               fit: BoxFit.fill)),
     );
   }
-}
-
-String _builBackGroundImage(String condition) {
-  final weatherCondition = condition;
-
-  final Map<String, String> backGrounds = {
-    'Partly cloudy': 'assets/red-lighthouse-g1933290b4_640.jpg',
-    'Parcialmente nublado': 'assets/red-lighthouse-g1933290b4_640.jpg',
-    'niebla moderada': 'assets/fog-g23cb2c869_640.jpg',
-    'Heavy rain': 'assets/mountains-g809c71b53_640.jpg',
-    'Overcast': 'assets/red-lighthouse-g1933290b4_640.jpg',
-    'Fuertes lluvias': 'assets/mountains-g809c71b53_640.jpg',
-    'Light rain shower': 'assets/railing-g65bea1cfd_640.jpg',
-    'Light rain': 'assets/railing-g65bea1cfd_640.jpg',
-    'Lluvia ligera': 'assets/railing-g65bea1cfd_640.jpg',
-    'Patchy rain possible': 'assets/railing-g65bea1cfd_640.jpg',
-    'Moderate rain': 'assets/railing-g65bea1cfd_640.jpg',
-    'Moderate or heavy rain shower': 'assets/mountains-g809c71b53_640.jpg',
-    'Lluvia moderada a intervalos': 'assets/heavy-rain-g4ec8672ac_1280.jpg',
-    'Lluvia fuerte o moderada': 'assets/railing-g65bea1cfd_640.jpg',
-    'Sunny': 'assets/ocean-g87e883915_640.jpg',
-    'Soleado': 'assets/ocean-g87e883915_640.jpg',
-    'Clear': 'assets/phang-nga-bay-g3332dcc82_640.jpg',
-    'Despejado': 'assets/phang-nga-bay-g3332dcc82_640.jpg',
-  };
-  return backGrounds.containsKey(weatherCondition)
-      ? backGrounds[weatherCondition]!
-      : 'assets/phang-nga-bay-g3332dcc82_640.jpg';
 }
 
 class _HeaderWidget extends StatelessWidget {

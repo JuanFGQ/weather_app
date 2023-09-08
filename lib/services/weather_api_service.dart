@@ -54,7 +54,6 @@ class WeatherApiService extends ChangeNotifier {
     }
 
     try {
-      //this fails only if detect any internet problem
       final uri = Uri.https(_baseUrl, 'v1/forecast.json', apiParams());
 
       final resp = await http.get(uri);

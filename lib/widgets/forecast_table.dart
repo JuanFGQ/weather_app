@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
+import '../helpers/weather_icon_build_gift.dart';
 import '../models/models.dart';
 import '../providers/providers.dart';
 
@@ -33,7 +34,6 @@ class ForeCastTable extends StatelessWidget {
         border: Border.all(),
         borderRadius: BorderRadius.circular(30),
         color: Colors.white,
-
       ),
       child: FittedBox(
         fit: BoxFit.contain,
@@ -99,7 +99,8 @@ class ForeCastTable extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: 30, right: 10),
                       child: Image(
                           image: AssetImage(
-                              _imageArgument(forecast.day.condition.text)))),
+                              WeatherIconBuild(forecast.day.condition.text)
+                                  .toString()))),
                 )
               ],
             ),
@@ -130,29 +131,6 @@ class ForeCastTable extends StatelessWidget {
   }
 }
 
-String _imageArgument(String day) {
-  final weatherCondition = day;
-  final Map<String, String> weatherIcons = {
-    'Partly cloudy': 'assets/clouds (1).gif',
-    'Heavy rain': 'assets/storm.gif',
-    'Fuertes lluvias': 'assets/storm.gif',
-    'Light rain shower': 'assets/rain.gif',
-    'Lluvia ligera': 'assets/rain.gif',
-    'Parcialmente nublado': 'assets/clouds (1).gif',
-    'Patchy rain possible': 'assets/rain (1).gif',
-    'Lluvia moderada a intervalos': 'assets/rain (1).gif',
-    'Moderate or heavy rain shower': 'assets/rain (1).gif',
-    'Lluvia fuerte o moderada': 'assets/rain (1).gif',
-    'Sunny': 'assets/sun.gif',
-    'Soleado': 'assets/sun.gif',
-    'Clear': 'assets/rainbow.gif',
-    'Despejado': 'assets/rainbow.gif',
-  };
-  return weatherIcons.containsKey(weatherCondition)
-      ? weatherIcons[weatherCondition]!
-      : 'assets/clouds (1).gif';
-}
-
 class _SubIconsInfo extends StatelessWidget {
   final Widget icon;
   final String text;
@@ -173,37 +151,3 @@ class _SubIconsInfo extends StatelessWidget {
     );
   }
 }
-
-// class _BuildWeatherIcon extends StatelessWidget {
-//   final String weatherCondition;
-//   const _BuildWeatherIcon({required this.weatherCondition});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final Map<String, Image> weatherIcons = {
-//       'Partly cloudy': const Image(image: AssetImage('assets/clouds (1).gif')),
-//       'Heavy rain': const Image(image: AssetImage('assets/storm.gif')),
-//       'Fuertes lluvias': const Image(image: AssetImage('assets/storm.gif')),
-//       'Light rain shower': const Image(image: AssetImage('assets/rain.gif')),
-//       'Lluvia ligera': const Image(image: AssetImage('assets/rain.gif')),
-//       'Parcialmente nublado':
-//           const Image(image: AssetImage('assets/clouds (1).gif')),
-//       'Patchy rain possible':
-//           const Image(image: AssetImage('assets/rain (1).gif')),
-//       'Lluvia moderada a intervalos':
-//           const Image(image: AssetImage('assets/rain (1).gif')),
-//       'Moderate or heavy rain shower':
-//           const Image(image: AssetImage('assets/rain (1).gif')),
-//       'Lluvia fuerte o moderada':
-//           const Image(image: AssetImage('assets/rain (1).gif')),
-//       'Sunny': const Image(image: AssetImage('assets/sun.gif')),
-//       'Soleado': const Image(image: AssetImage('assets/sun.gif')),
-//       'Clear': const Image(image: AssetImage('assets/rainbow.gif')),
-//       'Despejado': const Image(image: AssetImage('assets/rainbow.gif')),
-//     };
-
-//     return weatherIcons.containsKey(weatherCondition)
-//         ? weatherIcons[weatherCondition]!
-//         : const Image(image: AssetImage('assets/clouds (1).gif'));
-//   }
-// }

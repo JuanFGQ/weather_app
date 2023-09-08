@@ -9,8 +9,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class GpsAccessScreen extends StatelessWidget {
   const GpsAccessScreen({super.key});
 
-  //converte to stless widget
-
   @override
   Widget build(BuildContext context) {
     final locationService = Provider.of<GeolocatorService>(context);

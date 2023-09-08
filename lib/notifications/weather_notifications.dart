@@ -16,7 +16,6 @@ Future<void> createWeatherScheduleNotifications(
       ),
       content: NotificationContent(
         displayOnBackground: true,
-
         autoDismissible: true,
         wakeUpScreen: true,
         id: Random().nextInt(100),
@@ -24,8 +23,6 @@ Future<void> createWeatherScheduleNotifications(
         title: 'Weather News App${Emojis.wheater_thermometer}',
         body:
             'Check weather forecast for the day and week ${Emojis.sky_cloud_with_rain} ${Emojis.sun} ${Emojis.sky_rainbow} ',
-        // notificationLayout: NotificationLayout.BigPicture,
-        // bigPicture: 'assets://noti-sun.png',
         notificationLayout: NotificationLayout.BigText,
       ),
       actionButtons: [
@@ -35,9 +32,3 @@ Future<void> createWeatherScheduleNotifications(
     );
   } catch (e) {}
 }
-
-
-
-// Future<void> cancelScheduleNotifications() async {
-//   await AwesomeNotifications().cancelAllSchedules();
-// }
