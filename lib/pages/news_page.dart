@@ -49,7 +49,7 @@ class _NewsPageState extends State<NewsPage> {
           builder:
               (BuildContext context, AsyncSnapshot<NewsResponse> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularIndicator();
+              return const CircularIndicatorPage();
             } else if (snapshot.hasData && snapshot.data!.articles.isEmpty) {
               return NoDataPage(
                 bigIcon: const Icon(FontAwesomeIcons.newspaper,

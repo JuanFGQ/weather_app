@@ -59,6 +59,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
       final coords =
           (!newsServ!.activeSearch) ? actualLocationCoords : searhCityCoords;
       final hasData = await weatherServ!.getInfoWeatherLocation(coords);
+      debugPrint(hasData);
       return hasData;
     } catch (e) {
       return locationError = true;
@@ -72,7 +73,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
         future: _superSearchInfo(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularIndicator();
+            return const CircularIndicatorPage();
           } else if (locationError) {
             return NoDataPage(
               bigIcon: const Icon(Icons.location_off_sharp,
@@ -83,7 +84,7 @@ class _NewsDesignPageState extends State<NewsDesignPage>
                 Navigator.pushNamed(context, 'ND');
               },
             );
-          } else if (snapshot.data && weatherServ!.isConected) {
+          } else if (snapshot.hasData && weatherServ!.isConected) {
             return _WeatherWidget();
           } else {
             return NoDataPage(

@@ -19,7 +19,8 @@ class MapBoxService extends ChangeNotifier {
     notifyListeners();
   }
 
-  final String _apiKey = '';
+  final String _apiKey =
+      'pk.eyJ1IjoianVhbmZncSIsImEiOiJjbDFscTloM2EwZDh6M2trcWhiNmJyZDZxIn0.RhBuabnOa523cW2b2fwJqA';
   final String _baseUrl = 'api.mapbox.com';
   final String _language = 'es';
   final String _limit = '8';
@@ -52,6 +53,7 @@ class MapBoxService extends ChangeNotifier {
 
       final mapBoxResp = mapBoxResponseFromMap(resp.body);
       isConnected = true;
+      print(resp.body);
 
       return mapBoxResp.features;
     } catch (e) {

@@ -10,8 +10,8 @@ class WeatherApiService extends ChangeNotifier {
   LocalizationProvider? locale;
   List<Forecastday>? forecast;
 
-  final String _baseUrl = '';
-  final String _key = '';
+  final String _baseUrl = 'api.weatherapi.com';
+  final String _key = 'a1f73a2fb6cc40c29eb175425232204';
   final String _aqi = 'no';
   final String _days = '7';
 
@@ -60,15 +60,15 @@ class WeatherApiService extends ChangeNotifier {
 
       if (resp.statusCode == 200) {
         final weatherResp = weatherResponseFromJson(resp.body);
+        print(resp.body);
 
         location = weatherResp.location;
         current = weatherResp.current;
-
         forecast = weatherResp.forecast.forecastday;
 
         return isConected = true;
       } else {
-        return;
+        return isConected = false;
       }
     } catch (e) {
       return isConected = false;

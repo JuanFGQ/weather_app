@@ -65,7 +65,6 @@ class _LoadingPageState extends State<LoadingPage> {
 
   @override
   Widget build(BuildContext context) {
-// scaffold delete
     return StreamBuilder(
       stream: geolocatorService.loadingData,
       builder: (BuildContext context, AsyncSnapshot snapshot) {

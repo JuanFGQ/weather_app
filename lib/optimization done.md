@@ -35,7 +35,6 @@
 -memoria utilizada en procesos
 
 
-VIDEO DIEGOVELOPER
 
 -evitar que todo el widget se redibuje,
 evitar utilizar SETSTATE por que hace que se redibujen todos sus descendientes 
